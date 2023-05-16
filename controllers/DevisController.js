@@ -30,7 +30,7 @@ const appendToDevis = async (request, response) => {
     const { id } = request.params
     const devisData = await DevisModel.findOne({ _id: id })
     devisData.LineDevis.push(request.body)
-    devisData.save()
+    await devisData.save()
     await getDevis(request, response)
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -60,7 +60,7 @@ const deleteLineDevis = async (request, response) => {
     if(formErrors.length === 0) {
       const devisInfo = await DevisModel.findOne({ _id: id })
       devisInfo.LineDevis = devisInfo.LineDevis.filter(ln => ln._id !== lineDevisId)
-      devisInfo.save()
+      await devisInfo.save()
       await getDevis(request, response)
     } else {
       response.status(300).json({ formErrors })

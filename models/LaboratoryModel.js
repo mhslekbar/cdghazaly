@@ -23,13 +23,12 @@ const laboratorySchema = new mongoose.Schema({
   consumptions: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user" },
     patient: { type: mongoose.Types.ObjectId, ref: "patient" },
-    treat: { type: mongoose.Types.ObjectId, ref: "treatment" },
+    treatment: { type: mongoose.Types.ObjectId, ref: "treatment" },
+    price: { type: Number, required: true },
     teeth: {
       nums: [],
       surface: []
      },
-    price: { type: Number, required: true },
-    qty: { type: Number, required: true }
   }],
   // patients Lab
   patients: [{
