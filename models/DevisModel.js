@@ -1,23 +1,23 @@
 const mongoose = require("mongoose");
 
 const devisSchema = new mongoose.Schema({
-  doctor: { type: mongoose.Types.ObjectId, ref: "user", required: true },
+  user: { type: mongoose.Types.ObjectId, ref: "user", required: true },
   patient: { type: mongoose.Types.ObjectId, ref: "patient", required: true },
   numDevis: { type: Number, required: true },
   reduce: { type: Number, required: true },
   LineDevis: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user", required: true },
     treatment: { type: mongoose.Types.ObjectId, ref: "treatment", required: true},
+    price: { type: Number, required: true },
     teeth: {  
       // i did this because i have some treamtent needs surface
       // like composite  =>  soins conservatif
       nums: [],
       surface: []
     },
-    price: { type: Number, required: true },
-    qty: { type: Number, required: true },
-    accept: { type: Number, required: true },
+    createdAt: { type: Date, default: Date.now},
+    updatedAt: { type: Date, default: Date.now},
   }]
 }, { timestamps: true })
 
-module.export = mongoose.model("devis", devisSchema)
+module.exports = mongoose.model("devis", devisSchema)

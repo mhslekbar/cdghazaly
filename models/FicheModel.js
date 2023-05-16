@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const ficheSchema = new mongoose.Schema({
-  doctor: { type: mongoose.Types.ObjectId, ref: "user", required: true },
   patient: { type: mongoose.Types.ObjectId, ref: "patient", required: true },
   numFiche: { type: Number, required: true },
   LineFiche: [{
