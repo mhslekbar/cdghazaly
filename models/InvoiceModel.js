@@ -14,7 +14,7 @@ const invoiceSchema = new mongoose.Schema({
       // i did this because i have some treamtent needs surface
       // like composite  =>  soins conservatif
       nums: [],
-      surface: []
+      surface: { type: String, default: "" }
     },
     createdAt: { type: Date, default: Date.now},
     updatedAt: { type: Date, default: Date.now},

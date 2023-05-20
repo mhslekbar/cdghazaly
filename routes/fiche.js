@@ -1,10 +1,12 @@
 const router = require("express").Router()
-const { getFiches, createFiche, updateFiche, deleteFiche, createLineFiche } = require("../controllers/FicheController");
+const { getFiches, createFiche, updateFiche, deleteFiche, updateLineFiche, deleteLineFiche } = require("../controllers/FicheController");
 
 router.get("/:patient", getFiches)
 router.post("/:patient", createFiche)
-router.post("/:patient/:ficheId", createLineFiche)
 router.put("/:patient/:id", updateFiche)
 router.delete("/:patient/:id", deleteFiche)
+
+router.put("/:patient/LineFiche/:ficheId", updateLineFiche)
+router.delete("/:patient/:ficheId/LineFiche/:lineFicheId", deleteLineFiche)
 
 module.exports = router

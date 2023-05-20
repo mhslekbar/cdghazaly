@@ -52,6 +52,10 @@ app.use("/api/payment", require("./routes/payment"))
 app.use("/api/devis", require("./routes/devis"))
 app.use("/api/fiche", require("./routes/fiche"))
 app.use("/api/invoice", require("./routes/invoice"))
+app.use("/api/boncommande", require("./routes/bonCommande"))
+app.use("/api/consumption", require("./routes/consumption"))
+app.use("/api/appointment", require("./routes/appointment"))
+
 
 app.listen(port, () => {
   console.log(`dentist software is running on port: ${port}`)

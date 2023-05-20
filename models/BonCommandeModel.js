@@ -6,13 +6,12 @@ const BonCommandeSchema = new mongoose.Schema({
     ref: "user",
     required: true
   },
-  name: {
+  numBC: {
     type: String, 
     required: true
   },
   reference: {
     type: String,
-    required: true
   },
   total: {
     type: Number

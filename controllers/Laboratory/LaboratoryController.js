@@ -1,5 +1,5 @@
-const LaboratoryModel = require("../models/LaboratoryModel");
-
+const LaboratoryModel = require("../../models/LaboratoryModel");
+const UserModel = require("../../models/UserModel");
 
 const getLabortories = async (request, response) => {
   try {
@@ -22,7 +22,14 @@ const createLabortory = async (request, response) => {
       formErrors.push("Le nom du laboratoire est obligatoire !!")
     }
     if(formErrors.length === 0) {
-      await LaboratoryModel.create(request.body)
+      const newLab = await LaboratoryModel.create(request.body)
+      const users = await UserModel.find()
+      for(let user of users) {
+        if(JSON.stringify(user.doctor) !== '{}') {
+          newLab.accounts.push({ doctor: user._id })
+        }
+      }
+      await newLab.save()
       await getLabortories(request, response)
     } else {
       response.status(300).json({ formErrors })
@@ -56,7 +63,6 @@ const updateLabortory = async (request, response) => {
   }
 }
 
-
 const deleteLabortory = async (request, response) => {
   try {
     const { id } = request.params
@@ -76,5 +82,52 @@ const deleteLabortory = async (request, response) => {
 }
 
 
-module.exports = { getLabortories, createLabortory, updateLabortory, deleteLabortory }
+const getAccountsLab = async (request, response) => {
+  try {
+    const { labId } = request.params
+    const laboratory = await LaboratoryModel.findOne({ _id: labId })
+    response.status(200).json({ success: laboratory.accounts })
+  } catch(err) {
+    response.status(500).json({ err:err.message })
+  }
+}
+
+const getConsumptionsLab = async (request, response) => {
+  try {
+    const { labId } = request.params
+    const laboratory = await LaboratoryModel.findOne({ _id: labId })
+    response.status(200).json({ success: laboratory.consumptions })
+  } catch(err) {
+    response.status(500).json({ err:err.message })
+  }
+}
+
+// patients who use laboratory prostheses
+const getPatientsLab = async (request, response) => {
+  try {
+    const { labId } = request.params
+    const laboratory = await LaboratoryModel.findOne({ _id: labId }, { patients: 1, consumptions: 1 })
+    
+    const patientWithConsumptions = laboratory.patients.map(patient => {
+      const consumptionData =  laboratory.consumptions.find(cons => cons._id.equals(patient.consumptionLab))
+      return {
+        consumptionLab: consumptionData, 
+        appointment: patient.appointment, 
+        fingerPrintDate: patient.fingerPrintDate, 
+        finish: patient.finish, 
+        createdAt: patient.createdAt, 
+        updatedAt: patient.updatedAt
+      } 
+    })
+    
+    response.status(200).json({ success: patientWithConsumptions })
+  } catch(err) {
+    response.status(500).json({ err:err.message })
+  }
+}
+
+module.exports = { 
+  getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab, 
+  getAccountsLab, getConsumptionsLab
+}
 

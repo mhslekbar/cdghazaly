@@ -4,22 +4,28 @@ const laboratorySchema = new mongoose.Schema({
   name: { type: String, required: true },
   phone: { type: Number },
   // labo treatment
-  treaments: [{
-    treat: { type: mongoose.Types.ObjectId, ref: "treatment" },
+  treatments: [{
+    treatment: { type: mongoose.Types.ObjectId, ref: "treatment" },
     price: { type: Number},
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   }],
-  // labo account
+  // every doctor has own account of laboratory
   accounts: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user" },
-    balance: { type: Number },
+    balance: { type: Number, default: 0 },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   }],
-  // labo versement
+  // laboratory versement
   payments: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user" },
     comment: { type: String },
     amount: { type: Number },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   }],
-  // conso lab
+  // conso laboratory
   consumptions: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user" },
     patient: { type: mongoose.Types.ObjectId, ref: "patient" },
@@ -27,18 +33,26 @@ const laboratorySchema = new mongoose.Schema({
     price: { type: Number, required: true },
     teeth: {
       nums: [],
-      surface: []
-     },
+      surface: { type: String, default: "" }
+    },
+     createdAt: { type: Date, default: Date.now },
+     updatedAt: { type: Date, default: Date.now }
   }],
-  // patients Lab
+  // patients laboratory
+  // patients who use laboratory prostheses
   patients: [{
-    consoId: { type: mongoose.Types.ObjectId, ref: "laboratory.consumptions" },
-    appointment: { type: mongoose.Types.ObjectId, ref: "appointment", },
-    finish: { type: Number, default: 0 }
+    patient: { type: mongoose.Types.ObjectId, ref: "patient" },
+    consumptionLab: { type: mongoose.Types.ObjectId, ref: "laboratory.consumptions" },
+    appointment: { type: mongoose.Types.ObjectId, ref: "appointment" },
+    fingerPrintDate: { type: Date },
+    finish: { type: Number, default: 0 },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   }]
 }, { timestamps: true });
 
 module.exports = mongoose.model("laboratory", laboratorySchema)
+
 
 
 // const dentSchema = new mongoose.Schema({
