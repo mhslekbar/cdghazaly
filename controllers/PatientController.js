@@ -5,7 +5,7 @@ const SettingModel = require("../models/SettingModel");
 
 const getPatients = async (request, response) => {
   try {
-    const patients = await PatientModel.find().populate("doctor").sort({ createdAt: -1 })
+    const patients = await PatientModel.find().populate("doctor").sort({ RegNo: -1 })
     response.status(200).json({ success: patients })
   } catch(err) {
     response.status(500).json({ err: err.message })

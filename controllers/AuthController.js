@@ -9,9 +9,8 @@ const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await UserModel.findOne({ username});
-
     if (!user) {
-      res.json({ formErrors: "Username is wrong!!" });
+      res.status(300).json({ formErrors: "Username is wrong!!" });
     } else {
       // start get password and decrypt it
       const hashedPassword = CryptoJS.AES.decrypt(
@@ -22,7 +21,7 @@ const login = async (req, res) => {
       // end get password and decrypt it
       
       if (OriginalPassword !== password) {
-        res.json({ formErrors: "Wrong Password" });
+        res.status(300).json({ formErrors: "Wrong Password" });
       } else {
         const accessToken = generateAccessToken(user);
         const { password, ...others } = user._doc;

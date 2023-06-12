@@ -3,10 +3,12 @@ const LaboratoryModel = require("../../models/LaboratoryModel");
 const getTreatmentsLab = async (request, response) => {
   try {
     const { labId } = request.params
-    const laboratory = await LaboratoryModel.findOne({ _id: labId })
-    response.status(200).json({ success: laboratory.treatments })
+    let labo = await LaboratoryModel
+    .findOne({ _id: labId })
+    .populate("treatments.treatment")
+    response.status(200).json({ success: labo.treatments })
   } catch(err) {
-    response.status(500).json({ err:err.message })
+    response.status(500).json({ err: err.message })
   }
 }
 
@@ -14,8 +16,10 @@ const createTreatmentLab = async (request, response) => {
   try {
     const { labId } = request.params
     const { treatment, price } = request.body
+
     const laboratory = await LaboratoryModel.findOne({ _id: labId })
     const formErrors = []
+
     if(laboratory.treatments.find(treat => treat.treatment.equals(treatment))) {
       formErrors.push("le treatment deja exite")
     }
@@ -89,7 +93,5 @@ const deleteTreatmentLab = async (request, response) => {
     response.status(500).json({ err: err.message })
   }
 }
-
-
 
 module.exports = { getTreatmentsLab, createTreatmentLab, updateTreatmentLab, deleteTreatmentLab }

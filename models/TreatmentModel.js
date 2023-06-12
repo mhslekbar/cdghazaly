@@ -5,6 +5,6 @@ const treatmentSchema = new mongoose.Schema({
   type: { type: String, required: true },
   price: { type: Number, required: true },
   assurance: { type: mongoose.Types.ObjectId, ref: "assurance" },
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model("treatment", treatmentSchema)

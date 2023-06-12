@@ -1,0 +1,93 @@
+import React, {  useContext, useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
+import { DataAssuranceContext, ShowAssurancesContext } from './types';
+import ButtonsForm from '../../HtmlComponents/ButtonsForm';
+import InputsAssurance from './forms/InputsAssurance';
+import { useDispatch } from 'react-redux';
+import { AddAssuranceApi } from '../../redux/assurances/assuranceApiCalls';
+import { Timeout, hideMsg } from '../../functions/functions';
+
+const AddAssurance:React.FC = () => {
+  const [name, setName] = useState("")
+  const [cons_price, setConsPrice] = useState(0)
+  const [color, setColor] = useState("")
+
+  const [errors, setErrors] = useState<string[]>([])
+
+  const [modal, setModal] = useState(false)
+  const toggle = () => {
+    setModal(!modal)
+  }
+  const { setShowSuccessMsg } = useContext(ShowAssurancesContext)
+  const dispatch:any = useDispatch()
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    try {
+      const response: any = await dispatch(AddAssuranceApi({ name, cons_price, color }))
+        if(response === true) {
+          setName("")
+          setConsPrice(0)
+          setColor("")
+          setShowSuccessMsg(true)
+          setErrors([])
+          toggle()
+          setTimeout(() => setShowSuccessMsg(false), Timeout)
+        } else {
+          setErrors(response)
+        }
+    } catch {}
+  }
+
+
+  return (
+    <DataAssuranceContext.Provider 
+      value={{
+        name, setName,
+        cons_price, setConsPrice,
+        color, setColor
+      }}
+    >
+      <button className="p-2 rounded bg-main text-white mt-2" onClick={toggle}>
+        <FaPlus />
+      </button>
+      {modal && (
+        <>
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div
+              className="fixed inset-0 w-full h-full bg-black opacity-40"
+              onClick={toggle}
+            ></div>
+            <div className="flex items-center min-h-screen px-4 py-8">
+              <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+                <div className="mt-3">
+                  {/* Start Modal Body */}
+                  <form
+                    className="mt-2 sm:ml-4 sm:text-left"
+                    onSubmit={handleSubmit}
+                  >
+                    {errors.length > 0 &&
+                    errors.map((err, index) => (
+                      <p
+                        className="p-3 my-2 rounded bg-red text-white msg"
+                        key={index}
+                        onClick={(e) => hideMsg(e, errors, setErrors)}
+                      >
+                        {err}
+                      </p>
+                    ))}
+                    <InputsAssurance />
+                    <ButtonsForm toggle={toggle} typeBtn='Ajouter' />
+                  </form>
+                  {/* End Modal Body */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </DataAssuranceContext.Provider>
+  );
+}
+
+export default AddAssurance

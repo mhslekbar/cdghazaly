@@ -1,9 +1,10 @@
 const UserModel = require("../models/UserModel")
+const LaboratoryModel = require("../models/LaboratoryModel")
 const CryptoJS = require("crypto-js");
 
 const getUsers = async (req, res) => {
   try {
-    const users = await UserModel.find().sort({ createdAt: -1 });
+    const users = await UserModel.find().populate("roles").sort({ createdAt: -1 });
     res.status(200).json({ success: users })
   } catch (err) {
     res.status(500).json({ err: err.message })
@@ -28,18 +29,28 @@ const createUser = async (req, res) => {
       formErrors.push("Numero de telephone est obligatoire !");
     }
     if(roles.length === 0) {
-      formErrors.push("Ajouter au moins un role !");
+      formErrors.push("Donner au moins un role !");
     }
     
     const encryptedPassword = CryptoJS.AES.encrypt(password, process.env.PASS_SEC).toString()
 
     if(formErrors.length === 0) {
-      await UserModel.create({ username, password: encryptedPassword, phone, roles, doctor })
+      const userId = await UserModel.create({ username, password: encryptedPassword, phone, roles, doctor })
+      // Start Add this user into all previous lab
+      if(Object.keys(doctor).length > 0) {
+        const laboratory = await LaboratoryModel.find()
+        laboratory.map(async labo =>{
+          labo.accounts.push({ doctor: userId._id, balance: 0 })
+          await labo.save();
+        })
+      }
+      // Start Add this user into all previous lab
       await getUsers(req, res)
     } else {
       res.status(300).json({ formErrors})
     }
   } catch (err) {
+    console.log("err: ", err)
     res.status(500).json({ err: err.message })
   }
 } 
@@ -48,7 +59,7 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.params
     const userData = await UserModel.findById(id)
-    const { username, password, phone, roles, doctor } = req.body
+    let { username, password, phone, roles, doctor } = req.body
     const formErrors = [];
     const checkUser = await UserModel.findOne({ _id: {$ne: id},  username });
     

@@ -1,30 +1,78 @@
+:root {
+  --mainColor: #00b894;
+  --blueColor: #2563eb;
+  --redColor: #eb3b5a;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .header-icon {
-    @apply w-6 h-6 cursor-pointer;
+@layer utilities {
+  .btn-main {
+    background-color: var(--mainColor) !important;
+    color: #FFF;
   }
-  .nav-icon {
-    @apply w-6 h-6 cursor-pointer;
+  .bg-main {
+    background-color: var(--mainColor) !important;
+    color: #FFF;
   }
-  .invest-icon {
-    @apply w-6 h-6 stroke-gray-600;
+  .Data-Patient:hover .text-main {
+    color: #FFF;
   }
+  .text-main {
+    color: var(--mainColor);
+  }
+  
+  .btn-blue {
+    background-color: var(--blueColor);
+    color: #FFF;
+  }
+  .bg-blue {
+    background-color: var(--blueColor);
+    color: #FFF;
+  }
+  .text-blue {
+    color: var(--blueColor);
+  }
+  
+  .btn-white {
+    background-color: #FFF;
+    color: #00b894;
+  }
+  
+  .btn-blue-second {
+    background-color: #2563EB;
+    color: #FFF;
+  }
+  
+  .text-red {
+    color: var(--redColor)
+  }
+  .bg-red {
+    background-color: var(--redColor);
+    color: #FFF;
+    border: var(--redColor);
+  }
+  .btn-red, .btn-red:hover, .btn-red:focus {
+    background-color: var(--redColor);
+    color: #FFF;
+    border: var(--redColor);
+  }
+
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -49,11 +97,5 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-:root {
-  --mainColor: #10ac84
-}
 
-.btn-main {
-  background-color: var(--mainColor);
-  color: #FFF;
-}
+

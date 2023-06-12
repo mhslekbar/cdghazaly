@@ -1,0 +1,27 @@
+import React, { useState } from "react";
+import { SingleRoleByPermissionType } from "../types";
+import InputPermission from "./InputPermission";
+
+interface ListPermissionInterface {
+  role: SingleRoleByPermissionType;
+}
+
+const ListPermission: React.FC<ListPermissionInterface> = ({ role }) => {
+  // const [permission, setpermission] = useState<string>(role._id);
+
+  return (
+    <React.Fragment>
+      {
+        role.data.map((permission: any) => (
+          <div key={permission._id}>
+            <InputPermission permission={permission}/>
+            <label htmlFor={`role-permis${permission._id}`}>
+              {permission.name}
+            </label>
+          </div>
+        ))}
+    </React.Fragment>
+  );
+};
+
+export default ListPermission;

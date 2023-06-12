@@ -14,20 +14,23 @@ const getFiches = async (request, response) => {
   }
 };
 
+const createNewFiche = async (patient) => {
+  const ficheData = await FicheModel.findOne({ patient }).sort({
+    numFiche: -1,
+  });
+  let numFiche = ficheData?.numFiche || 0;
+  numFiche++;
+  let LineFiche = [];
+  for (let i = 1; i <= 15; i++) {
+    LineFiche.push({});
+  }
+  return await FicheModel.create({ patient, numFiche, LineFiche }); 
+}
+
 const createFiche = async (request, response) => {
   try {
     const { patient } = request.params;
-    const ficheData = await FicheModel.findOne({ patient }).sort({
-      numFiche: -1,
-    });
-
-    let numFiche = ficheData?.numFiche || 0;
-    numFiche++;
-    let LineFiche = [];
-    for (let i = 1; i <= 15; i++) {
-      LineFiche.push({});
-    }
-    await FicheModel.create({ patient, numFiche, LineFiche });
+    await createNewFiche(patient)
     await getFiches(request, response);
   } catch (err) {
     response.status(500).json({ err: err.message });
@@ -175,11 +178,8 @@ const updateLineFiche = async (request, response) => {
     const newLineInvoice = latestLine._id;
 
     // START Fiche
-    ficheInfo.LineFiche[indexLineFiche] = {
-      _id: ficheInfo.LineFiche[indexLineFiche]._id,
-      createdAt: ficheInfo.LineFiche[indexLineFiche].createdAt,
-      updatedAt: ficheInfo.LineFiche[indexLineFiche].updatedAt,
-      dateAppointment: ficheInfo.LineFiche[indexLineFiche]?.dateAppointment,
+
+    Object.assign(ficheInfo.LineFiche[indexLineFiche], {
       doctor,
       acte,
       amount,
@@ -187,7 +187,7 @@ const updateLineFiche = async (request, response) => {
       lineInvoice: newLineInvoice,
       consumptionLab,
       finish: 1,
-    };
+    });
     await ficheInfo.save();
     // END Fiche
 
@@ -209,26 +209,25 @@ const deleteLineFiche = async (request, response) => {
 
     await clearDataPrevLineFiche(patient, ficheId, lineFicheId);
 
-    ficheInfo.LineFiche[indexLineFiche] = {
-      _id: ficheInfo.LineFiche[indexLineFiche]._id,
-      dateAppointment: ficheInfo.LineFiche[indexLineFiche]?.dateAppointment,
-      createdAt: ficheInfo.LineFiche[indexLineFiche].createdAt,
-      updatedAt: ficheInfo.LineFiche[indexLineFiche].updatedAt,
-      doctor: null,
-      acte: null,
-      amount: null,
-      payment: null,
-      lineInvoice: null,
-      consumptionLab: null,
+    Object.assign(ficheInfo.LineFiche[indexLineFiche], {
+      doctor: undefined,
+      acte: undefined,
+      amount: undefined,
+      payment: undefined,
+      lineInvoice: undefined,
+      consumptionLab: undefined,
+      appointment: undefined,
       finish: 0,
-    };
+    })
 
     await ficheInfo.save();
     await getFiches(request, response);
+    
   } catch (err) {
     response.status(500).json({ err: err.message });
   }
 };
+
 
 module.exports = {
   getFiches,
@@ -237,6 +236,7 @@ module.exports = {
   deleteFiche,
   updateLineFiche,
   deleteLineFiche,
+  createNewFiche
 };
 
 var clearDataPrevLineFiche = async (patient, ficheId, lineFicheId) => {

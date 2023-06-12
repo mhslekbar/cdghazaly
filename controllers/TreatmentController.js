@@ -2,7 +2,15 @@ const TreatmentModel = require("../models/TreatmentModel")
 
 const getTreatments = async (req, res) => {
   try {
-    const treatments = await TreatmentModel.find().sort({ createdAt: -1 })
+    const { treat } = req.query
+    let treatments
+    if(treat) {
+      treatments = await TreatmentModel.find({
+        name: { $regex: new RegExp("^" + treat, "i") }
+      }).sort({ name: 1 })
+    } else {
+      treatments = await TreatmentModel.find().sort({ name: 1 })
+    }
     res.status(200).json({ success: treatments })
   } catch(err) {
     res.status(500).json({ err: err.message })

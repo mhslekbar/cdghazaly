@@ -5,7 +5,7 @@ const ficheSchema = new mongoose.Schema({
   numFiche: { type: Number, required: true },
   LineFiche: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user" },
-    dateAppointment: { type: Date },
+    dateAppointment: { type: Date, default: null },
     acte: { type: String },
     amount: { type: Number },
     finish: { type: Number },

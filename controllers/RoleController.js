@@ -13,7 +13,7 @@ const getRoles = async (req, res) => {
 const insertRole = async (req, res) => {
     try {
         const formErrors = [];
-        const { name, permissions } = req.body 
+        const { name } = req.body 
         const roleData = await RoleModel.find({name})
         
         if(roleData.length > 0) {
@@ -22,17 +22,14 @@ const insertRole = async (req, res) => {
         if(name.length === 0) {
             formErrors.push("Le nom du role est obligatoire");
         }
-        if(permissions?.length === 0) {
-            formErrors.push("Donner au moins un permission");
-        }
         if(formErrors.length === 0) {
-            await RoleModel.create({ name, permissions });
+            await RoleModel.create({ name });
             await getRoles(req, res)
         } else {
             res.status(300).json({formErrors});
         }
     } catch(err) {
-        console.log(err.message)
+        console.log(err)
         res.status(500).json({err});
     }
 } 
@@ -42,13 +39,11 @@ const updateRole = async (req, res) => {
         const {id} = req.params;
         let { name, permissions } = req.body;
         const role = await RoleModel.findOne({ _id: {$ne: id}, name });
-
         const formErrors = [];
 
         if(role) {
             formErrors.push("Le nom existe deja");
         }
-
         if(name?.length === 0) {
             name = role.name;
         }

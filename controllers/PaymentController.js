@@ -27,13 +27,13 @@ const createPayment = async (request, response) => {
     }
     if(formErrors.length === 0) {
       let latestPatient = await PatientModel
-        .findOne({ matricule: { $not: { $type: 10 } } })
-        .sort({ matricule: -1 })
-      let prevMatricule = latestPatient.matricule || 0
-      if(!latestPatient.matricule) {
+        .findOne({ RegNo: { $not: { $type: 10 } } })
+        .sort({ RegNo: -1 })
+      let prevMatricule = latestPatient.RegNo || 0
+      if(!latestPatient.RegNo) {
         let newMatricule  = prevMatricule + 1
         let patientInfo   = await PatientModel.findOne({ _id: patient })
-        patientInfo.matricule = newMatricule
+        patientInfo.RegNo = newMatricule
         patientInfo.save()
         let LineFiche = []
         for(let i=1; i<=15; i++) {

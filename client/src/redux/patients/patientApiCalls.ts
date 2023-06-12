@@ -1,0 +1,96 @@
+import { Dispatch } from "react"
+import { statusPatientStart, statusPatientSuccess, statusPatientFailure } from "./patientSlice"
+import { get, post, put, remove } from "../../requestMethods"
+
+export const ShowPatientsApi = (filter: string = "") => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPatientStart())
+    let response
+    if(filter) {
+      response = await get(`patient${filter}`)
+    } else {
+      response = await get(`patient`)
+    }
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPatientSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPatientFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPatientFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const AddPatientsApi = (data: {}) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPatientStart())
+    let response = await post('patient', data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPatientSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPatientFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPatientFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const EditPatientsApi = (treatId: string, data: {}) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPatientStart())
+    let response = await put(`patient/${treatId}`, data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPatientSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPatientFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPatientFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const DeletePatientsApi = (treatId: string) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPatientStart())
+    let response = await remove(`patient/${treatId}`)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPatientSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPatientFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPatientFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}

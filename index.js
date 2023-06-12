@@ -34,27 +34,29 @@ const mongoose = require("mongoose");
 // Middleware to sanitize input and output to and from MongoDB
 app.use(expressMongoSanitize());
 
+const setCacheControl = require("./middlewares/setCacheControl")
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
-
-app.use("/api/auth", require("./routes/auth"))
-app.use("/api/user", require("./routes/user"))
-app.use("/api/permission", require("./routes/permission"))
-app.use("/api/role", require("./routes/role"))
-app.use("/api/assurance", require("./routes/assurance"))
-app.use("/api/treatment", require("./routes/treatment"))
-app.use("/api/laboratory", require("./routes/laboratory"))
-app.use("/api/consumableList", require("./routes/consumableList"))
-app.use("/api/patient", require("./routes/patient"))
-app.use("/api/setting", require("./routes/setting"))
-app.use("/api/paymentMethod", require("./routes/paymentMethod"))
-app.use("/api/payment", require("./routes/payment"))
-app.use("/api/devis", require("./routes/devis"))
-app.use("/api/fiche", require("./routes/fiche"))
-app.use("/api/invoice", require("./routes/invoice"))
-app.use("/api/boncommande", require("./routes/bonCommande"))
-app.use("/api/consumption", require("./routes/consumption"))
-app.use("/api/appointment", require("./routes/appointment"))
+app.use("/api/auth", setCacheControl, require("./routes/auth"))
+app.use("/api/user",  setCacheControl, require("./routes/user"))
+app.use("/api/permission",  setCacheControl, require("./routes/permission"))
+app.use("/api/role",  setCacheControl, require("./routes/role"))
+app.use("/api/assurance",  setCacheControl, require("./routes/assurance"))
+app.use("/api/treatment",  setCacheControl, require("./routes/treatment"))
+app.use("/api/laboratory",  setCacheControl, require("./routes/laboratory"))
+app.use("/api/consumableList",  setCacheControl, require("./routes/consumableList"))
+app.use("/api/patient",  setCacheControl, require("./routes/patient"))
+app.use("/api/setting",  setCacheControl, require("./routes/setting"))
+app.use("/api/paymentMethod",  setCacheControl, require("./routes/paymentMethod"))
+app.use("/api/payment",  setCacheControl, require("./routes/payment"))
+app.use("/api/devis",  setCacheControl, require("./routes/devis"))
+app.use("/api/fiche",  setCacheControl, require("./routes/fiche"))
+app.use("/api/invoice",  setCacheControl, require("./routes/invoice"))
+app.use("/api/boncommande",  setCacheControl, require("./routes/bonCommande"))
+app.use("/api/consumption",  setCacheControl, require("./routes/consumption"))
+app.use("/api/appointment",  setCacheControl, require("./routes/appointment"))
 
 
 app.listen(port, () => {

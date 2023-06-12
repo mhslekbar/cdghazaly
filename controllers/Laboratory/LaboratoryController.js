@@ -3,7 +3,17 @@ const UserModel = require("../../models/UserModel");
 
 const getLabortories = async (request, response) => {
   try {
-    const labo = await LaboratoryModel.find().sort({ createdAt: -1 })
+    let labo
+    labo = await LaboratoryModel.find()
+    .populate("accounts.doctor")
+    .populate("treatments.treatment")
+    .populate("payments.doctor")
+    .populate("consumptions.doctor")
+    .populate("consumptions.patient")
+    .populate("patients.patient")
+    .populate("patients.appointment")
+    .populate("patients.consumptionLab")
+    .sort({ createdAt: -1 })
     response.status(200).json({ success: labo })
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -85,7 +95,9 @@ const deleteLabortory = async (request, response) => {
 const getAccountsLab = async (request, response) => {
   try {
     const { labId } = request.params
-    const laboratory = await LaboratoryModel.findOne({ _id: labId })
+    const laboratory = await LaboratoryModel
+    .findOne({ _id: labId })
+    .populate("accounts.doctor")
     response.status(200).json({ success: laboratory.accounts })
   } catch(err) {
     response.status(500).json({ err:err.message })

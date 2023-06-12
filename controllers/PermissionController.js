@@ -20,7 +20,6 @@ const getPermissions = async (req, res) => {
         } else {
             permission = await PermissionModel.find().sort({createdAt: -1})
         }
-        
         res.status(200).json({success: permission});
     } catch (err) {
         res.status(500).json({err})

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const laboratorySchema = new mongoose.Schema({
   name: { type: String, required: true },
-  phone: { type: Number },
-  // labo treatment
+  phone: { type: String },
+  // labo treatment 
   treatments: [{
     treatment: { type: mongoose.Types.ObjectId, ref: "treatment" },
     price: { type: Number},
@@ -17,6 +17,7 @@ const laboratorySchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   }],
+  
   // laboratory versement
   payments: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user" },
