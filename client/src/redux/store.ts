@@ -11,6 +11,7 @@ import treatmentLabReducer from "./laboratory/treatments/treatmentLabSlice";
 import accountLabReducer from "./laboratory/accounts/accountLabSlice";
 import assuranceReducer from "./assurances/assuranceSlice";
 import patientReducer from "./patients/patientSlice";
+import paymentMethodReducer from "./paymentMethods/paymentMethodSlice";
 
 import {
   persistStore,
@@ -42,7 +43,8 @@ const rootReducer = combineReducers({
   treatmentLab: treatmentLabReducer,
   accountLab: accountLabReducer,
   assurances: assuranceReducer,
-  patients: patientReducer
+  patients: patientReducer,
+  paymentMethods: paymentMethodReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -15,6 +15,8 @@ export const switchTypePatient = (type: any, patient: PatientInterface) => {
       return patient.balance === 0 
     case "creancier" :
       return patient.balance > 0 
+    default: 
+      return patient.RegNo
   }
 }
 

@@ -44,8 +44,15 @@ export interface DataInputsPatientInterface {
   healthyCondition: string,
   setHealthyCondition: (healthyCondition: string) => void
   yearOfBirth: string,
-  setYearOfBirth: (yearOfBirth: string) => void
-  
+  setYearOfBirth: (yearOfBirth: string) => void,
+  social: boolean,
+  setSocial: (social: boolean) => void,
+  consultation: boolean,
+  setConsultation: (consultation: boolean) => void,
+  doctor: string,
+  setDoctor: (doctor: string) => void,
+  paymentMethod: string,
+  setPaymentMethod: (paymentMethod: string) => void,
 }
 export const DefaultDataInputsPatientInterface: DataInputsPatientInterface = {
   name: "",
@@ -59,7 +66,15 @@ export const DefaultDataInputsPatientInterface: DataInputsPatientInterface = {
   healthyCondition: "",
   setHealthyCondition: () => {},
   yearOfBirth: "",
-  setYearOfBirth: () => {}
+  setYearOfBirth: () => {},
+  social: false,
+  setSocial: () => {},
+  consultation: false,
+  setConsultation: () => {},
+  doctor: "",
+  setDoctor: () => {},
+  paymentMethod: "",
+  setPaymentMethod: () => {},
 }
 
 export const DefaultDataInputsPatientContext = createContext(DefaultDataInputsPatientInterface)

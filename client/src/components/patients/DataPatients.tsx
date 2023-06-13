@@ -31,7 +31,6 @@ const DataPatients: React.FC = () => {
     fetchPatient();
   }, [dispatch]);
 
- 
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
       {patients.length > 0 &&

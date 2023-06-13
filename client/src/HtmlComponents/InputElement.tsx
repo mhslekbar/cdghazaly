@@ -21,6 +21,7 @@ export const InputElement:React.FC<InputElementInterface> = ({ type = "text", na
         className={`${type === "text" || type === "number" ? "w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none" : ""}`}
         placeholder={placeholder || name}
         value={value}
+        autoComplete="off"
         onChange={(e) => setValue(e.target.value)}
       />
     </div>

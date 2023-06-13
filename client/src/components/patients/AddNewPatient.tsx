@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 import { DefaultDataInputsPatientContext } from './types';
@@ -7,15 +7,37 @@ import InputsPatient from './forms/InputsPatient';
 const AddNewPatient:React.FC = () => {
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
-  const [whatsApp, setWhatsApp] = useState("")
+  const [whatsApp, setWhatsApp] = useState("+222")
   const [address, setAddress] = useState("")
   const [healthyCondition, setHealthyCondition] = useState("")
   const [yearOfBirth, setYearOfBirth] = useState("")
+  const [social, setSocial] = useState(false)
+  const [consultation, setConsultation] = useState(true)
+  const [doctor, setDoctor] = useState("")
+  const [paymentMethod, setPaymentMethod] = useState("")
   
   const [modal, setModal] = useState(false)
   const toggle = () => {
     setModal(!modal)
   }
+  
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    const data = {
+      name,
+      phone,
+      whatsApp,
+      address,
+      healthyCondition,
+      yearOfBirth,
+      social,
+      consultation,
+      doctor,
+      paymentMethod
+    }
+    console.log("data: ", data)
+  }
+
   return (
     <DefaultDataInputsPatientContext.Provider value={{
       name, setName,
@@ -23,7 +45,11 @@ const AddNewPatient:React.FC = () => {
       whatsApp, setWhatsApp,
       address, setAddress,
       healthyCondition, setHealthyCondition,
-      yearOfBirth, setYearOfBirth
+      yearOfBirth, setYearOfBirth,
+      social, setSocial,
+      consultation, setConsultation,
+      doctor, setDoctor,
+      paymentMethod, setPaymentMethod
     }}>
         <button className="p-2 rounded bg-main text-white mb-2" onClick={toggle}>
           <FaPlus />
@@ -44,6 +70,7 @@ const AddNewPatient:React.FC = () => {
                   {/* Start Modal Body */}
                   <form
                     className="mt-2 sm:ml-4 sm:text-left"
+                    onSubmit={handleSubmit}
                   >
                     <InputsPatient />
                     <ButtonsForm toggle={toggle} typeBtn='Ajouter' />
