@@ -27,15 +27,15 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
       <select
         className="w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none uppercase"
         id={id}
-        value={value}
+        value={value._id}
         onChange={(e) => {
           const index = e.target.selectedIndex;
-          setValue(e.target.options[index].value);
+          setValue(JSON.parse(e.target.options[index].getAttribute("data-element") || ""));
         }}
       >
         {defaultOption}
         {options.map((option: any) => (
-          <option value={option._id} key={option._id}>{option.name}</option>
+          <option value={option._id} data-element={JSON.stringify(option)} key={option._id}>{option.name}</option>
         ))}
       </select>
     </div>

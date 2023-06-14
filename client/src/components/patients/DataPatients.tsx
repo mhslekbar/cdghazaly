@@ -3,25 +3,33 @@ import { useDispatch } from "react-redux";
 import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
 import { useSelector } from "react-redux";
 import { State } from "../../redux/store";
-import { RegNo, formatDate } from "../../functions/functions";
+import { RegNo } from "../../functions/functions";
 import { BsFillPersonFill, BsFillTelephoneFill } from "react-icons/bs";
-import { FaBirthdayCake, FaEdit } from "react-icons/fa";
-import { BiHealth } from "react-icons/bi";
+import { FaArrowAltCircleRight, FaEdit } from "react-icons/fa";
+import { RiWhatsappFill } from "react-icons/ri";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
-import { GiLifeBar } from "react-icons/gi"
 import { useParams } from "react-router";
 import { PatientInterface, ShowPatientsContext } from "./types";
 import { MdRemoveCircle } from "react-icons/md";
 import { switchPathPatient, switchTypePatient } from "./functions";
 import { PatientInfo } from "./PatientInfo";
-
+import { PatientTypePath } from "../sidebar/types";
 
 const DataPatients: React.FC = () => {
   const { ptType } = useParams();
   const { patients }: { patients: PatientInterface[] } = useSelector(
     (state: State) => state.patients
   );
-  const { selectedFilter } = useContext(ShowPatientsContext)
+  const {
+    selectedFilter,
+    setSelectedPatient,
+    showEditPatient,
+    setShowEditPatient,
+    showDeletePatient,
+    setShowDeletePatient,
+    showPassPatient,
+    setShowPassPatient,
+  } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
 
   useEffect(() => {
@@ -31,15 +39,29 @@ const DataPatients: React.FC = () => {
     fetchPatient();
   }, [dispatch]);
 
+  const handleShowEditPatient = (patient: PatientInterface) => {
+    setSelectedPatient(patient);
+    setShowEditPatient(!showEditPatient);
+  };
+
+  const handleShowDeletePatient = (patient: PatientInterface) => {
+    setSelectedPatient(patient);
+    setShowDeletePatient(!showDeletePatient);
+  };
+
+  const handleShowPassPatient = (patient: PatientInterface) => {
+    setSelectedPatient(patient);
+    setShowPassPatient(!showPassPatient);
+  };
+
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
       {patients.length > 0 &&
         patients
-          .filter((patient: PatientInterface) =>
-            switchPathPatient(ptType, patient)
-              && 
-            switchTypePatient(selectedFilter, patient)
-            
+          .filter(
+            (patient: PatientInterface) =>
+              switchPathPatient(ptType, patient) &&
+              switchTypePatient(selectedFilter, patient)
           )
           .map((patient: PatientInterface) => (
             <section
@@ -59,25 +81,19 @@ const DataPatients: React.FC = () => {
                 value={patient.name}
               />
               <PatientInfo
-                icon={<GiLifeBar />}
-                title="Age"
-                value={new Date().getFullYear() - Number(formatDate(patient.dob).split("/")[2])}
-              />
-              <PatientInfo
                 icon={<BsFillTelephoneFill />}
                 title="Telephone"
-                value={patient.phone}
+                value={patient?.contact?.phone}
               />
-              <PatientInfo
-                icon={<FaBirthdayCake />}
-                title="Date"
-                value={formatDate(patient.createdAt.toString())}
-              />
-              <PatientInfo
-                icon={<BiHealth />}
-                title="Etat de santé"
-                value={patient.HealthCondition}
-              />
+              {patient?.contact?.whatsApp &&
+                patient?.contact?.whatsApp !== "+222" && (
+                  <PatientInfo
+                    icon={<RiWhatsappFill />}
+                    title="WhatsApp"
+                    value={patient?.contact?.whatsApp}
+                  />
+                )}
+
               <PatientInfo
                 icon={<FaRegMoneyBillAlt />}
                 title="Balance"
@@ -85,19 +101,34 @@ const DataPatients: React.FC = () => {
                 value={patient.balance.toString()}
               />
               <div className="flex justify-center">
-                <FaEdit className="text-blue" style={{
-                  fontSize: "22px"
-                }}/>
-                <MdRemoveCircle className="text-red" style={{
-                  fontSize: "22px"
-                }}/>
+                <FaEdit
+                  className="text-blue"
+                  style={{
+                    fontSize: "22px",
+                  }}
+                  onClick={() => handleShowEditPatient(patient)}
+                />
+                <MdRemoveCircle
+                  className="text-red"
+                  style={{
+                    fontSize: "22px",
+                  }}
+                  onClick={() => handleShowDeletePatient(patient)}
+                />
+                {ptType === PatientTypePath.CONSULTATION && 
+                  <FaArrowAltCircleRight
+                    className="text-yellow"
+                    style={{
+                      fontSize: "22px",
+                    }}
+                    onClick={() => handleShowPassPatient(patient)}
+                  />
+                }
               </div>
             </section>
           ))}
     </div>
   );
 };
-
-
 
 export default DataPatients;

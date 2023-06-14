@@ -5,7 +5,7 @@ const SettingModel = require("../models/SettingModel");
 
 const getPatients = async (request, response) => {
   try {
-    const patients = await PatientModel.find().populate("doctor").sort({ RegNo: -1 })
+    const patients = await PatientModel.find().populate("doctor").sort({ RegNo: -1, createdAt: -1 })
     response.status(200).json({ success: patients })
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -15,16 +15,19 @@ const getPatients = async (request, response) => {
 const createPatient = async (request, response) => {
   try {
     let { 
-      user, doctor, name, phone, HealthCondition,
-      yearOfBirth, assurance, social, method, supported
+      user, doctor, name, contact, HealthCondition,
+      yearOfBirth, assurance, address, social, method, supported,
+      assure, isConsult
     } = request.body
+
     let { cons_price } = await SettingModel.findOne()
     let dob = new Date()
     let date_archive = new Date()
     date_archive.setMonth(date_archive.getMonth() + 1)
 
-    const checkPatient = await PatientModel.findOne({ name, phone })
-    if(checkPatient) {
+    const checkPatient = await PatientModel.findOne({ name })
+
+    if(checkPatient?.contact?.phone === contact.phone) {
       return response.status(200).json({ existPatient: true })
     }
 
@@ -33,11 +36,12 @@ const createPatient = async (request, response) => {
       formErrors.push("Le doctor est obligatoire.")
     }
     if(name.length === 0) {
-      formErrors.push("Le name du patient est obligatoire.")
+      formErrors.push("Le nom du patient est obligatoire.")
     }
-    if(phone.length === 0) {
+    if(contact.phone.length === 0) {
       formErrors.push("Le telephone du patient est obligatoire.")
     }
+
     if(HealthCondition.length === 0) {
       formErrors.push("L'état de santé du patient est obligatoire.")
     } 
@@ -46,23 +50,51 @@ const createPatient = async (request, response) => {
     } else {
      dob.setFullYear(yearOfBirth)
     }
-    if(assurance) {
-      let { society } = assurance
-      const societyInfo = await AssuranceModel.findOne({_id: society})
-      cons_price = societyInfo.cons_price
+
+    if(assure) {
+      if(assurance.society.length === 0) {
+        formErrors.push("Choisir societe d'assurance.")
+      } if(assurance.professionalId.length === 0) {
+        formErrors.push("Donner le matricule.")        
+      } if(supported.length === 0) {
+        formErrors.push("Donner la prise en charge.")
+      }
+      if(assurance.percentCovered.length === 0 || assurance.percentCovered === 0) {
+        formErrors.push("Donner le pourcentage.")
+      }
+      else {
+        const societyInfo = await AssuranceModel.findOne({_id: assurance.society})
+        cons_price = societyInfo.cons_price
+        supported = supported + "/" + (new Date()).getUTCFullYear()
+      }
+    } else {
+      assurance = {}
+      supported = null
     }
+
+    if(!isConsult) {
+      cons_price = 0
+      supported = null
+    }
+
     if(social) {
       cons_price = 0
     }
+    
+    if(method.length === 0) {
+      method = null
+    }
 
     if(formErrors.length === 0) {
-      const newPatient = await PatientModel.create({ doctor: [doctor], name, phone, HealthCondition, dob, assurance, social, date_archive})
+      let newPatient
+      newPatient = await PatientModel.create({ doctor: doctor, name, contact, HealthCondition, address, dob, assurance, social, date_archive})
       await PaymentModel.create({ user, doctor, patient: newPatient._id, amount: cons_price, type: "consultation", method, supported })
       await getPatients(request, response)
     } else {
       response.status(300).json({ formErrors })
     }
   } catch(err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message })
   }
 }
@@ -71,14 +103,15 @@ const updatePatient = async (request, response) => {
     try {
     const { id } = request.params
     let { 
-      doctor, name, phone, HealthCondition,
-      dob, assurance, social, method, supported
+      doctor, name, contact, HealthCondition,
+      dob, assurance, social, method, supported, address,
+      assure
     } = request.body
 
     const patientInfo = await PatientModel.findOne({_id: id})
     const paymentInfo = await PaymentModel.findOne({ patient: id })
     let cons_price = paymentInfo.amount
-
+    
     const formErrors = []
     if(doctor.length === 0) {
       doctor = patientInfo.doctor
@@ -86,8 +119,11 @@ const updatePatient = async (request, response) => {
     if(name.length === 0) {
       name = patientInfo.name
     }
-    if(phone.length === 0) {
-      phone = patientInfo.phone
+    if(contact.phone.length === 0) {
+      contact = {
+        phone: patientInfo.phone,
+        whatsApp: patientInfo.whatsApp
+      }
     }
     if(HealthCondition.length === 0) {
       HealthCondition = patientInfo.HealthCondition
@@ -102,30 +138,47 @@ const updatePatient = async (request, response) => {
       social = patientInfo.social
     }
 
-    if(Object.keys(assurance).length > 0) {
-      let { society } = assurance
-      const societyInfo = await AssuranceModel.findOne({_id: society})
-      cons_price = societyInfo.cons_price
+    if(assure) {
+      if(assurance.society.length === 0) {
+        formErrors.push("Choisir societe d'assurance.")
+      } if(assurance.professionalId.length === 0) {
+        formErrors.push("Donner le matricule.")        
+      } if(supported.length === 0) {
+        formErrors.push("Donner la prise en charge.")
+      }
+      if(assurance.percentCovered.length === 0 || assurance.percentCovered === 0) {
+        formErrors.push("Donner le pourcentage.")
+      }
+      else {
+        const societyInfo = await AssuranceModel.findOne({_id: assurance.society})
+        cons_price = societyInfo.cons_price
+        supported = supported + "/" + (new Date()).getUTCFullYear()
+      }
     } else {
-      let SettingInfo = await SettingModel.findOne()
-      cons_price = SettingInfo.cons_price
+      assurance = {}
+      supported = null
     }
     if(social) {
       cons_price = 0
     }
+    if(method.length === 0) {
+      method = null
+    }
+
     if(formErrors.length === 0) {
-      await PatientModel.updateOne({_id: id}, { doctor, name, phone, HealthCondition, dob, assurance, social }, { new: true })
+      await PatientModel.updateOne({_id: id}, { doctor, name, contact, HealthCondition, dob, assurance, address, social }, { new: true })
       // Start Edit payment
-      paymentInfo.amount = cons_price
-      paymentInfo.method = method
-      paymentInfo.supported = supported
-      paymentInfo.save()
+        paymentInfo.amount = cons_price
+        paymentInfo.method = method
+        paymentInfo.supported = supported
+        paymentInfo.save()
       // END Edit payment
       await getPatients(request, response)
     } else {
       response.status(300).json({ formErrors })
     }
   } catch(err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message })
   }
 }
@@ -134,13 +187,11 @@ const deletePatient = async (request, response) => {
   try {
     const { id } = request.params
     await PatientModel.deleteOne({ _id: id})
-    await PaymentModel.deleteOne({ patient: id})
+    await PaymentModel.deleteMany({ patient: id})
     await getPatients(request, response)
   } catch(err) {
     response.status(500).json({ err: err.message })
   }
 }
 
-
 module.exports = { getPatients, createPatient, updatePatient, deletePatient }
-

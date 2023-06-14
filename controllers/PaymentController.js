@@ -4,7 +4,7 @@ const FicheModel = require("../models/FicheModel")
 
 const getPayments = async (request, response) => {
   try {
-    const { patient, type } = request.body
+    const { patient, type } = request.query
     let payments
     if(type) {
       payments = await PaymentModel.find({ patient, type }).sort({ createdAt: -1 })

@@ -9,6 +9,6 @@ const paymentSchema = new mongoose.Schema({
   method: { type: mongoose.Types.ObjectId, ref: "paymentMethod" },
   supported: { type: String },
   invoiceAssur: { type: mongoose.Types.ObjectId, ref: "assurance.invoices" },
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model("payment", paymentSchema)

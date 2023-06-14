@@ -8,8 +8,12 @@ const patientSchema = new mongoose.Schema({
   }],
   RegNo: { type: Number, default: null },
   name: { type: String, required: true },
-  phone: { type: Number, required: true },
+  contact: {
+    phone: { type: String, required: true },
+    whatsApp: { type: String, },
+  },
   HealthCondition: { type: String },
+  address: { type: String },
   dob: { type: Date, required: true },
   assurance: { 
     society: { type: mongoose.Types.ObjectId, ref: "assurance" },
@@ -21,7 +25,6 @@ const patientSchema = new mongoose.Schema({
   balance: { type: Number, default: 0 },
   date_archive: { type: Date},
   archive: { type: Boolean, default: false},
-
 }, { timestamps: true })
 
 module.exports = mongoose.model("patient", patientSchema)

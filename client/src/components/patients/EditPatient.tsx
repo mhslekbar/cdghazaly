@@ -1,54 +1,64 @@
-import React, { FormEvent, useContext, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
-import { DefaultDataInputsPatientContext, ShowPatientsContext } from './types';
+import { DefaultDataInputsPatientContext, PatientInterface, ShowPatientsContext } from './types';
 import InputsPatient from './forms/InputsPatient';
-import { UserData } from '../../requestMethods';
-import { AddPatientsApi } from '../../redux/patients/patientApiCalls';
+import { UserData, get } from '../../requestMethods';
 import { useDispatch } from 'react-redux';
 import { Timeout, hideMsg } from '../../functions/functions';
-import { DefaultUserInterface, UserInterface } from '../users/types';
+import { EditPatientsApi } from '../../redux/patients/patientApiCalls';
+import { UserInterface } from '../users/types';
 
-const AddNewPatient:React.FC = () => {
-  const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
-  const [whatsApp, setWhatsApp] = useState("+222")
-  const [address, setAddress] = useState("")
-  const [healthyCondition, setHealthyCondition] = useState("")
-  const [yearOfBirth, setYearOfBirth] = useState("")
-  const [social, setSocial] = useState(false)
+interface EditPatientInterface {
+  patientData: PatientInterface,
+  modal: boolean,
+  toggle: () => void
+}
+
+const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle }) => {
+  const [name, setName] = useState(patientData.name)
+  const [phone, setPhone] = useState(patientData.contact.phone)
+  const [whatsApp, setWhatsApp] = useState(patientData.contact.whatsApp)
+  const [address, setAddress] = useState(patientData.address)
+  const [healthyCondition, setHealthyCondition] = useState(patientData.HealthCondition)
+  const [yearOfBirth, setYearOfBirth] = useState(patientData.dob)
+  const [social, setSocial] = useState(patientData.social)
   const [consultation, setConsultation] = useState(true)
-  const [doctor, setDoctor] = useState<UserInterface[]>([DefaultUserInterface])
+  const [doctor, setDoctor] = useState<UserInterface[]>(patientData.doctor)
   const [paymentMethod, setPaymentMethod] = useState("")
+  const [showAssurance, setShowAssurance] = useState(patientData.assurance?.society.length > 0 ? true : false)
+  const [AssuranceCompany, setAssuranceCompany] = useState(patientData.assurance?.society)
 
-  const [showAssurance, setShowAssurance] = useState(false)
-  const [AssuranceCompany, setAssuranceCompany] = useState("")
-
-  const [selectedDoctor, setSelectedDoctor] = useState<UserInterface[]>(doctor)
-
-  const [RegNoProfessional, setRegNoProfessional] = useState("")
+  const [RegNoProfessional, setRegNoProfessional] = useState(patientData.assurance?.professionalId)
   const [supported, setSupported] = useState("")
-  const [percentage, setPercentage] = useState("")
+  const [percentage, setPercentage] = useState(patientData.assurance?.percentCovered)
 
-  const [modal, setModal] = useState(false)
-  const toggle = () => {
-    setModal(!modal)
-  }
+  const [selectedDoctor, setSelectedDoctor] = useState<UserInterface[]>(patientData.doctor)
 
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccecMsg } = useContext(ShowPatientsContext)
   const dispatch: any = useDispatch()
 
+
+  useEffect(() => {
+    const fetchPayment = async () => {
+      const response = await get(`payment?type=consultation&patient=${patientData._id}`)
+      const resData = response.data.success
+      setSupported(resData[0].supported?.split("/")[0])
+    }
+    fetchPayment()
+  }, [patientData])
+
+
   const handleSubmit = async (e: FormEvent) => {
+    
     e.preventDefault()
-    const Doctor: any = doctor
     const data = {
       user: UserData()._id,
-      doctor: Doctor._id,
+      doctor: selectedDoctor,
       name,
       contact: {phone, whatsApp},
       HealthCondition: healthyCondition,
-      yearOfBirth,
+      dob: yearOfBirth,
       assurance: {
         society: AssuranceCompany,
         professionalId: RegNoProfessional,
@@ -61,8 +71,9 @@ const AddNewPatient:React.FC = () => {
       assure: showAssurance,
       isConsult: consultation
     }
+
     try {
-      const response = await dispatch(AddPatientsApi(data))
+      const response = await dispatch(EditPatientsApi(patientData._id, data))
       if(response === true) {
         toggle()
         setShowSuccecMsg(true)
@@ -82,12 +93,9 @@ const AddNewPatient:React.FC = () => {
         setSupported("")
         setPercentage("")
       } else {
-        console.log("errors: ", errors)
-        // setErrors(response)
+        setErrors(response)
       }
-    } catch(err) {
-      console.log("ss: ", err)
-    }
+    } catch {}
   }
 
   return (
@@ -107,11 +115,8 @@ const AddNewPatient:React.FC = () => {
       RegNoProfessional, setRegNoProfessional,
       supported, setSupported,
       percentage, setPercentage,
-      selectedDoctor, setSelectedDoctor,
+      selectedDoctor, setSelectedDoctor
     }}>
-        <button className="p-2 rounded bg-main text-white mb-2" onClick={toggle}>
-          <FaPlus />
-        </button>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -130,7 +135,7 @@ const AddNewPatient:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                  {errors.length > 0 &&
+                                        {errors.length > 0 &&
                     errors.map((err, index) => (
                       <p
                         className="p-3 my-2 rounded bg-red text-white msg"
@@ -140,8 +145,8 @@ const AddNewPatient:React.FC = () => {
                         {err}
                       </p>
                     ))}
-                    <InputsPatient typeModal="Ajouter" />
-                    <ButtonsForm toggle={toggle} typeBtn='Ajouter' />
+                    <InputsPatient typeModal="Edit" />
+                    <ButtonsForm toggle={toggle} typeBtn='Modifier' />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -154,4 +159,4 @@ const AddNewPatient:React.FC = () => {
   );
 }
 
-export default AddNewPatient
+export default EditPatient

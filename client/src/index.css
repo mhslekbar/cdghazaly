@@ -2,6 +2,7 @@
   --mainColor: #00b894;
   --blueColor: #2563eb;
   --redColor: #eb3b5a;
+  --yellowColor: #f1c40f; 
 }
 
 @tailwind base;
@@ -35,6 +36,18 @@
   .text-blue {
     color: var(--blueColor);
   }
+
+  .btn-yellow {
+    background-color: var(--yellowColor);
+    color: #FFF;
+  }
+  .bg-yellow {
+    background-color: var(--yellowColor);
+    color: #FFF;
+  }
+  .text-yellow {
+    color: var(--yellowColor);
+  }
   
   .btn-white {
     background-color: #FFF;
@@ -54,7 +67,7 @@
     color: #FFF;
     border: var(--redColor);
   }
-  .btn-red, .btn-red:hover, .btn-red:focus {
+  .btn-red:hover, .btn-red:focus {
     background-color: var(--redColor);
     color: #FFF;
     border: var(--redColor);

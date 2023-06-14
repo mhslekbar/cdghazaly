@@ -20,6 +20,10 @@ const ButtonsForm: React.FC<ButtonsFormType> = ({
     case "Supprimer":
       btnColor = "bg-red";
       break;
+    case "Passer":
+      btnColor = "bg-yellow";
+      break;
+      
     default:
       btnColor = "bg-main";
   }
