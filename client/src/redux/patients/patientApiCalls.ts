@@ -73,10 +73,32 @@ export const EditPatientsApi = (patientId: string, data: {}) => async (dispatch:
   }
 }
 
-export const PassPatientsApi = (patientId: string) => async (dispatch: Dispatch<any>) => {
+export const PassPatientsApi = (patientId: string, doctor: string) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusPatientStart())
-    let response = await put(`patient/passPatient`, { patient: patientId })
+    let response = await post(`patient/passPatient`, { doctor, patient: patientId })
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPatientSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPatientFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPatientFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const FinishPatientsApi = (patientId: string) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPatientStart())
+    let response = await post(`patient/finishPatient`, { patient: patientId })
     const resData = response.data.success
     if(resData) {
       dispatch(statusPatientSuccess(resData))

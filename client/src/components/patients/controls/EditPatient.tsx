@@ -1,12 +1,12 @@
 import React, { FormEvent, useContext, useEffect, useState } from 'react';
-import ButtonsForm from '../../HtmlComponents/ButtonsForm';
-import { DefaultDataInputsPatientContext, PatientInterface, ShowPatientsContext } from './types';
-import InputsPatient from './forms/InputsPatient';
-import { UserData, get } from '../../requestMethods';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
+import { DefaultDataInputsPatientContext, PatientInterface, ShowPatientsContext } from '../types';
+import InputsPatient from '../forms/InputsPatient';
+import { UserData, get } from '../../../requestMethods';
 import { useDispatch } from 'react-redux';
-import { Timeout, hideMsg } from '../../functions/functions';
-import { EditPatientsApi } from '../../redux/patients/patientApiCalls';
-import { UserInterface } from '../users/types';
+import { Timeout, hideMsg } from '../../../functions/functions';
+import { EditPatientsApi } from '../../../redux/patients/patientApiCalls';
+import { UserInterface } from '../../users/types';
 
 interface EditPatientInterface {
   patientData: PatientInterface,

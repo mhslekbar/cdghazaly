@@ -36,7 +36,7 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
 
   useEffect(() => {
     setArrayOfDoctors(users.filter((user: UserInterface) => user.doctor?.cabinet))
-  }, [users, typeModal])
+  }, [users])
 
   useEffect(() => {
     const doctorData = UserData().doctor.cabinet

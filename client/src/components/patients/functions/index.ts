@@ -7,14 +7,16 @@ export const switchTypePatient = (type: any, patient: PatientInterface) => {
       return patient.archive 
     case "notArchive" : 
       return !patient.archive
+    case "patients" :
+      return patient.RegNo && !patient.finish 
     case "ptInCommon" :
-      return patient?.doctor.length > 1 
+      return patient.RegNo && patient?.doctor.length > 1 
     case "debiteur" :
-      return patient.balance < 0 
+      return patient.finish && patient.balance < 0 
     case "regulariser" :
-      return patient.balance === 0 
+      return patient.finish &&  patient.balance === 0 
     case "creancier" :
-      return patient.balance > 0 
+      return patient.finish && patient.balance > 0 
     default: 
       return patient.RegNo
   }

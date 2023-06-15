@@ -1,17 +1,17 @@
 import React, { FormEvent, useContext, useState } from "react";
-import ButtonsForm from "../../HtmlComponents/ButtonsForm";
-import { PatientInterface, ShowPatientsContext } from "./types";
+import ButtonsForm from "../../../HtmlComponents/ButtonsForm";
+import { PatientInterface, ShowPatientsContext } from "../types";
 import { useDispatch } from "react-redux";
-import { Timeout, hideMsg } from "../../functions/functions";
-import { DeletePatientsApi } from "../../redux/patients/patientApiCalls";
+import { Timeout, hideMsg } from "../../../functions/functions";
+import { FinishPatientsApi } from "../../../redux/patients/patientApiCalls";
 
-interface DeletePatientInterface {
+type FinishPatientType = {
   patientData: PatientInterface;
   modal: boolean;
   toggle: () => void;
 }
 
-const DeletePatient: React.FC<DeletePatientInterface> = ({
+const FinishPatient:React.FC<FinishPatientType> = ({
   patientData,
   modal,
   toggle,
@@ -19,11 +19,11 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccecMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
-
+  
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await dispatch(DeletePatientsApi(patientData._id));
+      const response = await dispatch(FinishPatientsApi(patientData._id));
       if (response === true) {
         toggle();
         setShowSuccecMsg(true);
@@ -60,7 +60,8 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
                           {err}
                         </p>
                       ))}
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                    <p className="text-gray-700 text-xl">Terminer <b>{patientData.name} </b>?</p>
+                    <ButtonsForm toggle={toggle} typeBtn="Terminer" />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -73,4 +74,4 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
   );
 };
 
-export default DeletePatient;
+export default FinishPatient;

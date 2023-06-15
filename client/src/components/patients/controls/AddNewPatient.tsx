@@ -1,13 +1,13 @@
 import React, { FormEvent, useContext, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import ButtonsForm from '../../HtmlComponents/ButtonsForm';
-import { DefaultDataInputsPatientContext, ShowPatientsContext } from './types';
-import InputsPatient from './forms/InputsPatient';
-import { UserData } from '../../requestMethods';
-import { AddPatientsApi } from '../../redux/patients/patientApiCalls';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
+import { DefaultDataInputsPatientContext, ShowPatientsContext } from '../types';
+import InputsPatient from '../forms/InputsPatient';
+import { UserData } from '../../../requestMethods';
+import { AddPatientsApi } from '../../../redux/patients/patientApiCalls';
 import { useDispatch } from 'react-redux';
-import { Timeout, hideMsg } from '../../functions/functions';
-import { DefaultUserInterface, UserInterface } from '../users/types';
+import { Timeout, hideMsg } from '../../../functions/functions';
+import { DefaultUserInterface, UserInterface } from '../../users/types';
 
 const AddNewPatient:React.FC = () => {
   const [name, setName] = useState("")

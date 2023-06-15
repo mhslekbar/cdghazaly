@@ -1,17 +1,17 @@
 import React, { FormEvent, useContext, useState } from "react";
-import ButtonsForm from "../../HtmlComponents/ButtonsForm";
-import { PatientInterface, ShowPatientsContext } from "./types";
+import ButtonsForm from "../../../HtmlComponents/ButtonsForm";
+import { PatientInterface, ShowPatientsContext } from "../types";
 import { useDispatch } from "react-redux";
-import { Timeout, hideMsg } from "../../functions/functions";
-import { PassPatientsApi } from "../../redux/patients/patientApiCalls";
+import { Timeout, hideMsg } from "../../../functions/functions";
+import { DeletePatientsApi } from "../../../redux/patients/patientApiCalls";
 
-type PasserPatientType = {
+interface DeletePatientInterface {
   patientData: PatientInterface;
   modal: boolean;
   toggle: () => void;
 }
 
-const PassPatient:React.FC<PasserPatientType> = ({
+const DeletePatient: React.FC<DeletePatientInterface> = ({
   patientData,
   modal,
   toggle,
@@ -19,11 +19,11 @@ const PassPatient:React.FC<PasserPatientType> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccecMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
-  
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await dispatch(PassPatientsApi(patientData._id));
+      const response = await dispatch(DeletePatientsApi(patientData._id));
       if (response === true) {
         toggle();
         setShowSuccecMsg(true);
@@ -60,8 +60,7 @@ const PassPatient:React.FC<PasserPatientType> = ({
                           {err}
                         </p>
                       ))}
-                      <p className="text-gray-700 text-xl">Passer <b>{patientData.name} </b>?</p>
-                    <ButtonsForm toggle={toggle} typeBtn="Passer" />
+                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -74,4 +73,4 @@ const PassPatient:React.FC<PasserPatientType> = ({
   );
 };
 
-export default PassPatient;
+export default DeletePatient;

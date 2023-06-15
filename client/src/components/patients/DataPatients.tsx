@@ -6,6 +6,7 @@ import { State } from "../../redux/store";
 import { RegNo } from "../../functions/functions";
 import { BsFillPersonFill, BsFillTelephoneFill } from "react-icons/bs";
 import { FaArrowAltCircleRight, FaEdit } from "react-icons/fa";
+import { AiFillCheckCircle } from "react-icons/ai"
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { useParams } from "react-router";
@@ -29,6 +30,8 @@ const DataPatients: React.FC = () => {
     setShowDeletePatient,
     showPassPatient,
     setShowPassPatient,
+    showFinishPatient,
+    setShowFinishPatient
   } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
 
@@ -52,6 +55,11 @@ const DataPatients: React.FC = () => {
   const handleShowPassPatient = (patient: PatientInterface) => {
     setSelectedPatient(patient);
     setShowPassPatient(!showPassPatient);
+  };
+
+  const handleShowFinishPatient = (patient: PatientInterface) => {
+    setSelectedPatient(patient);
+    setShowFinishPatient(!showFinishPatient);
   };
 
   return (
@@ -122,6 +130,15 @@ const DataPatients: React.FC = () => {
                       fontSize: "22px",
                     }}
                     onClick={() => handleShowPassPatient(patient)}
+                  />
+                }
+                {ptType === PatientTypePath.CURRENT && 
+                  <AiFillCheckCircle
+                    className="text-main"
+                    style={{
+                      fontSize: "22px",
+                    }}
+                    onClick={() => handleShowFinishPatient(patient)}                  
                   />
                 }
               </div>

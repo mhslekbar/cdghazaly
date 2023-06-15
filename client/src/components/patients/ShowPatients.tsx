@@ -6,11 +6,13 @@ import {
   PatientInterface,
   ShowPatientsContext,
 } from "./types";
-import AddNewPatient from "./AddNewPatient";
 import SuccessMsg from "../../Messages/SuccessMsg";
-import EditPatient from "./EditPatient";
-import DeletePatient from "./DeletePatient";
-import PassPatient from "./PassPatient";
+import AddNewPatient from "./controls/AddNewPatient";
+import EditPatient from "./controls/EditPatient";
+import DeletePatient from "./controls/DeletePatient";
+import PassPatient from "./controls/PassPatient";
+import FinishPatient from "./controls/FinishPatient";
+
 
 const ShowPatients: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -21,6 +23,7 @@ const ShowPatients: React.FC = () => {
   const [showEditPatient, setShowEditPatient] = useState(false);
   const [showDeletePatient, setShowDeletePatient] = useState(false);
   const [showPassPatient, setShowPassPatient] = useState(false);
+  const [showFinishPatient, setShowFinishPatient] = useState(false);
       
   return (
     <ShowPatientsContext.Provider
@@ -37,6 +40,8 @@ const ShowPatients: React.FC = () => {
         setSelectedPatient,
         showPassPatient,
         setShowPassPatient,
+        showFinishPatient,
+        setShowFinishPatient
       }}
     >
       {showSuccecMsg && (
@@ -66,6 +71,13 @@ const ShowPatients: React.FC = () => {
         <PassPatient
           modal={showPassPatient}
           toggle={() => setShowPassPatient(!showPassPatient)}
+          patientData={selectedPatient}
+        />
+      )}
+      {showFinishPatient && selectedPatient && (
+        <FinishPatient
+          modal={showFinishPatient}
+          toggle={() => setShowFinishPatient(!showFinishPatient)}
           patientData={selectedPatient}
         />
       )}
