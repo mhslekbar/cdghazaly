@@ -95,6 +95,28 @@ export const PassPatientsApi = (patientId: string, doctor: string) => async (dis
   }
 }
 
+export const ReturnPatientsApi = (data: any) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPatientStart())
+    let response = await post(`patient/returnPatient`, data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPatientSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPatientFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPatientFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
 export const FinishPatientsApi = (patientId: string) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusPatientStart())

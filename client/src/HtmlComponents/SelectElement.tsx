@@ -6,7 +6,8 @@ interface SelectElementInterface {
   value: any;
   setValue: (value: any) => void;
   options: any;
-  defaultOption?: any
+  defaultOption?: any,
+  valueType?: string
 }
 
 export const SelectElement: React.FC<SelectElementInterface> = ({
@@ -15,7 +16,8 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
   value,
   setValue,
   options,
-  defaultOption
+  defaultOption,
+  valueType = "string"
 }) => {
   return (
     <div className="mb-2">
@@ -30,7 +32,10 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
         value={value._id}
         onChange={(e) => {
           const index = e.target.selectedIndex;
-          setValue(JSON.parse(e.target.options[index].getAttribute("data-element") || ""));
+          valueType === "object" ? 
+            setValue(JSON.parse(e.target.options[index].getAttribute("data-element") || ""))
+          :
+            setValue(e.target.options[index].value)
         }}
       >
         {defaultOption}

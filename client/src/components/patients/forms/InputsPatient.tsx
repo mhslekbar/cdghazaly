@@ -106,6 +106,7 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
           {consultation && (
             <>
             <SelectElement  
+              valueType="string"
               id="paymentMethod"
               value={paymentMethod}
               setValue={setPaymentMethod}
@@ -113,9 +114,9 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
                 .map((option: any) => ({_id: option._id, name: option.name}))
               }
               defaultOption={<option>cash</option>} 
-              />
+            />
             {hideChooseDr && (
-              <SelectElement  id="doctor" value={doctor} setValue={setDoctor} options={ArrayOfDoctors.map((option: any) => ({...option, name: option.username}))} />
+              <SelectElement valueType="object" id="doctor" value={doctor} setValue={setDoctor} options={ArrayOfDoctors.map((option: any) => ({...option, name: option.username}))} />
             )}
             </>
           )}

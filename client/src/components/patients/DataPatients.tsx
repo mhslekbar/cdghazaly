@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { State } from "../../redux/store";
 import { RegNo } from "../../functions/functions";
 import { BsFillPersonFill, BsFillTelephoneFill } from "react-icons/bs";
-import { FaArrowAltCircleRight, FaEdit } from "react-icons/fa";
-import { AiFillCheckCircle } from "react-icons/ai"
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaEdit } from "react-icons/fa";
+import { AiFillCheckCircle } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { useParams } from "react-router";
@@ -31,7 +31,9 @@ const DataPatients: React.FC = () => {
     showPassPatient,
     setShowPassPatient,
     showFinishPatient,
-    setShowFinishPatient
+    setShowFinishPatient,
+    showReturnPatient,
+    setShowReturnPatient,
   } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
 
@@ -60,6 +62,11 @@ const DataPatients: React.FC = () => {
   const handleShowFinishPatient = (patient: PatientInterface) => {
     setSelectedPatient(patient);
     setShowFinishPatient(!showFinishPatient);
+  };
+
+  const handleShowReturnPatient = (patient: PatientInterface) => {
+    setSelectedPatient(patient);
+    setShowReturnPatient(!showReturnPatient);
   };
 
   return (
@@ -101,13 +108,14 @@ const DataPatients: React.FC = () => {
                     value={patient?.contact?.whatsApp}
                   />
                 )}
-
-              <PatientInfo
-                icon={<FaRegMoneyBillAlt />}
-                title="Balance"
-                className={`${patient.balance < 0 ? "text-red" : ""}`}
-                value={patient.balance.toString()}
-              />
+              {ptType !== PatientTypePath.CONSULTATION && (
+                <PatientInfo
+                  icon={<FaRegMoneyBillAlt />}
+                  title="Balance"
+                  className={`${patient.balance < 0 ? "text-red" : ""}`}
+                  value={patient.balance.toString()}
+                />
+              )}
               <div className="flex justify-center">
                 <FaEdit
                   className="text-blue"
@@ -116,31 +124,42 @@ const DataPatients: React.FC = () => {
                   }}
                   onClick={() => handleShowEditPatient(patient)}
                 />
-                <MdRemoveCircle
-                  className="text-red"
-                  style={{
-                    fontSize: "22px",
-                  }}
-                  onClick={() => handleShowDeletePatient(patient)}
-                />
-                {ptType === PatientTypePath.CONSULTATION && 
-                  <FaArrowAltCircleRight
-                    className="text-yellow"
-                    style={{
-                      fontSize: "22px",
-                    }}
-                    onClick={() => handleShowPassPatient(patient)}
-                  />
-                }
-                {ptType === PatientTypePath.CURRENT && 
+                {ptType === PatientTypePath.CONSULTATION && (
+                  <>
+                    <MdRemoveCircle
+                      className="text-red"
+                      style={{
+                        fontSize: "22px",
+                      }}
+                      onClick={() => handleShowDeletePatient(patient)}
+                    />
+                    <FaArrowAltCircleRight
+                      className="text-yellow"
+                      style={{
+                        fontSize: "22px",
+                      }}
+                      onClick={() => handleShowPassPatient(patient)}
+                    />
+                  </>
+                )}
+                {ptType === PatientTypePath.CURRENT && (
                   <AiFillCheckCircle
                     className="text-main"
                     style={{
                       fontSize: "22px",
                     }}
-                    onClick={() => handleShowFinishPatient(patient)}                  
+                    onClick={() => handleShowFinishPatient(patient)}
                   />
-                }
+                )}
+                {ptType === PatientTypePath.FINISH && (
+                  <FaArrowAltCircleLeft
+                    className="text-main"
+                    style={{
+                      fontSize: "22px",
+                    }}
+                    onClick={() => handleShowReturnPatient(patient)}
+                  />
+                )}
               </div>
             </section>
           ))}

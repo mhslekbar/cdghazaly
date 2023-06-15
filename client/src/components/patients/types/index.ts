@@ -143,6 +143,8 @@ export interface ShowPatientsInterface {
   setShowPassPatient: (showPassPatient: boolean) => void,
   showFinishPatient: boolean,
   setShowFinishPatient: (showFinishPatient: boolean) => void,
+  showReturnPatient: boolean,
+  setShowReturnPatient: (showReturnPatient: boolean) => void,
 }
 
 export const DefaultShowPatientsInterface: ShowPatientsInterface = {
@@ -160,6 +162,8 @@ export const DefaultShowPatientsInterface: ShowPatientsInterface = {
   setShowPassPatient: () => {},
   showFinishPatient: false,
   setShowFinishPatient: () => {},
+  showReturnPatient: false,
+  setShowReturnPatient: () => {},  
 }
 
 export const ShowPatientsContext = createContext(DefaultShowPatientsInterface)

@@ -3,19 +3,22 @@ import ButtonsForm from "../../../HtmlComponents/ButtonsForm";
 import { PatientInterface, ShowPatientsContext } from "../types";
 import { useDispatch } from "react-redux";
 import { Timeout, hideMsg } from "../../../functions/functions";
-import { PassPatientsApi } from "../../../redux/patients/patientApiCalls";
+import { ReturnPatientsApi } from "../../../redux/patients/patientApiCalls";
 import { SelectElement } from "../../../HtmlComponents/SelectElement";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { DefaultUserInterface, UserInterface } from "../../users/types";
+import { UserData } from "../../../requestMethods";
+import { InputElement } from "../../../HtmlComponents/InputElement";
+import { ShowPaymentMethodApi } from "../../../redux/paymentMethods/paymentMethodApiCalls";
 
-type PassPatientType = {
+type ReturnPatientType = {
   patientData: PatientInterface;
   modal: boolean;
   toggle: () => void;
 }
 
-const PassPatient:React.FC<PassPatientType> = ({
+const ReturnPatient:React.FC<ReturnPatientType> = ({
   patientData,
   modal,
   toggle,
@@ -24,14 +27,24 @@ const PassPatient:React.FC<PassPatientType> = ({
   const { setShowSuccecMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
   const { users } = useSelector((state: State) => state.users)
-  
   const [ArrayOfDoctors, setArrayOfDoctors] = useState<UserInterface[]>([DefaultUserInterface])
+  
+  const { paymentMethods } = useSelector((state: State) => state.paymentMethods)
 
   useEffect(() => {
     setArrayOfDoctors(users.filter((user: UserInterface) => user.doctor?.cabinet))
   }, [users])
 
   const [doctor, setDoctor] = useState("")
+  const [method, setMethod] = useState("")
+  const [supported, setSupported] = useState("")
+  
+  useEffect(() => {
+    const fetchPaymentMethod = async () => {
+      await dispatch(ShowPaymentMethodApi())
+    }
+    fetchPaymentMethod();
+  }, [dispatch])
 
   useEffect(() => {
     setDoctor(ArrayOfDoctors[0]._id)
@@ -40,7 +53,7 @@ const PassPatient:React.FC<PassPatientType> = ({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await dispatch(PassPatientsApi(patientData._id, doctor));
+      const response = await dispatch(ReturnPatientsApi({ user: UserData()._id, patient: patientData._id, doctor, method, supported }));
       if (response === true) {
         toggle();
         setShowSuccecMsg(true);
@@ -77,10 +90,30 @@ const PassPatient:React.FC<PassPatientType> = ({
                           {err}
                         </p>
                       ))}
-                    <p className="text-gray-700 text-xl">Passer <b>{patientData.name} </b>?</p>
+                    <p className="text-gray-700 text-xl">Retourner <b>{patientData.name} </b>?</p>
                     <SelectElement valueType="object" id="doctor" value={doctor} setValue={setDoctor} options={ArrayOfDoctors.map((option: any) => ({...option, name: option.username}))} />
-
-                    <ButtonsForm toggle={toggle} typeBtn="Passer" />
+                    
+                    {patientData?.assurance?.society.length > 0 ? 
+                      <InputElement
+                        type="number"
+                        placeholder="Prise en charge"
+                        id="Prise en charge"
+                        value={supported}
+                        setValue={setSupported}
+                      />
+                    : 
+                    <SelectElement  
+                      valueType="string"
+                      id="paymentMethod"
+                      value={method}
+                      setValue={setMethod}
+                      options={ paymentMethods
+                        .map((option: any) => ({_id: option._id, name: option.name}))
+                      }
+                      defaultOption={<option>cash</option>} 
+                    />
+                    }
+                    <ButtonsForm toggle={toggle} typeBtn="Retourner" />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -93,4 +126,4 @@ const PassPatient:React.FC<PassPatientType> = ({
   );
 };
 
-export default PassPatient;
+export default ReturnPatient;

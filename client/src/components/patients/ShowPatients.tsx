@@ -12,6 +12,7 @@ import EditPatient from "./controls/EditPatient";
 import DeletePatient from "./controls/DeletePatient";
 import PassPatient from "./controls/PassPatient";
 import FinishPatient from "./controls/FinishPatient";
+import ReturnPatient from "./controls/ReturnPatient";
 
 
 const ShowPatients: React.FC = () => {
@@ -24,6 +25,7 @@ const ShowPatients: React.FC = () => {
   const [showDeletePatient, setShowDeletePatient] = useState(false);
   const [showPassPatient, setShowPassPatient] = useState(false);
   const [showFinishPatient, setShowFinishPatient] = useState(false);
+  const [showReturnPatient, setShowReturnPatient] = useState(false);
       
   return (
     <ShowPatientsContext.Provider
@@ -41,7 +43,9 @@ const ShowPatients: React.FC = () => {
         showPassPatient,
         setShowPassPatient,
         showFinishPatient,
-        setShowFinishPatient
+        setShowFinishPatient,
+        showReturnPatient, 
+        setShowReturnPatient
       }}
     >
       {showSuccecMsg && (
@@ -78,6 +82,13 @@ const ShowPatients: React.FC = () => {
         <FinishPatient
           modal={showFinishPatient}
           toggle={() => setShowFinishPatient(!showFinishPatient)}
+          patientData={selectedPatient}
+        />
+      )}
+      {showReturnPatient && selectedPatient && (
+        <ReturnPatient
+          modal={showReturnPatient}
+          toggle={() => setShowReturnPatient(!showReturnPatient)}
           patientData={selectedPatient}
         />
       )}

@@ -17,21 +17,7 @@ const getPatients = async (request, response) => {
 
 const createPatient = async (request, response) => {
   try {
-    let {
-      user,
-      doctor,
-      name,
-      contact,
-      HealthCondition,
-      yearOfBirth,
-      assurance,
-      address,
-      social,
-      method,
-      supported,
-      assure,
-      isConsult,
-    } = request.body;
+    let { user, doctor, name, contact, HealthCondition, yearOfBirth, assurance, address, social, method, supported, assure, isConsult } = request.body;
 
     let { cons_price } = await SettingModel.findOne();
     let dob = new Date();
@@ -106,26 +92,8 @@ const createPatient = async (request, response) => {
 
     if (formErrors.length === 0) {
       let newPatient;
-      newPatient = await PatientModel.create({
-        doctor: doctor,
-        name,
-        contact,
-        HealthCondition,
-        address,
-        dob,
-        assurance,
-        social,
-        date_archive,
-      });
-      await PaymentModel.create({
-        user,
-        doctor,
-        patient: newPatient._id,
-        amount: cons_price,
-        type: "consultation",
-        method,
-        supported,
-      });
+      newPatient = await PatientModel.create({ doctor: doctor, name, contact, HealthCondition, address, dob, assurance, social, date_archive });
+      await PaymentModel.create({ user, doctor, patient: newPatient._id, amount: cons_price, type: "consultation", method, supported });
       await getPatients(request, response);
     } else {
       response.status(300).json({ formErrors });
@@ -140,21 +108,11 @@ const updatePatient = async (request, response) => {
   try {
     const { id } = request.params;
     let {
-      doctor,
-      name,
-      contact,
-      HealthCondition,
-      dob,
-      assurance,
-      social,
-      method,
-      supported,
-      address,
-      assure,
+      doctor, name, contact, HealthCondition, dob, assurance, social, method, supported, address, assure,
     } = request.body;
 
     const patientInfo = await PatientModel.findOne({ _id: id });
-    const paymentInfo = await PaymentModel.findOne({ patient: id });
+    const paymentInfo = await PaymentModel.findOne({ patient: id, type: "consultation" });
     let cons_price = paymentInfo.amount;
 
     const formErrors = [];
@@ -219,16 +177,7 @@ const updatePatient = async (request, response) => {
     if (formErrors.length === 0) {
       await PatientModel.updateOne(
         { _id: id },
-        {
-          doctor,
-          name,
-          contact,
-          HealthCondition,
-          dob,
-          assurance,
-          address,
-          social,
-        },
+        { doctor, name, contact, HealthCondition, dob, assurance, address, social },
         { new: true }
       );
       // Start Edit payment
@@ -242,7 +191,6 @@ const updatePatient = async (request, response) => {
       response.status(300).json({ formErrors });
     }
   } catch (err) {
-    console.log("err: ", err);
     response.status(500).json({ err: err.message });
   }
 };
@@ -298,11 +246,53 @@ const finishPatient = async (request, response) => {
   }
 };
 
+const returnPatient = async (request, response) => {
+  try {
+    let { user, patient, doctor, method, supported } = request.body;
+    const formErrors = []
+    
+    const patientData = await PatientModel.findOne({ _id: patient })
+    const { assurance, social  } = patientData
+    let amount
+    if(assurance.society) {
+      const societyInfo = await AssuranceModel.findOne({
+        _id: assurance.society,
+      });
+      amount = societyInfo.cons_price;
+      if(supported.length === 0) {
+        formErrors.push("Donner la prise en charge")
+      }
+    } else if(social) {
+      amount = 0
+      supported = null
+    } else {
+      let { cons_price } = await SettingModel.findOne();
+      amount = cons_price
+      supported = null
+    }
+
+    if(method.length === 0) {
+      method = null
+    }
+    if(formErrors.length === 0) {
+      await PatientModel.updateOne({ _id: patient }, { finish: false }, { new: true });
+      await PaymentModel.create({ user, doctor, patient, type: "consultation", amount, method, supported })
+      await getPatients(request, response);
+    } else {
+      response.status(300).json({ formErrors })
+    }
+  } catch (err) {
+    console.log("err: ", err)
+    response.status(500).json({ err: err.message });
+  }
+};
+
 module.exports = {
   getPatients,
   createPatient,
   updatePatient,
   passPatient,
   finishPatient,
+  returnPatient,
   deletePatient,
 };
