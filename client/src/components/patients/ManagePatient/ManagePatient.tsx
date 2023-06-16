@@ -1,11 +1,11 @@
 import React from 'react'
-import { useParams } from 'react-router'
+import HeaderInfoPatient from './HeaderInfoPatient'
 
 const ManagePatient:React.FC = () => {
-  const { doctorId } = useParams()
+
   return (
     <div>
-      Hello Manage {doctorId}
+      <HeaderInfoPatient />
     </div>
   )
 }

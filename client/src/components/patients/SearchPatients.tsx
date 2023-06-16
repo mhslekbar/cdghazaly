@@ -28,7 +28,7 @@ const SearchPatients:React.FC = () => {
   }, [phone, setFilterPatient])
 
   return (
-    <div className='w-full bg-white px-6 pt-4 pb-2 mb-4 rounded border grid sm:grid-cols-1 lg:grid-cols-3 gap-2'>
+    <div className='w-full bg-white px-6 pt-4 pb-2 mb-4 rounded border grid sm:grid-cols-1 lg:grid-cols-3 gap-2 shadow-md'>
       <InputElement
         type='number'
         // name="DOSS.NO"

@@ -1,12 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { PatientInterface } from "../../components/patients/types"
 
+interface PatientStateInterface {
+  isFetching: boolean;
+  patients: PatientInterface[];
+  error: string[];
+}
+
+const initialState: PatientStateInterface = {
+  isFetching: false,
+  patients: [],
+  error: [],
+}
 const patientSlice = createSlice({
   name: "patient",
-  initialState: {
-    isFetching: false,
-    patients: [],
-    error: [],
-  },
+  initialState,
   reducers: {
     statusPatientStart: (state) => {
       state.isFetching = true

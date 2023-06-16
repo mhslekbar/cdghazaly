@@ -34,7 +34,7 @@ export const removeComma = (num: number) => {
 }
 
 export const RegNo = (num: number) => {
-  switch(num.toString().length) {
+  switch(num?.toString().length) {
     case 1: return `000${num}`; 
     case 2: return `00${num}`; 
     case 3: return `0${num}`; 
