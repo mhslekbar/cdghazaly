@@ -9,15 +9,16 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaEdit } from "react-icons
 import { AiFillCheckCircle } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { PatientInterface, ShowPatientsContext } from "./types";
 import { MdRemoveCircle } from "react-icons/md";
 import { switchPathPatient, switchTypePatient } from "./functions";
 import { PatientInfo } from "./PatientInfo";
 import { PatientTypePath } from "../sidebar/types";
+import { UserInterface } from "../users/types";
 
 const DataPatients: React.FC = () => {
-  const { ptType } = useParams();
+  const { ptType, doctorId } = useParams();
   const { patients }: { patients: PatientInterface[] } = useSelector(
     (state: State) => state.patients
   );
@@ -34,6 +35,7 @@ const DataPatients: React.FC = () => {
     setShowFinishPatient,
     showReturnPatient,
     setShowReturnPatient,
+    filterPatient
   } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
 
@@ -69,12 +71,31 @@ const DataPatients: React.FC = () => {
     setShowReturnPatient(!showReturnPatient);
   };
 
+  const navigate = useNavigate()
+
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
       {patients.length > 0 &&
         patients
+          .filter((patient: PatientInterface) => {
+            const regNo = patient.RegNo?.toString().toLowerCase() ?? "";
+            const name = patient.name.toLowerCase() ?? "";
+            const phone = patient.contact.phone.toString() ?? "";
+            const whatsApp = patient.contact.whatsApp.toString() ?? "";
+            switch(filterPatient.type) {
+              case "RegNo":
+                return regNo.startsWith(filterPatient.value.toLowerCase())
+              case "name":
+                return name.includes(filterPatient.value.toLowerCase())
+              case "phone":
+                return phone.startsWith(filterPatient.value.toLowerCase()) || whatsApp.startsWith(filterPatient.value.toLowerCase())
+              default:
+                return patient
+            }
+          })
           .filter(
             (patient: PatientInterface) =>
+              patient.doctor.find((dc: UserInterface) => dc._id === doctorId) &&
               switchPathPatient(ptType, patient) &&
               switchTypePatient(selectedFilter, patient)
           )
@@ -82,6 +103,7 @@ const DataPatients: React.FC = () => {
             <section
               className="bg-white border rounded shadow px-4 py-2 hover:bg-main Data-Patient"
               key={patient._id}
+              onClick={() => navigate(`/patient/${doctorId}/${patient._id}/manage`)}
             >
               {patient.RegNo && (
                 <PatientInfo

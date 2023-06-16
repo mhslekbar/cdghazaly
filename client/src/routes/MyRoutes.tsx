@@ -17,6 +17,7 @@ import Assurances from '../pages/Assurances';
 import ShowTreatAssurance from '../components/assurances/treatments/ShowTreatAssurance';
 import ShowPatientsAssurance from '../components/assurances/patients/ShowPatientsAssurance';
 import Patients from '../pages/Patients';
+import ManagePatient from '../components/patients/ManagePatient/ManagePatient';
 
 const MyRoutes:React.FC = () => {
 
@@ -40,9 +41,11 @@ const MyRoutes:React.FC = () => {
           <Route path=":AssId/treatments" element={<ShowTreatAssurance />}/>        
           <Route path=":AssId/patients/:doctorId" element={<ShowPatientsAssurance />}/>        
         </Route>
-        <Route path="/patient/:ptType" element={<Patients />}/>
-        <Route path="/patient/:ptType" element={<Patients />}/>
-        <Route path="/patient/:ptType" element={<Patients />}/>
+        <Route path="/patient/:ptType/:doctorId" element={<Patients />}/>
+        <Route path="/patient/:ptType/:doctorId" element={<Patients />}/>        
+        <Route path="/patient/:ptType/:doctorId" element={<Patients />}/>
+        <Route path="/patient/:doctorId/:patientId/manage" element={<ManagePatient />}/>
+
         <Route path="/login" element={<Login />}/>
         <Route path="*" element={<NotFound />}/>
       </Route>

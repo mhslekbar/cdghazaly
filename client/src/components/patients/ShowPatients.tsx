@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import DataPatients from "./DataPatients";
 import TypeFilterPatients from "./TypeFilterPatients";
 import {
+  DefaultFilterPatientType,
   DefaultPatientInterface,
   PatientInterface,
   ShowPatientsContext,
+  filterPatientType,
 } from "./types";
 import SuccessMsg from "../../Messages/SuccessMsg";
 import AddNewPatient from "./controls/AddNewPatient";
@@ -13,6 +15,7 @@ import DeletePatient from "./controls/DeletePatient";
 import PassPatient from "./controls/PassPatient";
 import FinishPatient from "./controls/FinishPatient";
 import ReturnPatient from "./controls/ReturnPatient";
+import SearchPatients from "./SearchPatients";
 
 
 const ShowPatients: React.FC = () => {
@@ -26,6 +29,8 @@ const ShowPatients: React.FC = () => {
   const [showPassPatient, setShowPassPatient] = useState(false);
   const [showFinishPatient, setShowFinishPatient] = useState(false);
   const [showReturnPatient, setShowReturnPatient] = useState(false);
+  
+  const [filterPatient, setFilterPatient] = useState<filterPatientType>(DefaultFilterPatientType);
       
   return (
     <ShowPatientsContext.Provider
@@ -45,7 +50,9 @@ const ShowPatients: React.FC = () => {
         showFinishPatient,
         setShowFinishPatient,
         showReturnPatient, 
-        setShowReturnPatient
+        setShowReturnPatient,
+        filterPatient,
+        setFilterPatient
       }}
     >
       {showSuccecMsg && (
@@ -54,6 +61,7 @@ const ShowPatients: React.FC = () => {
           toggle={() => setShowSuccecMsg(!showSuccecMsg)}
         />
       )}
+      <SearchPatients />
       <TypeFilterPatients />
       <AddNewPatient />
       <DataPatients />

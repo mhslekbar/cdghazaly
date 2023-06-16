@@ -119,14 +119,22 @@ export const DefaultDataInputsPatientInterface: DataInputsPatientInterface = {
   percentage: "",
   setPercentage: () => {},
   selectedDoctor: [DefaultUserInterface], 
-  setSelectedDoctor: () => {}
+  setSelectedDoctor: () => {},
 }
 
 export const DefaultDataInputsPatientContext = createContext(DefaultDataInputsPatientInterface)
 
 // End Add Patient
 
+export type filterPatientType = {
+  type: string,
+  value: string
+}
 
+export const DefaultFilterPatientType: filterPatientType = {
+  type: "",
+  value: ""
+}
 
 export interface ShowPatientsInterface {
   selectedPatient: PatientInterface,
@@ -145,6 +153,8 @@ export interface ShowPatientsInterface {
   setShowFinishPatient: (showFinishPatient: boolean) => void,
   showReturnPatient: boolean,
   setShowReturnPatient: (showReturnPatient: boolean) => void,
+  filterPatient: filterPatientType,
+  setFilterPatient: (filterPatient: filterPatientType) => void
 }
 
 export const DefaultShowPatientsInterface: ShowPatientsInterface = {
@@ -163,7 +173,9 @@ export const DefaultShowPatientsInterface: ShowPatientsInterface = {
   showFinishPatient: false,
   setShowFinishPatient: () => {},
   showReturnPatient: false,
-  setShowReturnPatient: () => {},  
+  setShowReturnPatient: () => {},
+  filterPatient: DefaultFilterPatientType,
+  setFilterPatient: () => {}, 
 }
 
 export const ShowPatientsContext = createContext(DefaultShowPatientsInterface)

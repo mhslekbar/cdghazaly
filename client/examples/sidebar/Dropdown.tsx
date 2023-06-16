@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { InterfaceOfLink } from './OffCanvas';
 import ButtonElement from './ButtonElement';
-import PopOverChooseDoctor from './PopOverChooseDoctor';
-import { useLocation } from 'react-router';
 
 interface DropdownProps {
   linkList: InterfaceOfLink[],
@@ -15,9 +14,8 @@ interface DropdownProps {
 }
 
 const Dropdown:React.FC<DropdownProps> = ({ linkList, name, openDropdown, icon, selectedDropDown, toggleDropDown, pathDropDown }) => {
-  const [popOverIsOpen, setPopOverIsOpen] = useState(false);
-  const [selectedPopOver, setSelectedPopOver] = useState("")
   const location = useLocation()
+
   return (
     <div className="relative inline-block text-left w-full mb-2">
       <ButtonElement name={name} icon={icon} pathDropDown={pathDropDown} toggleDropDown={toggleDropDown} openDropdown={openDropdown} />
@@ -30,20 +28,12 @@ const Dropdown:React.FC<DropdownProps> = ({ linkList, name, openDropdown, icon, 
             aria-labelledby="dropdown-menu-button"
           >
             {linkList.map((link, index) => (
-              <div 
-                className=
-                {`${location.pathname.split("/")[1] === pathDropDown && location.pathname.split("/")[2] === link.path  ? "bg-gray-200" : "bg-transparent"} relative text-start block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900`}
-                key={index}
-                onClick={() => {
-                  setPopOverIsOpen(!popOverIsOpen)
-                  setSelectedPopOver(link.title)
-                }}
-              >
-                {link.title}
-                {popOverIsOpen && selectedPopOver === link.title && 
-                  <PopOverChooseDoctor link={link} pathDropDown={pathDropDown} popOverIsOpen={popOverIsOpen} togglePopover={() => setPopOverIsOpen(!popOverIsOpen)} />
-                }
-              </div>
+                <Link to={`/${pathDropDown}${link.path ? "/"+link.path : ""}`} 
+                  className={`${location.pathname.split("/")[1] === pathDropDown && location.pathname.split("/")[2] === link.path  ? "bg-gray-200" : "bg-transparent"} text-start block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900`}
+                  key={index}
+                >
+                  {link.title}
+                </Link>
             ))}
           </div>
         </div>
