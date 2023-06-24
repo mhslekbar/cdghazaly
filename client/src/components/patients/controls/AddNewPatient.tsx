@@ -36,7 +36,7 @@ const AddNewPatient:React.FC = () => {
   }
 
   const [errors, setErrors] = useState<string[]>([]);
-  const { setShowSuccecMsg } = useContext(ShowPatientsContext)
+  const { setShowSuccessMsg } = useContext(ShowPatientsContext)
   const dispatch: any = useDispatch()
 
   const handleSubmit = async (e: FormEvent) => {
@@ -65,8 +65,8 @@ const AddNewPatient:React.FC = () => {
       const response = await dispatch(AddPatientsApi(data))
       if(response === true) {
         toggle()
-        setShowSuccecMsg(true)
-        setTimeout(() => setShowSuccecMsg(false), Timeout)
+        setShowSuccessMsg(true)
+        setTimeout(() => setShowSuccessMsg(false), Timeout)
         setName("")
         setPhone("")
         setWhatsApp("+222")

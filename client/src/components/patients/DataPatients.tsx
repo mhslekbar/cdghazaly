@@ -103,8 +103,10 @@ const DataPatients: React.FC = () => {
             <section
               className="bg-white border rounded shadow px-4 py-2 hover:bg-main Data-Patient"
               key={patient._id}
-              onClick={() => navigate(`/patient/${doctorId}/${patient._id}/manage`)}
             >
+              <div 
+                onClick={() => navigate(`/patient/${doctorId}/${patient._id}/Manage/devis`)}
+              >
               {patient.RegNo && (
                 <PatientInfo
                   icon={<BsFillPersonFill />}
@@ -138,6 +140,7 @@ const DataPatients: React.FC = () => {
                   value={patient.balance.toString()}
                 />
               )}
+              </div>
               <div className="flex justify-center">
                 <FaEdit
                   className="text-blue"

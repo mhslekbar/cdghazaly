@@ -38,3 +38,32 @@ db.appointments.aggregate([
      Sunday: {$arrayElemAt: ["$slots", 6]}
   }}
 ])
+
+
+
+
+
+    // Filter out the devis models where treatment for all teeth is done and is present in the invoice model
+  //   const filteredDevisModels = devisData.filter((devis) =>
+  //   devis.LineDevis.filter((lineDevis) =>
+  //     invoices.every((invoice) =>
+  //       invoice.LineInvoice.every((invoiceLine) => {
+  //         if (
+  //           invoiceLine.devis.toString() === devis._id.toString() &&
+  //           invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
+  //         ) {
+  //           if (invoiceLine.teeth.nums.length !== lineDevis.teeth.nums.length) {
+  //             return false;
+  //           } else {
+  //             const unmatchedTeethNums = invoiceLine.teeth.nums.filter(
+  //               (num) => !lineDevis.teeth.nums.includes(num)
+  //             );
+  //             return unmatchedTeethNums.length > 0; // Return true if there are unmatched teeth numbers
+  //           }
+  //         } else {
+  //           return true; // Include invoiceLine if it doesn't match the criteria
+  //         }
+  //       })
+  //     )
+  //   )
+  // );

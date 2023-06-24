@@ -8,7 +8,7 @@ const ficheSchema = new mongoose.Schema({
     dateAppointment: { type: Date, default: null },
     acte: { type: String },
     amount: { type: Number },
-    finish: { type: Number },
+    finish: { type: Boolean },
     payment: { type: mongoose.Types.ObjectId, ref: "payment" },
     consumptionLab: { type: mongoose.Types.ObjectId, ref: "laboratory.consumptions" },
     // patientLab: { type: mongoose.Types.ObjectId, ref: "laboratory.patients" },

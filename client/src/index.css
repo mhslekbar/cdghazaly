@@ -21,6 +21,9 @@
   .Data-Patient:hover .text-main {
     color: #FFF;
   }
+  .border-main {
+    border-color: var(--mainColor);
+  }
   .text-main {
     color: var(--mainColor);
   }
@@ -71,6 +74,9 @@
     background-color: var(--redColor);
     color: #FFF;
     border: var(--redColor);
+  }
+  .text-white {
+    color: #FFF !important;
   }
 
 }

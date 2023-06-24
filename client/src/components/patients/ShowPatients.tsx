@@ -23,7 +23,8 @@ const ShowPatients: React.FC = () => {
   const [selectedPatient, setSelectedPatient] = useState<PatientInterface>(
     DefaultPatientInterface
   );
-  const [showSuccecMsg, setShowSuccecMsg] = useState(false);
+  
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [showEditPatient, setShowEditPatient] = useState(false);
   const [showDeletePatient, setShowDeletePatient] = useState(false);
   const [showPassPatient, setShowPassPatient] = useState(false);
@@ -37,8 +38,7 @@ const ShowPatients: React.FC = () => {
       value={{
         selectedFilter,
         setSelectedFilter,
-        showSuccecMsg,
-        setShowSuccecMsg,
+        showSuccessMsg, setShowSuccessMsg,
         showEditPatient,
         setShowEditPatient,
         showDeletePatient,
@@ -55,10 +55,10 @@ const ShowPatients: React.FC = () => {
         setFilterPatient
       }}
     >
-      {showSuccecMsg && (
+      {showSuccessMsg && (
         <SuccessMsg
-          modal={showSuccecMsg}
-          toggle={() => setShowSuccecMsg(!showSuccecMsg)}
+          modal={showSuccessMsg}
+          toggle={() => setShowSuccessMsg(!showSuccessMsg)}
         />
       )}
       <SearchPatients />

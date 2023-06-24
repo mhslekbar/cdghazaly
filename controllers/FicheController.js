@@ -1,5 +1,6 @@
 const FicheModel = require("../models/FicheModel");
 const PaymentModel = require("../models/PaymentModel");
+const PatientModel = require("../models/PatientModel");
 const InvoiceModel = require("../models/InvoiceModel");
 const TreatmentModel = require("../models/TreatmentModel");
 const LaboratoryModel = require("../models/LaboratoryModel");
@@ -7,13 +8,22 @@ const LaboratoryModel = require("../models/LaboratoryModel");
 const getFiches = async (request, response) => {
   try {
     const { patient } = request.params;
-    const fiches = await FicheModel.find({ patient }).sort({ createdAt: -1 });
+    const fiches = await FicheModel
+      .find({ patient })
+        .populate("patient")
+        .populate("LineFiche.doctor")
+        .populate("LineFiche.payment")
+        .populate("LineFiche.appointment")
+      .sort({ createdAt: -1 })
+        
     response.status(200).json({ success: fiches });
   } catch (err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message });
   }
 };
 
+// Just a function not a middleware
 const createNewFiche = async (patient) => {
   const ficheData = await FicheModel.findOne({ patient }).sort({
     numFiche: -1,
@@ -77,8 +87,11 @@ const updateLineFiche = async (request, response) => {
       appointment, // id of appointment
     } = request.body;
     const amount = price * Number(teeth.nums.length);
-
-    const laboratoryInfo = await LaboratoryModel.findOne({ _id: laboratory });
+    
+    let laboratoryInfo
+    if(laboratory.length === 0) {
+      laboratoryInfo = await LaboratoryModel.findOne({ _id: laboratory });
+    }
     const ficheInfo = await FicheModel.findOne({ _id: ficheId, patient });
 
     const indexLineFiche = ficheInfo.LineFiche.findIndex((lf) =>
@@ -95,6 +108,13 @@ const updateLineFiche = async (request, response) => {
       amount,
       type: "soins",
     });
+
+    const patientInfo = await PatientModel.findOne({ _id: patient })
+    const prevBalancePatient = patientInfo?.balance || 0
+    const newBalancePatient = +prevBalancePatient - +amount
+    patientInfo.balance = newBalancePatient
+    await patientInfo.save()
+
 
     // start Add treatment in conso lab if prothese
     const treatmentInfo = await TreatmentModel.findOne({ _id: treatment });
@@ -148,7 +168,7 @@ const updateLineFiche = async (request, response) => {
     
     const latestInvoice = await InvoiceModel.findOne({
       patient,
-      finish: 0,
+      finish: false,
     }).sort({
       createdAt: -1,
     });
@@ -180,13 +200,14 @@ const updateLineFiche = async (request, response) => {
     // START Fiche
 
     Object.assign(ficheInfo.LineFiche[indexLineFiche], {
+      appointment,
       doctor,
       acte,
       amount,
       payment: newPayment,
       lineInvoice: newLineInvoice,
       consumptionLab,
-      finish: 1,
+      finish: true,
     });
     await ficheInfo.save();
     // END Fiche
@@ -217,7 +238,7 @@ const deleteLineFiche = async (request, response) => {
       lineInvoice: undefined,
       consumptionLab: undefined,
       appointment: undefined,
-      finish: 0,
+      finish: false,
     })
 
     await ficheInfo.save();
@@ -248,36 +269,51 @@ var clearDataPrevLineFiche = async (patient, ficheId, lineFicheId) => {
   // start to delete previous info from line Fiche
   const prevPayment = ficheInfo.LineFiche[indexLineFiche]?.payment;
   if (prevPayment) {
+    const Amount = ficheInfo.LineFiche[indexLineFiche].amount
+    const patientInfo = await PatientModel.findOne({ patient })
+    const prevBalancePatient = patientInfo?.balance || 0
+    const newBalancePatient = +prevBalancePatient + +Amount
+    patientInfo.balance = newBalancePatient
+    await patientInfo.save()
     await PaymentModel.deleteOne({ _id: prevPayment });
   }
 
   const prevInvoice = ficheInfo.LineFiche[indexLineFiche]?.lineInvoice;
 
   let lineInvoiceData;
+  console.log("prevInvoice: ", prevInvoice)
   if (prevInvoice) {
     const invoiceData = await InvoiceModel.findOne({
       "LineInvoice._id": prevInvoice,
     });
-    lineInvoiceData = invoiceData.LineInvoice.find((ln) =>
-      ln._id.equals(prevInvoice)
-    );
-    invoiceData.LineInvoice = invoiceData.LineInvoice.filter(
-      (ln) => !ln._id.equals(prevInvoice)
-    );
-    await invoiceData.save();
+
+    if(invoiceData) {
+      lineInvoiceData = invoiceData.LineInvoice.find((ln) =>
+        ln._id.equals(prevInvoice)
+      );
+      invoiceData.LineInvoice = invoiceData.LineInvoice.filter(
+        (ln) => !ln._id.equals(prevInvoice)
+      );      
+      await invoiceData.save();
+    }
+
   }
+  // await InvoiceModel.updateMany({ _id: prevInvoice, "LineInvoice": invoiceData.LineInvoice }, { $set: invoiceData }, { new: true });
+  // await InvoiceModel.updateMany({ _id: prevInvoice }, { $set: { "LineInvoice": invoiceData.LineInvoice } }, { new: true });
+
 
   // Start Patient Labo
 
   const prevConsumptionLab =
     ficheInfo.LineFiche[indexLineFiche]?.consumptionLab;
-  const laboratoryInfo = await LaboratoryModel.findOne({
-    "consumptions._id": prevConsumptionLab,
-  });
 
   // const prevPatientLab = ficheInfo.LineFiche[indexLineFiche]?.patientLab
 
   if (prevConsumptionLab) {
+    const laboratoryInfo = await LaboratoryModel.findOne({
+      "consumptions._id": prevConsumptionLab,
+    });
+
     const { treatment, teeth, doctor } = lineInvoiceData;
     const labTreatInfo = laboratoryInfo.treatments.find((treat) =>
       treat.treatment.equals(treatment)

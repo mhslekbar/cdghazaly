@@ -3,6 +3,8 @@ const PaymentModel = require("../models/PaymentModel");
 const AssuranceModel = require("../models/AssuranceModel");
 const SettingModel = require("../models/SettingModel");
 const FicheModel = require("../models/FicheModel");
+const InvoiceModel = require("../models/InvoiceModel");
+const DevisModel = require("../models/DevisModel");
 
 const getPatients = async (request, response) => {
   try {
@@ -50,6 +52,8 @@ const createPatient = async (request, response) => {
       dob.setFullYear(yearOfBirth);
     }
 
+    let invoiceAssur = null
+
     if (assure) {
       if (assurance.society.length === 0) {
         formErrors.push("Choisir societe d'assurance.");
@@ -60,6 +64,7 @@ const createPatient = async (request, response) => {
       if (supported.length === 0) {
         formErrors.push("Donner la prise en charge.");
       }
+
       if (
         assurance.percentCovered.length === 0 ||
         assurance.percentCovered === 0
@@ -71,7 +76,12 @@ const createPatient = async (request, response) => {
         });
         cons_price = societyInfo.cons_price;
         supported = supported + "/" + new Date().getUTCFullYear();
+
+        // Start keep invoice assurance
+        const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)  
+        invoiceAssur = invoiceAssurance._id
       }
+
     } else {
       assurance = {};
       supported = null;
@@ -93,13 +103,12 @@ const createPatient = async (request, response) => {
     if (formErrors.length === 0) {
       let newPatient;
       newPatient = await PatientModel.create({ doctor: doctor, name, contact, HealthCondition, address, dob, assurance, social, date_archive });
-      await PaymentModel.create({ user, doctor, patient: newPatient._id, amount: cons_price, type: "consultation", method, supported });
+      await PaymentModel.create({ user, doctor, patient: newPatient._id, amount: cons_price, type: "consultations", method, supported, invoiceAssur });
       await getPatients(request, response);
     } else {
       response.status(300).json({ formErrors });
     }
   } catch (err) {
-    console.log("err: ", err);
     response.status(500).json({ err: err.message });
   }
 };
@@ -112,7 +121,8 @@ const updatePatient = async (request, response) => {
     } = request.body;
 
     const patientInfo = await PatientModel.findOne({ _id: id });
-    const paymentInfo = await PaymentModel.findOne({ patient: id, type: "consultation" });
+    const paymentInfo = await PaymentModel.findOne({ patient: id, type: "consultations" });
+
     let cons_price = paymentInfo.amount;
 
     const formErrors = [];
@@ -201,6 +211,9 @@ const deletePatient = async (request, response) => {
     await PatientModel.deleteOne({ _id: id });
     await PaymentModel.deleteMany({ patient: id });
     await FicheModel.deleteMany({ patient: id });
+    await FicheModel.deleteMany({ patient: id });
+    await InvoiceModel.deleteMany({ patient: id })
+    await DevisModel.deleteMany({ patient: id })
     await getPatients(request, response);
   } catch (err) {
     response.status(500).json({ err: err.message });
@@ -254,13 +267,22 @@ const returnPatient = async (request, response) => {
     const patientData = await PatientModel.findOne({ _id: patient })
     const { assurance, social  } = patientData
     let amount
+
+    let invoiceAssur = null
+
     if(assurance.society) {
       const societyInfo = await AssuranceModel.findOne({
         _id: assurance.society,
       });
       amount = societyInfo.cons_price;
+
+      const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)    
+      invoiceAssur = invoiceAssurance._id
+
       if(supported.length === 0) {
         formErrors.push("Donner la prise en charge")
+      } else {
+        supported = supported + "/" + new Date().getUTCFullYear();
       }
     } else if(social) {
       amount = 0
@@ -276,7 +298,7 @@ const returnPatient = async (request, response) => {
     }
     if(formErrors.length === 0) {
       await PatientModel.updateOne({ _id: patient }, { finish: false }, { new: true });
-      await PaymentModel.create({ user, doctor, patient, type: "consultation", amount, method, supported })
+      await PaymentModel.create({ user, doctor, patient, type: "consultations", amount, method, supported, invoiceAssur })
       await getPatients(request, response);
     } else {
       response.status(300).json({ formErrors })

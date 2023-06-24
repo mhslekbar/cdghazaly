@@ -1,0 +1,281 @@
+.mouth {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 300px;
+  height: 480px;
+  margin-left: 30px;
+  background-color: #f78fb3;
+  /* #ef5777 */
+  /* #f78fb3 */
+}
+
+.tooth {
+  border-radius: 50%;
+  background-color: #FFF;
+  color: #f78fb3;
+  padding: 4px;
+  z-index: 999;
+}
+
+/* START Tooth Left UP */
+
+#tooth-21 {
+  position: absolute;
+  top: 6px;
+  right: 116px;
+}
+#tooth-22 {
+  position: absolute;
+  top: 20px;
+  right: 88px;
+}
+#tooth-23 {
+  position: absolute;
+  top: 42px;
+  right: 62px;
+}
+#tooth-24 {
+  position: absolute;
+  top: 70px;
+  right: 38px;
+}
+#tooth-25 {
+  position: absolute;
+  top: 102px;
+  right: 22px;
+}
+#tooth-26 {
+  position: absolute;
+  top: 134px;
+  right: 13px;
+}
+#tooth-27 {
+  position: absolute;
+  top: 168px;
+  right: 8px;
+}
+#tooth-28 {
+  position: absolute;
+  top: 202px;
+  right: 4px;
+}
+/* END Tooth Left UP */
+
+/* START Tooth Right UP */
+#tooth-11 {
+  position: absolute;
+  top: 6px;
+  left: 116px;
+}
+#tooth-12 {
+  position: absolute;
+  top: 20px;
+  left: 88px;
+}
+#tooth-13 {
+  position: absolute;
+  top: 42px;
+  left: 62px;
+}
+#tooth-14 {
+  position: absolute;
+  top: 70px;
+  left: 41px;
+}
+#tooth-15 {
+  position: absolute;
+  top: 102px;
+  left: 26px;
+}
+#tooth-16 {
+  position: absolute;
+  top: 134px;
+  left: 15px;
+}
+#tooth-17 {
+  position: absolute;
+  top: 168px;
+  left: 7px;
+}
+#tooth-18 {
+  position: absolute;
+  top: 202px;
+  left: 4px;
+}
+
+/* END Tooth Right UP */
+
+/* START Tooth Right DOWN */
+#tooth-31 {
+  position: absolute;
+  bottom: 6px;
+  left: 116px;
+}
+#tooth-32 {
+  position: absolute;
+  bottom: 20px;
+  left: 88px;
+}
+#tooth-33 {
+  position: absolute;
+  bottom: 42px;
+  left: 62px;
+}
+#tooth-34 {
+  position: absolute;
+  bottom: 70px;
+  left: 40px;
+}
+#tooth-35 {
+  position: absolute;
+  bottom: 102px;
+  left: 24px;
+}
+#tooth-36 {
+  position: absolute;
+  bottom: 134px;
+  left: 15px;
+}
+#tooth-37 {
+  position: absolute;
+  bottom: 168px;
+  left: 8px;
+}
+#tooth-38 {
+  position: absolute;
+  bottom: 202px;
+  left: 4px;
+}
+
+/* END Tooth Right DOWN */
+
+
+/* START Tooth Right DOWN */
+#tooth-41 {
+  position: absolute;
+  bottom: 6px;
+  right: 116px;
+}
+#tooth-42 {
+  position: absolute;
+  bottom: 20px;
+  right: 88px;
+}
+#tooth-43 {
+  position: absolute;
+  bottom: 42px;
+  right: 62px;
+}
+#tooth-44 {
+  position: absolute;
+  bottom: 70px;
+  right: 40px;
+}
+#tooth-45 {
+  position: absolute;
+  bottom: 102px;
+  right: 24px;
+}
+#tooth-46 {
+  position: absolute;
+  bottom: 134px;
+  right: 15px;
+}
+#tooth-47 {
+  position: absolute;
+  bottom: 168px;
+  right: 8px;
+}
+#tooth-48 {
+  position: absolute;
+  bottom: 202px;
+  right: 4px;
+}
+
+/* END Tooth Right DOWN */
+
+.horizontal-line { 
+  position: absolute;
+  width: 1px;
+  background: #000;
+  height: inherit;
+  top: 0;
+  right: 148px;
+  z-index: 999;
+}
+
+.vertical-line { 
+  position: absolute;
+  width: 100%;
+  background: #000;
+  height: 1px;
+  top: 238px;
+  right: 0;
+  z-index: 999;
+}
+
+.URQ {
+  width: 109px;
+  height: 193px;
+  border-top-left-radius: 116%;
+  position: absolute;
+  top: 45px;
+  left: 40px;
+  background-color: #FFF;
+}
+
+.ULQ {
+  width: 108px;
+  height: 193px;
+  border-top-right-radius: 116%;
+  position: absolute;
+  top: 45px;
+  right: 40px;
+  background-color: #FFF;
+}
+.LLQ {
+  width: 110px;
+  height: 193px;
+  border-bottom-left-radius: 116%;
+  position: absolute;
+  top: 239px;
+  left: 40px;
+  background-color: #FFF;
+}
+.LRQ {
+  width: 110px;
+  height: 193px;
+  border-bottom-right-radius: 116%;
+  position: absolute;
+  top: 239px;
+  right: 40px;
+  background-color: #FFF;
+}
+
+
+.L {
+  width: 110px;
+  height: 110px;
+  position: absolute;
+  top: 270px;
+  right: 92px;
+  background-color: #FFF;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border: #000 1px solid;
+  z-index: 9999;
+}
+
+.U {
+  width: 110px;
+  height: 110px;
+  position: absolute;
+  top: 100px;
+  right: 92px;
+  background-color: #FFF;
+  border-top-left-radius: 70%;
+  border-top-right-radius: 70%;
+  border: #000 1px solid;
+  z-index: 9999;
+}

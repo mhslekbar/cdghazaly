@@ -17,7 +17,7 @@ const FinishPatient:React.FC<FinishPatientType> = ({
   toggle,
 }) => {
   const [errors, setErrors] = useState<string[]>([]);
-  const { setShowSuccecMsg } = useContext(ShowPatientsContext);
+  const { setShowSuccessMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
   
   const handleSubmit = async (e: FormEvent) => {
@@ -26,8 +26,8 @@ const FinishPatient:React.FC<FinishPatientType> = ({
       const response = await dispatch(FinishPatientsApi(patientData._id));
       if (response === true) {
         toggle();
-        setShowSuccecMsg(true);
-        setTimeout(() => setShowSuccecMsg(false), Timeout);
+        setShowSuccessMsg(true);
+        setTimeout(() => setShowSuccessMsg(false), Timeout);
       } else {
         setErrors(response);
       }

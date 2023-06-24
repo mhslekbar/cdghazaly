@@ -21,7 +21,7 @@ const PassPatient:React.FC<PassPatientType> = ({
   toggle,
 }) => {
   const [errors, setErrors] = useState<string[]>([]);
-  const { setShowSuccecMsg } = useContext(ShowPatientsContext);
+  const { setShowSuccessMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
   const { users } = useSelector((state: State) => state.users)
   
@@ -43,8 +43,8 @@ const PassPatient:React.FC<PassPatientType> = ({
       const response = await dispatch(PassPatientsApi(patientData._id, doctor));
       if (response === true) {
         toggle();
-        setShowSuccecMsg(true);
-        setTimeout(() => setShowSuccecMsg(false), Timeout);
+        setShowSuccessMsg(true);
+        setTimeout(() => setShowSuccessMsg(false), Timeout);
       } else {
         setErrors(response);
       }

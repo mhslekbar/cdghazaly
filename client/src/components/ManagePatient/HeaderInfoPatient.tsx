@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { DefaultPatientInterface, PatientInterface } from '../types'
+import { DefaultPatientInterface, PatientInterface } from '../patients/types'
 import { useNavigate, useParams } from 'react-router'
 import { useSelector } from 'react-redux'
-import { State } from '../../../redux/store'
-import { RegNo } from '../../../functions/functions'
+import { State } from '../../redux/store'
+import { RegNo } from '../../functions/functions'
 import { FaChevronCircleLeft } from "react-icons/fa"
+import ControlButtons from './ControlButtons/Buttons'
 
 const HeaderInfoPatient:React.FC = () => {
   const { patientId } = useParams()
@@ -16,7 +17,6 @@ const HeaderInfoPatient:React.FC = () => {
   }, [patients, patientId])
   
   const navigate = useNavigate();
-
   return (
     <>
     <header className='flex justify-between mb-2'>
@@ -29,16 +29,23 @@ const HeaderInfoPatient:React.FC = () => {
       />
       <p className='bg-main px-4 py-2 rounded shadow w-fit'>balance: {patientData.balance}</p>
     </header>
-    <section className='w-full bg-white px-6 py-6 mb-4 rounded border grid sm:grid-cols-1 lg:grid-cols-3 gap-2 shadow-lg'>
-      <div className='border-r border-r-2'>
+    
+    {/* START ControlButtons */}
+
+    <ControlButtons />
+
+    {/* END ControlButtons */}
+
+    <section className='w-full bg-white mb-4 rounded border grid sm:grid-cols-1 lg:grid-cols-3 gap-2 shadow-lg'>
+      <div className='border-r border-r-2 px-6 py-6 '>
         <p>DOSS.NO: <b>{RegNo(patientData.RegNo)}</b></p>
         <p>Nom: <b>{patientData.name}</b></p>
       </div>
-      <div className='border-r border-r-2'>
-        <p>Age: <b>{new Date().getFullYear() - new Date(patientData.dob).getFullYear()}</b></p>
+      <div className='border-r border-r-2 px-6 py-6 '>
+        <p>Age: <b>{new Date().getFullYear() - (patientData.dob ? new Date(patientData.dob).getFullYear() : 0)}</b></p>
         <p>Etat de santé: <b>{patientData.HealthCondition}</b></p>
       </div>
-      <div>
+      <div className='px-6 py-6 '>
         <p>Telephone: <b>{patientData.contact.phone}</b></p>
         <p>WhatsApp: <b>{patientData.contact.whatsApp}</b></p>
       </div>

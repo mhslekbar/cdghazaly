@@ -35,7 +35,7 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
   const [selectedDoctor, setSelectedDoctor] = useState<UserInterface[]>(patientData.doctor)
 
   const [errors, setErrors] = useState<string[]>([]);
-  const { setShowSuccecMsg } = useContext(ShowPatientsContext)
+  const { setShowSuccessMsg } = useContext(ShowPatientsContext)
   const dispatch: any = useDispatch()
 
 
@@ -76,8 +76,8 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
       const response = await dispatch(EditPatientsApi(patientData._id, data))
       if(response === true) {
         toggle()
-        setShowSuccecMsg(true)
-        setTimeout(() => setShowSuccecMsg(false), Timeout)
+        setShowSuccessMsg(true)
+        setTimeout(() => setShowSuccessMsg(false), Timeout)
         setName("")
         setPhone("")
         setWhatsApp("+222")

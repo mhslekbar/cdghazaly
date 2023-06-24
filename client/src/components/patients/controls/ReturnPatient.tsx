@@ -24,7 +24,7 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
   toggle,
 }) => {
   const [errors, setErrors] = useState<string[]>([]);
-  const { setShowSuccecMsg } = useContext(ShowPatientsContext);
+  const { setShowSuccessMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
   const { users } = useSelector((state: State) => state.users)
   const [ArrayOfDoctors, setArrayOfDoctors] = useState<UserInterface[]>([DefaultUserInterface])
@@ -56,8 +56,8 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
       const response = await dispatch(ReturnPatientsApi({ user: UserData()._id, patient: patientData._id, doctor, method, supported }));
       if (response === true) {
         toggle();
-        setShowSuccecMsg(true);
-        setTimeout(() => setShowSuccecMsg(false), Timeout);
+        setShowSuccessMsg(true);
+        setTimeout(() => setShowSuccessMsg(false), Timeout);
       } else {
         setErrors(response);
       }

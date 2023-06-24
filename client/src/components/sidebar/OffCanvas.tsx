@@ -17,7 +17,7 @@ const Offcanvas: React.FC<OffCanvasInterface> = ({ isOpen, onClose }) => {
     ? "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
     : "hidden";
   const offcanvasClasses = isOpen
-    ? "fixed inset-y-0 left-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto transition-transform transform ease-in-out duration-300 translate-x-0"
+    ? "fixed inset-y-0 left-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto transition-transform transform ease-in-out duration-300 translate-x-0 z-10"
     : "hidden";
 
 

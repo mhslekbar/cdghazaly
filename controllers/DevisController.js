@@ -4,7 +4,13 @@ const InvoiceModel = require("../models/InvoiceModel");
 const getDevis = async (request, response) => {
   try {
     const { patient } = request.params
-    const devis = await DevisModel.find({ patient }).sort({ createdAt: -1 })
+    const devis = await DevisModel
+      .find({ patient })
+      .populate("patient")
+      .populate("user")
+      .populate("LineDevis.treatment")
+      .populate("LineDevis.doctor")
+      .sort({ createdAt: -1 })
     response.status(200).json({ success: devis })
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -15,11 +21,19 @@ const createDevis = async (request, response) => {
   try {
     const { patient } = request.params
     const { user, reduce, LineDevis } = request.body
-    const latestDevis = await DevisModel.findOne({ patient }).sort({ createAt: -1 })
+    const latestDevis = await DevisModel.findOne({ patient: patient }).sort({ numDevis: -1 })
     let numDevis = latestDevis?.numDevis || 0
     numDevis++
-    await DevisModel.create({ user, patient, numDevis, reduce, LineDevis })
-    await getDevis(request, response)
+    const formErrors = [] 
+    if(Number(reduce) > 100 || Number(reduce) < 0) {
+      formErrors.push("Donner une reduction valide") 
+    }
+    if(formErrors.length === 0) {
+      await DevisModel.create({ user, patient, numDevis, reduce, LineDevis })
+      await getDevis(request, response)
+    } else {
+      response.status(300).json({ formErrors })
+    }
   } catch(err) {
     response.status(500).json({ err: err.message })
   }
@@ -28,11 +42,44 @@ const createDevis = async (request, response) => {
 const appendToDevis = async (request, response) => {
   try {
     const { id } = request.params
+    const { doctor, treatment, price, teeth } = request.body
     const devisData = await DevisModel.findOne({ _id: id })
-    devisData.LineDevis.push(request.body)
+    devisData.LineDevis.push({doctor: doctor._id, treatment: treatment._id, price, teeth})
     await devisData.save()
     await getDevis(request, response)
   } catch(err) {
+    response.status(500).json({ err: err.message })
+  }
+} 
+
+const editLineDevis = async (request, response) => {
+  try {
+    const { devisId, lineId } = request.params
+    const { doctor, treatment, price, teeth } = request.body
+    const devisData = await DevisModel.findOne({ _id: devisId })
+    const findIndex = devisData.LineDevis.findIndex(line => line._id.equals(lineId))
+    if(findIndex > -1) {
+      Object.assign(devisData.LineDevis[findIndex], {
+        doctor: doctor._id,
+        treatment: treatment._id,
+        price: price,
+        teeth: teeth
+      })
+    }
+    const formErrors = [] 
+    if(Number(reduce) > 100 || Number(reduce) < 0) {
+      formErrors.push("Donner une reduction valide") 
+    }
+    
+    if(formErrors.length === 0) {
+      await devisData.save()
+      await getDevis(request, response)
+    } else {
+      response.status(300).json({ formErrors })
+    }
+
+  } catch(err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message })
   }
 } 
@@ -50,7 +97,7 @@ const updateDevis = async (request, response) => {
 
 const deleteLineDevis = async (request, response) => {
   try {
-    const { id, lineDevisId } = request.params
+    const { devisId, lineDevisId } = request.params
     // Check if treatment is inside invoice
     const checkInvoice = await InvoiceModel.findOne({ "LineFacture.devis": lineDevisId })
     const formErrors = []
@@ -58,8 +105,8 @@ const deleteLineDevis = async (request, response) => {
       formErrors.push("Le treatment a ete fait vous ne pouvez plus le supprimer.")
     }
     if(formErrors.length === 0) {
-      const devisInfo = await DevisModel.findOne({ _id: id })
-      devisInfo.LineDevis = devisInfo.LineDevis.filter(ln => ln._id !== lineDevisId)
+      const devisInfo = await DevisModel.findOne({ _id: devisId })
+      devisInfo.LineDevis = devisInfo.LineDevis.filter(ln => !ln._id.equals(lineDevisId))
       await devisInfo.save()
       await getDevis(request, response)
     } else {
@@ -80,5 +127,5 @@ const deleteDevis = async (request, response) => {
   }
 } 
 
-module.exports = { getDevis, createDevis, appendToDevis, updateDevis, deleteDevis, deleteLineDevis }
+module.exports = { getDevis, createDevis, appendToDevis, updateDevis, editLineDevis, deleteDevis, deleteLineDevis }
 

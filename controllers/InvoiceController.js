@@ -1,11 +1,82 @@
 const InvoiceModel = require("../models/InvoiceModel");
+const DevisModel = require("../models/DevisModel");
 
 const getInvoices = async (request, response) => {
   try {
     const { patient } = request.params
-    const invoices = await InvoiceModel.find({ patient }).sort({ createdAt: -1 })
+    const invoices = await InvoiceModel
+    .find({ patient })
+      .populate("patient")
+      .populate("LineInvoice.doctor")
+      .populate("LineInvoice.treatment")
+      .populate("LineInvoice.devis")
+    .sort({ createdAt: -1 })
     response.status(200).json({ success: invoices })
   } catch(err) {
+    response.status(500).json({ err: err.message })
+  }
+}
+
+const getAllDevis = async (request, response) => {
+  try {
+    const { patient } = request.params
+
+    // Find all invoices for the patient
+    const invoices = await InvoiceModel.find({ patient });
+    const devisData = await DevisModel.find({
+      patient
+    })
+      .populate("patient")
+      .populate("LineDevis.doctor")
+      .populate("LineDevis.treatment")
+      .sort({ numDevis : 1 })
+  
+      const filteredDevisModels = devisData.flatMap((devis) => {
+        const remainingLines = [];
+      
+        devis.LineDevis.forEach((lineDevis) => {
+          const matchingInvoice = invoices.find((invoice) =>
+            invoice.LineInvoice.some(
+              (invoiceLine) =>
+                invoiceLine.devis.toString() === devis._id.toString() &&
+                invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
+            )
+          );
+      
+          if (matchingInvoice) {
+            const matchingLine = matchingInvoice.LineInvoice.find(
+              (invoiceLine) =>
+                invoiceLine.devis.toString() === devis._id.toString() &&
+                invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
+            );
+      
+            if (matchingLine) {
+              if (!(matchingLine.teeth && matchingLine.teeth.nums && matchingLine.teeth.nums.length === lineDevis.teeth.nums.length)) {
+                // Only some teeth of this treatment are finished
+                remainingLines.push(Object.assign(lineDevis,{
+                  teeth: {
+                    ...lineDevis.teeth,
+                    nums: lineDevis.teeth.nums.filter(
+                      (num) => matchingLine.teeth && matchingLine.teeth.nums && !matchingLine.teeth.nums.includes(num)
+                    ),
+                    price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price
+                  },
+                }))
+              } 
+            } else {
+              // Treatment does not exist in the invoice
+              remainingLines.push(Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price }));
+            }
+          } else {
+            // Treatment does not exist in the invoice
+            remainingLines.push(Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price }));
+          }
+        });
+        return [Object.assign(devis, {LineDevis: [...remainingLines]})];
+      });      
+    response.status(200).json({ success: filteredDevisModels })
+  } catch(err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message })
   }
 }
@@ -20,6 +91,10 @@ const createInvoice = async (request, response) => {
     }
     if(formErrors.length === 0) {
       let numInvoice = latestInvoice?.numInvoice || 0
+      if(latestInvoice?.numInvoice) {
+        latestInvoice.finish = true
+        await latestInvoice.save()
+      }
       numInvoice++
       await InvoiceModel.create({ patient, numInvoice, LineInvoice: [] })
       await getInvoices(request, response)
@@ -50,4 +125,4 @@ const deleteInvoice = async (request, response) => {
   }
 }
 
-module.exports = { getInvoices, createInvoice, deleteInvoice }
+module.exports = { getInvoices, getAllDevis, createInvoice, deleteInvoice }

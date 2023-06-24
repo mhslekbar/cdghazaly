@@ -1,27 +1,49 @@
-import React, { useState } from "react";
-import { SingleRoleByPermissionType } from "../types";
-import InputPermission from "./InputPermission";
+import React, { useState } from 'react'
+import HeaderInfoPatient from './HeaderInfoPatient'
+import LinksPatient from './LinksPatient'
+import { ManagePatientContext } from './types'
 
-interface ListPermissionInterface {
-  role: SingleRoleByPermissionType;
+const ManagePatient:React.FC = () => {
+  const [selectedLink, setSelectedLink] = useState("")
+  return (
+    <ManagePatientContext.Provider value={{
+      selectedLink, setSelectedLink
+    }}>
+      <HeaderInfoPatient />
+      <LinksPatient />
+    </ManagePatientContext.Provider>
+  )
 }
 
-const ListPermission: React.FC<ListPermissionInterface> = ({ role }) => {
-  // const [permission, setpermission] = useState<string>(role._id);
+export default ManagePatient
 
-  return (
-    <React.Fragment>
-      {
-        role.data.map((permission: any) => (
-          <div key={permission._id}>
-            <InputPermission permission={permission}/>
-            <label htmlFor={`role-permis${permission._id}`}>
-              {permission.name}
-            </label>
-          </div>
-        ))}
-    </React.Fragment>
-  );
-};
 
-export default ListPermission;
+
+
+
+
+
+<tr className="border-b border-[#95a5a6]" key={index}>
+<td className="whitespace-nowrap border-r border-[#95a5a6] bg-white font-medium w-6">
+  {Line.dateAppointment ? 
+    <InputFiche type="date" Line={Line} kind="date" />
+    : 
+    <InputElement value="" setValue={() => {}}/>
+  }
+</td>
+<td className="whitespace-nowrap border-r border-[#95a5a6] bg-white  font-medium">
+{Line.dateAppointment ? 
+    <InputFiche Line={Line} kind="acte" />
+    : 
+    <InputElement value="" setValue={() => {}}/>
+  }
+ </td>
+<td className="whitespace-nowrap border-r border-[#95a5a6] bg-white w-9 font-medium">
+{Line.dateAppointment ? 
+    <InputFiche Line={Line} kind="amount" />
+    : 
+    <InputElement value="" setValue={() => {}}/>
+  }
+ </td>
+<td className="bg-white w-3"></td>
+</tr>

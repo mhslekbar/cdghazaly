@@ -10,3 +10,4 @@ router.put("/:patient/LineFiche/:ficheId", updateLineFiche)
 router.delete("/:patient/:ficheId/LineFiche/:lineFicheId", deleteLineFiche)
 
 module.exports = router
+

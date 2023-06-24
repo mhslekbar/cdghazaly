@@ -4,6 +4,7 @@ import { PatientInterface, ShowPatientsContext } from "../types";
 import { useDispatch } from "react-redux";
 import { Timeout, hideMsg } from "../../../functions/functions";
 import { DeletePatientsApi } from "../../../redux/patients/patientApiCalls";
+import { useLocation, useNavigate } from "react-router";
 
 interface DeletePatientInterface {
   patientData: PatientInterface;
@@ -17,8 +18,10 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
   toggle,
 }) => {
   const [errors, setErrors] = useState<string[]>([]);
-  const { setShowSuccecMsg } = useContext(ShowPatientsContext);
+  const { setShowSuccessMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -26,8 +29,11 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
       const response = await dispatch(DeletePatientsApi(patientData._id));
       if (response === true) {
         toggle();
-        setShowSuccecMsg(true);
-        setTimeout(() => setShowSuccecMsg(false), Timeout);
+        setShowSuccessMsg(true);
+        setTimeout(() => setShowSuccessMsg(false), Timeout);
+        if(location.pathname.split("/")[4] === "Manage") {
+          navigate("/")
+        }
       } else {
         setErrors(response);
       }

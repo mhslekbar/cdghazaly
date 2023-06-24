@@ -12,6 +12,10 @@ import accountLabReducer from "./laboratory/accounts/accountLabSlice";
 import assuranceReducer from "./assurances/assuranceSlice";
 import patientReducer from "./patients/patientSlice";
 import paymentMethodReducer from "./paymentMethods/paymentMethodSlice";
+import devisReducer from "./devis/devisSlice";
+import paymentReducer from "./payments/paymentSlice";
+import ficheReducer from "./fiches/ficheSlice";
+import invoiceReducer from "./invoices/invoiceSlice";
 
 import {
   persistStore,
@@ -44,7 +48,11 @@ const rootReducer = combineReducers({
   accountLab: accountLabReducer,
   assurances: assuranceReducer,
   patients: patientReducer,
-  paymentMethods: paymentMethodReducer
+  paymentMethods: paymentMethodReducer,
+  devis: devisReducer,
+  payments: paymentReducer,
+  fiches: ficheReducer,
+  invoices: invoiceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

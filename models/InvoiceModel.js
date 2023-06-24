@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const invoiceSchema = new mongoose.Schema({
   patient: { type: mongoose.Types.ObjectId, ref: "patient", required: true },
   numInvoice: { type: Number, required: true },
-  finish: { type: Number, default: 0 },
+  finish: { type: Boolean, default: false },
   LineInvoice: [{
     doctor: { type: mongoose.Types.ObjectId, ref: "user", required: true },
     treatment: { type: mongoose.Types.ObjectId, ref: "treatment" },

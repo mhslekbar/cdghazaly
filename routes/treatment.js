@@ -7,6 +7,7 @@ const {
 } = require("../controllers/TreatmentController");
 
 router.get("/", getTreatments)
+router.get("/searchTreat", getTreatments)
 router.post("/", createTreatment)
 router.put("/:id", updateTreatment)
 router.delete("/:id", deleteTreatment)

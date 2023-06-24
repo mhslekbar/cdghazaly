@@ -3,7 +3,7 @@ import { PatientTypePath } from '../sidebar/types'
 import { useParams } from 'react-router'
 import { ShowPatientsContext } from './types'
 
-const TypeFilterPatients = () => {
+const TypeFilterPatients:React.FC = () => {
   const { ptType } = useParams()
   const [TypeFilter, setTypeFilter] = useState<any[]>([]) 
   const { selectedFilter, setSelectedFilter } = useContext(ShowPatientsContext)

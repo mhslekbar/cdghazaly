@@ -5,7 +5,7 @@ const bodyParser = require("body-parser")
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:3032",
   optionsSuccessStatus: 200,
   credentials: true
 };
