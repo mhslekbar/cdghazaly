@@ -42,4 +42,3 @@ export const DefaultTreatmentType = {
   type: "",
   price: ""
 }
-

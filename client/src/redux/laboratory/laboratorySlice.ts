@@ -1,12 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { laboratoryInterface } from "../../components/laboratory/types";
+
+interface LaboratoryState {
+  isFetching: boolean,
+  laboratory: laboratoryInterface[],
+  error: string[],
+}
+
+const DefaultLaboratoryState: LaboratoryState = {
+  isFetching: false,
+  laboratory: [],
+  error: [],
+}
 
 const laboratorySlice = createSlice({
   name: "laboratory",
-  initialState: {
-    isFetching: false,
-    laboratory: [],
-    error: [],
-  },
+  initialState: DefaultLaboratoryState,
   reducers: {
     statusLabStart: (state) => {
       state.isFetching = true

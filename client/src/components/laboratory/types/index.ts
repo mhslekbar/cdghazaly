@@ -7,13 +7,15 @@ export interface laboratoryInterface {
   phone: string,
   accounts?: [],
   treatments?: [],
-  payments?: []
+  payments?: [],
+  consumptions?: [],
+  patients?: []
 }
 
 export const DefaultLaboratoryInterface  = {
   _id: "",
   name: "",
-  phone: ""
+  phone: "",
 }
 
 export interface DataLaboratoryInterface {

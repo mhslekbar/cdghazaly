@@ -40,7 +40,7 @@ const laboratorySchema = new mongoose.Schema({
      updatedAt: { type: Date, default: Date.now }
   }],
   // patients laboratory
-  // patients who use laboratory prostheses
+  // patients who use laboratory => treat protheses
   patients: [{
     patient: { type: mongoose.Types.ObjectId, ref: "patient" },
     consumptionLab: { type: mongoose.Types.ObjectId, ref: "laboratory.consumptions" },

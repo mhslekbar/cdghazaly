@@ -11,7 +11,7 @@ const InputsTreatLab = () => {
   const [listTreat, setListTreat] = useState<any[]>(treatments)
 
   useEffect(() => {
-    setListTreat(treatments.map((data: TreatmentType) => ({value: data._id, label: data.name})))
+    setListTreat(treatments.filter((data: TreatmentType) => data.type === "prothese").map((data: TreatmentType) => ({value: data._id, label: data.name})))
   }, [treatments])
 
   const customStyles = {

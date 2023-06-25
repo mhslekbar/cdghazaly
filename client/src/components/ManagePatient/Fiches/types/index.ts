@@ -20,7 +20,7 @@ export interface LineFicheInterface {
   dateAppointment: string,
   acte: string,
   amount: string,
-  finish: boolean,
+  finish: number,
   payment: PaymentInterface,
   consumptionLab: any
   lineInvoice: any,
@@ -35,7 +35,7 @@ export const DefaultLineFicheInterface:LineFicheInterface = {
   dateAppointment: "",
   acte: "",
   amount: "",
-  finish: false,
+  finish: 0,
   payment: DefaultPaymentInterface,
   consumptionLab: DefaultLabConsumptionInterface,
   lineInvoice: DefaultLineInvoiceInterface,
@@ -63,6 +63,8 @@ export interface ShowFichesInterface {
   setSelectedLineFiche: (selectedLineFiche: LineFicheInterface) => void,
   showEditFiche: boolean,
   setShowEditFiche: (showEditFiche: boolean) => void,
+  showDeleteLineFiche: boolean,
+  setShowDeleteLineFiche: (showDeleteLineFiche: boolean) => void,
 }
 
 export const DefaultShowFichesInterface: ShowFichesInterface = {
@@ -76,6 +78,8 @@ export const DefaultShowFichesInterface: ShowFichesInterface = {
   setSelectedLineFiche: () => {},
   showEditFiche: false,
   setShowEditFiche: () => {},
+  showDeleteLineFiche: false,
+  setShowDeleteLineFiche: () => {},
 }
 
 export const ShowFichesContext = createContext(DefaultShowFichesInterface)

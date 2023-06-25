@@ -24,18 +24,21 @@ export const InputFiche:React.FC<InputFicheInterface> = ({ type = "text", Line, 
       case "amount": 
         setData(Line.amount)
       break;
+      case "lineFicheId": 
+        setData(Line._id)
+      break;
     }
   }, [kind, Line])
 
   return (
     <input
-      type={type}
-      className={`uppercase w-full px-2 py-3 text-gray-700 focus:outline-none ${className}`}
+      type={type === "date" && !Line.dateAppointment ? type : type === "date" ? "date" : "text"}
+      className={`uppercase w-full px-2 py-3 text-gray-700 focus:outline-none ${className} ${kind}`}
       value={type === "date" ? formattedDate(data?.toString()) : data ?? ""}
       autoComplete="off"
       onChange={(e) => setData(e.target.value)}
       disabled={disabled}
-    />
+    />    
   );
 };
 

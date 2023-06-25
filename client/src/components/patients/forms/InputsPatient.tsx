@@ -11,6 +11,7 @@ import { UserData } from '../../../requestMethods'
 import { SelectElement } from '../../../HtmlComponents/SelectElement'
 import InputsAssPatients from './InputsAssPatients'
 import { formattedDate } from '../../../functions/functions'
+import { useParams } from 'react-router'
 
 
 const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
@@ -38,11 +39,13 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
     setArrayOfDoctors(users.filter((user: UserInterface) => user.doctor?.cabinet))
   }, [users])
 
+  const { doctorId } = useParams()
+
   useEffect(() => {
     const doctorData = UserData().doctor.cabinet
     setHideChooseDr(!doctorData && true)
-    setDoctor(doctorData ? UserData() : ArrayOfDoctors[0])
-   }, [ArrayOfDoctors, setDoctor])
+    setDoctor(doctorData ? UserData() : ArrayOfDoctors.find(doctor => doctor._id === doctorId) || DefaultUserInterface)
+   }, [ArrayOfDoctors, setDoctor, doctorId])
 
   const dispatch: any = useDispatch()
   

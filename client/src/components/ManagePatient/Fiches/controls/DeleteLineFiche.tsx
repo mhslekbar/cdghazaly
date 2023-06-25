@@ -1,29 +1,33 @@
 import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { DeleteFicheApi } from '../../../../redux/fiches/ficheApiCalls';
+import { DeleteLineFicheApi } from '../../../../redux/fiches/ficheApiCalls';
 import { useParams } from 'react-router';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
-import { FicheInterface, ShowFichesContext } from '../types';
+import { LineFicheInterface, ShowFichesContext } from '../types';
 import { Timeout } from '../../../../functions/functions';
+import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
+import { ShowPaymentsApi } from '../../../../redux/payments/paymentApiCalls';
 
-interface DeleteFicheInterface {
+interface DeleteLineFicheInterface {
   modal: boolean,
   toggle: () => void,
-  FicheData: FicheInterface
+  LineFicheData: LineFicheInterface
 }
 
-const DeleteFiche:React.FC<DeleteFicheInterface> = ({ modal, toggle, FicheData }) => {
+const DeleteLineFiche:React.FC<DeleteLineFicheInterface> = ({ modal, toggle, LineFicheData }) => {
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
-  const { setShowSuccessMsg } = useContext(ShowFichesContext)
+  const { setShowSuccessMsg, selectedFiche } = useContext(ShowFichesContext)
   const HandlSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      const response = await dispatch(DeleteFicheApi(patientId, FicheData._id))
+      const response = await dispatch(DeleteLineFicheApi(patientId, selectedFiche._id, LineFicheData._id))
       if(response === true) {
         toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
+        await dispatch(ShowPatientsApi())
+        await dispatch(ShowPaymentsApi(patientId))
       }
     } catch {}
   }
@@ -45,7 +49,6 @@ const DeleteFiche:React.FC<DeleteFicheInterface> = ({ modal, toggle, FicheData }
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={HandlSubmit}
                   >
-                    <h3 className='text-xl'>Voulez-Vous Supprimer la Fiche Numero {FicheData.numFiche} ?</h3>
                     <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
@@ -59,4 +62,4 @@ const DeleteFiche:React.FC<DeleteFicheInterface> = ({ modal, toggle, FicheData }
   );
 }
 
-export default DeleteFiche
+export default DeleteLineFiche

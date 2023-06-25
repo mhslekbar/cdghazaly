@@ -21,6 +21,10 @@ import {
 } from "../Devis/types";
 import { FaEdit, FaSave } from "react-icons/fa";
 import EditFiche from "./controls/EditFiche";
+import { EditFicheApi } from "../../../redux/fiches/ficheApiCalls";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router";
+import { Timeout } from "../../../functions/functions";
 
 
 const ShowFiches: React.FC = () => {
@@ -39,8 +43,45 @@ const ShowFiches: React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [selectedLineDevis, setSelectedLineDevis] = useState<LineDevisType>(DefaultLineDevisType)
   const [selectedLineFiche, setSelectedLineFiche] = useState<LineFicheInterface>(DefaultLineFicheInterface)
+  const [isShowingAllDevis, setIsShowingAllDevis] = useState(false);
+
+  const [showDeleteLineFiche, setShowDeleteLineFiche] = useState(false)
   
-  
+
+  const dispatch: any = useDispatch()
+  const { patientId } = useParams()
+
+  const saveFiche = async () => {
+    const Dates: string[] = []
+    const LineFicheId:string[] = []
+    const Actes:string[] = []
+    const Amounts:string[] = []
+
+    document.querySelectorAll(".data-line-fiche table input.lineFicheId").forEach((element: any) => {
+      LineFicheId.push(element.value)
+    })
+    document.querySelectorAll(".data-line-fiche table input.date").forEach((element: any) => {
+      Dates.push(element.value)
+    })
+    document.querySelectorAll(".data-line-fiche table input.acte").forEach((element: any) => {
+      Actes.push(element.value)
+    })
+    document.querySelectorAll(".data-line-fiche table input.amount").forEach((element: any) => {
+      Amounts.push(element.value)
+    })
+    const LineFicheData = {
+      _id: LineFicheId,
+      dateAppointment: Dates,
+      acte: Actes,
+      amount: Amounts
+    }
+    const response = await dispatch(EditFicheApi(patientId, selectedFiche._id, { LineFiche: LineFicheData }))
+    if(response === true) {
+      setShowSuccessMsg(true)
+      setTimeout(() => setShowSuccessMsg(false), Timeout)
+    }
+  }
+
   return (
     <ShowDevisInterfaceContext.Provider
       value={{
@@ -54,6 +95,8 @@ const ShowFiches: React.FC = () => {
         setShowDeleteDevis,
         showSuccessMsg,
         setShowSuccessMsg,
+        isShowingAllDevis,
+        setIsShowingAllDevis
       }}
     >
       <ShowFichesContext.Provider
@@ -62,7 +105,8 @@ const ShowFiches: React.FC = () => {
           showSuccessMsg, setShowSuccessMsg,
           selectedLineDevis, setSelectedLineDevis,
           selectedLineFiche, setSelectedLineFiche,
-          showEditFiche, setShowEditFiche
+          showEditFiche, setShowEditFiche,
+          showDeleteLineFiche, setShowDeleteLineFiche
         }}
       >
         {showSuccessMsg && (
@@ -77,7 +121,7 @@ const ShowFiches: React.FC = () => {
             <div className="flex flex-end gap-2">
               <button
                 className="p-2 rounded bg-yellow text-white"
-                // onClick={() => setShowDeleteFiche(!showDeleteFiche)}
+                onClick={saveFiche}
               >
                 <FaSave />
               </button>

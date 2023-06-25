@@ -61,6 +61,8 @@ export interface ShowDevisInterface {
   setShowDeleteDevis: (showDeleteDevis: boolean) => void,
   showSuccessMsg: boolean,
   setShowSuccessMsg: (showSuccessMsg: boolean) => void,
+  isShowingAllDevis: boolean,
+  setIsShowingAllDevis: (isShowingAllDevis: boolean) => void,
 
 }
 
@@ -75,6 +77,8 @@ export const DefaultShowDevisInterface: ShowDevisInterface = {
   setShowDeleteDevis: () => {},
   showSuccessMsg: false,
   setShowSuccessMsg: () => {},
+  isShowingAllDevis: false,
+  setIsShowingAllDevis: () => {},
 }
 
 export const ShowDevisInterfaceContext = createContext(DefaultShowDevisInterface)

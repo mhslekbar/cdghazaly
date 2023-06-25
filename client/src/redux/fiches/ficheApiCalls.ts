@@ -61,7 +61,7 @@ export const AppendFicheApi = (patientId: string = "", ficheId: string = "", dat
       return true
     }
   } catch (error: any) {
-    const errData = error.response.data
+    const errData = error.response?.data
     if(errData && error.response.status === 300) {
       const formErrors = errData.formErrors ? errData.formErrors : [errData]
       dispatch(statusFicheFailure(formErrors))
@@ -118,10 +118,10 @@ export const DeleteFicheApi = (patientId: string = "", ficheId: string) => async
   }
 }
 
-export const deleteLineFicheApi = (patientId: string = "", ficheId: string = "", lineId: string = "") => async (dispatch: Dispatch<any>) => {
+export const DeleteLineFicheApi = (patientId: string = "", ficheId: string = "", lineId: string = "") => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusFicheStart())
-    let response = await remove(`fiche/${patientId}/${ficheId}/deleteLineFiche/${lineId}`)
+    let response = await remove(`fiche/${patientId}/${ficheId}/LineFiche/${lineId}`)
     const resData = response.data.success
     if(resData) {
       dispatch(statusFicheSuccess(resData))

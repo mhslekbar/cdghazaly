@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ButtonsDevis from '../../../../HtmlComponents/ButtonsDevis';
 import Mouth from './Mouth';
 import { DataDevisContext, EnumTypeModal, EnumTypeTeethBoard, LineDevisType, ShowDevisInterfaceContext } from '../types';
@@ -11,6 +11,12 @@ import { useParams } from 'react-router';
 import { ShowFichesContext } from '../../Fiches/types';
 import { AppendFicheApi } from '../../../../redux/fiches/ficheApiCalls';
 import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
+import { ShowPaymentsApi } from '../../../../redux/payments/paymentApiCalls';
+import { Timeout } from '../../../../functions/functions';
+import { DefaultLaboratoryInterface, laboratoryInterface } from '../../../laboratory/types';
+import { State } from '../../../../redux/store';
+import { useSelector } from 'react-redux';
+import { ShowLaboratoryApi } from '../../../../redux/laboratory/laboratoryApiCalls';
 
 interface TeethBoardInterface {
   modal: boolean,
@@ -23,10 +29,10 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
     LineDevis, setSelectedSurface, selectedSurface, doctor,
     setDoctor, ArrayDoctor, TeethBoardData, TypeTeethBoard, TypeModal } = useContext(DataDevisContext)
   
-  const { selectedDevis } = useContext(ShowDevisInterfaceContext)
-
+  const { selectedDevis, setIsShowingAllDevis, setShowSuccessMsg } = useContext(ShowDevisInterfaceContext)
+  
   const dispatch: any = useDispatch()
-  const { patientId } = useParams()
+  const { doctorId, patientId } = useParams()
 
   useEffect(() => {
     if(TypeTeethBoard === EnumTypeTeethBoard.EDIT_NEW_TEETH) {
@@ -48,11 +54,35 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
 
   useEffect(() => {
     const doctorData = UserData().doctor.cabinet
-    setDoctor(doctorData ? UserData() : ArrayDoctor[0])
-   }, [ArrayDoctor, setDoctor])
+    setDoctor(doctorData ? UserData() : ArrayDoctor.find(doctor => doctor._id === doctorId))
+   }, [doctorId, setDoctor, ArrayDoctor])
 
-   const { selectedLineFiche, selectedFiche } = useContext(ShowFichesContext);
+  const { selectedLineFiche, selectedFiche } = useContext(ShowFichesContext);
 
+  const [MyLaboratory, setMyLaboratory] = useState<laboratoryInterface>(DefaultLaboratoryInterface)
+  
+  const { laboratory } = useSelector((state: State) => state.laboratory)
+  const [filteredLabo, setFilteredLabo] = useState<laboratoryInterface[]>([DefaultLaboratoryInterface])
+
+  useEffect(() => {
+    const fetchLab = async () => {
+      await dispatch(ShowLaboratoryApi())
+    }
+    fetchLab()
+  }, [dispatch])
+
+  useEffect(() => {
+    if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE) {
+      const filteredLaboratories = laboratory.filter((labo) => labo.treatments?.some((treat: any) => treat.treatment._id === selectedTreat._id));
+      setFilteredLabo(filteredLaboratories.length > 0 ? filteredLaboratories : [DefaultLaboratoryInterface])
+    }
+  }, [laboratory, TypeTeethBoard, selectedTreat])
+
+  
+  useEffect(() => {
+    setMyLaboratory(filteredLabo[0])
+  }, [filteredLabo])
+  
 
   const handleAppendTreatToTable = async (e: any) => {
     const TeethBoardErrors = []
@@ -66,7 +96,6 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
     if(TeethBoardErrors.length === 0) {
       e.preventDefault()
       toggle();
-      
       const data: LineDevisType = {
         doctor,
         treatment: selectedTreat,
@@ -95,13 +124,16 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
         }
       } else if(TypeTeethBoard === EnumTypeTeethBoard.EDIT_NEW_TEETH) {
         const Line: LineDevisType = {...LineDevis[findIndex]}
-        Line.doctor = doctor
-        Line.treatment = selectedTreat
-        Line.price = Number(price)
-        Line.teeth = {
-          nums: selectedTeeth.sort((a: string, b: string) => a.localeCompare(b)),
-          surface: selectedSurface
-        }
+        Object.assign(Line, {
+          doctor,
+          treatment: selectedTreat,
+          price: Number(price),
+          teeth: {
+            nums: selectedTeeth.sort((a: string, b: string) => a.localeCompare(b)),
+            surface: selectedSurface
+          }
+        })
+        LineDevis[findIndex] = Line
         setLineDevis(LineDevis)
         if(TypeModal === EnumTypeModal.EDIT_DEVIS_MODAL) {
           await dispatch(editLineDevisApi(patientId, selectedDevis._id, Line._id, Line))
@@ -123,18 +155,22 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
           dateAppointment: selectedLineFiche.dateAppointment, // "2023-06-24T01:04:43.635+00:00" 
           devis: selectedDevis._id,
           lineFicheId: selectedLineFiche._id,
-          laboratory: "6464e492ff543affb447933f"
+          laboratory: MyLaboratory._id
         }
-        console.log("selectedDevis: ", selectedDevis)
-        // console.log("data: ", data)
-        // console.log("selectedLineFiche: ", selectedLineFiche)
-        await dispatch(AppendFicheApi(patientId, selectedFiche._id, data))
-        await dispatch(ShowPatientsApi())
+        
+        const response = await dispatch(AppendFicheApi(patientId, selectedFiche._id, data))
+        if(response === true) {
+          await dispatch(ShowPatientsApi())
+          await dispatch(ShowPaymentsApi(patientId))
+          setIsShowingAllDevis(false)
+          setShowSuccessMsg(true)
+          setTimeout(() => {
+            setShowSuccessMsg(false)
+          }, Timeout)
+        }
       }
-
     }
   }
-
 
   return (
     <div>
@@ -164,6 +200,11 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
                     <p>Qty: {selectedTeeth.length}</p>
                     <div className='w-1/2'>
                       <SelectElement valueType="object" id="doctor" value={doctor} setValue={setDoctor} options={ArrayDoctor.map((option: any) => ({...option, name: option.username}))} />
+                      {
+                        selectedTreat.type === "prothese" &&
+                        TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE &&
+                        <SelectElement showPrice={true} valueType="object" id="laboratory" value={MyLaboratory} setValue={setMyLaboratory} options={filteredLabo.map((option: any) => ({...option, name: option.name}))} />
+                      }
                     </div>
                   </section>
                   <section className='text-end'>

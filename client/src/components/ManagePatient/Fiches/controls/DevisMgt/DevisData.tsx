@@ -30,7 +30,6 @@ const DevisData = () => {
       try {
         const response = await get(`invoice/${patientId}/getAllDevis`);
         const resData: DevisInterface[] = response.data.success;
-        console.log("resData: ", resData);
         setDevisData(resData);
         return resData;
       } catch (err) {
@@ -42,6 +41,7 @@ const DevisData = () => {
 
   return (
     <>
+      {DevisData.length === 0 && <p className="mb-4 text-center font-bold">Créer un nouveau devis !!</p>}
       {DevisData.sort(
         (a: DevisInterface, b: DevisInterface) => a.numDevis - b.numDevis
       ).map((dv: DevisInterface) => (

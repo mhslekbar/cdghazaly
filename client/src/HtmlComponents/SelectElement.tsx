@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { DataDevisContext } from "../components/ManagePatient/Devis/types";
 
 interface SelectElementInterface {
   name?: string;
@@ -7,7 +8,8 @@ interface SelectElementInterface {
   setValue: (value: any) => void;
   options: any;
   defaultOption?: any,
-  valueType?: string
+  valueType?: string,
+  showPrice?: boolean // show price of Treatment lab 
 }
 
 export const SelectElement: React.FC<SelectElementInterface> = ({
@@ -17,8 +19,10 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
   setValue,
   options,
   defaultOption,
-  valueType = "string"
+  valueType = "string",
+  showPrice = false
 }) => {
+  const { selectedTreat } = useContext(DataDevisContext)
   return (
     <div className="mb-2">
       {name && 
@@ -39,9 +43,9 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
         }}
       >
         {defaultOption}
-        {options.map((option: any) => (
-          <option value={option._id} data-element={JSON.stringify(option)} key={option._id}>{option.name}</option>
-        ))}
+        {options.map((option: any) => {
+          return <option value={option._id} data-element={JSON.stringify(option)} key={option._id}>{option.name} {showPrice && " - " + option.treatments?.find((treat: any) => treat.treatment._id === selectedTreat?._id)?.price}</option>
+        })}
       </select>
     </div>
   );

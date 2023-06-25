@@ -18,6 +18,7 @@ const ShowDevis:React.FC = () => {
   const [showEditDevis, setShowEditDevis] = useState(false)
   const [showDeleteDevis, setShowDeleteDevis] = useState(false)
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [isShowingAllDevis, setIsShowingAllDevis] = useState(false);
 
   const handleShowDelete = () => {
     setShowDeleteDevis(!showDeleteDevis)
@@ -38,7 +39,8 @@ const ShowDevis:React.FC = () => {
       showTeethBoard, setShowTeethBoard,
       showEditDevis, setShowEditDevis,
       showDeleteDevis, setShowDeleteDevis,
-      showSuccessMsg, setShowSuccessMsg
+      showSuccessMsg, setShowSuccessMsg,
+      isShowingAllDevis, setIsShowingAllDevis
     }}>
     {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
     <div className='grid grid-cols-6 mt-4'>

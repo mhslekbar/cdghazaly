@@ -54,7 +54,9 @@ const InputsPayment = () => {
    const { users } = useSelector((state: State) => state.users)
    const { patients } = useSelector((state: State) => state.patients)
    const { paymentMethods } = useSelector((state: State) => state.paymentMethods)
-   
+
+   const { doctorId } = useParams()
+
    useEffect(() => {
      const fetchUsers = async () => {
        await dispatch(ShowUserApi())
@@ -68,8 +70,10 @@ const InputsPayment = () => {
  
    useEffect(() => {
     const doctorData = UserData().doctor.cabinet
-    ModalType === EnumTypeModalPayment.ADD_MODAL && setDoctor(doctorData ? UserData() : ArrayOfDoctors[0])
-   }, [ArrayOfDoctors, setDoctor, ModalType])
+    ModalType === EnumTypeModalPayment.ADD_MODAL && setDoctor(doctorData ? UserData() : ArrayOfDoctors.find(doctor => doctor._id === doctorId) || DefaultUserInterface)
+    // setDoctor(doctorData ? UserData() : ArrayOfDoctors[0])
+   }, [ArrayOfDoctors, setDoctor, ModalType, doctorId])
+
 
   useEffect(() => {
     const fetchPaymentMethod = async () => {

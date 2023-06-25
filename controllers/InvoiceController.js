@@ -31,49 +31,63 @@ const getAllDevis = async (request, response) => {
       .populate("LineDevis.treatment")
       .sort({ numDevis : 1 })
   
-      const filteredDevisModels = devisData.flatMap((devis) => {
-        const remainingLines = [];
-      
-        devis.LineDevis.forEach((lineDevis) => {
-          const matchingInvoice = invoices.find((invoice) =>
-            invoice.LineInvoice.some(
-              (invoiceLine) =>
-                invoiceLine.devis.toString() === devis._id.toString() &&
-                invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
-            )
-          );
-      
-          if (matchingInvoice) {
-            const matchingLine = matchingInvoice.LineInvoice.find(
+
+    const filteredDevisModels = devisData.flatMap((devis) => {
+      const remainingLines = [];
+    
+      devis.LineDevis.forEach((lineDevis) => {
+        const matchingInvoices = invoices.filter((invoice) =>
+          invoice.LineInvoice.some(
+            (invoiceLine) =>
+              invoiceLine.devis.toString() === devis._id.toString() &&
+              invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
+          )
+        );
+    
+        if (matchingInvoices.length > 0) {
+          const totalNumsLength = matchingInvoices.reduce((sum, invoice) => {
+            const matchingLines = invoice.LineInvoice.filter(
               (invoiceLine) =>
                 invoiceLine.devis.toString() === devis._id.toString() &&
                 invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
             );
-      
-            if (matchingLine) {
-              if (!(matchingLine.teeth && matchingLine.teeth.nums && matchingLine.teeth.nums.length === lineDevis.teeth.nums.length)) {
-                // Only some teeth of this treatment are finished
-                remainingLines.push(Object.assign(lineDevis,{
-                  teeth: {
-                    ...lineDevis.teeth,
-                    nums: lineDevis.teeth.nums.filter(
-                      (num) => matchingLine.teeth && matchingLine.teeth.nums && !matchingLine.teeth.nums.includes(num)
-                    ),
-                    price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price
-                  },
-                }))
-              } 
-            } else {
-              // Treatment does not exist in the invoice
-              remainingLines.push(Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price }));
-            }
-          } else {
-            // Treatment does not exist in the invoice
-            remainingLines.push(Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price }));
+            return sum + matchingLines.reduce((lineSum, line) => lineSum + line.teeth.nums.length, 0);
+          }, 0);
+    
+          if (totalNumsLength !== lineDevis.teeth.nums.length) {            
+            // Only some teeth of this treatment are finished
+            remainingLines.push(
+              Object.assign(lineDevis, {
+                teeth: {
+                  ...lineDevis.teeth,
+                  nums: lineDevis.teeth.nums.filter(
+                    (num) =>
+                      matchingInvoices.every((invoice) =>
+                        invoice.LineInvoice.every(
+                          (line) =>
+                            line.devis.toString() !== devis._id.toString() ||
+                            line.treatment.toString() !== lineDevis.treatment._id.toString() ||
+                            !line.teeth || !line.teeth.nums || !line.teeth.nums.includes(num)
+                        )
+                      )
+                  ),
+                  price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price
+                }
+              })
+            );
           }
-        });
-        return [Object.assign(devis, {LineDevis: [...remainingLines]})];
-      });      
+        } else {
+          // Treatment does not exist in any invoice
+          remainingLines.push(
+            Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price })
+          );
+        }
+      });
+      return [Object.assign(devis, { LineDevis: [...remainingLines] })];
+    });
+    
+
+
     response.status(200).json({ success: filteredDevisModels })
   } catch(err) {
     console.log("err: ", err)
@@ -126,3 +140,54 @@ const deleteInvoice = async (request, response) => {
 }
 
 module.exports = { getInvoices, getAllDevis, createInvoice, deleteInvoice }
+
+
+
+
+      // const filteredDevisModels = devisData.flatMap((devis) => {
+      //   const remainingLines = [];
+      
+      //   devis.LineDevis.forEach((lineDevis) => {
+      //     const matchingInvoice = invoices.find((invoice) =>
+      //       invoice.LineInvoice.some(
+      //         (invoiceLine) =>
+      //           invoiceLine.devis.toString() === devis._id.toString() &&
+      //           invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
+      //       )
+      //     );
+      
+      //     if (matchingInvoice) {
+      //       const matchingLine = matchingInvoice.LineInvoice.find(
+      //         (invoiceLine) =>
+      //           invoiceLine.devis.toString() === devis._id.toString() &&
+      //           invoiceLine.treatment.toString() === lineDevis.treatment._id.toString()
+      //       );
+      
+      //       if (matchingLine) {
+      //         // matchingLine.teeth && matchingLine.teeth.nums && 
+      //         if (!(matchingLine.teeth.nums.length === lineDevis.teeth.nums.length)) {
+      //           // Only some teeth of this treatment are finished
+      //           console.log("rest 1: ", lineDevis.treatment.name)
+      //           remainingLines.push(Object.assign(lineDevis,{
+      //             teeth: {
+      //               ...lineDevis.teeth,
+      //               nums: lineDevis.teeth.nums.filter(
+      //                 (num) => matchingLine.teeth && matchingLine.teeth.nums && !matchingLine.teeth.nums.includes(num)
+      //               ),
+      //               price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price
+      //             },
+      //           }))
+      //         } 
+      //       } else {
+      //         console.log("not rest: ", lineDevis.treatment.name)
+      //         // Treatment does not exist in the invoice
+      //         remainingLines.push(Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price }));
+      //       }
+      //     } else {
+      //       console.log("doesn't exist: ", lineDevis.treatment.name)
+      //       // Treatment does not exist in the invoice
+      //       remainingLines.push(Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price }));
+      //     }
+      //   });
+      //   return [Object.assign(devis, {LineDevis: [...remainingLines]})];
+      // });      

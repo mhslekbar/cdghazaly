@@ -13,6 +13,7 @@ const CareTypes:React.FC = () => {
     {type: "bouche",   name: "Soins de bouche"},
     {type: "conservative", name: "conservateur"},
   ]
+
   return (
     <div className='bg-white grid grid-cols-6 rounded border shadow mt-2 font-bold text-center'>
       {types.map((type: careTypeInterface, index) => (
