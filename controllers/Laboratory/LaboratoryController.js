@@ -106,9 +106,13 @@ const getAccountsLab = async (request, response) => {
 
 const getConsumptionsLab = async (request, response) => {
   try {
-    const { labId } = request.params
-    const laboratory = await LaboratoryModel.findOne({ _id: labId })
-    response.status(200).json({ success: laboratory.consumptions })
+    const { patient } = request.body
+    const laboratory = await LaboratoryModel
+      .find({ "consumptions.patient": patient })
+      .populate("consumptions.doctor")
+      .populate("consumptions.treatment")
+      .populate("consumptions.patient")
+    response.status(200).json({ success: laboratory })
   } catch(err) {
     response.status(500).json({ err:err.message })
   }

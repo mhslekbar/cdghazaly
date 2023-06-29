@@ -24,6 +24,7 @@ import ShowPayments from '../components/ManagePatient/Payments/ShowPayments';
 import SoinsPayments from '../components/ManagePatient/Payments/SoinsPayments';
 import ShowConsultations from '../components/ManagePatient/Payments/ShowConsultations';
 import ShowFiches from '../components/ManagePatient/Fiches/ShowFiches';
+import ShowConsumptions from '../components/ManagePatient/Lab_Consumption/ShowConsumptions';
 
 
 const MyRoutes:React.FC = () => {
@@ -50,7 +51,7 @@ const MyRoutes:React.FC = () => {
         <Route path="/patient/:doctorId/:patientId/Manage" element={<ManagePatient />}>
           <Route path="devis" element={<ShowDevis />} />
           <Route path="invoices" element={<ShowInvoices />} />
-          <Route path="labo" element={<ShowInvoices />} />
+          <Route path="labo" element={<ShowConsumptions />} />
           <Route path="payments" element={<ShowPayments />} />
           <Route path="soins" element={<SoinsPayments />} />
           <Route path="consultations" element={<ShowConsultations />} />

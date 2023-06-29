@@ -3,7 +3,6 @@ const {
   getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab,
   getAccountsLab, getConsumptionsLab
  } = require("../controllers/Laboratory/LaboratoryController")
-
  const { 
   getTreatmentsLab, createTreatmentLab, updateTreatmentLab, deleteTreatmentLab 
  } = require("../controllers/Laboratory/TreatmentLabController")
@@ -16,8 +15,9 @@ router.post("/", createLabortory)
 router.put("/:id", updateLabortory)
 router.delete("/:id", deleteLabortory)
 
+router.post("/consumptions", getConsumptionsLab)
+
 router.get("/:labId/accounts", getAccountsLab)
-router.get("/:labId/consumptions", getConsumptionsLab)
 router.get("/:labId/patients", getPatientsLab)
 
 // Start Treatments

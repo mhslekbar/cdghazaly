@@ -16,6 +16,8 @@ import devisReducer from "./devis/devisSlice";
 import paymentReducer from "./payments/paymentSlice";
 import ficheReducer from "./fiches/ficheSlice";
 import invoiceReducer from "./invoices/invoiceSlice";
+import consumptionLabReducer from "./laboratory/consumptions/consumptionLabSlice";
+
 
 import {
   persistStore,
@@ -53,6 +55,7 @@ const rootReducer = combineReducers({
   payments: paymentReducer,
   fiches: ficheReducer,
   invoices: invoiceReducer,
+  consumptionLab: consumptionLabReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
