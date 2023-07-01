@@ -7,12 +7,12 @@ import EditAssurance from './EditAssurance'
 import DeleteAssurance from './DeleteAssurance'
 import ManageAssurance from './ManageAssurance'
 
-
 const ShowAssurances:React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedAssurance, setSelectedAssurance] = useState<AssuranceInterface>(DefaultAssuranceInterface)
+  const [selectedDoctor, setSelectedDoctor] = useState<any[]>([]);
 
   return (
     <ShowAssurancesContext.Provider value={{
@@ -23,7 +23,8 @@ const ShowAssurances:React.FC = () => {
       showDeleteModal, 
       setShowDeleteModal,
       selectedAssurance,
-      setSelectedAssurance
+      setSelectedAssurance,
+      selectedDoctor, setSelectedDoctor
     }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)}/> }
       <AddAssurance />

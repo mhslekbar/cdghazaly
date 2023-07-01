@@ -17,6 +17,7 @@ const HeaderInfoPatient:React.FC = () => {
   }, [patients, patientId])
   
   const navigate = useNavigate();
+
   return (
     <>
     <header className='flex justify-between mb-2'>
@@ -25,7 +26,7 @@ const HeaderInfoPatient:React.FC = () => {
         style={{
           fontSize: "30px"
         }}
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(localStorage.getItem("patientMgtPrevLink") || "")}
       />
       <p className='bg-main px-4 py-2 rounded shadow w-fit'>balance: {patientData.balance}</p>
     </header>

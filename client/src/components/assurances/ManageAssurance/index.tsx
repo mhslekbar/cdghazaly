@@ -18,11 +18,11 @@ import { UserInterface } from "../../users/types";
 const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const [openDropdown, setOpenDropdown] = useState(false);
 
-  const { selectedAssurance } = useContext(ShowAssurancesContext);
+  const { selectedAssurance,  } = useContext(ShowAssurancesContext);
   const [selectedDropDown, setSelectedDropDown] = useState("");
+  const [doctors, setDoctors] = useState([])
 
   const { users } = useSelector((state: State) => state.users);
-  const [doctors, setDoctors] = useState([]);
 
   const dispatch: any = useDispatch();
 
@@ -49,6 +49,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
       value={{
         openDropdown,
         setOpenDropdown,
+        
       }}
     >
       <div className="bg-white grid lg:grid-cols-2 sm:grid-cols-1 rounded border shadow mt-2 font-bold text-center">

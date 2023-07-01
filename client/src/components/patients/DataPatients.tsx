@@ -9,7 +9,7 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaEdit } from "react-icons
 import { AiFillCheckCircle } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { PatientInterface, ShowPatientsContext } from "./types";
 import { MdRemoveCircle } from "react-icons/md";
 import { switchPathPatient, switchTypePatient } from "./functions";
@@ -72,7 +72,7 @@ const DataPatients: React.FC = () => {
   };
 
   const navigate = useNavigate()
-
+  const location = useLocation() 
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
       {patients.length > 0 &&
@@ -105,7 +105,10 @@ const DataPatients: React.FC = () => {
               key={patient._id}
             >
               <div 
-                onClick={() => navigate(`/patient/${doctorId}/${patient._id}/Manage/devis`)}
+                onClick={() => {
+                  localStorage.setItem("patientMgtPrevLink", location.pathname)
+                  navigate(`/patient/${doctorId}/${patient._id}/Manage/devis`)
+                }}
               >
               {patient.RegNo && (
                 <PatientInfo

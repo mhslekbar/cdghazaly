@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import InvoicesAssurance from "./InvoicesAssurance";
 import { ShowPatientsAssuranceContext } from "./types";
-import { DefaultInvoicesAssuranceInterface } from "../types";
+import { DefaultInvoicesAssuranceInterface, ShowAssurancesContext } from "../types";
 import AddInvoiceAssurance from "./AddInvoiceAssurance";
 import { useDispatch } from "react-redux";
 import { ShowAssuranceApi } from "../../../redux/assurances/assuranceApiCalls";
 import DeleteInvoiceAssurance from "./DeleteInvoiceAssurance";
+import DataPatientAssurance from "./DataPatientAssurance";
+import { DefaultPaymentInterface, PaymentInterface } from "../../ManagePatient/Payments/types";
 
 const ShowPatientsAssurance: React.FC = () => {
   const [selectedInvoice, setSelectedInvoice] = useState(
     DefaultInvoicesAssuranceInterface
   );
+  const [payments, setPayments] = useState<PaymentInterface[]>([DefaultPaymentInterface]);
+
   const [showDeleteInvoice, setShowDeleteInvoice] = useState(false);
+
+  const { selectedDoctor } = useContext(ShowAssurancesContext)
 
   const dispatch: any = useDispatch();
 
@@ -29,11 +35,14 @@ const ShowPatientsAssurance: React.FC = () => {
         setSelectedInvoice,
         showDeleteInvoice,
         setShowDeleteInvoice,
+        payments, setPayments
       }}
     >
       <div className="mt-2">
+        <h1 className="text-center text-2xl text-gray-700 font-bold">{selectedDoctor.username}</h1>
         <AddInvoiceAssurance />
         <InvoicesAssurance />
+        <DataPatientAssurance />
         {showDeleteInvoice && (
           <DeleteInvoiceAssurance
             InvoiceData={selectedInvoice}

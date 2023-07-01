@@ -20,7 +20,7 @@ const ButtonAssurance: React.FC<ButtonInterface> = ({
   const location = useLocation()
   const { setOpenDropdown } = useContext(ManageAssuranceContext)
   const navigate = useNavigate()
-
+  
   return (
     <React.Fragment>
       {path ? (
@@ -38,7 +38,9 @@ const ButtonAssurance: React.FC<ButtonInterface> = ({
       ) : (
         <button
           className={`${location.pathname.split("/")[3] === pathDropDown ? "bg-main" : ""} inline-flex justify-between w-full px-4 py-2 bg-white text-gray-700 hover:bg-[#00b894]`} 
-          onClick={() => toggleDropDown(name)}
+          onClick={() => {
+            toggleDropDown(name)
+          }}
           aria-expanded={openDropdown}
           aria-haspopup="true"
         >

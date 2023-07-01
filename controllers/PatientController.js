@@ -78,7 +78,8 @@ const createPatient = async (request, response) => {
         supported = supported + "/" + new Date().getUTCFullYear();
 
         // Start keep invoice assurance
-        const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)  
+        const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish && invoice.doctor.some((dc) => dc._id.equals(doctor)))    
+        // const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)  
         invoiceAssur = invoiceAssurance._id
       }
 
@@ -276,7 +277,8 @@ const returnPatient = async (request, response) => {
       });
       amount = societyInfo.cons_price;
 
-      const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)    
+      const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish && invoice.doctor.some((dc) => dc._id.equals(doctor)))    
+      // const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)    
       invoiceAssur = invoiceAssurance._id
 
       if(supported.length === 0) {

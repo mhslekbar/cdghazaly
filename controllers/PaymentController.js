@@ -9,11 +9,26 @@ const getPayments = async (request, response) => {
     const { patient } = request.query
     let payments
     payments = await PaymentModel.find({ patient })
-    .populate("user")
-    .populate("doctor")
-    .populate("patient")
-    .populate("method")
-    .sort({ createdAt: -1 })
+      .populate("user")
+      .populate("doctor")
+      .populate("patient")
+      .populate("method")
+      .sort({ createdAt: -1 })
+    response.status(200).json({ success: payments })
+  } catch(err) {
+    response.status(500).json({ err: err.message })
+  }
+}
+
+const getAllPayments = async (request, response) => {
+  try {
+    let payments
+    payments = await PaymentModel.find()
+      .populate("user")
+      .populate("doctor")
+      .populate("patient")
+      .populate("method")
+      .sort({ createdAt: -1 })
     response.status(200).json({ success: payments })
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -36,7 +51,8 @@ const createPayment = async (request, response) => {
     // Start keep invoice assurance
     const { assurance } = patientInfo
     const AssInfo = await AssuranceModel.findOne({ _id: assurance.society })
-    const invoiceAssurance = AssInfo?.invoices.find(invoice => !invoice.finish)    
+    const invoiceAssurance = AssInfo?.invoices.find(invoice => !invoice.finish && invoice.doctor.some((dc) => dc._id.equals(doctor)))    
+
     if(AssInfo && supported.length === 0) {
       formErrors.push("Donner la prise en charge")
     } 
@@ -171,4 +187,4 @@ const deletePayment = async (request, response) => {
   }
 }
 
-module.exports = { getPayments, createPayment, updatePayment, deletePayment }
+module.exports = { getPayments, createPayment, updatePayment, getAllPayments, deletePayment }

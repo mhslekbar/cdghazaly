@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { LinksInterface, ManageAssuranceContext } from './types'
 import {  useLocation, useNavigate, useParams } from 'react-router-dom'
+import { ShowAssurancesContext } from '../types'
 
 interface NestedLinkDropInterface {
   openDropdown: boolean,
@@ -15,7 +16,8 @@ const NestedLinkDrop:React.FC<NestedLinkDropInterface> = ({ openDropdown, select
   const { setOpenDropdown } = useContext(ManageAssuranceContext)
   const navigate = useNavigate()
   const { AssId } = useParams()
-
+  const { setSelectedDoctor } = useContext(ShowAssurancesContext)
+  
   return (
     <div>
       {openDropdown && selectedDropDown === name && (
@@ -32,6 +34,7 @@ const NestedLinkDrop:React.FC<NestedLinkDropInterface> = ({ openDropdown, select
                 onClick={() => {
                   setOpenDropdown(false)
                   navigate(`${AssId}/${pathDropDown}/${link._id}`)
+                  setSelectedDoctor(link)
                 }}
                 className={`${location.pathname.split("/")[3] === pathDropDown && location.pathname.split("/")[4] === link._id  ? "bg-gray-200" : ""} text-start block w-full px-4 py-2 pr-10 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900`}
                 key={index}

@@ -44,6 +44,7 @@ const createPaymentLab = async (request, response) => {
       response.status(300).json({ formErrors })
     }
   } catch(error) {
+    console.log("error: ", error)
     response.status(500).json({ error: error.message })
   }
 }

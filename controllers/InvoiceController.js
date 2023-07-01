@@ -86,8 +86,6 @@ const getAllDevis = async (request, response) => {
       return [Object.assign(devis, { LineDevis: [...remainingLines] })];
     });
     
-
-
     response.status(200).json({ success: filteredDevisModels })
   } catch(err) {
     console.log("err: ", err)

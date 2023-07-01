@@ -6,8 +6,8 @@ export interface InvoicesAssuranceInterface {
   doctor: UserInterface[]
   inCommon: boolean;
   numInvoice: string
-  payed: number
-  finish: number
+  payed: boolean
+  finish: boolean
 }
 
 export const  DefaultInvoicesAssuranceInterface:InvoicesAssuranceInterface = {
@@ -15,8 +15,8 @@ export const  DefaultInvoicesAssuranceInterface:InvoicesAssuranceInterface = {
   doctor: [DefaultUserInterface],
   inCommon: false,
   numInvoice: "",
-  payed: 0,
-  finish: 0
+  payed: false,
+  finish: false
 }
 
 
@@ -45,7 +45,9 @@ export interface ShowAssurancesInterface {
   showDeleteModal: boolean, 
   setShowDeleteModal: (showDeleteModal: boolean) => void,
   selectedAssurance:AssuranceInterface,
-  setSelectedAssurance: (selectedAssurance:AssuranceInterface) => void
+  setSelectedAssurance: (selectedAssurance:AssuranceInterface) => void,
+  selectedDoctor: any,
+  setSelectedDoctor: (selectedDoctor: any) => void,
 }
 
 export const DefaultShowAssurancesInterface:ShowAssurancesInterface = {
@@ -56,7 +58,9 @@ export const DefaultShowAssurancesInterface:ShowAssurancesInterface = {
   showDeleteModal: false, 
   setShowDeleteModal: () => {},
   selectedAssurance: DefaultAssuranceInterface,
-  setSelectedAssurance: () => {}
+  setSelectedAssurance: () => {},
+  selectedDoctor: {},
+  setSelectedDoctor: () => {},
 }
 
 export const ShowAssurancesContext = createContext(DefaultShowAssurancesInterface)

@@ -70,6 +70,10 @@
     color: #FFF;
     border: var(--redColor);
   }
+  .btn-red {
+    background-color: var(--redColor);
+    color: #FFF;
+  }
   .btn-red:hover, .btn-red:focus {
     background-color: var(--redColor);
     color: #FFF;

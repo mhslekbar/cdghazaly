@@ -1,4 +1,0 @@
-i want to add data of facture, but it comes from payments 
-so after adding payments and patients i will add here in this folder 
-DataInvoicePatient's Component 
-

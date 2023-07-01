@@ -10,9 +10,13 @@ const createInvoiceAssurance = async (request, response) => {
     const findAssurance = await AssuranceModel.findOne({ _id: AssId })
     const Users = await UserModel.find()
     let lastInvoice = findAssurance.invoices[findAssurance.invoices.length - 1]
+    lastInvoice.finish = true
     let numInvoice = lastInvoice?.numInvoice || 0
     numInvoice++
     if(inCommon) {
+      findAssurance.invoices.map(async invoice => {
+        invoice.finish = true
+      })
       findAssurance.invoices.push({ numInvoice, doctor, inCommon })
     } else {
       Users

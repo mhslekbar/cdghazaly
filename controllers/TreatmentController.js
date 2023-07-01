@@ -2,12 +2,20 @@ const TreatmentModel = require("../models/TreatmentModel")
 
 const getTreatments = async (req, res) => {
   try {
-    const { treat } = req.query
+    const { treat, assurance } = req.query
     let treatments
     if(treat) {
-      treatments = await TreatmentModel.find({
-        name: { $regex: new RegExp("^" + treat, "i") }
-      }).sort({ name: 1 })
+      if(assurance) {
+        treatments = await TreatmentModel.find({
+          name: { $regex: new RegExp("^" + treat, "i") },
+          assurance
+        }).sort({ name: 1 })
+      } else {
+        treatments = await TreatmentModel.find({
+          name: { $regex: new RegExp("^" + treat, "i") }
+        }).sort({ name: 1 })
+      }
+
     } else {
       treatments = await TreatmentModel.find().sort({ name: 1 })
     }

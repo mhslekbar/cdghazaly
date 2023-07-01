@@ -11,6 +11,8 @@ import {
 import { UserInterface } from "../../users/types";
 import { InputCheckbox } from "../../../HtmlComponents/InputCheckbox";
 import { MdRemoveCircleOutline } from "react-icons/md";
+import { GiMeepleGroup } from "react-icons/gi"
+import { get } from "../../../requestMethods";
 
 const InvoicesAssurance: React.FC = () => {
   const { AssId, doctorId } = useParams();
@@ -20,17 +22,37 @@ const InvoicesAssurance: React.FC = () => {
 
   const { assurances } = useSelector((state: State) => state.assurances);
 
-  const { setSelectedInvoice, setShowDeleteInvoice } = useContext(ShowPatientsAssuranceContext);
+  const { setSelectedInvoice, selectedInvoice, setShowDeleteInvoice, setPayments } = useContext(ShowPatientsAssuranceContext);
 
   useEffect(() => {
     const dataAssurance: any = assurances.find(
       (ass: AssuranceInterface) => ass._id === AssId
     );
-    setInvoices(dataAssurance.invoices);
-  }, [assurances, AssId]);
+    setInvoices(dataAssurance
+      .invoices
+      .slice()
+      .sort(
+      (a: InvoicesAssuranceInterface, b: InvoicesAssuranceInterface) =>
+          Number(b.numInvoice) - Number(a.numInvoice)
+      )
+    );
+}, [assurances, AssId]);
+  
+  useEffect(() => {
+    setSelectedInvoice(invoices?.find((invoice: InvoicesAssuranceInterface) => invoice.doctor.some(dc => dc._id === doctorId)) || invoices[0])
+  }, [invoices, setSelectedInvoice, doctorId])
 
   const [archiveInvoice, setArchiveInvoice] = useState(false);
 
+  const fetchAllPayments = async () => {
+    try {
+      const response = await get(`payment/all_payments`);
+      setPayments(response.data.success);
+    } catch (err) {
+      console.log("err: ", err)
+    }
+  };
+  
   const handleShowDeleteInvoice = (invoice: InvoicesAssuranceInterface) => {
     setShowDeleteInvoice(true)
     setSelectedInvoice(invoice)
@@ -44,7 +66,7 @@ const InvoicesAssurance: React.FC = () => {
         value={archiveInvoice}
         setValue={setArchiveInvoice}
       />
-      <section className="flex flex-row">
+      <section className="flex flex-row gap-2">
         {invoices.length > 0 &&
           invoices
             .filter(
@@ -52,21 +74,24 @@ const InvoicesAssurance: React.FC = () => {
                 invoice.doctor.find(
                   (doctor: UserInterface) => doctor._id === doctorId
                 ) &&
-                (invoice.finish === 0 ||
-                  invoice.finish === (archiveInvoice === false ? 0 : 1))
-            )
-            .sort(
-              (a: InvoicesAssuranceInterface, b: InvoicesAssuranceInterface) =>
-                Number(b.numInvoice) - Number(a.numInvoice)
+                (invoice.finish === false ||
+                  invoice.finish === archiveInvoice)
             )
             .map((invoice: InvoicesAssuranceInterface) => (
               <button
                 title={invoice.inCommon === true ? "Facture commune entre " + invoice.doctor.map(dc => dc.username + " ") : ""}
-                className={`${invoice.inCommon === true ? "text-main" : ""} rounded border bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
-                onClick={() => setSelectedInvoice(invoice)}
+                className={`${invoice._id === selectedInvoice?._id ? "border-b-4 border-main" : ""}  ${invoice.inCommon === true ? "text-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
+                onClick={() => {
+                  setSelectedInvoice(invoice)
+                  fetchAllPayments()
+                }}
                 key={invoice._id}
               >
-                <span>Facture-{invoice.numInvoice}</span>
+                <span className="flex justify-center items-center gap-1">
+                  {invoice.inCommon === true && 
+                    <GiMeepleGroup/> 
+                  }
+                Facture-{invoice.numInvoice}</span>
                 <MdRemoveCircleOutline
                   onClick={() => handleShowDeleteInvoice(invoice)}
                   className="text-red"
