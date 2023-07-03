@@ -99,7 +99,7 @@ const deleteAppointment = async (request, response) => {
         lineInvoice: undefined,
         consumptionLab: undefined,
         appointment: undefined,
-        finish: 0,
+        finish: false,
       })
       await FicheInfo.save()
     }

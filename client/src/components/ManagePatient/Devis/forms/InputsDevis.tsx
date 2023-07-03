@@ -13,7 +13,7 @@ import { useParams } from "react-router";
 const InputsDevis: React.FC = () => {
   const { treat, setTreat, reduce, setReduce, setSelectedTeeth, setSelectedTreat, setSelectedSurface, setTypeTeethBoard, TypeModal } = useContext(DataDevisContext);
   const [treatArray, setTreatArray] = useState<TreatmentType[]>([])
-  const [treatAssure, setTreatAssure] = useState(false)
+  const [useCabinetTreat, setUserCabinetTreat] = useState(false)
   
   const { patientId } = useParams()
 
@@ -27,14 +27,14 @@ const InputsDevis: React.FC = () => {
   
   const searchTreat = async (e: any) => {
     setTreat(e.target.value)
-    let filtered
-    if(treatAssure) {
-      filtered = `assurance=${treatAssure}`
-    } else {
-      filtered = `treat=${e.target.value}`
+    let filteredAssure
+    let isAssure = selectedPatient?.assurance?.society ? true : false
+    filteredAssure = isAssure ? `&assurance=${selectedPatient?.assurance?.society}` : ''
+    if(useCabinetTreat) {
+      filteredAssure = ""
     }
     if(e.target.value.length > 0) {
-      const response = await get(`treatment/searchTreat?${filtered}`)
+      const response = await get(`treatment/searchTreat?treat=${e.target.value}${filteredAssure}`)
       setTreatArray(response.data.success)
     } else {
       setTreatArray([])
@@ -59,7 +59,7 @@ const InputsDevis: React.FC = () => {
           onChange={searchTreat}  
         />
         {selectedPatient.assurance && 
-          <InputCheckbox name="Choisir les traitments du cabinet" id="Choose From Cabinet" value={treatAssure} setValue={setTreatAssure}/>
+          <InputCheckbox name="Choisir les traitments du cabinet" id="Choose From Cabinet" value={useCabinetTreat} setValue={setUserCabinetTreat}/>
         }
       </div>
       <div className="absolute w-full">

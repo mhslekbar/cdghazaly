@@ -1,21 +1,33 @@
 import { createContext } from "react"
 import { DefaultUserInterface, UserInterface } from "../../users/types"
+// import { DefaultLabConsumptionInterface, LabConsumptionInterface } from "../consumptions/types"
+import { DefaultTreatmentLabInterface, TreatmentLabInterface } from "../treatments/types"
+import { DefaultPaymentLabType, PaymentLabType } from "../payments/types"
+import { AccountsInterface, DefaultAccountsInterface } from "../accounts/types"
 
 export interface laboratoryInterface {
   _id: string,
   name: string,
   phone: string,
-  accounts?: [],
-  treatments?: [],
-  payments?: [],
+  accounts: AccountsInterface[],
+  treatments: TreatmentLabInterface[],
+  payments: PaymentLabType[],
   consumptions?: [],
-  patients?: []
+  patients?: [],
+  createdAt: string,
+  updatedAt: string
 }
 
-export const DefaultLaboratoryInterface  = {
+export const DefaultLaboratoryInterface: laboratoryInterface = {
   _id: "",
   name: "",
   phone: "",
+  accounts: [DefaultAccountsInterface],
+  treatments: [DefaultTreatmentLabInterface],
+  payments: [DefaultPaymentLabType],
+  // consumptions: [DefaultLabConsumptionInterface],
+  createdAt: "",
+  updatedAt: ""
 }
 
 export interface DataLaboratoryInterface {

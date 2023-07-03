@@ -7,7 +7,7 @@ import { DefaultUserInterface, UserInterface } from '../users/types';
 type PopOverChooseDoctorType = {
   popOverIsOpen: boolean, 
   togglePopover: () => void,
-  link: any,
+  link?: any,
   pathDropDown: any
 }
 

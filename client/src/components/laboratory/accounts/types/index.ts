@@ -1,15 +1,20 @@
-import { UserInterface } from "../../../users/types"
+import { DefaultUserInterface, UserInterface } from "../../../users/types"
 
 export interface AccountsInterface {
-  doctor: DoctorInterface,
+  doctor: UserInterface,
   balance: Number
 }
 
-export interface DoctorInterface {
-  username: string,   
-  password: string,
-  roles: []
-  phone: string,
-  doctor: UserInterface,
-  _id: string
+export const DefaultAccountsInterface: AccountsInterface = {
+  doctor: DefaultUserInterface,
+  balance: 0
 }
+
+// export interface DoctorInterface {
+//   username: string,   
+//   password: string,
+//   roles: []
+//   phone: string,
+//   doctor: UserInterface,
+//   _id: string
+// }

@@ -4,6 +4,7 @@ const getTreatments = async (req, res) => {
   try {
     const { treat, assurance } = req.query
     let treatments
+
     if(treat) {
       if(assurance) {
         treatments = await TreatmentModel.find({
@@ -15,7 +16,6 @@ const getTreatments = async (req, res) => {
           name: { $regex: new RegExp("^" + treat, "i") }
         }).sort({ name: 1 })
       }
-
     } else {
       treatments = await TreatmentModel.find().sort({ name: 1 })
     }
