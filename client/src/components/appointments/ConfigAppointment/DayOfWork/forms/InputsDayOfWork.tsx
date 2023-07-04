@@ -1,15 +1,14 @@
-import React, { useContext, useState } from "react";
-import { DataDayOfWorkContext, DayInfo, DefaultDayInfo } from "../types";
+import React, { useContext } from "react";
+import { DataDayOfWorkContext, DayInfo } from "../types";
 
 const InputsDayOfWork: React.FC = () => {
-  const { DayArray } = useContext(DataDayOfWorkContext);
-  const [selectedDay, setSelectedDay] = useState<DayInfo[]>([DefaultDayInfo]);
+  const { DayArray, selectedDay, setSelectedDay } = useContext(DataDayOfWorkContext);
 
   const handleAddDay = (e: any, arr: any) => {
     if (!e.target.checked) {
       setSelectedDay(selectedDay.filter((data) => data.order !== arr.order));
     } else {
-      setSelectedDay([...selectedDay, arr]);
+      setSelectedDay([...selectedDay, arr].sort((a: DayInfo, b: DayInfo) => a.order - b.order));
     }
   };
 
@@ -17,7 +16,6 @@ const InputsDayOfWork: React.FC = () => {
     <>
       {DayArray.map((arr: any) => (
         <div className="block" key={arr.order}>
-          {}
           <input
             type="checkbox"
             name={arr.name}

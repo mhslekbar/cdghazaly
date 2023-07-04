@@ -36,7 +36,7 @@ const ShowLaboratory: React.FC = () => {
       try {
         const boundActions = bindActionCreators({ ShowLaboratoryApi }, dispatch);
         await boundActions.ShowLaboratoryApi();
-      }catch {}
+      } catch {}
     }
     fetchLab()
   }, [dispatch]);
@@ -44,18 +44,12 @@ const ShowLaboratory: React.FC = () => {
   return (
     <ShowLaboratoryContext.Provider
       value={{
-        showSuccessMsg,
-        setShowSuccessMsg,
-        showEditModal,
-        setShowEditModal,
-        showDeleteModal,
-        setShowDeleteModal,
-        selectedLaboratory,
-        setSelectedLaboratory,
-        selectedActionLab, 
-        setSelectedActionLab,
-        selectedDoctorLab, 
-        setSelectedDoctorLab
+        showSuccessMsg, setShowSuccessMsg,
+        showEditModal, setShowEditModal,
+        showDeleteModal, setShowDeleteModal,
+        selectedLaboratory, setSelectedLaboratory,
+        selectedActionLab,  setSelectedActionLab,
+        selectedDoctorLab,  setSelectedDoctorLab
       }}
     >
       {showSuccessMsg && (

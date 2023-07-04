@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
-import { DataDayOfWorkContext, DayofTheWeek } from './types';
-import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
-import InputsDayOfWork from './forms/InputsDayOfWork';
+import React from 'react';
+import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 
-interface AddDayOfWorkInterface {
+interface AddNewAppointmentInterface {
   modal: boolean,
   toggle: () => void,
 }
 
-const AddDayOfWork:React.FC<AddDayOfWorkInterface> = ({ modal, toggle }) => {
-  const [DayArray, setDayArray] = useState<any[]>(Object.values(DayofTheWeek));
-  const [day, setDay] = useState("")
+const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle }) => {
 
   return (
-    <DataDayOfWorkContext.Provider value={{
-      DayArray, setDayArray,
-      day, setDay
-    }}>
+    <div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -31,8 +24,7 @@ const AddDayOfWork:React.FC<AddDayOfWorkInterface> = ({ modal, toggle }) => {
                   <form
                     className="mt-2 sm:ml-4 sm:text-left"
                   >
-                    <InputsDayOfWork />
-                    <ButtonsForm typeBtn="Ajouter" toggle={toggle}/>
+                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -41,8 +33,8 @@ const AddDayOfWork:React.FC<AddDayOfWorkInterface> = ({ modal, toggle }) => {
           </div>
         </>
       )}
-    </DataDayOfWorkContext.Provider>
+    </div>
   );
 }
 
-export default AddDayOfWork
+export default AddNewAppointment

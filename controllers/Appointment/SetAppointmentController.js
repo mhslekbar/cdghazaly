@@ -4,7 +4,9 @@ const SetAppointmentModel = require("../../models/SetAppointmentModel")
 const getSettingAppoint = async (request, response) => {
   try {
     const { doctor } = request.params
-    const setting = await SetAppointmentModel.find({ doctor })
+    const setting = await SetAppointmentModel
+    .find({ doctor })
+    .populate("doctor")
     response.status(200).json({ success: setting })
   } catch(error) {
     response.status(500).json({ error: error.message })
@@ -68,11 +70,7 @@ const updateSettingAppoint = async (request, response) => {
     const formErrors = []
 
     const checkSetAppoint = await SetAppointmentModel.findOne({ _id: { $ne: id }, partOfTime })
-    console.log(doctor, "  =>  ", id)
-    console.log(checkSetAppoint)
-    if(checkSetAppoint) {
-      formErrors.push("deja existe")
-    }
+
     if(partOfTime.length === 0) {
       formErrors.push(`Choisir un temps partiel`)
     }

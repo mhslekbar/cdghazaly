@@ -1,21 +1,5 @@
 import { createContext } from "react"
 
-export interface DataDayOfWork {
-  DayArray: any[], 
-  setDayArray: (DayArray: any[]) => void,
-  day: string, 
-  setDay: (day: string) => void,
-}
-
-export const DefaultDataDayOfWork: DataDayOfWork = {
-  DayArray: [], 
-  setDayArray: () => {},
-  day: "", 
-  setDay: () => {},
-}
-
-export const DataDayOfWorkContext = createContext(DefaultDataDayOfWork)
-
 export interface DayInfo {
   name: string;
   order: number;
@@ -24,6 +8,26 @@ export const DefaultDayInfo: DayInfo = {
   name: "",
   order: -1
 }
+
+export interface DataDayOfWork {
+  DayArray: any[], 
+  setDayArray: (DayArray: any[]) => void,
+  day: string, 
+  setDay: (day: string) => void,
+  selectedDay: DayInfo[],
+  setSelectedDay: (selectedDay: DayInfo[]) => void,
+}
+
+export const DefaultDataDayOfWork: DataDayOfWork = {
+  DayArray: [], 
+  setDayArray: () => {},
+  day: "", 
+  setDay: () => {},
+  selectedDay: [DefaultDayInfo],
+  setSelectedDay: () => {},
+}
+
+export const DataDayOfWorkContext = createContext(DefaultDataDayOfWork)
 
 export const DayofTheWeek: Record<string, DayInfo> = {
   Lundi: {

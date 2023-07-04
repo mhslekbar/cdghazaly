@@ -26,7 +26,7 @@ import ShowConsultations from '../components/ManagePatient/Payments/ShowConsulta
 import ShowFiches from '../components/ManagePatient/Fiches/ShowFiches';
 import ShowConsumptions from '../components/ManagePatient/Lab_Consumption/ShowConsumptions';
 import Appointments from '../pages/Appointments';
-import ShowDayOfWork from '../components/appointments/DayOfWork/ShowDayOfWork';
+import ConfigAppointment from '../components/appointments/ConfigAppointment/ConfigAppointment';
 
 
 const MyRoutes:React.FC = () => {
@@ -61,7 +61,7 @@ const MyRoutes:React.FC = () => {
         </Route>
 
         <Route path="/appointments/:doctorId" element={<Appointments />} />
-        <Route path="/appointments/:doctorId/dayofwork" element={<ShowDayOfWork />} />
+        <Route path="/appointments/:doctorId/config" element={<ConfigAppointment />} />
 
         {/* <Route path="/patientManage/:doctorId/:patientId/devis" element={<ManagePatient />}/> */}
         <Route path="/login" element={<Login />}/>
