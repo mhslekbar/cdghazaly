@@ -1,5 +1,7 @@
 import { createContext } from "react"
 import { DayInfo, DefaultDayInfo } from "../../ConfigAppointment/DayOfWork/types"
+import { DefaultUserInterface, UserInterface } from "../../../users/types"
+import { DefaultPatientInterface, PatientInterface } from "../../../patients/types"
 
 export interface AppointmentTableInterface {
   Days: DayInfo[],
@@ -16,3 +18,24 @@ export const DefaultAppointmentTableInterface: AppointmentTableInterface = {
 }
 
 export const AppointmentTableContext = createContext(DefaultAppointmentTableInterface)
+
+export interface AppointmentInterface {
+  _id: string,
+  doctor: UserInterface,
+  patient: PatientInterface,
+  date: Date,
+  time: string,
+  numSeance: number,
+  partOfTime: string
+}
+
+export const DefaultAppointmentInterface:AppointmentInterface = {
+  _id: "",
+  doctor: DefaultUserInterface,
+  patient: DefaultPatientInterface,
+  date: new Date(),
+  time: "",
+  numSeance: 0,
+  partOfTime: ""
+}
+

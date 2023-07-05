@@ -25,7 +25,9 @@ export const InputElement:React.FC<InputElementInterface> = ({ type = "text", na
         placeholder={placeholder || name}
         value={value}
         autoComplete="off"
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          type === "date" ? setValue(new Date(e.target.value)) : setValue(e.target.value)
+        }}
       />
     </div>
   );

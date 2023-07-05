@@ -18,6 +18,7 @@ import ficheReducer from "./fiches/ficheSlice";
 import invoiceReducer from "./invoices/invoiceSlice";
 import consumptionLabReducer from "./laboratory/consumptions/consumptionLabSlice";
 import setAppointmentReducer from "./setAppoint/setAppointSlice";
+import appointmentReducer from "./appointments/appointmentSlice";
 
 import {
   persistStore,
@@ -56,7 +57,8 @@ const rootReducer = combineReducers({
   fiches: ficheReducer,
   invoices: invoiceReducer,
   consumptionLab: consumptionLabReducer,
-  setAppointment: setAppointmentReducer
+  setAppointment: setAppointmentReducer,
+  appointments: appointmentReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

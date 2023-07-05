@@ -3,6 +3,7 @@
   --blueColor: #2563eb;
   --redColor: #eb3b5a;
   --yellowColor: #f1c40f; 
+  --yellowLightColor: #ffeaa7;
 }
 
 @tailwind base;
@@ -51,7 +52,19 @@
   .text-yellow {
     color: var(--yellowColor);
   }
-  
+
+  .btn-yellow-light {
+    background-color: var(--yellowLightColor) !important;
+    color: #FFF;
+  }
+  .bg-yellow-light {
+    background-color: var(--yellowLightColor) !important;
+    color: #000;
+  }
+  .text-yellow-light {
+    color: var(--yellowLightColor);
+  }
+
   .btn-white {
     background-color: #FFF;
     color: #00b894;

@@ -5,7 +5,10 @@ const { createNewFiche } = require("../FicheController");
 const getAppointments = async (request, response) => {
   try { 
     const { doctor } = request.params
-    const appointment = await AppointmentModel.find({ doctor })
+    const appointment = await AppointmentModel
+    .find({ doctor })
+    .populate("doctor")
+    .populate("patient")
     response.status(200).json({ success: appointment })
   } catch(error) {
     response.status(500).json({ error: error.message })
@@ -20,12 +23,15 @@ const createAppointment = async (request, response) => {
     const formErrors = [];
 
     // const checkAppointment = await AppointmentModel.findOne({ date, time });
-    const checkAppointment = await AppointmentModel.findOne({ date, numSeance, partOfTime  })
+    const checkAppointment = await AppointmentModel.findOne({ doctor, date, numSeance, partOfTime  })
 
     if (checkAppointment) {
       formErrors.push("Le rendez-vous existe deja");
     }
-    if (patient.length === 0) {
+    if (patient?.length === 0) {
+      formErrors.push("Le patient est obligatoire");
+    }
+    if (!patient) {
       formErrors.push("Le patient est obligatoire");
     }
     if (date.length === 0) {
@@ -88,9 +94,9 @@ const deleteAppointment = async (request, response) => {
   try {
     const {  id } = request.params
     
-    const FicheInfo = await FicheModel.find({ "LineFiche.appointment": id })
+    const FicheInfo = await FicheModel.findOne({ "LineFiche.appointment": id })
     if(FicheInfo) {
-      const findIndexAppoint = FicheInfo.LineFiche.findIndex(f => f.appointment.equals(id))
+      const findIndexAppoint = FicheInfo.LineFiche.findIndex(f => f.appointment?.equals(id))
       Object.assign(FicheInfo.LineFiche[findIndexAppoint], {
         doctor: undefined,
         acte: undefined,
@@ -99,6 +105,7 @@ const deleteAppointment = async (request, response) => {
         lineInvoice: undefined,
         consumptionLab: undefined,
         appointment: undefined,
+        dateAppointment: null,
         finish: false,
       })
       await FicheInfo.save()

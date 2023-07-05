@@ -2,7 +2,7 @@ export const Timeout = 1500
 
 export const hideMsg = (e: any, error: string[], setError: any) => {
   const theMsg = e.target.innerText;
-  setError(error.filter((err) => err.toUpperCase() !== theMsg.toUpperCase())); 
+  setError(error.filter((err) => err?.toUpperCase() !== theMsg?.toUpperCase())); 
 };
 
 export const formatDate = (dateString: string): string => {

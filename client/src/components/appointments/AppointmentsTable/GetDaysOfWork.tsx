@@ -2,14 +2,12 @@ import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router";
 import { get } from "../../../requestMethods";
 import { DayInfo } from "../ConfigAppointment/DayOfWork/types";
-import { formatDate } from "../../../functions/functions";
-import { dateIsEqualToCurrentDate, getDateOfSpecificDay } from "../functions";
 import { AppointmentTableContext } from "./types";
+import ThTable from "./Table/ThTable";
 
 const GetDaysOfWork: React.FC = () => {
   const { doctorId } = useParams();
   const { Days, setDays } = useContext(AppointmentTableContext);
-  // const currentDate = new Date()
 
   useEffect(() => {
     const fetchDays = async () => {
@@ -18,21 +16,16 @@ const GetDaysOfWork: React.FC = () => {
     };
     fetchDays();
   }, [doctorId, setDays]);
-
+  
   return (
     // bg-white text-main
     <thead className="border-b font-medium bg-blue-400 text-white text-center">
       <tr>
         {Days.sort((a: DayInfo, b: DayInfo) => a.order - b.order).map(
           (day: DayInfo) => {
-            return (
-              <th className={`px-6 py-4 border-r ${dateIsEqualToCurrentDate( day.order + 1) ? "bg-main text-white":"" }`} key={day.order}>
-                {day.name}
-                <span className={`${dateIsEqualToCurrentDate( day.order + 1) ? "bg-main text-white":"" } block`} >
-                  {formatDate(getDateOfSpecificDay( day.order + 1))}
-                </span>
-              </th>
-            );
+            return <React.Fragment key={day.order}>
+              <ThTable day={day}/>
+            </React.Fragment>
           }
         )}
       </tr>
