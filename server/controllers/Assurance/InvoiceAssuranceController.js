@@ -5,7 +5,6 @@ const { getAssurances } = require("../Assurance/AssuranceController")
 const createInvoiceAssurance = async (request, response) => {
   try {
     const { AssId } = request.params
-    const { doctor, inCommon } = request.body
 
     const findAssurance = await AssuranceModel.findOne({ _id: AssId })
     const Users = await UserModel.find()
@@ -15,20 +14,15 @@ const createInvoiceAssurance = async (request, response) => {
     }
     let numInvoice = lastInvoice?.numInvoice || 0
     numInvoice++
-    if(inCommon) {
-      findAssurance.invoices.map(async invoice => {
-        invoice.finish = true
-      })
-      findAssurance.invoices.push({ numInvoice, doctor, inCommon })
-    } else {
+    if(numInvoice) {
       Users
         .filter(user => user.doctor.cabinet)
         .map(user => {
-          findAssurance.invoices.push({ numInvoice, doctor: [user._id], inCommon })
+          findAssurance.invoices.push({ numInvoice, doctor: [user._id] })
         })
+      await findAssurance.save();
     }
-    await findAssurance.save();
-    await getAssurances(request, response)
+    await getAssurances(request, response)      
   } catch(err) {
     console.log("err: ", err)
     response.status(500).json({ err: err.json })

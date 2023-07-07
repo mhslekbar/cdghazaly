@@ -1,0 +1,1 @@
+[{"_id":{"$oid":"6465eb50b3b630dacb8a8be3"},"doctor":{"$oid":"645ea06d469041eda9ded682"},"numBC":"1","LineBC":[{"consumable":{"$oid":"645eb4cff1a21e2de731b542"},"qty":10,"_id":{"$oid":"6465eb50b3b630dacb8a8be4"}}],"createdAt":{"$date":"2023-05-18T09:09:36.454Z"},"updatedAt":{"$date":"2023-05-18T09:09:36.454Z"},"__v":0}]

@@ -44,7 +44,7 @@ const updateAssurance = async (req, res) => {
   try {
     const { id } = req.params
     const assuranceData = await AssuranceModel.findOne({ _id: id })
-    const { name, cons_price, color, doctorInCommon, inCommon } = req.body
+    const { name, cons_price, color } = req.body
 
     const formErrors = []
     const checkAssurance = await AssuranceModel.findOne({ _id: {$ne: id}, name })

@@ -6,7 +6,6 @@ const assuranceSchema = new mongoose.Schema({
   color: { type: String, required: true },
   invoices: [{
     doctor: [{ type: mongoose.Types.ObjectId, ref: "user", required: true }],
-    inCommon: { type: Boolean,  default: false },
     numInvoice: { type: String, required: true },
     payed: { type: Boolean,  default: false },
     finish: { type: Boolean, default: false },

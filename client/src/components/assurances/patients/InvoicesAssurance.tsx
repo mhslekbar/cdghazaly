@@ -11,7 +11,6 @@ import {
 import { UserInterface } from "../../users/types";
 import { InputCheckbox } from "../../../HtmlComponents/InputCheckbox";
 import { MdRemoveCircleOutline } from "react-icons/md";
-import { GiMeepleGroup } from "react-icons/gi"
 import { get } from "../../../requestMethods";
 
 const InvoicesAssurance: React.FC = () => {
@@ -79,8 +78,6 @@ const InvoicesAssurance: React.FC = () => {
             )
             .map((invoice: InvoicesAssuranceInterface) => (
               <button
-                title={invoice.inCommon === true ? "Facture commune entre " + invoice.doctor.map(dc => dc.username + " ") : ""}
-                //  ${invoice.inCommon === true ? "text-main" : ""}
                 className={`${invoice._id === selectedInvoice?._id ? "border-b-4 border-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
                 onClick={() => {
                   setSelectedInvoice(invoice)
@@ -88,10 +85,7 @@ const InvoicesAssurance: React.FC = () => {
                 }}
                 key={invoice._id}
               >
-                <span className="flex justify-center items-center gap-1">
-                  {invoice.inCommon === true && 
-                    <GiMeepleGroup/> 
-                  }
+                <span className="flex justify-center items-center gap-1">                 
                 Facture-{invoice.numInvoice}</span>
                 {!invoice.finish && 
                   <MdRemoveCircleOutline

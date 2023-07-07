@@ -1,9 +1,6 @@
 import React, { FormEvent, useContext, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
-import InputInvoiceAssurance from './forms/InputInvoiceAssurance';
-import { UserInterface } from '../../users/types';
-import { DataInvoiceAssuranceContext } from './types';
 import { useDispatch } from 'react-redux';
 import { AddInvoiceAssuranceApi } from '../../../redux/assurances/invoiceAssApiCalls';
 import { useParams } from 'react-router';
@@ -12,8 +9,6 @@ import { Timeout } from '../../../functions/functions';
 
 
 const AddInvoiceAssurance:React.FC = () => {
-  const [inCommon, setInCommon] = useState(false)
-  const [doctorInCommon, setDoctorInCommon] = useState<UserInterface[]>([])
   
   const [modal, setModal] = useState(false)
   const toggle = () => {
@@ -22,14 +17,12 @@ const AddInvoiceAssurance:React.FC = () => {
 
   const dispatch: any = useDispatch()
   const { AssId } = useParams()
-const {setShowSuccessMsg } = useContext(ShowAssurancesContext)
+  const {setShowSuccessMsg } = useContext(ShowAssurancesContext)
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      const response = await dispatch(AddInvoiceAssuranceApi(AssId, { doctor: doctorInCommon, inCommon }))
+      const response = await dispatch(AddInvoiceAssuranceApi(AssId, {}))
       if(response === true) {
-        setDoctorInCommon([])
-        setInCommon(false)
         toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
@@ -38,10 +31,7 @@ const {setShowSuccessMsg } = useContext(ShowAssurancesContext)
   }
 
   return (
-    <DataInvoiceAssuranceContext.Provider value={{
-      inCommon, setInCommon,
-      doctorInCommon, setDoctorInCommon
-    }}>
+    <>
         <button className="p-2 rounded bg-main text-white" onClick={toggle}>
           <FaPlus />
         </button>
@@ -60,8 +50,6 @@ const {setShowSuccessMsg } = useContext(ShowAssurancesContext)
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {/* My Inputs */}
-                    <InputInvoiceAssurance />
                     <ButtonsForm toggle={toggle} typeBtn='Ajouter'/>
                   </form>
                   {/* End Modal Body */}
@@ -71,7 +59,7 @@ const {setShowSuccessMsg } = useContext(ShowAssurancesContext)
           </div>
         </>
       )}
-    </DataInvoiceAssuranceContext.Provider>
+    </>
   );
 }
 
