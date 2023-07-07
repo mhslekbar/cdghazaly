@@ -131,11 +131,15 @@ const getConsumptionsLab = async (request, response) => {
 const getPatientsLab = async (request, response) => {
   try {
     const { labId } = request.params
-    const laboratory = await LaboratoryModel.findOne({ _id: labId }, { patients: 1, consumptions: 1 })
-    
+    const laboratory = await LaboratoryModel
+      .findOne({ _id: labId }, { patients: 1, consumptions: 1 })
+      .populate("consumptions.doctor")
+      .populate("consumptions.treatment")
+      .populate("consumptions.patient")
     const patientWithConsumptions = laboratory.patients.map(patient => {
       const consumptionData =  laboratory.consumptions.find(cons => cons._id.equals(patient.consumptionLab))
       return {
+        _id: patient._id,
         consumptionLab: consumptionData, 
         appointment: patient.appointment, 
         fingerPrintDate: patient.fingerPrintDate, 
@@ -151,8 +155,24 @@ const getPatientsLab = async (request, response) => {
   }
 }
 
+const finishPatientLab = async (request, response) => {
+  try {
+    const { labId, patientLabId } = request.params
+    const laboratory = await LaboratoryModel.findOne({ _id: labId })
+    const patientLabIndex = laboratory.patients.findIndex(patient => patient._id.equals(patientLabId))
+    if(patientLabIndex > -1) {
+      laboratory.patients[patientLabIndex].finish = true
+    }
+    await laboratory.save()
+    await getPatientsLab(request, response)
+  } catch (err) {
+    response.status(500).json({ err:err.message })
+  }
+}
+
+
 module.exports = { 
-  getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab, 
+  getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab, finishPatientLab,
   getAccountsLab, getConsumptionsLab
 }
 

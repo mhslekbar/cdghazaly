@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { State } from "../../../../redux/store";
 import { useParams } from "react-router";
@@ -30,8 +30,9 @@ const TdTable: React.FC<TdTableInterface> = ({ Start, time, index, day, partOfTi
   }, [filterByDate])
   
   const tdTime = AddPlayTime(Start, MultiplyTime(time, index));
-  const findDate = appointments.find((appoint: AppointmentInterface) => appoint.doctor._id === doctorId && formatDate(appoint.date.toString()) === formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) && appoint.partOfTime === partOfTime && appoint.numSeance === (index + 1))
-
+  const findDate = useMemo(() => {
+    return appointments.find((appoint: AppointmentInterface) => appoint.doctor._id === doctorId && formatDate(appoint.date.toString()) === formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) && appoint.partOfTime === partOfTime && appoint.numSeance === (index + 1))
+  }, [appointments, doctorId, day, desiredDate, partOfTime, index])
 
   return findDate ? 
       <TdCheckedAppoint day={day} findDate={findDate} tdTime={tdTime} />

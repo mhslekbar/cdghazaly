@@ -25,6 +25,7 @@ import { EditFicheApi } from "../../../redux/fiches/ficheApiCalls";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { Timeout } from "../../../functions/functions";
+import AppointmentModal from "./controls/AppointmentModal";
 
 
 const ShowFiches: React.FC = () => {
@@ -40,6 +41,7 @@ const ShowFiches: React.FC = () => {
   const [showEditDevis, setShowEditDevis] = useState(false);
   const [showDeleteDevis, setShowDeleteDevis] = useState(false);
   
+  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [selectedLineDevis, setSelectedLineDevis] = useState<LineDevisType>(DefaultLineDevisType)
   const [selectedLineFiche, setSelectedLineFiche] = useState<LineFicheInterface>(DefaultLineFicheInterface)
@@ -106,7 +108,8 @@ const ShowFiches: React.FC = () => {
           selectedLineDevis, setSelectedLineDevis,
           selectedLineFiche, setSelectedLineFiche,
           showEditFiche, setShowEditFiche,
-          showDeleteLineFiche, setShowDeleteLineFiche
+          showDeleteLineFiche, setShowDeleteLineFiche,
+          showAppointmentModal, setShowAppointmentModal
         }}
       >
         {showSuccessMsg && (
@@ -156,7 +159,9 @@ const ShowFiches: React.FC = () => {
             toggle={() => setShowEditFiche(!showEditFiche)}
           />
         )}
-
+        {showAppointmentModal && selectedLineFiche && 
+          <AppointmentModal modal={showAppointmentModal} toggle={() => setShowAppointmentModal(!showAppointmentModal)}/>
+        }
       </ShowFichesContext.Provider>
     </ShowDevisInterfaceContext.Provider>
   );

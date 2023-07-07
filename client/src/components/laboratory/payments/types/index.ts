@@ -6,8 +6,8 @@ export interface PaymentLabType {
   doctor: UserInterface,
   comment: string,
   amount: string
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export const DefaultPaymentLabType = {
@@ -15,8 +15,8 @@ export const DefaultPaymentLabType = {
   doctor: DefaultUserInterface,
   comment: "",
   amount: "",
-  createdAt: "",
-  updatedAt: ""
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
 export interface AddPaymentLabInterface {

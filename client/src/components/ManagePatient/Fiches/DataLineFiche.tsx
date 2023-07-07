@@ -13,7 +13,7 @@ interface DataLineFicheInterface {
 }
 
 const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex }) => {
-  const { setSelectedLineFiche, selectedFiche, showDeleteLineFiche, setShowDeleteLineFiche} = useContext(ShowFichesContext);
+  const { setSelectedLineFiche, selectedFiche, showDeleteLineFiche, setShowDeleteLineFiche, setShowAppointmentModal } = useContext(ShowFichesContext);
   const [firstEmptyDateIndex, setFirstEmptyDateIndex] = useState(-1);
 
   useEffect(() => {
@@ -28,8 +28,12 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
         <InputFiche type="hidden" Line={Line} kind="lineFicheId" />
       </td>
       <td className="whitespace-nowrap border-r border-[#95a5a6] bg-white font-medium w-6">        
-        {firstEmptyDateIndex >= myIndex && (
+        {firstEmptyDateIndex > myIndex &&  (
           <InputFiche type="date" Line={Line} kind="date" />
+        )
+        }
+        {firstEmptyDateIndex === myIndex && !Line.appointment &&  (
+          <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full' onClick={() => setShowAppointmentModal(true)}>RDV</button>
         )
         }
       </td>

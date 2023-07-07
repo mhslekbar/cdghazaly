@@ -4,13 +4,16 @@ const bodyParser = require("body-parser")
 
 const cors = require("cors");
 
-const corsOptions = {
-  origin: "http://localhost:3032",
-  optionsSuccessStatus: 200,
-  credentials: true
-};
+// const corsOptions = {
+// origin: "https://cabinet-elghazaly.vercel.app/",
+//   origin: "http://localhost:3032",
+//   optionsSuccessStatus: 200,
+//   credentials: true
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(cors());
 
 // include .env file
 const dotenv = require("dotenv");

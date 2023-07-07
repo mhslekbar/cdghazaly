@@ -80,7 +80,8 @@ const InvoicesAssurance: React.FC = () => {
             .map((invoice: InvoicesAssuranceInterface) => (
               <button
                 title={invoice.inCommon === true ? "Facture commune entre " + invoice.doctor.map(dc => dc.username + " ") : ""}
-                className={`${invoice._id === selectedInvoice?._id ? "border-b-4 border-main" : ""}  ${invoice.inCommon === true ? "text-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
+                //  ${invoice.inCommon === true ? "text-main" : ""}
+                className={`${invoice._id === selectedInvoice?._id ? "border-b-4 border-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
                 onClick={() => {
                   setSelectedInvoice(invoice)
                   fetchAllPayments()
@@ -92,13 +93,15 @@ const InvoicesAssurance: React.FC = () => {
                     <GiMeepleGroup/> 
                   }
                 Facture-{invoice.numInvoice}</span>
-                <MdRemoveCircleOutline
-                  onClick={() => handleShowDeleteInvoice(invoice)}
-                  className="text-red"
-                  style={{
-                    fontSize: "22px",
-                  }}
-                />
+                {!invoice.finish && 
+                  <MdRemoveCircleOutline
+                    onClick={() => handleShowDeleteInvoice(invoice)}
+                    className="text-red"
+                    style={{
+                      fontSize: "22px",
+                    }}
+                  />
+                }
               </button>
             ))}
       </section>

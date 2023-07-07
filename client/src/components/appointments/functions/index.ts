@@ -1,3 +1,4 @@
+import { formatDate } from "../../../functions/functions";
 
 export const getDateOfSpecificDay = (desiredDayOfWeek: number, desiredDate: any = null): string => {
   const currentDate = new Date(desiredDate); // start with current Date
@@ -11,13 +12,17 @@ export const getDateOfSpecificDay = (desiredDayOfWeek: number, desiredDate: any 
 };
 
 export const dateIsEqualToCurrentDate = (desiredDayOfWeek: number, desiredDate: any = null): string | null => {
-  const currentDate = new Date(desiredDate); // start with current Date
+  const currentDate = new Date(); // start with current Date
   const currentDayOfWeek = currentDate.getDay();
   let difference = desiredDayOfWeek - currentDayOfWeek;
+  if(formatDate(desiredDate) !== formatDate(currentDate.toString())) {
+    return null
+  }
   if (difference === 0) {
     currentDate.setDate(currentDate.getDate() + difference);
     return currentDate.toString()
-  } 
+  }
+
   return null
 };
 

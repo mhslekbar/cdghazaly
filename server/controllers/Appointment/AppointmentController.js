@@ -19,7 +19,7 @@ const createAppointment = async (request, response) => {
   try {
     const { doctor } = request.params;
     const { patient, date, time, numSeance, partOfTime } = request.body;
-
+    
     const formErrors = [];
 
     // const checkAppointment = await AppointmentModel.findOne({ date, time });

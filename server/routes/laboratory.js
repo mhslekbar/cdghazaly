@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { 
-  getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab,
+  getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab, finishPatientLab,
   getAccountsLab, getConsumptionsLab
  } = require("../controllers/Laboratory/LaboratoryController")
  const { 
@@ -18,7 +18,11 @@ router.delete("/:id", deleteLabortory)
 router.post("/consumptions", getConsumptionsLab)
 
 router.get("/:labId/accounts", getAccountsLab)
+
+// Start Patient Lab
 router.get("/:labId/patients", getPatientsLab)
+router.post("/:labId/patients/:patientLabId", finishPatientLab)
+// END Patient Lab
 
 // Start Treatments
 router.get("/:labId/treatments", getTreatmentsLab)

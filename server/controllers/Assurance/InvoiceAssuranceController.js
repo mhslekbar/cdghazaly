@@ -10,7 +10,9 @@ const createInvoiceAssurance = async (request, response) => {
     const findAssurance = await AssuranceModel.findOne({ _id: AssId })
     const Users = await UserModel.find()
     let lastInvoice = findAssurance.invoices[findAssurance.invoices.length - 1]
-    lastInvoice.finish = true
+    if(lastInvoice) {
+      lastInvoice.finish = true
+    }
     let numInvoice = lastInvoice?.numInvoice || 0
     numInvoice++
     if(inCommon) {
@@ -28,6 +30,7 @@ const createInvoiceAssurance = async (request, response) => {
     await findAssurance.save();
     await getAssurances(request, response)
   } catch(err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.json })
   }
 }

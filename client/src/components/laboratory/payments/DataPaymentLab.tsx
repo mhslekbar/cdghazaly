@@ -64,37 +64,40 @@ const DataLabPayment: React.FC = () => {
                         (payment: PaymentLabType) =>
                         payment.doctor._id === doctorId
                       )
-                      .map((payment: PaymentLabType, index: number) => (
-                        <tr className="border-b" key={index}>
-                          <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                            {payment.amount}
-                          </td>
-                          <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                            {payment.comment}
-                          </td>
-                          <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                            {formatDate(payment.createdAt)}
-                          </td>
-                          <td className="bg-white h-full">
-                            <div className="flex justify-center">
-                              <FaEdit
-                                className="text-blue"
-                                style={{
-                                  fontSize: "22px",
-                                }}
-                                onClick={() => toggleEditUser(payment)}
-                              />
-                              <MdRemoveCircle
-                                className="text-red"
-                                style={{
-                                  fontSize: "22px",
-                                }}
-                                onClick={() => toggleDeleteUser(payment)}
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      .sort((a: PaymentLabType, b: PaymentLabType) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                      .map((payment: PaymentLabType, index: number) => {
+                        return (
+                          <tr className="border-b" key={index}>
+                            <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                              {payment.amount}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                              {payment.comment}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                              {formatDate(payment.createdAt.toString())}
+                            </td>
+                            <td className="bg-white h-full">
+                              <div className="flex justify-center">
+                                <FaEdit
+                                  className="text-blue"
+                                  style={{
+                                    fontSize: "22px",
+                                  }}
+                                  onClick={() => toggleEditUser(payment)}
+                                />
+                                <MdRemoveCircle
+                                  className="text-red"
+                                  style={{
+                                    fontSize: "22px",
+                                  }}
+                                  onClick={() => toggleDeleteUser(payment)}
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      })}
                   </tbody>
                 </table>
               </div>

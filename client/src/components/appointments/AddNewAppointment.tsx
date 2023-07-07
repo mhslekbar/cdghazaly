@@ -10,6 +10,7 @@ import { State } from '../../redux/store';
 import { PatientInterface } from '../patients/types';
 import { AddAppointmentApi } from '../../redux/appointments/appointmentApiCalls';
 import { Timeout, formatDate, hideMsg } from '../../functions/functions';
+import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
 
 interface AddNewAppointmentInterface {
   modal: boolean,
@@ -18,7 +19,7 @@ interface AddNewAppointmentInterface {
 
 const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle }) => {
   const { patients } = useSelector((state: State) => state.patients)
-  const { doctorId } = useParams()
+  const { doctorId, patientId } = useParams()
   const { selectedTd, setShowSuccessMsg } = useContext(ShowAppointmentContext)
 
   const [dateAppointment, setDateAppointment] = useState<any>("")
@@ -67,11 +68,16 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle 
         setShowSuccessMsg(true)
         setPatient({})
         setTimeout(() => setShowSuccessMsg(false), Timeout)
+        patientId && await dispatch(ShowFicheApi(patientId))
       } else {
         setErrors(response)
       }
     } catch { }
   }
+
+  useEffect(() => {
+    patientId && setPatient({value: patientId})
+  }, [patientId])
 
   return (
     <div>
@@ -100,7 +106,9 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle 
                         {err}
                       </p>
                     ))}
-                    <Select styles={customStyles} value={patient} onChange={(e: any) => setPatient(e)} options={listPatient} />  
+                    {
+                      !patientId && <Select styles={customStyles} value={patient} onChange={(e: any) => setPatient(e)} options={listPatient} />  
+                    }
                     <p className='rounded shadow px-4 py-2 bg-[#EEE] w-full mt-2'>{formatDate(dateAppointment)}</p>
                     <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
                   </form>

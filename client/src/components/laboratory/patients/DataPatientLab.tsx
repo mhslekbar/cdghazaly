@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { ShowPatientLabApi } from "../../../redux/laboratory/patients/patientLabApiCalls"
+import { PatientLab, ShowPatientLabContext } from "./types";
+import { RegNo, formatDate } from "../../../functions/functions";
+import { FaCheck } from "react-icons/fa";
 
 const DataPatientLab:React.FC = () => {
   const { patientLab } = useSelector((state: State) => state.patientLab);
   const dispatch: any = useDispatch()
-  const { labId } = useParams()
+  const { labId, doctorId } = useParams()
+  const { typePatientLab, showFinishPatientLab, setShowFinishPatientLab, setSelectedPatientLab } = useContext(ShowPatientLabContext)
   
   useEffect(() => {
     const fetchPaymentLab = async () => {
@@ -20,32 +24,56 @@ const DataPatientLab:React.FC = () => {
   }, [dispatch, labId])
 
   return (
-    <div className="flex flex-col border mt-2">
+    <div className="flex flex-col border mt-3">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
           <div className="overflow-hidden">
-            <table className="min-w-full text-left text-sm font-light">
+            <table className="min-w-full text-left text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
                   <th className="px-6 py-4 border-r">Doss.NO</th>
                   <th className="px-6 py-4 border-r">Nom</th>
                   <th className="px-6 py-4 border-r">Traitement</th>
                   <th className="px-6 py-4 border-r">Dents</th>
-                  <th className="px-6 py-4 border-r">Labo</th>
                   <th className="px-6 py-4 border-r">Date D'empreinte</th>
                   <th className="px-6 py-4 border-r">Date RDV</th>
-                  <th className="px-6 py-4 border-r">Valider</th>
+                  {!typePatientLab && <th className="px-6 py-4 border-r">Terminer</th>}
                 </tr>
               </thead>
               <tbody>
-                {patientLab.map((patient: any, index) => (
-                  <tr className="border-b" key={index}>
-                    <td className="whitespace-nowrap px-4 py-2 border-r font-medium">
-                      {patient.name}
-                    </td>
-                    <td></td>
-                  </tr>
-                ))}
+                {patientLab
+                .filter((patientLabo: PatientLab) => patientLabo.consumptionLab.doctor._id === doctorId && patientLabo.finish === typePatientLab)
+                .sort(((a: PatientLab, b: PatientLab) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+                .map((patientLabo: PatientLab, index) => {
+                  return (
+                    <tr className="border-b" key={index}>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {RegNo(patientLabo.consumptionLab.patient?.RegNo)}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {patientLabo.consumptionLab.patient.name}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {patientLabo.consumptionLab.treatment.name}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {patientLabo.consumptionLab.teeth.nums.map((num: string, ind) => num + (ind < patientLabo.consumptionLab.teeth.nums.length - 1 ? ", " : ""))}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {formatDate(patientLabo.fingerPrintDate?.toString())}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {formatDate(patientLabo.appointment?.date?.toString())}
+                      </td>
+                      {!typePatientLab && <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium flex justify-center">
+                        <FaCheck className="text-main" style={{ fontSize: "22px" }} onClick={() => {
+                          setSelectedPatientLab(patientLabo)
+                          setShowFinishPatientLab(!showFinishPatientLab)
+                        }}/>
+                      </td>}
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>

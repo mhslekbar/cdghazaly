@@ -56,7 +56,7 @@ const DataLineDevis: React.FC<DataLineDevisInterface> = ({ LineDevis, setLineDev
                       {lnDevis.treatment?.name}
                     </td>
                     <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium">
-                      {lnDevis.teeth.nums.map((num: string, index) => num + (index < lnDevis.teeth.nums.length - 1 ? ", " : ""))}
+                      {lnDevis.teeth.nums.map((num: string, ind) => num + (ind < lnDevis.teeth.nums.length - 1 ? ", " : ""))}
                     </td>
                     <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium">
                       {lnDevis.teeth.surface}

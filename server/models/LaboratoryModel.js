@@ -46,7 +46,7 @@ const laboratorySchema = new mongoose.Schema({
     consumptionLab: { type: mongoose.Types.ObjectId, ref: "laboratory.consumptions" },
     appointment: { type: mongoose.Types.ObjectId, ref: "appointment" },
     fingerPrintDate: { type: Date },
-    finish: { type: Number, default: 0 },
+    finish: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   }]

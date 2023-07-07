@@ -162,6 +162,7 @@ const updateLineFiche = async (request, response) => {
       laboratoryInfo.patients.push({
         patient,
         consumptionLab,
+        fingerPrintDate: dateAppointment,
         appointment,
         createdAt: dateAppointment,
         updateAt: dateAppointment,

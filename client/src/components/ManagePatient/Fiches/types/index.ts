@@ -65,6 +65,8 @@ export interface ShowFichesInterface {
   setShowEditFiche: (showEditFiche: boolean) => void,
   showDeleteLineFiche: boolean,
   setShowDeleteLineFiche: (showDeleteLineFiche: boolean) => void,
+  showAppointmentModal: boolean,
+  setShowAppointmentModal: (showAppointmentModal: boolean) => void,
 }
 
 export const DefaultShowFichesInterface: ShowFichesInterface = {
@@ -80,6 +82,8 @@ export const DefaultShowFichesInterface: ShowFichesInterface = {
   setShowEditFiche: () => {},
   showDeleteLineFiche: false,
   setShowDeleteLineFiche: () => {},
+  showAppointmentModal: false,
+  setShowAppointmentModal: () => {},
 }
 
 export const ShowFichesContext = createContext(DefaultShowFichesInterface)
