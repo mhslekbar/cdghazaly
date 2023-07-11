@@ -1,24 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { ShowLaboratoryContext } from "../ShowLaboratory";
 import { useParams } from "react-router";
-import { post } from "../../../requestMethods";
-import { DefaultLaboratoryInterface, laboratoryInterface } from "../types";
 import { LabConsumptionInterface } from "./types";
+import { useDispatch } from "react-redux";
+import { ShowConsumptionLabApi } from "../../../redux/laboratory/consumptions/consumptionLabApiCalls";
+import { useSelector } from "react-redux";
+import { State } from "../../../redux/store";
 
-const ShowLabConsumptions = () => {
+const ShowLabConsumptions:React.FC = () => {
   const { selectedDoctorLab } = useContext(ShowLaboratoryContext);
-  const [foundLaboratory, setFoundLaboratory] = useState<laboratoryInterface>(
-    DefaultLaboratoryInterface
-  );
+  const { consumptionLab } = useSelector((state: State) => state.consumptionLab)
 
   const { labId, doctorId } = useParams();
+  const dispatch: any = useDispatch();
+
   useEffect(() => {
     const fetchLabs = async () => {
-      const response = await post(`laboratory/consumptions`, { labId });
-      setFoundLaboratory(response.data.success);
+       await dispatch(ShowConsumptionLabApi({labId}))
     };
     fetchLabs();
-  }, [labId]);
+  }, [dispatch, labId]);
 
   return (
     <div>
@@ -40,11 +41,11 @@ const ShowLabConsumptions = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {foundLaboratory?.consumptions
+                  {consumptionLab
                     ?.filter(
-                      (consumption: LabConsumptionInterface) => consumption.doctor._id === doctorId
+                      (consumption: LabConsumptionInterface) => consumption.doctor?._id === doctorId
                     )
-                    .sort((a: LabConsumptionInterface, b: LabConsumptionInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    ?.sort((a: LabConsumptionInterface, b: LabConsumptionInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                     ?.map((consumption: LabConsumptionInterface, index) => (
                       <tr className="border-b" key={index}>
                         <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">

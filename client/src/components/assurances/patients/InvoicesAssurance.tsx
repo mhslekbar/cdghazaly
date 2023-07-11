@@ -8,10 +8,9 @@ import {
   DefaultInvoicesAssuranceInterface,
   InvoicesAssuranceInterface,
 } from "../types";
-import { UserInterface } from "../../users/types";
 import { InputCheckbox } from "../../../HtmlComponents/InputCheckbox";
 import { MdRemoveCircleOutline } from "react-icons/md";
-import { get } from "../../../requestMethods";
+import { FaPrint } from "react-icons/fa";
 
 const InvoicesAssurance: React.FC = () => {
   const { AssId, doctorId } = useParams();
@@ -21,7 +20,7 @@ const InvoicesAssurance: React.FC = () => {
 
   const { assurances } = useSelector((state: State) => state.assurances);
 
-  const { setSelectedInvoice, selectedInvoice, setShowDeleteInvoice, setPayments } = useContext(ShowPatientsAssuranceContext);
+  const { setSelectedInvoice, selectedInvoice, setShowDeleteInvoice, factureGlobal, setFactureGlobal } = useContext(ShowPatientsAssuranceContext);
 
   useEffect(() => {
     const dataAssurance: any = assurances.find(
@@ -38,19 +37,11 @@ const InvoicesAssurance: React.FC = () => {
 }, [assurances, AssId]);
   
   useEffect(() => {
-    setSelectedInvoice(invoices?.find((invoice: InvoicesAssuranceInterface) => invoice.doctor.some(dc => dc._id === doctorId)) || invoices[0])
+    setSelectedInvoice(invoices[0])
   }, [invoices, setSelectedInvoice, doctorId])
 
   const [archiveInvoice, setArchiveInvoice] = useState(false);
 
-  const fetchAllPayments = async () => {
-    try {
-      const response = await get(`payment/all_payments`);
-      setPayments(response.data.success);
-    } catch (err) {
-      console.log("err: ", err)
-    }
-  };
   
   const handleShowDeleteInvoice = (invoice: InvoicesAssuranceInterface) => {
     setShowDeleteInvoice(true)
@@ -59,29 +50,34 @@ const InvoicesAssurance: React.FC = () => {
 
   return (
     <div className="mt-2">
-      <InputCheckbox
-        id="archiver"
-        name="Afficher les Archives"
-        value={archiveInvoice}
-        setValue={setArchiveInvoice}
-      />
+      <div className="flex justify-start gap-2">
+        <InputCheckbox
+          id="archiver"
+          name="Afficher les Archives"
+          value={archiveInvoice}
+          setValue={setArchiveInvoice}
+        />
+        <InputCheckbox
+          id="FGlobal"
+          name="Facture Global"
+          value={factureGlobal}
+          setValue={setFactureGlobal}
+        />
+        <FaPrint className="text-blue mt-2" style={{ fontSize: "22px" }} onClick={() => window.print()}/>
+      </div>
       <section className="flex flex-row gap-2">
         {invoices.length > 0 &&
           invoices
             .filter(
               (invoice: InvoicesAssuranceInterface) =>
-                invoice.doctor.find(
-                  (doctor: UserInterface) => doctor._id === doctorId
-                ) &&
                 (invoice.finish === false ||
                   invoice.finish === archiveInvoice)
             )
             .map((invoice: InvoicesAssuranceInterface) => (
               <button
-                className={`${invoice._id === selectedInvoice?._id ? "border-b-4 border-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
+                className={`${invoice?._id === selectedInvoice?._id ? "border-b-4 border-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
                 onClick={() => {
                   setSelectedInvoice(invoice)
-                  fetchAllPayments()
                 }}
                 key={invoice._id}
               >

@@ -3,11 +3,13 @@ const { getDays, createDay, editDay, deleteDay } = require("../controllers/Appoi
 
 const { getSettingAppoint, createSettingAppoint, updateSettingAppoint, deleteSettingAppoint } = require("../controllers/Appointment/SetAppointmentController") 
 
-const { getAppointments, createAppointment, deleteAppointment } = require("../controllers/Appointment/AppointmentController")
+const { getAppointments, createAppointment, deleteAppointment, sendMessage } = require("../controllers/Appointment/AppointmentController")
 
 router.get("/:doctor", getAppointments)
 router.post("/:doctor", createAppointment)
 router.delete("/:doctor/:id", deleteAppointment)
+
+router.post("/send-message/msg", sendMessage)
 
 router.get("/dayOfWork/:doctor", getDays)
 router.post("/dayOfWork/:doctor", createDay)

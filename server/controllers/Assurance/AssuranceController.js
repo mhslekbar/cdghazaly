@@ -4,7 +4,6 @@ const getAssurances = async (req, res) => {
   try {
     const assurances = await AssuranceModel
     .find()
-    .populate("invoices.doctor")
     .sort({ createdAt: -1 })
     res.status(200).json({ success: assurances })
   } catch (err) {

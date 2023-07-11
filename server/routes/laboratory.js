@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { 
-  getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab, finishPatientLab,
+  getLabortories, createLabortory, updateLabortory, deleteLabortory, 
+  getPatientsLab, finishPatientLab,
   getAccountsLab, getConsumptionsLab
  } = require("../controllers/Laboratory/LaboratoryController")
  const { 

@@ -59,7 +59,9 @@ export interface ShowLaboratoryInterface {
   selectedActionLab: string,
   setSelectedActionLab: (selectedActionLab: string) => void,
   selectedDoctorLab: UserInterface, 
-  setSelectedDoctorLab: (selectedDoctorLab: UserInterface) => void
+  setSelectedDoctorLab: (selectedDoctorLab: UserInterface) => void,
+  showAddModal: boolean,
+  setShowAddModal: (showAddModal: boolean) => void,
 }
 
 export const DefaultShowLaboratoryInterface: ShowLaboratoryInterface = {
@@ -74,6 +76,8 @@ export const DefaultShowLaboratoryInterface: ShowLaboratoryInterface = {
   selectedActionLab: "",
   setSelectedActionLab: () => {},
   selectedDoctorLab: DefaultUserInterface, 
-  setSelectedDoctorLab: () => {}
+  setSelectedDoctorLab: () => {},
+  showAddModal: false,
+  setShowAddModal: () => {},
 }
 

@@ -1,175 +1,54 @@
-import React, { useContext, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
-import { useSelector } from "react-redux";
-import { State } from "../../redux/store";
-import { RegNo, formatDate } from "../../functions/functions";
-import { BsFillPersonFill, BsFillTelephoneFill } from "react-icons/bs";
-import { FaBirthdayCake, FaEdit } from "react-icons/fa";
-import { RiWhatsappFill } from "react-icons/ri";
-import { BiHealth } from "react-icons/bi";
-import { FaRegMoneyBillAlt } from "react-icons/fa";
-import { GiLifeBar } from "react-icons/gi"
-import { useParams } from "react-router";
-import { PatientInterface, ShowPatientsContext } from "./types";
-import { MdRemoveCircle } from "react-icons/md";
-import { switchPathPatient, switchTypePatient } from "./functions";
-import { PatientInfo } from "./PatientInfo";
-
-
-const DataPatients: React.FC = () => {
-  const { ptType } = useParams();
-  const { patients }: { patients: PatientInterface[] } = useSelector(
-    (state: State) => state.patients
-  );
-  const { selectedFilter } = useContext(ShowPatientsContext)
-  const dispatch: any = useDispatch();
-
-  useEffect(() => {
-    const fetchPatient = async () => {
-      await dispatch(ShowPatientsApi());
-    };
-    fetchPatient();
-  }, [dispatch]);
-
-  return (
-    <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-      {patients.length > 0 &&
-        patients
-          .filter((patient: PatientInterface) =>
-            switchPathPatient(ptType, patient)
-              && 
-            switchTypePatient(selectedFilter, patient)
-            
-          )
-          .map((patient: PatientInterface) => (
-            <section
-              className="bg-white border rounded shadow px-4 py-2 hover:bg-main Data-Patient"
-              key={patient._id}
-            >
-              {patient.RegNo && (
-                <PatientInfo
-                  icon={<BsFillPersonFill />}
-                  title="DOSS.NO"
-                  value={RegNo(patient.RegNo).toString()}
-                />
-              )}
-              <PatientInfo
-                icon={<BsFillPersonFill />}
-                title="Nom"
-                value={patient.name}
-              />
-              <PatientInfo
-                icon={<GiLifeBar />}
-                title="Age"
-                value={new Date().getFullYear() - Number(formatDate(patient.dob).split("/")[2])}
-              />
-              <PatientInfo
-                  icon={<BsFillTelephoneFill />}
-                  title="Telephone"
-                  value={patient?.contact?.phone}
-                />
-              {/* {patient?.contact?.whatsApp &&  */}
-                <PatientInfo
-                  icon={<RiWhatsappFill />}
-                  title="WhatsApp"
-                  value={patient?.contact?.whatsApp}
-                />
-              {/* } */}
-              <PatientInfo
-                icon={<FaBirthdayCake />}
-                title="Date"
-                value={formatDate(patient.createdAt.toString())}
-              />
-              <PatientInfo
-                icon={<BiHealth />}
-                title="Etat de santé"
-                value={patient.HealthCondition}
-              />
-              <PatientInfo
-                icon={<FaRegMoneyBillAlt />}
-                title="Balance"
-                className={`${patient.balance < 0 ? "text-red" : ""}`}
-                value={patient.balance.toString()}
-              />
-              <div className="flex justify-center">
-                <FaEdit className="text-blue" style={{
-                  fontSize: "22px"
-                }}/>
-                <MdRemoveCircle className="text-red" style={{
-                  fontSize: "22px"
-                }}/>
-              </div>
-            </section>
-          ))}
-    </div>
-  );
-};
-
-
-
-export default DataPatients;
-
-
-
-
-
-
-/**** THE TABLE *****/
-
-    <div className="flex flex-col border">
-    <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div className="inline-block min-w-full sm:px-6 lg:px-8">
-        <div className="overflow-hidden">
-          <table className="min-w-full text-left text-sm font-light text-center">
-            <thead className="border-b font-medium bg-main text-white">
-              <tr>
-                <th className="px-6 py-4 border-r">DOSS.NO</th>
-                <th className="px-6 py-4 border-r">Nom</th>
-                <th className="px-6 py-4 border-r">Telephone</th>
-                <th className="px-6 py-4 border-r">WhatsApp</th>
-                <th className="px-6 py-4 border-r">Age</th>
-                <th className="px-6 py-4 border-r">Address</th>
-                <th className="px-6 py-4 border-r">Etat de sante</th>
-                <th className="px-6 py-4 border-r">Balance</th>
-                <th className="px-6 py-4 border-r">Date</th>
-    
-                {/* <th className="px-6 py-4 border-r">Actions</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {patients.length > 0 &&
-            patients
-              .filter((patient: PatientInterface) =>
-                switchPathPatient(ptType, patient)
-                  && 
-                switchTypePatient(selectedFilter, patient)
+.filter((payment: PaymentInterface) => {
+                  const paymentDate = new Date(payment.createdAt);
                 
-              ).map((patient: PatientInterface, index) => (
-                <tr className="border-b" key={index}>
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{patient.RegNo} </td>                        
-                  <td className="text-start whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{patient.name} </td>                        
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{patient.contact?.phone} </td>                        
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{patient.contact?.whatsApp} </td>                        
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{new Date().getFullYear() - Number(formatDate(patient.dob).split("/")[2])} </td>                        
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{patient.address} </td>                        
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{patient.HealthCondition} </td>                        
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{patient.balance} </td>                        
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{formatDate(patient.createdAt.toString())} </td>                        
-                  {/* <td>
-                    
-                  </td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    </div>
+                  if (day.toString() === "jour") {
+                    const startDate = new Date(selectedDate);
+                    startDate.setDate(1);
+                    const endDate = new Date(selectedDate);
+                    endDate.setDate(31);
+                    // console.log("startDate: ", startDate)
+                    // console.log("endDate: ", endDate)
+                    console.log("paymentDate: ", paymentDate)                    
+                    return paymentDate >= startDate && paymentDate <= endDate;
+                  }
+                
+                  if (month.toString() === "mois") {
+                    const startDate = new Date(selectedDate);
+                    startDate.setDate(1);
+                    startDate.setMonth(0);
+                    const endDate = new Date(selectedDate);
+                    endDate.setDate(31);
+                    endDate.setMonth(11);          
+                    return paymentDate >= startDate && paymentDate <= endDate;
+                  }
+                
+                  const selectedDateFormatted = formatDate(selectedDate.toString());
+                  const paymentDateFormatted = formatDate(paymentDate.toString());
+                  console.log("paymentDate: ", paymentDate)                    
+                  console.log("selectedDate: ", selectedDate)                    
 
-
-
-
-
-    
+                  return paymentDateFormatted === selectedDateFormatted;
+                })
+                // .filter((payment: PaymentInterface) => {
+                //   let filterDate
+                //   if(day.toString() === "jour") {
+                //     let startDate = new Date(selectedDate);
+                //     startDate.setDate(1);
+                //     let endDate = new Date(selectedDate);
+                //     endDate.setDate(31);
+                //     return new Date(payment.createdAt) >= startDate && new Date(payment.createdAt) <= endDate;
+                //   } 
+                //   if(month.toString() === "mois") {
+                //     let startDate = new Date(selectedDate);
+                //     startDate.setDate(1);
+                //     startDate.setMonth(0);
+                //     let endDate = new Date(selectedDate);
+                //     endDate.setDate(31);
+                //     endDate.setMonth(11);
+                //     return new Date(payment.createdAt) >= startDate && new Date(payment.createdAt) <= endDate;
+                //   } 
+                //   // if(day.toString() !== "jour" && month.toString() !== "mois") {
+                //   //   filterDate = formatDate(payment.createdAt.toString()) === formatDate(selectedDate.toString())
+                //   // }
+                //   return formatDate(payment.createdAt.toString()) === formatDate(selectedDate.toString())
+                // })

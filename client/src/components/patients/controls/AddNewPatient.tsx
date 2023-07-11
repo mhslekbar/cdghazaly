@@ -16,7 +16,6 @@ const AddNewPatient:React.FC = () => {
   const [address, setAddress] = useState("")
   const [healthyCondition, setHealthyCondition] = useState("")
   const [yearOfBirth, setYearOfBirth] = useState("")
-  const [social, setSocial] = useState(false)
   const [consultation, setConsultation] = useState(true)
   const [doctor, setDoctor] = useState<UserInterface[]>([DefaultUserInterface])
   const [paymentMethod, setPaymentMethod] = useState("")
@@ -55,7 +54,6 @@ const AddNewPatient:React.FC = () => {
         percentCovered: Number(percentage)
       },
       address,
-      social,
       method: paymentMethod,
       supported,
       assure: showAssurance,
@@ -73,7 +71,6 @@ const AddNewPatient:React.FC = () => {
         setAddress("")
         setHealthyCondition("")
         setYearOfBirth("")
-        setSocial(false)
         setConsultation(true)
         setPaymentMethod("")
         setShowAssurance(false)
@@ -82,8 +79,7 @@ const AddNewPatient:React.FC = () => {
         setSupported("")
         setPercentage("")
       } else {
-        console.log("errors: ", errors)
-        // setErrors(response)
+        setErrors(response)
       }
     } catch(err) {
       console.log("ss: ", err)
@@ -98,7 +94,6 @@ const AddNewPatient:React.FC = () => {
       address, setAddress,
       healthyCondition, setHealthyCondition,
       yearOfBirth, setYearOfBirth,
-      social, setSocial,
       consultation, setConsultation,
       doctor, setDoctor,
       paymentMethod, setPaymentMethod,

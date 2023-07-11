@@ -27,10 +27,16 @@ import ShowFiches from '../components/ManagePatient/Fiches/ShowFiches';
 import ShowConsumptions from '../components/ManagePatient/Lab_Consumption/ShowConsumptions';
 import Appointments from '../pages/Appointments';
 import ConfigAppointment from '../components/appointments/ConfigAppointment/ConfigAppointment';
+import Statistics from '../pages/Statistics';
+import Accounting from '../components/statistics/details/Accounting';
+import Payments from '../components/statistics/details/Payments';
+import Consumables from '../pages/Consumables';
+import ShowPurchaseOrder from '../components/consumables/purhcaseOrder/ShowPurchaseOrder';
+import ShowMyConsumptions from '../components/consumables/consumptions/ShowMyConsumptions';
+import ShowConsumableList from '../components/consumables/consumableList/ShowConsumableList';
 
 
 const MyRoutes:React.FC = () => {
-
   return (
     <Routes>
       <Route element={<ProtectedRoutes />  }>
@@ -62,8 +68,19 @@ const MyRoutes:React.FC = () => {
 
         <Route path="/appointments/:doctorId" element={<Appointments />} />
         <Route path="/appointments/:doctorId/config" element={<ConfigAppointment />} />
+        <Route path="/statistics/:doctorId" element={<Statistics />}>
+          <Route path='accounting' element={<Accounting />}/>
+          <Route path='payments' element={<Payments />}/>
+        </Route>
+        
+        
 
-        {/* <Route path="/patientManage/:doctorId/:patientId/devis" element={<ManagePatient />}/> */}
+        <Route path="/Consumables/:doctorId" element={<Consumables />}>
+          <Route path='purhcase-order' element={<ShowPurchaseOrder />}/>
+          <Route path='consumptions' element={<ShowMyConsumptions />}/>
+          <Route path="consumable_list" element={<ShowConsumableList />}/>
+        </Route>
+
         <Route path="/login" element={<Login />}/>
         <Route path="*" element={<NotFound />}/>
       </Route>

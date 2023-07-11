@@ -11,9 +11,10 @@ interface DropdownProps {
   toggleDropDown: any,
   pathDropDown: string
   icon?: any,
+  nestedLink?: string,
 }
 
-const DropdownDoctor:React.FC<DropdownProps> = ({ linkList, name, openDropdown, icon, selectedDropDown, toggleDropDown, pathDropDown }) => {
+const DropdownDoctor:React.FC<DropdownProps> = ({ linkList, name, openDropdown, icon, selectedDropDown, toggleDropDown, pathDropDown, nestedLink }) => {
   const location = useLocation()
   const navigate = useNavigate()
   return (
@@ -33,7 +34,7 @@ const DropdownDoctor:React.FC<DropdownProps> = ({ linkList, name, openDropdown, 
                 className=
                 {`${location.pathname.split("/")[1] === pathDropDown && location.pathname.split("/")[2] === link.path  ? "bg-gray-200" : "bg-transparent"} relative text-start block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900`}
                 key={index}
-                onClick={() => navigate(`appointments/${link.path}`)}
+                onClick={() => navigate(`${pathDropDown}/${link.path}${nestedLink ? "/" + nestedLink : ""}`)}
               >
                 {link.title}
               </div>

@@ -5,7 +5,6 @@ const assuranceSchema = new mongoose.Schema({
   cons_price: { type: Number, required: true },
   color: { type: String, required: true },
   invoices: [{
-    doctor: [{ type: mongoose.Types.ObjectId, ref: "user", required: true }],
     numInvoice: { type: String, required: true },
     payed: { type: Boolean,  default: false },
     finish: { type: Boolean, default: false },

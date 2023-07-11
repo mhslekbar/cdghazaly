@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ShowAssurancesContext } from "../types";
+import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router";
 import ButtonAssurance from "./ButtonAssurance";
 import {
@@ -17,8 +16,6 @@ import { UserInterface } from "../../users/types";
 
 const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const [openDropdown, setOpenDropdown] = useState(false);
-
-  const { selectedAssurance,  } = useContext(ShowAssurancesContext);
   const [selectedDropDown, setSelectedDropDown] = useState("");
   const [doctors, setDoctors] = useState([])
 
@@ -53,7 +50,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
       }}
     >
       <div className="bg-white grid lg:grid-cols-2 sm:grid-cols-1 rounded border shadow mt-2 font-bold text-center">
-        {selectedAssurance.name.length > 0 &&
+        {AssId &&
           linskAssurance.map((link: LinksInterface, index) => (
             <React.Fragment key={index}>
               {link.type === "button" ? (

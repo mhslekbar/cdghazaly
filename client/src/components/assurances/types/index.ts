@@ -48,6 +48,8 @@ export interface ShowAssurancesInterface {
   setSelectedAssurance: (selectedAssurance:AssuranceInterface) => void,
   selectedDoctor: any,
   setSelectedDoctor: (selectedDoctor: any) => void,
+  hideDataAssurance: boolean,
+  setHideDataAssurance: (hideDataAssurance: boolean) => void,
 }
 
 export const DefaultShowAssurancesInterface:ShowAssurancesInterface = {
@@ -61,6 +63,8 @@ export const DefaultShowAssurancesInterface:ShowAssurancesInterface = {
   setSelectedAssurance: () => {},
   selectedDoctor: {},
   setSelectedDoctor: () => {},
+  hideDataAssurance: false,
+  setHideDataAssurance: () => {},
 }
 
 export const ShowAssurancesContext = createContext(DefaultShowAssurancesInterface)

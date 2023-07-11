@@ -4,7 +4,7 @@ const getTreatmentsLab = async (request, response) => {
   try {
     const { labId } = request.params
     let labo = await LaboratoryModel
-    .findOne({ _id: labId })
+    .findOne({ _id: labId }, { _id: 1, name: 1, phone: 1, createdAt: 1, treatments: 1 })
     .populate("treatments.treatment")
     response.status(200).json({ success: labo.treatments })
   } catch(err) {

@@ -57,7 +57,7 @@ app.use("/api/payment",  setCacheControl, require("./routes/payment"))
 app.use("/api/devis",  setCacheControl, require("./routes/devis"))
 app.use("/api/fiche",  setCacheControl, require("./routes/fiche"))
 app.use("/api/invoice",  setCacheControl, require("./routes/invoice"))
-app.use("/api/boncommande",  setCacheControl, require("./routes/bonCommande"))
+app.use("/api/purchaseOrder",  setCacheControl, require("./routes/purchaseOrder"))
 app.use("/api/consumption",  setCacheControl, require("./routes/consumption"))
 app.use("/api/appointment",  setCacheControl, require("./routes/appointment"))
 

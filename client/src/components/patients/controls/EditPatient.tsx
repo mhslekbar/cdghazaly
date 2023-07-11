@@ -21,7 +21,6 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
   const [address, setAddress] = useState(patientData.address)
   const [healthyCondition, setHealthyCondition] = useState(patientData.HealthCondition)
   const [yearOfBirth, setYearOfBirth] = useState(patientData.dob)
-  const [social, setSocial] = useState(patientData.social)
   const [consultation, setConsultation] = useState(true)
   const [doctor, setDoctor] = useState<UserInterface[]>(patientData.doctor)
   const [paymentMethod, setPaymentMethod] = useState("")
@@ -65,7 +64,6 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
         percentCovered: Number(percentage)
       },
       address,
-      social,
       method: paymentMethod,
       supported,
       assure: showAssurance,
@@ -84,7 +82,6 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
         setAddress("")
         setHealthyCondition("")
         setYearOfBirth("")
-        setSocial(false)
         setConsultation(true)
         setPaymentMethod("")
         setShowAssurance(false)
@@ -106,7 +103,6 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
       address, setAddress,
       healthyCondition, setHealthyCondition,
       yearOfBirth, setYearOfBirth,
-      social, setSocial,
       consultation, setConsultation,
       doctor, setDoctor,
       paymentMethod, setPaymentMethod,

@@ -8,27 +8,43 @@ const getPayments = async (request, response) => {
   try {
     const { patient } = request.query
     let payments
-    payments = await PaymentModel.find({ patient })
-      .populate("user")
-      .populate("doctor")
-      .populate("patient")
-      .populate("method")
+    if(patient) {
+      payments = await PaymentModel.find({ patient })
+        .populate("user")
+        .populate("doctor")
+        .populate("patient")
+        .populate("method")
       .sort({ createdAt: -1 })
-    response.status(200).json({ success: payments })
-  } catch(err) {
-    response.status(500).json({ err: err.message })
-  }
-}
+    } else {
+      payments = await PaymentModel.find()
+        .populate("user")
+        .populate("doctor")
+        .populate("patient")
+        .populate("method")
+      .sort({ createdAt: -1 })
+    }
 
-const getAllPayments = async (request, response) => {
-  try {
-    let payments
-    payments = await PaymentModel.find()
-      .populate("user")
-      .populate("doctor")
-      .populate("patient")
-      .populate("method")
-      .sort({ createdAt: -1 })
+    payments = await Promise.all(payments.map(async payment => {
+      let invoiceLine
+      if(payment.invoiceAssur) {
+        let assuranceInfo = await AssuranceModel.findOne({ "invoices._id": payment.invoiceAssur })
+        invoiceLine = assuranceInfo?.invoices?.find(invoice => invoice._id.equals(payment.invoiceAssur))
+      }
+      return {
+        _id: payment._id,
+        user: payment.user, 
+        doctor: payment.doctor, 
+        patient: payment.patient, 
+        method: payment.method, 
+        amount: payment.amount, 
+        type: payment.type, 
+        createdAt: payment.createdAt, 
+        updateAt: payment.updatedAt, 
+        invoiceAssur: invoiceLine,
+        supported: payment.supported
+      }
+    }))
+      
     response.status(200).json({ success: payments })
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -51,7 +67,7 @@ const createPayment = async (request, response) => {
     // Start keep invoice assurance
     const { assurance } = patientInfo
     const AssInfo = await AssuranceModel.findOne({ _id: assurance.society })
-    const invoiceAssurance = AssInfo?.invoices.find(invoice => !invoice.finish && invoice.doctor.some((dc) => dc._id.equals(doctor)))    
+    const invoiceAssurance = AssInfo?.invoices.find(invoice => !invoice.finish)    
 
     if(AssInfo && supported.length === 0) {
       formErrors.push("Donner la prise en charge")
@@ -187,4 +203,4 @@ const deletePayment = async (request, response) => {
   }
 }
 
-module.exports = { getPayments, createPayment, updatePayment, getAllPayments, deletePayment }
+module.exports = { getPayments, createPayment, updatePayment, deletePayment }

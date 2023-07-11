@@ -5,9 +5,15 @@ const getConsumptions = async (request, response) => {
     const { doctor } = request.body
     let consumption
     if(doctor) {
-      consumption = await ConsumptionModel.find({ doctor }).sort({ createdAt: -1 })
+      consumption = await ConsumptionModel
+      .find({ doctor })
+      .populate("doctor")
+      .sort({ createdAt: -1 })
     } else {
-      consumption = await ConsumptionModel.find().sort({ createdAt: -1 })
+      consumption = await ConsumptionModel
+      .find()
+      .populate("doctor")
+      .sort({ createdAt: -1 })
     }
     response.status(200).json({ success: consumption })
    } catch (error) {
@@ -17,13 +23,14 @@ const getConsumptions = async (request, response) => {
 
 const createConsumption = async (request, response) => {
   try {
-    const { doctor, comment, amount } = request.body
+    const { doctor, note, amount } = request.body
     const formErrors = []
-    if(amount.length === 0) {
+    if(amount.length === 0 || amount === 0) {
       formErrors.push("Le montant est obligatoire ")
     }
+
     if(formErrors.length === 0) {
-      await ConsumptionModel.create({ doctor, comment, amount })
+      await ConsumptionModel.create({ doctor, note, amount })
       await getConsumptions(request, response)
     }else {
       response.status(300).json({ formErrors })
@@ -36,13 +43,13 @@ const createConsumption = async (request, response) => {
 const updateConsumption = async (request, response) => {
   try {
     const { id } = request.params
-    const { doctor, comment, amount } = request.body
+    const { doctor, note, amount } = request.body
     const formErrors = []
-    if(amount.length === 0) {
+    if(amount.length === 0 || amount === 0) {
       formErrors.push("Le montant est obligatoire ")
     }
     if(formErrors.length === 0) {
-      let updateData = doctor ? { doctor, comment, amount } : { $unset: { doctor: 1 }, comment, amount }
+      let updateData = doctor ? { doctor, note, amount } : { $unset: { doctor: 1 }, note, amount }
       await ConsumptionModel.updateOne({ _id: id }, updateData, { new: true })
       await getConsumptions(request, response)
     }else {

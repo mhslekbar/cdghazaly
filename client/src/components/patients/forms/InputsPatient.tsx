@@ -13,7 +13,6 @@ import InputsAssPatients from './InputsAssPatients'
 import { formattedDate } from '../../../functions/functions'
 import { useParams } from 'react-router'
 
-
 const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
   const { 
     name, setName,
@@ -22,7 +21,6 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
     address, setAddress,
     healthyCondition, setHealthyCondition,
     yearOfBirth, setYearOfBirth,
-    social, setSocial,
     consultation, setConsultation,
     doctor, setDoctor,
     paymentMethod, setPaymentMethod,
@@ -75,11 +73,13 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
         <InputElement name="WhatsApp" id="whatsApp" placeholder="Whatsapp" value={whatsApp} setValue={setWhatsApp} />
       </div>
       <div className="grid grid-cols-2 gap-2">
-        <InputElement name="Etat de Santé" id="healthyCondition" placeholder="Etat de santé" value={healthyCondition} setValue={setHealthyCondition} />
         {typeModal === "Ajouter" ? 
           <InputElement name="Année de naissance" id="yearOfBirth" placeholder="Année de naissance" value={yearOfBirth} setValue={setYearOfBirth} />
-        :
-          <InputElement type="date" name="Année de naissance" id="DateOfBith" placeholder="Date Of Bith" value={formattedDate(yearOfBirth)} setValue={setYearOfBirth} />
+          :
+          <>
+            <InputElement name="Etat de Santé" id="healthyCondition" placeholder="Etat de santé" value={healthyCondition} setValue={setHealthyCondition} />
+            <InputElement type="date" name="Année de naissance" id="DateOfBith" placeholder="Date Of Bith" value={formattedDate(yearOfBirth)} setValue={setYearOfBirth} />
+          </>
         }
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -102,7 +102,6 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
             </React.Fragment>)}
           </div>
         }
-        <InputCheckbox name="Social" id="social" value={social} setValue={setSocial} />
       </div>
       {typeModal === "Ajouter" &&
         <div className="grid grid-cols-2 gap-2">

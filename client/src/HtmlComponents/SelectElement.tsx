@@ -8,7 +8,7 @@ interface SelectElementInterface {
   setValue: (value: any) => void;
   options: any;
   defaultOption?: any,
-  valueType?: string,
+  valueType?: string, // is important to specify which type of value do you need string | object
   showPrice?: boolean // show price of Treatment lab 
 }
 
@@ -33,7 +33,8 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
       <select
         className="w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none uppercase"
         id={id}
-        value={value._id}
+        // value={value._id}
+        value={valueType === "object" ? value._id : value}
         onChange={(e) => {
           const index = e.target.selectedIndex;
           valueType === "object" ? 

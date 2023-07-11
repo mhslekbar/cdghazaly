@@ -12,7 +12,7 @@ const DataPatientLab:React.FC = () => {
   const { patientLab } = useSelector((state: State) => state.patientLab);
   const dispatch: any = useDispatch()
   const { labId, doctorId } = useParams()
-  const { typePatientLab, showFinishPatientLab, setShowFinishPatientLab, setSelectedPatientLab } = useContext(ShowPatientLabContext)
+  const { typePatientLab, showFinishPatientLab, setShowFinishPatientLab, setSelectedPatientLab, setShowAppointmentModal } = useContext(ShowPatientLabContext)
   
   useEffect(() => {
     const fetchPaymentLab = async () => {
@@ -63,13 +63,22 @@ const DataPatientLab:React.FC = () => {
                         {formatDate(patientLabo.fingerPrintDate?.toString())}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                        {formatDate(patientLabo.appointment?.date?.toString())}
+                        {!patientLabo.appointment?.date ? // this mean if patient doesn't finish
+                          <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full' onClick={() => {
+                            setSelectedPatientLab(patientLabo)                          
+                            setShowAppointmentModal(true)                          
+                          }}
+                          >RDV</button>
+                          : 
+                          formatDate(patientLabo.appointment?.date?.toString())}
                       </td>
-                      {!typePatientLab && <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium flex justify-center">
-                        <FaCheck className="text-main" style={{ fontSize: "22px" }} onClick={() => {
-                          setSelectedPatientLab(patientLabo)
-                          setShowFinishPatientLab(!showFinishPatientLab)
-                        }}/>
+                      {!typePatientLab && <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        <p className="flex justify-center">
+                          <FaCheck className="text-main" style={{ fontSize: "22px" }} onClick={() => {
+                            setSelectedPatientLab(patientLabo)
+                            setShowFinishPatientLab(!showFinishPatientLab)
+                          }}/>
+                        </p>
                       </td>}
                     </tr>
                   )

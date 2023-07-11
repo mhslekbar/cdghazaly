@@ -11,17 +11,20 @@ import { PatientInterface } from '../patients/types';
 import { AddAppointmentApi } from '../../redux/appointments/appointmentApiCalls';
 import { Timeout, formatDate, hideMsg } from '../../functions/functions';
 import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
+import { PatientLab } from '../laboratory/patients/types';
+import { ShowPatientLabApi } from '../../redux/laboratory/patients/patientLabApiCalls';
 
 interface AddNewAppointmentInterface {
+  selectedPatientLab?: PatientLab,
   modal: boolean,
   toggle: () => void,
 }
 
-const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle }) => {
+const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle, selectedPatientLab }) => {
   const { patients } = useSelector((state: State) => state.patients)
-  const { doctorId, patientId } = useParams()
+  const { doctorId, patientId, labId } = useParams()
   const { selectedTd, setShowSuccessMsg } = useContext(ShowAppointmentContext)
-
+  
   const [dateAppointment, setDateAppointment] = useState<any>("")
 
   useEffect(() => {
@@ -60,7 +63,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    Object.assign(selectedTd, { patient: patient?.value })
+    Object.assign(selectedTd, { patient: patient?.value, patientLab: selectedPatientLab})
     try {
       const response = await dispatch(AddAppointmentApi(doctorId, selectedTd))
       if(response === true) {
@@ -69,6 +72,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle 
         setPatient({})
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         patientId && await dispatch(ShowFicheApi(patientId))
+        selectedPatientLab?._id && labId && await dispatch(ShowPatientLabApi(labId || ""))
       } else {
         setErrors(response)
       }
@@ -78,6 +82,12 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle 
   useEffect(() => {
     patientId && setPatient({value: patientId})
   }, [patientId])
+
+  useEffect(() => {
+    const patient = selectedPatientLab?.consumptionLab?.patient
+    patient?._id && setPatient({value: patient?._id})
+  }, [selectedPatientLab])
+  
 
   return (
     <div>
@@ -106,9 +116,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle 
                         {err}
                       </p>
                     ))}
-                    {
-                      !patientId && <Select styles={customStyles} value={patient} onChange={(e: any) => setPatient(e)} options={listPatient} />  
-                    }
+                    {!patientId && !selectedPatientLab?.consumptionLab?.patient?._id && <Select styles={customStyles} value={patient} onChange={(e: any) => setPatient(e)} options={listPatient} />}
                     <p className='rounded shadow px-4 py-2 bg-[#EEE] w-full mt-2'>{formatDate(dateAppointment)}</p>
                     <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
                   </form>

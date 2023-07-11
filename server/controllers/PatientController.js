@@ -19,7 +19,7 @@ const getPatients = async (request, response) => {
 
 const createPatient = async (request, response) => {
   try {
-    let { user, doctor, name, contact, HealthCondition, yearOfBirth, assurance, address, social, method, supported, assure, isConsult } = request.body;
+    let { user, doctor, name, contact, yearOfBirth, assurance, address, method, supported, assure, isConsult } = request.body;
 
     let { cons_price } = await SettingModel.findOne();
     let dob = new Date();
@@ -43,9 +43,6 @@ const createPatient = async (request, response) => {
       formErrors.push("Le telephone du patient est obligatoire.");
     }
 
-    if (HealthCondition.length === 0) {
-      formErrors.push("L'état de santé du patient est obligatoire.");
-    }
     if (yearOfBirth.length === 0) {
       formErrors.push("Année de naissance du patient est obligatoire.");
     } else {
@@ -78,7 +75,7 @@ const createPatient = async (request, response) => {
         supported = supported + "/" + new Date().getUTCFullYear();
 
         // Start keep invoice assurance
-        const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish && invoice.doctor.some((dc) => dc._id.equals(doctor)))    
+        const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)    
         // const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)  
         invoiceAssur = invoiceAssurance._id
       }
@@ -93,17 +90,13 @@ const createPatient = async (request, response) => {
       supported = null;
     }
 
-    if (social) {
-      cons_price = 0;
-    }
-
     if (method.length === 0) {
       method = null;
     }
 
     if (formErrors.length === 0) {
       let newPatient;
-      newPatient = await PatientModel.create({ doctor: doctor, name, contact, HealthCondition, address, dob, assurance, social, date_archive });
+      newPatient = await PatientModel.create({ doctor: doctor, name, contact, address, dob, assurance, date_archive });
       await PaymentModel.create({ user, doctor, patient: newPatient._id, amount: cons_price, type: "consultations", method, supported, invoiceAssur });
       await getPatients(request, response);
     } else {
@@ -118,14 +111,13 @@ const updatePatient = async (request, response) => {
   try {
     const { id } = request.params;
     let {
-      doctor, name, contact, HealthCondition, dob, assurance, social, method, supported, address, assure,
+      doctor, name, contact, HealthCondition, dob, assurance, method, supported, address, assure,
     } = request.body;
 
     const patientInfo = await PatientModel.findOne({ _id: id });
     const paymentInfo = await PaymentModel.findOne({ patient: id, type: "consultations" });
-
+    
     let cons_price = paymentInfo.amount;
-
     const formErrors = [];
     if (doctor.length === 0) {
       doctor = patientInfo.doctor;
@@ -147,9 +139,6 @@ const updatePatient = async (request, response) => {
     }
     if (assurance.length === 0) {
       assurance = patientInfo.assurance;
-    }
-    if (social.length === 0) {
-      social = patientInfo.social;
     }
 
     if (assure) {
@@ -178,9 +167,6 @@ const updatePatient = async (request, response) => {
       assurance = {};
       supported = null;
     }
-    if (social) {
-      cons_price = 0;
-    }
     if (method.length === 0) {
       method = null;
     }
@@ -188,7 +174,7 @@ const updatePatient = async (request, response) => {
     if (formErrors.length === 0) {
       await PatientModel.updateOne(
         { _id: id },
-        { doctor, name, contact, HealthCondition, dob, assurance, address, social },
+        { doctor, name, contact, HealthCondition, dob, assurance, address },
         { new: true }
       );
       // Start Edit payment
@@ -266,7 +252,7 @@ const returnPatient = async (request, response) => {
     const formErrors = []
     
     const patientData = await PatientModel.findOne({ _id: patient })
-    const { assurance, social  } = patientData
+    const { assurance  } = patientData
     let amount
 
     let invoiceAssur = null
@@ -277,7 +263,7 @@ const returnPatient = async (request, response) => {
       });
       amount = societyInfo.cons_price;
 
-      const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish && invoice.doctor.some((dc) => dc._id.equals(doctor)))    
+      const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)    
       // const invoiceAssurance = societyInfo?.invoices.find(invoice => !invoice.finish)    
       invoiceAssur = invoiceAssurance._id
 
@@ -286,9 +272,6 @@ const returnPatient = async (request, response) => {
       } else {
         supported = supported + "/" + new Date().getUTCFullYear();
       }
-    } else if(social) {
-      amount = 0
-      supported = null
     } else {
       let { cons_price } = await SettingModel.findOne();
       amount = cons_price

@@ -46,7 +46,7 @@ const InputsAddUser: React.FC = () => {
   const handleChangeRole = (e: any, role: PermissionType) => {
     if (!e.target.checked) {
       setCheckedRoles(
-        checkedRoles.filter((element: PermissionType) => element !== role)
+        checkedRoles.filter((element: PermissionType) => element._id !== role._id)
       );
     } else {
       setCheckedRoles([...checkedRoles, role]);

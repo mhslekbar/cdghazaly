@@ -10,13 +10,15 @@ import ToggleTableAppointment from '../../../appointments/ToggleTableAppointment
 import AddNewAppointment from '../../../appointments/AddNewAppointment';
 import DeleteAppointment from '../../../appointments/DeleteAppointment';
 import AppointmentsTable from '../../../appointments/AppointmentsTable/TableAppointments';
+import { PatientLab } from '../../../laboratory/patients/types';
 
 interface AppointmentModalInterface {
+  selectedPatientLab?: PatientLab,
   modal: boolean,
   toggle: () => void,
 }
 
-const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle }) => {
+const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, selectedPatientLab }) => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -70,10 +72,11 @@ const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle })
                     toggle={() => setShowSuccessMsg(!showSuccessMsg)}
                   />
                 )}
-                <HeaderAppointment />
+                <HeaderAppointment selectedPatientLab={selectedPatientLab}/>
                 <ToggleTableAppointment />
                 {showAddModal && selectedTd &&
                   <AddNewAppointment
+                    selectedPatientLab={selectedPatientLab}
                     modal={showAddModal}
                     toggle={() => setShowAddModal(!showAddModal)}
                   />

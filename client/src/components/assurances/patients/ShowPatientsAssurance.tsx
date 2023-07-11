@@ -7,15 +7,14 @@ import { useDispatch } from "react-redux";
 import { ShowAssuranceApi } from "../../../redux/assurances/assuranceApiCalls";
 import DeleteInvoiceAssurance from "./DeleteInvoiceAssurance";
 import DataPatientAssurance from "./DataPatientAssurance";
-import { DefaultPaymentInterface, PaymentInterface } from "../../ManagePatient/Payments/types";
 
 const ShowPatientsAssurance: React.FC = () => {
   const [selectedInvoice, setSelectedInvoice] = useState(
     DefaultInvoicesAssuranceInterface
   );
-  const [payments, setPayments] = useState<PaymentInterface[]>([DefaultPaymentInterface]);
 
   const [showDeleteInvoice, setShowDeleteInvoice] = useState(false);
+  const [factureGlobal, setFactureGlobal] = useState(false);
 
   const { selectedDoctor } = useContext(ShowAssurancesContext)
 
@@ -35,7 +34,7 @@ const ShowPatientsAssurance: React.FC = () => {
         setSelectedInvoice,
         showDeleteInvoice,
         setShowDeleteInvoice,
-        payments, setPayments
+        factureGlobal, setFactureGlobal
       }}
     >
       <div className="mt-2">

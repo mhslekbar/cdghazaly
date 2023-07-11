@@ -1,27 +1,27 @@
 import React, { useContext, useEffect } from "react";
-import { get } from "../../../requestMethods";
 import { PaymentInterface } from "../../ManagePatient/Payments/types";
-import { RegNo } from "../../../functions/functions";
 import { ShowPatientsAssuranceContext } from "./types";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { UserInterface } from "../../users/types";
+import { useDispatch } from "react-redux";
+import { ShowPaymentsApi } from "../../../redux/payments/paymentApiCalls";
+import { useSelector } from "react-redux";
+import { State } from "../../../redux/store";
 
 const DataPatientAssurance: React.FC = () => {
-  const { selectedInvoice, payments, setPayments } = useContext(ShowPatientsAssuranceContext);
+  const { selectedInvoice, factureGlobal } = useContext(ShowPatientsAssuranceContext);
+  const { payments } = useSelector((state: State) => state.payments)
 
   const { doctorId } = useParams() 
-
+  const dispatch: any = useDispatch()
+  
   useEffect(() => {
     const fetchAllPayments = async () => {
       try {
-        const response = await get(`payment/all_payments`);
-        setPayments(response.data.success);
-      } catch (err) {
-        console.log("err: ", err)
-      }
+        await dispatch(ShowPaymentsApi())
+      } catch { }
     };
     fetchAllPayments();
-  }, [setPayments]);
+  }, [dispatch]);
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -29,23 +29,26 @@ const DataPatientAssurance: React.FC = () => {
   return (
     <div className="flex flex-col border mt-3">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
           <div className="overflow-hidden">
             <table className="min-w-full text-left text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
                   <th className="px-6 py-4 border-r">Doss.NO</th>
                   <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">Type</th>
                   <th className="px-6 py-4 border-r">Montant</th>
+                  <th className="px-6 py-4 border-r">Prise en charge</th>
+                  <th className="px-6 py-4 border-r">Type</th>
                   <th className="px-6 py-4 border-r">Doctor</th>
                 </tr>
               </thead>
               <tbody>
               {payments
-                // && selectedInvoice?.doctor.some((doctor: UserInterface) => doctor._id === doctorId)
-                // payment.doctor._id === doctorId
-                .filter((payment: PaymentInterface) => payment.supported && payment.invoiceAssur === selectedInvoice?._id && selectedInvoice?.doctor.some((doctor: UserInterface) => doctor._id === doctorId))
+                .filter((payment: PaymentInterface) => 
+                  (payment.supported 
+                  && payment.invoiceAssur?._id === selectedInvoice?._id )
+                  && (factureGlobal || payment.doctor._id === doctorId)
+                )
                 .sort((a: PaymentInterface, b: PaymentInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                 .map((payment: PaymentInterface, index) => (
                   <tr className="border-b" key={index}>
@@ -55,7 +58,7 @@ const DataPatientAssurance: React.FC = () => {
                         navigate(`/patient/${doctorId}/${payment.patient._id}/Manage/devis`)
                       }}
                     >
-                      {RegNo(payment.patient.RegNo)}
+                      {payment.patient?.assurance?.professionalId?.toString()}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium hover:bg-gray-300" 
                       onClick={() => {
@@ -66,14 +69,16 @@ const DataPatientAssurance: React.FC = () => {
                       {payment.patient.name}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {payment.type}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {payment.amount}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                      {payment.supported}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                      {payment.type}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {payment.doctor.username}
-                      {/* {selectedInvoice.doctor[0].username} */}
                     </td>
                   </tr>
                 ))}

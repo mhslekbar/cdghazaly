@@ -2,8 +2,40 @@ export const Timeout = 1500
 
 export const hideMsg = (e: any, error: string[], setError: any) => {
   const theMsg = e.target.innerText;
-  setError(error.filter((err) => err?.toUpperCase() !== theMsg?.toUpperCase())); 
+  setError(error.filter((err) => err?.toUpperCase()?.trim() !== theMsg?.toUpperCase()?.trim())); 
 };
+
+
+export const filterSpecificDate = (MyArray: any[], day: number, month: number, showSwitchDate: boolean, startDate: Date, endDate: Date, selectedDate: Date): any [] => {
+  return MyArray.filter((consumption: any) => {
+    const consumptionDate = new Date(consumption.createdAt);
+    if(showSwitchDate) {
+      return consumptionDate >= startDate && consumptionDate <= endDate;
+    } else {
+      if (day.toString() === "jour" && month.toString() !== "mois") {
+        const startDate = new Date(selectedDate);
+        startDate.setDate(1);
+        const endDate = new Date(selectedDate);
+        endDate.setDate(31);
+        return consumptionDate >= startDate && consumptionDate <= endDate;
+      }
+      if (month.toString() === "mois") {
+        const startDate = new Date(selectedDate);
+        startDate.setDate(1);
+        startDate.setMonth(0);
+        const endDate = new Date(selectedDate);
+        endDate.setDate(31);
+        endDate.setMonth(11);          
+        return consumptionDate >= startDate && consumptionDate <= endDate;
+      }
+      const selectedDateFormatted = formatDate(selectedDate.toString());
+      const consumptionDateFormatted = formatDate(consumptionDate.toString());
+
+      return consumptionDateFormatted === selectedDateFormatted;
+    }
+  })
+}
+
 
 export const formatDate = (dateString: string): string => {
   let result = ""

@@ -6,7 +6,7 @@ import { State } from "../../redux/store";
 import { FaEdit } from "react-icons/fa";
 import { MdRemoveCircle } from "react-icons/md";
 import { AssuranceInterface, ShowAssurancesContext } from "./types";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const DataAssurances: React.FC = () => {
   const { assurances } = useSelector((state: State) => state.assurances);
@@ -25,7 +25,7 @@ const DataAssurances: React.FC = () => {
     showDeleteModal, 
     setShowDeleteModal,
     setSelectedAssurance,
-    selectedAssurance
+    setHideDataAssurance
   } = useContext(ShowAssurancesContext)
 
   const toggleEditAssurance = (assurance: AssuranceInterface) => { 
@@ -39,13 +39,15 @@ const DataAssurances: React.FC = () => {
   };
 
   const navigte = useNavigate()
+  const { AssId } = useParams()
 
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-2 mt-4">
       {assurances.map((assurance: AssuranceInterface, index) => (
-        <div className={`${assurance._id === selectedAssurance._id  ? "bg-main" : "" } bg-white px-6 py-4 rounded border shadow hover:bg-main`} 
+        <div className={`${assurance._id === AssId  ? "bg-main" : "" } bg-white px-6 py-4 rounded border shadow hover:bg-main`} 
         // style={{ backgroundColor: assurance.color }} 
           onClick={() => {
+            setHideDataAssurance(true)
             setSelectedAssurance(assurance)
             navigte(`/assurance/${assurance._id}/treatments`)
           }}

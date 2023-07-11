@@ -5,14 +5,19 @@ import { formattedDate } from '../../functions/functions'
 import { InputElement } from '../../HtmlComponents/InputElement'
 import { ShowAppointmentContext } from './types'
 import { FaPrint } from 'react-icons/fa'
+import { PatientLab } from '../laboratory/patients/types'
 
-const HeaderAppointment:React.FC = () => {
+interface HeaderAppointmentInterface {
+  selectedPatientLab?: PatientLab
+}
+
+const HeaderAppointment:React.FC<HeaderAppointmentInterface> = ({ selectedPatientLab }) => {
   const navigate = useNavigate()
   const { filterByDate, setFilterByDate } = useContext(ShowAppointmentContext)
   const { patientId } = useParams()
   return (
     <div className='mt-2 flex justify-between'>
-      {!patientId ? 
+      {!patientId && !selectedPatientLab?.consumptionLab?.patient?._id ? 
         <button className='shadow rounded bg-white text-blue-400 focus:outline-none px-2 py-2' onClick={() => window.print()}>
           <FaPrint style={{ fontSize: "22px"}} />
         </button>
@@ -22,7 +27,7 @@ const HeaderAppointment:React.FC = () => {
         <span>Filter</span>
         <InputElement type="date" value={formattedDate(filterByDate.toString())} setValue={setFilterByDate}/>
       </div>
-      {!patientId ?
+      {!patientId && !selectedPatientLab?.consumptionLab?.patient?._id ?
         <button className='shadow rounded bg-blue focus:outline-none px-2 py-2' onClick={() => navigate(`config`)}>
           <BsGearFill style={{
             fontSize: "22px"

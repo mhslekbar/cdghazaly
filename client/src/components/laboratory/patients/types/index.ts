@@ -32,6 +32,8 @@ export interface ShowPatientLabInterface {
   setTypePatientLab: (typePatientLab: boolean) => void,
   showFinishPatientLab: boolean,
   setShowFinishPatientLab: (showFinishPatientLab: boolean) => void,
+  showAppointmentModal: boolean,
+  setShowAppointmentModal: (showAppointmentModal: boolean) => void,
 }
 
 export const DefaultShowPatientLabInterface: ShowPatientLabInterface = {
@@ -41,6 +43,8 @@ export const DefaultShowPatientLabInterface: ShowPatientLabInterface = {
   setTypePatientLab: () => {},
   showFinishPatientLab: false,
   setShowFinishPatientLab: () => {},
+  showAppointmentModal: false,
+  setShowAppointmentModal: () => {},
 }
 
 export const ShowPatientLabContext = createContext(DefaultShowPatientLabInterface)

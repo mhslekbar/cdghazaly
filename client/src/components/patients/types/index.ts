@@ -17,7 +17,6 @@ export interface PatientInterface {
     professionalId: string,
     percentCovered: string
   },
-  social: boolean;
   finish: boolean;
   balance: number;
   date_archive: Date;
@@ -42,7 +41,6 @@ export const DefaultPatientInterface: PatientInterface = {
     professionalId: "",
     percentCovered: ""
   },
-  social: false,
   finish: false,
   balance: 0,
   date_archive: new Date(),
@@ -66,8 +64,6 @@ export interface DataInputsPatientInterface {
   setHealthyCondition: (healthyCondition: string) => void
   yearOfBirth: string,
   setYearOfBirth: (yearOfBirth: string) => void,
-  social: boolean,
-  setSocial: (social: boolean) => void,
   consultation: boolean,
   setConsultation: (consultation: boolean) => void,
   doctor: UserInterface[],
@@ -100,8 +96,6 @@ export const DefaultDataInputsPatientInterface: DataInputsPatientInterface = {
   setHealthyCondition: () => {},
   yearOfBirth: "",
   setYearOfBirth: () => {},
-  social: false,
-  setSocial: () => {},
   consultation: false,
   setConsultation: () => {},
   doctor: [DefaultUserInterface],

@@ -1,12 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DefaultLabConsumptionInterface, LabConsumptionInterface } from "../../../components/laboratory/consumptions/types";
+
+interface initialStateInterface {
+  isFetching: boolean,
+  consumptionLab: LabConsumptionInterface[],
+  error: string[],
+} 
+
+const initialState: initialStateInterface = {
+  isFetching: false,
+  consumptionLab: [DefaultLabConsumptionInterface],
+  error: [""],
+}
 
 const consumptionLabSlice = createSlice({
   name: "consumptionLab",
-  initialState: {
-    isFetching: false,
-    consumptionLab: [],
-    error: [],
-  },
+  initialState,
   reducers: {
     statusConsumptionLabStart: (state) => {
       state.isFetching = true

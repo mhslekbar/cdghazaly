@@ -19,6 +19,9 @@ import invoiceReducer from "./invoices/invoiceSlice";
 import consumptionLabReducer from "./laboratory/consumptions/consumptionLabSlice";
 import setAppointmentReducer from "./setAppoint/setAppointSlice";
 import appointmentReducer from "./appointments/appointmentSlice";
+import consumptionReducer from "./consumptions/consumptionSlice";
+import listConsumableReducer from "./listConsumable/listConsumableSlice";
+import purchaseOrderReducer from "./purchaseOrder/purchaseOrderSlice";
 
 import {
   persistStore,
@@ -58,7 +61,10 @@ const rootReducer = combineReducers({
   invoices: invoiceReducer,
   consumptionLab: consumptionLabReducer,
   setAppointment: setAppointmentReducer,
-  appointments: appointmentReducer
+  appointments: appointmentReducer,
+  consumptions: consumptionReducer,
+  ListConsumable: listConsumableReducer,
+  purchaseOrder: purchaseOrderReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

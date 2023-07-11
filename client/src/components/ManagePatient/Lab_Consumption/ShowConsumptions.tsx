@@ -6,17 +6,19 @@ import { useParams } from "react-router";
 import { ShowConsumptionLabApi } from "../../../redux/laboratory/consumptions/consumptionLabApiCalls";
 
 const ShowConsumptions: React.FC = () => {
-  const { consumptionLab } = useSelector((state: State) => state.consumptionLab)
+  const { consumptionLab } = useSelector(
+    (state: State) => state.consumptionLab
+  );
 
-  const dispatch: any = useDispatch()
-  const { patientId } = useParams()
+  const dispatch: any = useDispatch();
+  const { patientId } = useParams();
 
   useEffect(() => {
     const fetchLab = async () => {
-      await dispatch(ShowConsumptionLabApi(patientId))
-    }
+      await dispatch(ShowConsumptionLabApi({ patient: patientId }));
+    };
     fetchLab();
-  }, [dispatch, patientId])
+  }, [dispatch, patientId]);
 
   return (
     <div className="flex flex-col border mt-3 shadow">
@@ -28,7 +30,6 @@ const ShowConsumptions: React.FC = () => {
                 <tr>
                   <th className="px-6 py-4 border-r">Traitement</th>
                   <th className="px-6 py-4 border-r">Dents</th>
-                  <th className="px-6 py-4 border-r">Surface</th>
                   <th className="px-6 py-4 border-r">NBS.SN</th>
                   <th className="px-6 py-4 border-r">Prix</th>
                   <th className="px-6 py-4 border-r">Total</th>
@@ -36,36 +37,36 @@ const ShowConsumptions: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {
-                consumptionLab
-                .map((labo: any) => 
-                labo.consumptions.map((consumption: any, index: number) => (
-                  <tr className="border-b" key={index}>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {consumption.treatment.name}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {consumption.teeth.nums.map((num: string, ind: number) => num + (ind < consumption.teeth.nums.length - 1 ? ", " : ""))}                    
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {consumption.teeth.surface}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {consumption.teeth.nums.length}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {consumption.price}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {consumption.teeth.nums.length * consumption.price}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {labo.name}
-                    </td>
-                  </tr>
-                ))
-                )
-                }
+                {consumptionLab.map((labo: any) =>
+                  labo.consumptions.map((consumption: any, index: number) => (
+                    <tr className="border-b" key={index}>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {consumption.treatment.name}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {consumption.teeth.nums.map(
+                          (num: string, ind: number) =>
+                            num +
+                            (ind < consumption.teeth.nums.length - 1
+                              ? ", "
+                              : "")
+                        )}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {consumption.teeth.nums.length}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {consumption.price}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {consumption.teeth.nums.length * consumption.price}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        {labo.name}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

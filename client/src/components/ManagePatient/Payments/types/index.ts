@@ -2,6 +2,7 @@ import { createContext } from "react"
 import { DefaultUserInterface, UserInterface } from "../../../users/types"
 import { formattedDate } from "../../../../functions/functions"
 import { DefaultPatientInterface, PatientInterface } from "../../../patients/types"
+import { DefaultInvoicesAssuranceInterface, InvoicesAssuranceInterface } from "../../../assurances/types"
 
 export enum EnumTypePayment {
   PAYMENT = "payment",
@@ -65,7 +66,7 @@ export interface PaymentInterface {
   type: string,
   method: PaymentMethodInterface,
   supported: string,
-  invoiceAssur: string,
+  invoiceAssur: InvoicesAssuranceInterface,
   createdAt: string,
 }
 
@@ -78,7 +79,7 @@ export const  DefaultPaymentInterface:PaymentInterface = {
   type: "",
   method: DefaultPaymentMethodInterface,
   supported: "",
-  invoiceAssur: "",
+  invoiceAssur: DefaultInvoicesAssuranceInterface,
   createdAt: ""
 }
 

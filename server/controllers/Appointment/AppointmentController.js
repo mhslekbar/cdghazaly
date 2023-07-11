@@ -1,6 +1,8 @@
 const AppointmentModel = require("../../models/AppointmentModel");
 const FicheModel = require("../../models/FicheModel");
+const LaboratoryModel = require("../../models/LaboratoryModel");
 const { createNewFiche } = require("../FicheController");
+const twilio = require('twilio');
 
 const getAppointments = async (request, response) => {
   try { 
@@ -18,13 +20,13 @@ const getAppointments = async (request, response) => {
 const createAppointment = async (request, response) => {
   try {
     const { doctor } = request.params;
-    const { patient, date, time, numSeance, partOfTime } = request.body;
+    const { patient, date, time, numSeance, partOfTime, patientLab } = request.body;
     
     const formErrors = [];
 
     // const checkAppointment = await AppointmentModel.findOne({ date, time });
     const checkAppointment = await AppointmentModel.findOne({ doctor, date, numSeance, partOfTime  })
-
+    
     if (checkAppointment) {
       formErrors.push("Le rendez-vous existe deja");
     }
@@ -79,6 +81,15 @@ const createAppointment = async (request, response) => {
         newFiche.save();
       }
 
+      if(patientLab) {
+        const lab = await LaboratoryModel.findOne({"patients._id": patientLab._id})
+        const findPatientIndex = lab.patients.findIndex(patient => patient._id.equals(patientLab._id))
+        if(findPatientIndex > -1) {
+          lab.patients[findPatientIndex].appointment = appoint._id
+        }
+        await lab.save()
+      }
+
       await fichePatient.save()
       await getAppointments(request, response)
 
@@ -117,4 +128,46 @@ const deleteAppointment = async (request, response) => {
     response.status(500).json({ error: error.message })
   }
 }
-module.exports = { getAppointments, createAppointment, deleteAppointment };
+
+const sendMessage = (request, response) => {
+  const { phoneNumbers, message } = request.body;
+  console.log("phoneNumbers: ", phoneNumbers)
+
+  const accountSid = 'ACad2ab43d413decf65353be3b0ebc6220';
+  const authToken = '0bbb47c9b33ab2b7e74ac26d32a898c9';
+  const client = twilio(accountSid, authToken);
+
+  const sendWhatsAppMessage = async (to, body) => {
+    try {
+      const message = await client.messages.create({
+        body: body,
+        from: 'whatsapp:+14155238886',
+        to: `whatsapp:${to}`
+      });
+      console.log(`WhatsApp message sent with SID: ${message.sid}`);
+    } catch (error) {
+      console.error('Error sending WhatsApp message:', error);
+    }
+  }
+  sendWhatsAppMessage('+22226145050', message)
+
+
+  // Promise.all(
+  //   phoneNumbers.map((recipient) => {
+  //     return client.messages.create({
+  //       body: message,
+  //       from: `+14847158376`,
+  //       to: `${recipient}`,
+  //     });
+  //   })
+  // )
+  //   .then(() => {
+  //     response.status(200).json({ success: true });
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error sending messages:', error);
+  //     response.status(500).json({ success: false, error: 'Failed to send messages' });
+  //   });
+}
+
+module.exports = { getAppointments, createAppointment, deleteAppointment, sendMessage };

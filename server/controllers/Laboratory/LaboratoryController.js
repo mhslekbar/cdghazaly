@@ -96,7 +96,7 @@ const getAccountsLab = async (request, response) => {
   try {
     const { labId } = request.params
     const laboratory = await LaboratoryModel
-    .findOne({ _id: labId })
+    .findOne({ _id: labId }, {_id: 1, name: 1, phone: 1, createdAt: 1, accounts: 1})
     .populate("accounts.doctor")
     response.status(200).json({ success: laboratory.accounts })
   } catch(err) {
@@ -107,22 +107,33 @@ const getAccountsLab = async (request, response) => {
 const getConsumptionsLab = async (request, response) => {
   try {
     const { patient, labId } = request.body
-    let laboratory
+
+    let consumptionLab
     if(patient) {
-      laboratory = await LaboratoryModel
-        .find({ "consumptions.patient": patient })
+      consumptionLab = await LaboratoryModel
+        .find({ "consumptions.patient": patient }, {_id: 1, name: 1, phone: 1, createdAt: 1, consumptions: 1})
         .populate("consumptions.doctor")
         .populate("consumptions.treatment")
         .populate("consumptions.patient")
+        // consumptionLab = consumptionLab.consumptions
     } else if(labId) {
-      laboratory = await LaboratoryModel
-        .findOne({ _id: labId })
+      consumptionLab = await LaboratoryModel
+        .findOne({ _id: labId }, { consumptions: 1 })
         .populate("consumptions.doctor")
         .populate("consumptions.treatment")
         .populate("consumptions.patient")
+        consumptionLab = consumptionLab.consumptions
+    }  else {
+      consumptionLab = await LaboratoryModel
+      .find({ }, {_id: 1, name: 1, phone: 1, createdAt: 1, consumptions: 1})
+      .populate("consumptions.doctor")
+      .populate("consumptions.treatment")
+      .populate("consumptions.patient")
+      consumptionLab = consumptionLab.map((lab) => ({consumptions: lab.consumptions}))
     }
-    response.status(200).json({ success: laboratory })
+    response.status(200).json({ success: consumptionLab })
   } catch(err) {
+    console.log("err: ", err)
     response.status(500).json({ err:err.message })
   }
 }
@@ -133,6 +144,7 @@ const getPatientsLab = async (request, response) => {
     const { labId } = request.params
     const laboratory = await LaboratoryModel
       .findOne({ _id: labId }, { patients: 1, consumptions: 1 })
+      .populate("patients.appointment")
       .populate("consumptions.doctor")
       .populate("consumptions.treatment")
       .populate("consumptions.patient")
@@ -171,8 +183,10 @@ const finishPatientLab = async (request, response) => {
 }
 
 
+
 module.exports = { 
-  getLabortories, createLabortory, updateLabortory, deleteLabortory, getPatientsLab, finishPatientLab,
+  getLabortories, createLabortory, updateLabortory, deleteLabortory,
+  getPatientsLab, finishPatientLab,
   getAccountsLab, getConsumptionsLab
 }
 

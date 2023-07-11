@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 import ButtonElement from "./ButtonElement";
 import { TfiUser } from "react-icons/tfi";
 import { RiUserSettingsLine } from "react-icons/ri";
-import { FaBriefcaseMedical, FaTooth, FaUser } from "react-icons/fa";
+import { FaBriefcaseMedical, FaChartLine, FaTooth, FaUser } from "react-icons/fa";
 import { MdOutlineAssuredWorkload } from "react-icons/md";
 import { listTypePatient } from "./types";
 import { GrSchedule } from "react-icons/gr";
@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { UserInterface } from "../users/types";
 import { ShowUserApi } from "../../redux/users/UserApiCalls";
 import DropdownDoctor from "./DropDownDoctor";
+import { BsCart4 } from "react-icons/bs";
 
 interface MyLinkInterface {
   openDropdown: boolean;
@@ -82,6 +83,25 @@ const MyLink: React.FC<MyLinkInterface> = ({
         openDropdown={openDropdown}
         name="Rendez-vous"
         pathDropDown="appointments"
+        linkList={listDoctors}
+        selectedDropDown={selectedDropDown}
+        toggleDropDown={toggleDropDown}
+      />
+      <DropdownDoctor
+        icon={<FaChartLine />}
+        openDropdown={openDropdown}
+        name="Stats Financières"
+        pathDropDown="statistics"
+        linkList={listDoctors}
+        nestedLink="payments"
+        selectedDropDown={selectedDropDown}
+        toggleDropDown={toggleDropDown}
+      />
+      <DropdownDoctor
+        icon={<BsCart4 />}
+        openDropdown={openDropdown}
+        name="Consommations"
+        pathDropDown="consumables"
         linkList={listDoctors}
         selectedDropDown={selectedDropDown}
         toggleDropDown={toggleDropDown}

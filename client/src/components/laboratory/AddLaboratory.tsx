@@ -1,5 +1,4 @@
 import React, { FormEvent, useContext, useState } from "react";
-import { FaPlus } from "react-icons/fa";
 import InputsLaboratory from "./forms/InputsLaboratory";
 import ButtonsLaboratory from "./forms/ButtonsLaboratory";
 import { DataLaboratoryContext } from "./types";
@@ -9,15 +8,16 @@ import { AddLaboratoryApi } from "../../redux/laboratory/laboratoryApiCalls";
 import { ShowLaboratoryContext } from "./ShowLaboratory";
 import { Timeout, hideMsg } from "../../functions/functions";
 
-const AddLaboratory: React.FC = () => {
+interface AddLaboratoryInterface {
+  modal: boolean,
+  toggle: () => void,
+}
+
+const AddLaboratory:React.FC<AddLaboratoryInterface> = ({ modal, toggle }) => {
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
 
-  const [modal, setModal] = useState(false);
-  const toggle = () => {
-    setModal(!modal);
-  };
   
   const dispatch = useDispatch();
   const boundActions = bindActionCreators({ AddLaboratoryApi }, dispatch);
@@ -48,9 +48,6 @@ const AddLaboratory: React.FC = () => {
         setPhone,
       }}
     >
-      <button className="p-2 rounded bg-main text-white" onClick={toggle}>
-        <FaPlus />
-      </button>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

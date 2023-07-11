@@ -14,6 +14,9 @@ import EditLaboratory from "./EditLaboratory";
 import DeleteLaboratory from "./DeleteLaboratory";
 import ManageLab from "./ManageLab";
 import { DefaultUserInterface, UserInterface } from "../users/types";
+import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
+import { UserData } from "../../requestMethods";
+import { useNavigate } from "react-router";
 
 export const ShowLaboratoryContext = createContext(
   DefaultShowLaboratoryInterface
@@ -21,6 +24,7 @@ export const ShowLaboratoryContext = createContext(
 
 const ShowLaboratory: React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState<boolean>(false);
+  const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [selectedLaboratory, setSelectedLaboratory] =
@@ -41,10 +45,13 @@ const ShowLaboratory: React.FC = () => {
     fetchLab()
   }, [dispatch]);
 
+  const navigate = useNavigate()
+
   return (
     <ShowLaboratoryContext.Provider
       value={{
         showSuccessMsg, setShowSuccessMsg,
+        showAddModal, setShowAddModal,
         showEditModal, setShowEditModal,
         showDeleteModal, setShowDeleteModal,
         selectedLaboratory, setSelectedLaboratory,
@@ -58,7 +65,32 @@ const ShowLaboratory: React.FC = () => {
           toggle={() => setShowSuccessMsg(!showSuccessMsg)}
         />
       )}
-      <AddLaboratory />
+
+      <div className="flex justify-between gap-2">
+        <div>
+          {selectedLaboratory._id ? 
+            <FaChevronCircleLeft className="text-main" style={{ fontSize: "28px" }} onClick={() => {
+              setSelectedLaboratory(DefaultLaboratoryInterface)
+              navigate("/laboratory")
+            }}
+            />
+          :
+          <button className="bg-main p-2 rounded border" onClick={() => setShowAddModal(!showAddModal)}>
+            <FaPlus style={{ fontSize: "22px" }}/>
+          </button>
+        }
+        </div>
+        {UserData().doctor._id && selectedLaboratory?._id &&(
+          <p className="bg-main py-2 px-4 rounded border">
+            solde: {selectedLaboratory?.accounts?.find(acc => acc.doctor._id === UserData()._id)?.balance.toString()} 
+          </p>
+        )}
+      </div>
+
+      {showAddModal && 
+        <AddLaboratory modal={showAddModal} toggle={() => setShowAddModal(!showAddModal)} />
+      }
+
       {showEditModal && selectedLaboratory.name.length > 0 && (
         <EditLaboratory
           laboratory={selectedLaboratory}
@@ -73,8 +105,8 @@ const ShowLaboratory: React.FC = () => {
           toggle={() => setShowDeleteModal(!showDeleteModal)}
         />
       )}
-      <DataLaboratory />
-      {selectedLaboratory.name.length > 0 && (
+      {!selectedLaboratory._id && <DataLaboratory />}
+      {selectedLaboratory._id && (
         <ManageLab laboratory={selectedLaboratory} />
       )}
     </ShowLaboratoryContext.Provider>

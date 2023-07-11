@@ -7,7 +7,6 @@ const createInvoiceAssurance = async (request, response) => {
     const { AssId } = request.params
 
     const findAssurance = await AssuranceModel.findOne({ _id: AssId })
-    const Users = await UserModel.find()
     let lastInvoice = findAssurance.invoices[findAssurance.invoices.length - 1]
     if(lastInvoice) {
       lastInvoice.finish = true
@@ -15,11 +14,7 @@ const createInvoiceAssurance = async (request, response) => {
     let numInvoice = lastInvoice?.numInvoice || 0
     numInvoice++
     if(numInvoice) {
-      Users
-        .filter(user => user.doctor.cabinet)
-        .map(user => {
-          findAssurance.invoices.push({ numInvoice, doctor: [user._id] })
-        })
+      findAssurance.invoices.push({ numInvoice })
       await findAssurance.save();
     }
     await getAssurances(request, response)      

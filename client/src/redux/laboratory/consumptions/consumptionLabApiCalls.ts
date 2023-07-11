@@ -6,17 +6,18 @@ import {
 } from "./consumptionLabSlice";
 import { post } from "../../../requestMethods";
 
-export const ShowConsumptionLabApi = (patientId: string = "", filter: string = "") => async (dispatch: Dispatch<any>) => {
+export const ShowConsumptionLabApi = (findById: any = {}, filter: string = "") => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusConsumptionLabStart())
     let response
     if(filter) {
-      response = await post(`laboratory/consumptions${filter}`, {patient: patientId})
+      response = await post(`laboratory/consumptions${filter}`, findById) // findById = patientId or labId
     } else {
-      response = await post(`laboratory/consumptions`, {patient: patientId})
+      response = await post(`laboratory/consumptions`, findById)
     }
     const resData = response.data.success
     if(resData) {
+      console.log("resData: ", resData)
       dispatch(statusConsumptionLabSuccess(resData))
       return true
     }
