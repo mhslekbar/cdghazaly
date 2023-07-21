@@ -1,5 +1,4 @@
 import React, {  useContext, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
 import { DataAssuranceContext, ShowAssurancesContext } from './types';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 import InputsAssurance from './forms/InputsAssurance';
@@ -7,17 +6,19 @@ import { useDispatch } from 'react-redux';
 import { AddAssuranceApi } from '../../redux/assurances/assuranceApiCalls';
 import { Timeout, hideMsg } from '../../functions/functions';
 
-const AddAssurance:React.FC = () => {
+interface AddAssuranceInterface {
+  modal: boolean,
+  toggle: () => void,
+}
+
+const AddAssurance:React.FC<AddAssuranceInterface> = ({ modal, toggle }) => {
   const [name, setName] = useState("")
   const [cons_price, setConsPrice] = useState(0)
   const [color, setColor] = useState("")
 
   const [errors, setErrors] = useState<string[]>([])
 
-  const [modal, setModal] = useState(false)
-  const toggle = () => {
-    setModal(!modal)
-  }
+
   const { setShowSuccessMsg } = useContext(ShowAssurancesContext)
   const dispatch:any = useDispatch()
 
@@ -39,7 +40,6 @@ const AddAssurance:React.FC = () => {
     } catch {}
   }
 
-
   return (
     <DataAssuranceContext.Provider 
       value={{
@@ -47,10 +47,7 @@ const AddAssurance:React.FC = () => {
         cons_price, setConsPrice,
         color, setColor
       }}
-    >
-      <button className="p-2 rounded bg-main text-white mt-2" onClick={toggle}>
-        <FaPlus />
-      </button>
+    >      
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

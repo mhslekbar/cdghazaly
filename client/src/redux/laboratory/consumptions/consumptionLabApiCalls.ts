@@ -17,7 +17,6 @@ export const ShowConsumptionLabApi = (findById: any = {}, filter: string = "") =
     }
     const resData = response.data.success
     if(resData) {
-      console.log("resData: ", resData)
       dispatch(statusConsumptionLabSuccess(resData))
       return true
     }

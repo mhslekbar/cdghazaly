@@ -161,7 +161,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
         const response = await dispatch(AppendFicheApi(patientId, selectedFiche._id, data))
         if(response === true) {
           await dispatch(ShowPatientsApi())
-          await dispatch(ShowPaymentsApi(patientId))
+          await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
           setIsShowingAllDevis(false)
           setShowSuccessMsg(true)
           setTimeout(() => {

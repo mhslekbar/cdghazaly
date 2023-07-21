@@ -19,6 +19,9 @@ const assuranceSlice = createSlice({
     },
     statusAssuranceFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.assurances = []
+      }
       state.error = action.payload
     }
   }

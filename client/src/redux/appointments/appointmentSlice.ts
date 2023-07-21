@@ -10,7 +10,7 @@ interface AppointmentSliceInterface {
 const initialState: AppointmentSliceInterface =  {
   isFetching:  false,
   appointments: [DefaultAppointmentInterface],
-  error: [""],
+  error: [],
 }
 
 const appointmentSlice = createSlice({
@@ -28,6 +28,9 @@ const appointmentSlice = createSlice({
     },
     statusAppointmentFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.appointments = []
+      }
       state.error = action.payload
     }
   }

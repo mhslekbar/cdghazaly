@@ -37,8 +37,8 @@ const ShowConsumptions: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {consumptionLab.map((labo: any) =>
-                  labo.consumptions.map((consumption: any, index: number) => (
+                {consumptionLab?.map((labo: any) =>
+                  labo.consumptions?.map((consumption: any, index: number) => (
                     <tr className="border-b" key={index}>
                       <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                         {consumption.treatment.name}

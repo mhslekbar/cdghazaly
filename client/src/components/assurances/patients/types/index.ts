@@ -8,6 +8,8 @@ export interface ShowPatientsAssuranceInterface {
   setShowDeleteInvoice: (showDeleteInvoice: boolean) => void,
   factureGlobal: boolean,
   setFactureGlobal: (factureGlobal: boolean) => void,
+  showPayInvoice: boolean,
+  setShowPayInvoice: (showPayInvoice: boolean) => void,
 }
 
 export const  DefaultShowPatientsAssuranceInterface: ShowPatientsAssuranceInterface = {
@@ -17,6 +19,8 @@ export const  DefaultShowPatientsAssuranceInterface: ShowPatientsAssuranceInterf
   setShowDeleteInvoice: () => {},
   factureGlobal: false,
   setFactureGlobal: () => {},
+  showPayInvoice: false,
+  setShowPayInvoice: () => {},
 }
 
 export const ShowPatientsAssuranceContext = createContext(DefaultShowPatientsAssuranceInterface)

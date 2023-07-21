@@ -11,6 +11,7 @@ import { DefaultUserInterface, UserInterface } from "../../users/types";
 import { UserData } from "../../../requestMethods";
 import { InputElement } from "../../../HtmlComponents/InputElement";
 import { ShowPaymentMethodApi } from "../../../redux/paymentMethods/paymentMethodApiCalls";
+import { useParams } from "react-router";
 
 type ReturnPatientType = {
   patientData: PatientInterface;
@@ -45,10 +46,12 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
     }
     fetchPaymentMethod();
   }, [dispatch])
+  
+  const { doctorId } = useParams()
 
   useEffect(() => {
-    setDoctor(ArrayOfDoctors[0]._id)
-  }, [ArrayOfDoctors])
+    setDoctor(doctorId || "")
+  }, [doctorId])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

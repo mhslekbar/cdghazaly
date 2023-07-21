@@ -9,7 +9,7 @@ import {
   InvoicesAssuranceInterface,
 } from "../types";
 import { InputCheckbox } from "../../../HtmlComponents/InputCheckbox";
-import { MdRemoveCircleOutline } from "react-icons/md";
+import { MdAttachMoney, MdRemoveCircleOutline } from "react-icons/md";
 import { FaPrint } from "react-icons/fa";
 
 const InvoicesAssurance: React.FC = () => {
@@ -20,7 +20,12 @@ const InvoicesAssurance: React.FC = () => {
 
   const { assurances } = useSelector((state: State) => state.assurances);
 
-  const { setSelectedInvoice, selectedInvoice, setShowDeleteInvoice, factureGlobal, setFactureGlobal } = useContext(ShowPatientsAssuranceContext);
+  const {
+    setSelectedInvoice, selectedInvoice,
+    setShowDeleteInvoice, 
+    factureGlobal, setFactureGlobal,
+    setShowPayInvoice,
+  } = useContext(ShowPatientsAssuranceContext);
 
   useEffect(() => {
     const dataAssurance: any = assurances.find(
@@ -45,6 +50,11 @@ const InvoicesAssurance: React.FC = () => {
   
   const handleShowDeleteInvoice = (invoice: InvoicesAssuranceInterface) => {
     setShowDeleteInvoice(true)
+    setSelectedInvoice(invoice)
+  }
+
+  const handleShowPayInvoice = (invoice: InvoicesAssuranceInterface) => {
+    setShowPayInvoice(true)
     setSelectedInvoice(invoice)
   }
 
@@ -74,7 +84,7 @@ const InvoicesAssurance: React.FC = () => {
                   invoice.finish === archiveInvoice)
             )
             .map((invoice: InvoicesAssuranceInterface) => (
-              <button
+              <div
                 className={`${invoice?._id === selectedInvoice?._id ? "border-b-4 border-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
                 onClick={() => {
                   setSelectedInvoice(invoice)
@@ -92,7 +102,16 @@ const InvoicesAssurance: React.FC = () => {
                     }}
                   />
                 }
-              </button>
+                {!invoice.payed && 
+                  <button className="bg-blue rounded-lg border" onClick={() => handleShowPayInvoice(invoice)}>
+                    <MdAttachMoney 
+                      style={{
+                        fontSize: "22px",
+                      }}
+                    />
+                  </button>
+                }
+              </div>
             ))}
       </section>
     </div>

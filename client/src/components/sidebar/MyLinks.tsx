@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import ButtonElement from "./ButtonElement";
-import { TfiUser } from "react-icons/tfi";
-import { RiUserSettingsLine } from "react-icons/ri";
-import { FaBriefcaseMedical, FaChartLine, FaTooth, FaUser } from "react-icons/fa";
+import { FaBriefcaseMedical, FaCalendarCheck, FaChartLine, FaShieldAlt, FaTooth, FaUser, FaUsers, FaUsersCog } from "react-icons/fa";
 import { MdOutlineAssuredWorkload } from "react-icons/md";
 import { listTypePatient } from "./types";
-import { GrSchedule } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import { State } from "../../redux/store";
 import { useDispatch } from "react-redux";
@@ -51,8 +48,8 @@ const MyLink: React.FC<MyLinkInterface> = ({
   return (
     <div>
       <ButtonElement name="page d'acceuil" path="/" />
-      <ButtonElement icon={<RiUserSettingsLine />} name="roles" path="/role" />
-      <ButtonElement icon={<TfiUser />} name="utlisateurs" path="/user" />
+      <ButtonElement icon={<FaUsersCog />} name="roles" path="/role" />
+      <ButtonElement icon={<FaUsers />} name="utlisateurs" path="/user" />
       <ButtonElement
         icon={<FaBriefcaseMedical />}
         name="traitements"
@@ -79,7 +76,7 @@ const MyLink: React.FC<MyLinkInterface> = ({
         path="/assurance"
       />
       <DropdownDoctor
-        icon={<GrSchedule />}
+        icon={<FaCalendarCheck />}
         openDropdown={openDropdown}
         name="Rendez-vous"
         pathDropDown="appointments"
@@ -100,12 +97,14 @@ const MyLink: React.FC<MyLinkInterface> = ({
       <DropdownDoctor
         icon={<BsCart4 />}
         openDropdown={openDropdown}
-        name="Consommations"
+        name="consommables"
         pathDropDown="consumables"
         linkList={listDoctors}
         selectedDropDown={selectedDropDown}
         toggleDropDown={toggleDropDown}
+        nestedLink="consumptions"
       />
+      <ButtonElement icon={<FaShieldAlt />}  name="Permissions" path="/permissions" />
     </div>
   );
 };

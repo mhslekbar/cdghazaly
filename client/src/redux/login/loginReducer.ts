@@ -28,6 +28,7 @@ const reducer = (state: State = initialState, action: Action) => {
           return {
             ...state,
             isFetching: false,
+            userData: action.payload ? action.payload[0].startsWith("AFFICHER") ? [] : state.userData : state.userData,
             error: action.payload,
           }
       }

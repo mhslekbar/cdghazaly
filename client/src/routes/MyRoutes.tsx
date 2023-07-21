@@ -34,6 +34,7 @@ import Consumables from '../pages/Consumables';
 import ShowPurchaseOrder from '../components/consumables/purhcaseOrder/ShowPurchaseOrder';
 import ShowMyConsumptions from '../components/consumables/consumptions/ShowMyConsumptions';
 import ShowConsumableList from '../components/consumables/consumableList/ShowConsumableList';
+import Permissions from '../pages/Permissions';
 
 
 const MyRoutes:React.FC = () => {
@@ -72,14 +73,14 @@ const MyRoutes:React.FC = () => {
           <Route path='accounting' element={<Accounting />}/>
           <Route path='payments' element={<Payments />}/>
         </Route>
-        
-        
 
         <Route path="/Consumables/:doctorId" element={<Consumables />}>
           <Route path='purhcase-order' element={<ShowPurchaseOrder />}/>
           <Route path='consumptions' element={<ShowMyConsumptions />}/>
           <Route path="consumable_list" element={<ShowConsumableList />}/>
         </Route>
+
+        <Route path="/permissions" element={<Permissions />}/>
 
         <Route path="/login" element={<Login />}/>
         <Route path="*" element={<NotFound />}/>

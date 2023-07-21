@@ -26,6 +26,9 @@ const fichesSlice = createSlice({
     },
     statusFicheFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.fiches = []
+      }
       state.error = action.payload
     }
   }

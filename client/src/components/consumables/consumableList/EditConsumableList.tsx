@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { DataConsumableListContext, ListConsumableInterface, ShowConsumableListContext } from './types';
+import { DataConsumableListContext, ListConsumableInterface } from './types';
 import { EditListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { InputElement } from '../../../HtmlComponents/InputElement';
+import { ShowConsumableContext } from '../types';
 
 export interface EditConsumableListInterface {
   modal: boolean,
@@ -16,7 +17,7 @@ const EditConsumableList:React.FC<EditConsumableListInterface> = ({ modal, toggl
   const [name, setName] = useState(ConsumableListData.name)
   const [errors, setErrors] = useState<string[]>([])
 
-  const { setShowSuccessMsg } = useContext(ShowConsumableListContext)
+  const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
 
   const handleSubmit = async (e: any) => {

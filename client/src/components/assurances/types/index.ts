@@ -40,6 +40,8 @@ export const DefaultAssuranceInterface: AssuranceInterface =  {
 export interface ShowAssurancesInterface {
   showSuccessMsg: boolean,
   setShowSuccessMsg: (showSuccessMsg: boolean) => void,
+  showAddModal: boolean,
+  setShowAddModal: (showAddModal: boolean) => void,
   showEditModal: boolean,
   setShowEditModal: (showEditModal: boolean) => void,
   showDeleteModal: boolean, 
@@ -55,6 +57,8 @@ export interface ShowAssurancesInterface {
 export const DefaultShowAssurancesInterface:ShowAssurancesInterface = {
   showSuccessMsg: false,
   setShowSuccessMsg: () => {},
+  showAddModal: false,
+  setShowAddModal: () => {},
   showEditModal: false,
   setShowEditModal: () => {},
   showDeleteModal: false, 

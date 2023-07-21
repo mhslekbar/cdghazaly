@@ -24,6 +24,12 @@ export interface ShowStatisticInterface {
   setSumConsoLab: (sumConsoLab: number) => void,
   userData: UserInterface,
   setUserData: (userData: UserInterface) => void,
+  sumPurchaseOrders: number,
+  setSumPurchaseOrders: (sumPurchaseOrders: number) => void,
+  sumConsumptions: number,
+  setSumConsumptions: (sumConsumptions: number) => void,
+  percentCabinet: number,
+  setPercentCabinet: (percentCabinet: number) => void,
 }
 
 export const DefaultShowStatisticInterface: ShowStatisticInterface = {
@@ -49,6 +55,12 @@ export const DefaultShowStatisticInterface: ShowStatisticInterface = {
   setSumTotalAmount: () => {},
   userData: DefaultUserInterface,
   setUserData: () => {},
+  sumPurchaseOrders: 0,
+  setSumPurchaseOrders: () => {},
+  sumConsumptions: 0,
+  setSumConsumptions: () => {},
+  percentCabinet: 0,
+  setPercentCabinet: () => {},
 }
 
 export const ShowStatisticContext = createContext(DefaultShowStatisticInterface)

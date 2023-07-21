@@ -26,6 +26,9 @@ const paymentSlice = createSlice({
     },
     statusPaymentFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.payments = []
+      }
       state.error = action.payload
     }
   }

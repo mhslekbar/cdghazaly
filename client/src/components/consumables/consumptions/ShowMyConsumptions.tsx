@@ -27,11 +27,11 @@ const ShowMyConsumptions:React.FC = () => {
       selectedConsumption, setSelectedConsumption,
       showDeleteConsumption, setShowDeleteConsumption
     }}>
-      <FilterConsumable />
       <AddConsumption />
+      <FilterConsumable />
       <DataConsumptions />
-      {showEditConsumption && <EditConsumption ConsumptionData={selectedConsumption} modal={showEditConsumption} toggle={() => setShowEditConsumption(!showEditConsumption)} />}
-      {showDeleteConsumption && <DeleteConsumption ConsumptionData={selectedConsumption} modal={showDeleteConsumption} toggle={() => setShowDeleteConsumption(!showDeleteConsumption)} />}
+      {showEditConsumption && selectedConsumption && <EditConsumption ConsumptionData={selectedConsumption} modal={showEditConsumption} toggle={() => setShowEditConsumption(!showEditConsumption)} />}
+      {showDeleteConsumption && selectedConsumption && <DeleteConsumption ConsumptionData={selectedConsumption} modal={showDeleteConsumption} toggle={() => setShowDeleteConsumption(!showDeleteConsumption)} />}
     </ShowMyConsumptionContext.Provider>
   )
 }

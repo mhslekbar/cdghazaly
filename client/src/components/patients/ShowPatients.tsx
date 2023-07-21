@@ -16,7 +16,8 @@ import PassPatient from "./controls/PassPatient";
 import FinishPatient from "./controls/FinishPatient";
 import ReturnPatient from "./controls/ReturnPatient";
 import SearchPatients from "./SearchPatients";
-
+import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const ShowPatients: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -30,9 +31,12 @@ const ShowPatients: React.FC = () => {
   const [showPassPatient, setShowPassPatient] = useState(false);
   const [showFinishPatient, setShowFinishPatient] = useState(false);
   const [showReturnPatient, setShowReturnPatient] = useState(false);
+  const [showAddPatient, setShowAddPatient] = useState(false);
   
   const [filterPatient, setFilterPatient] = useState<filterPatientType>(DefaultFilterPatientType);
-      
+     
+  const navigate = useNavigate()
+
   return (
     <ShowPatientsContext.Provider
       value={{
@@ -52,9 +56,16 @@ const ShowPatients: React.FC = () => {
         showReturnPatient, 
         setShowReturnPatient,
         filterPatient,
-        setFilterPatient
+        setFilterPatient,
+        showAddPatient, setShowAddPatient
       }}
     >
+      <div className="flex justify-start gap-2 mb-2">
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
+        <button className="p-2 rounded btn-main" onClick={() => setShowAddPatient(!showAddPatient)}>
+          <FaPlus />
+        </button>
+      </div>
       {showSuccessMsg && (
         <SuccessMsg
           modal={showSuccessMsg}
@@ -63,7 +74,9 @@ const ShowPatients: React.FC = () => {
       )}
       <SearchPatients />
       <TypeFilterPatients />
-      <AddNewPatient />
+
+      <AddNewPatient modal={showAddPatient} toggle={() => setShowAddPatient(!showAddPatient)}/>
+
       <DataPatients />
       {showEditPatient && selectedPatient && (
         <EditPatient

@@ -6,6 +6,7 @@ const getPurchaseOrders = async (request, response) => {
     const PurchaseOrder = await PurchaseOrderModel
     .find({ doctor })
     .populate("doctor")
+    .populate("LinePurchaseOrder.consumable")
     .sort({ createdAt: -1 })
     response.status(200).json({ success: PurchaseOrder })
   } catch(error) {
@@ -19,14 +20,17 @@ const createPurchaseOrder = async (request, response) => {
     const { LinePurchaseOrder } = request.body
     const currentDate =  new Date()
     const latestPurchaseOrder = await PurchaseOrderModel
-    .findOne({ doctor, $expr: {
-      $eq: [{ $month: "$createdAt" }, currentDate.getMonth()],
-      $eq: [{ $year: "$createdAt" }, currentDate.getFullYear()],
-    }, })
+    .findOne({ doctor, })
     .sort({ createdAt: -1 })
-
-    let num = latestPurchaseOrder?.num || 0
-    num++
+    let num = 1
+    if(latestPurchaseOrder) {
+      if(latestPurchaseOrder.createdAt.getMonth() === currentDate.getMonth() && latestPurchaseOrder.createdAt.getFullYear() === currentDate.getFullYear()) {
+        num = latestPurchaseOrder?.num || 0
+        num++
+      } else {
+        num = 1
+      }
+    }
     await PurchaseOrderModel.create({ doctor, num, LinePurchaseOrder })
     await getPurchaseOrders(request, response)
   } catch (error) {
@@ -37,15 +41,15 @@ const createPurchaseOrder = async (request, response) => {
 const updatePurchaseOrder = async (request, response) => {
   try {
     const { id } = request.params
-    const { reference, total, LinePurchaseOrder } = request.body
+    const { reference, total, paymentDate, LinePurchaseOrder } = request.body
     const formErrors = []
 
     if(LinePurchaseOrder.length === 0) {
-      formErrors.push("Le donnes du bon de commande sont obligatoire.")
+      formErrors.push("Le donneés du bon de commande sont obligatoire.")
     }
 
     if(formErrors.length === 0) {
-      await PurchaseOrderModel.updateOne({ _id: id }, { reference, total, LinePurchaseOrder }, { new: true })
+      await PurchaseOrderModel.updateOne({ _id: id }, { reference, total, paymentDate, LinePurchaseOrder }, { new: true })
       await getPurchaseOrders(request, response)
     } else {
       response.status(300).json({ formErrors })

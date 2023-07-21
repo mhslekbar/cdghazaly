@@ -19,8 +19,7 @@ import {
   LineDevisType,
   ShowDevisInterfaceContext,
 } from "../Devis/types";
-import { FaEdit, FaSave } from "react-icons/fa";
-import EditFiche from "./controls/EditFiche";
+import { FaPrint, FaSave } from "react-icons/fa";
 import { EditFicheApi } from "../../../redux/fiches/ficheApiCalls";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -33,7 +32,6 @@ const ShowFiches: React.FC = () => {
     DefaultFicheInterface
   );
   const [showDeleteFiche, setShowDeleteFiche] = useState(false);
-  const [showEditFiche, setShowEditFiche] = useState(false);
   const [selectedDevis, setSelectedDevis] = useState<DevisInterface>(
     DefaultDevisInterface
   );
@@ -77,6 +75,7 @@ const ShowFiches: React.FC = () => {
       acte: Actes,
       amount: Amounts
     }
+    console.log("LineFicheData: ", LineFicheData)
     const response = await dispatch(EditFicheApi(patientId, selectedFiche._id, { LineFiche: LineFicheData }))
     if(response === true) {
       setShowSuccessMsg(true)
@@ -107,7 +106,6 @@ const ShowFiches: React.FC = () => {
           showSuccessMsg, setShowSuccessMsg,
           selectedLineDevis, setSelectedLineDevis,
           selectedLineFiche, setSelectedLineFiche,
-          showEditFiche, setShowEditFiche,
           showDeleteLineFiche, setShowDeleteLineFiche,
           showAppointmentModal, setShowAppointmentModal
         }}
@@ -135,10 +133,10 @@ const ShowFiches: React.FC = () => {
                 <MdRemoveCircleOutline />
               </button>
               <button
-                className="p-2 rounded bg-blue text-white"
-                onClick={() => setShowEditFiche(!showEditFiche)}
+                className="p-2 rounded bg-blue"
+                onClick={() => window.print()}
               >
-                <FaEdit />
+                <FaPrint />
               </button>
             </div>
           )}
@@ -150,13 +148,6 @@ const ShowFiches: React.FC = () => {
             FicheData={selectedFiche}
             modal={showDeleteFiche}
             toggle={() => setShowDeleteFiche(!showDeleteFiche)}
-          />
-        )}
-        {showEditFiche && selectedFiche && (
-          <EditFiche
-            FicheData={selectedFiche}
-            modal={showEditFiche}
-            toggle={() => setShowEditFiche(!showEditFiche)}
           />
         )}
         {showAppointmentModal && selectedLineFiche && 

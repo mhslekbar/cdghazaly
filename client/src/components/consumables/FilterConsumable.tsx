@@ -5,6 +5,7 @@ import { InputElement } from "../../HtmlComponents/InputElement";
 import { formattedDate } from "../../functions/functions";
 import { Days, Months, Years } from "../statistics/types";
 import { ShowConsumableContext } from "./types";
+import { FaPrint } from "react-icons/fa";
 
 const FilterConsumable: React.FC = () => {
   const {
@@ -32,6 +33,7 @@ const FilterConsumable: React.FC = () => {
           <SelectElement valueType="string" value={year} setValue={setYear} options={Years} />
         </>
       )}
+      <FaPrint onClick={() => window.print()} className="text-blue" style={{ fontSize: "22px" }} />
     </div>
   );
 };

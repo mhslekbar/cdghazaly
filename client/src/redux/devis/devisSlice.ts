@@ -26,6 +26,9 @@ const devisSlice = createSlice({
     },
     statusDevisFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.devis = []
+      }
       state.error = action.payload
     }
   }

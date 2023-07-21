@@ -148,7 +148,9 @@ export interface ShowPatientsInterface {
   showReturnPatient: boolean,
   setShowReturnPatient: (showReturnPatient: boolean) => void,
   filterPatient: filterPatientType,
-  setFilterPatient: (filterPatient: filterPatientType) => void
+  setFilterPatient: (filterPatient: filterPatientType) => void,
+  showAddPatient: boolean,
+  setShowAddPatient: (showAddPatient: boolean) => void,
 }
 
 export const DefaultShowPatientsInterface: ShowPatientsInterface = {
@@ -170,6 +172,8 @@ export const DefaultShowPatientsInterface: ShowPatientsInterface = {
   setShowReturnPatient: () => {},
   filterPatient: DefaultFilterPatientType,
   setFilterPatient: () => {}, 
+  showAddPatient: false,
+  setShowAddPatient: () => {},
 }
 
 export const ShowPatientsContext = createContext(DefaultShowPatientsInterface)

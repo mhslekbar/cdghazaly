@@ -13,7 +13,7 @@ const getAssurances = async (req, res) => {
 
 const createAssurance = async (req, res) => {
   try {
-    const { name, cons_price, color, doctorInCommon, inCommon } = req.body
+    const { name, cons_price, color, doctorInCommon } = req.body
     const formErrors = []
     const checkAssurance = await AssuranceModel.findOne({ name })
     if(checkAssurance) {
@@ -29,7 +29,9 @@ const createAssurance = async (req, res) => {
       formErrors.push("la couleur de la societe est obligatoire pour differencier entre eux!");
     }
     if(formErrors.length === 0) {
-      await AssuranceModel.create({ name, cons_price, color, doctorInCommon, invoices:[]})
+      const newAssurance = await AssuranceModel.create({ name, cons_price, color, doctorInCommon, invoices:[]})
+      newAssurance.invoices.push({ numInvoice: 1 })
+      await newAssurance.save();
       await getAssurances(req, res)
     } else {
       res.status(300).json({ formErrors })

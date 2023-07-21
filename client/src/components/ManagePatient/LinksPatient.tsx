@@ -12,7 +12,7 @@ const dataLinks: dataLinksType[] = [
   { path: "invoices", title: "Factures" },
   { path: "labo", title: "Labo" },
   // { path: "compte", title: "Compte" },
-  { path: "payments", title: "Payments" },
+  { path: "payments", title: "Paiements" },
   { path: "soins", title: "Soins" },
   { path: "consultations", title: "Consultations" },
   { path: "fiches", title: "Fiches" },

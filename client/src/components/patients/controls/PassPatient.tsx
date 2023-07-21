@@ -8,6 +8,7 @@ import { SelectElement } from "../../../HtmlComponents/SelectElement";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { DefaultUserInterface, UserInterface } from "../../users/types";
+import { useParams } from "react-router";
 
 type PassPatientType = {
   patientData: PatientInterface;
@@ -26,6 +27,7 @@ const PassPatient:React.FC<PassPatientType> = ({
   const { users } = useSelector((state: State) => state.users)
   
   const [ArrayOfDoctors, setArrayOfDoctors] = useState<UserInterface[]>([DefaultUserInterface])
+  const { doctorId } = useParams()
 
   useEffect(() => {
     setArrayOfDoctors(users.filter((user: UserInterface) => user.doctor?.cabinet))
@@ -34,8 +36,8 @@ const PassPatient:React.FC<PassPatientType> = ({
   const [doctor, setDoctor] = useState("")
 
   useEffect(() => {
-    setDoctor(ArrayOfDoctors[0]._id)
-  }, [ArrayOfDoctors])
+    setDoctor(doctorId || "")
+  }, [doctorId])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

@@ -5,42 +5,42 @@ import { FcCalendar } from "react-icons/fc"
 import { useNavigate, useParams } from 'react-router'
 
 import { DataDayOfWorkContext, DayInfo, DayofTheWeek } from './types'
-import { get } from '../../../../requestMethods'
 import { DefaultUserInterface, UserInterface } from '../../../users/types'
-
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { State } from '../../../../redux/store'
+import { ShowUserApi } from '../../../../redux/users/UserApiCalls'
 
 const ShowDayOfWork:React.FC = () => {
   const [DayArray, setDayArray] = useState<any[]>(Object.values(DayofTheWeek));
   const [day, setDay] = useState("")
   const [selectedDay, setSelectedDay] = useState<DayInfo[]>([]);
-
+  
   const [showAddModal, setShowAddModal] = useState(false)
 
   const navigate = useNavigate()
   const { doctorId } = useParams()
 
-  useEffect(() => {
-    const fetchDays = async () => {
-      const response = await get(`appointment/dayOfWork/${doctorId}`)
-      const resData = response.data.success
-      setSelectedDay(resData.dayOfWork)
-    }
-    fetchDays()
-  }, [setSelectedDay, doctorId])
+  const dispatch: any = useDispatch()
 
   const [doctor, setDoctor] = useState<UserInterface>(DefaultUserInterface)
-  
+  const { users } = useSelector((state: State) => state.users)
+  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
+
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await get(`user?userId=${doctorId}`)
-      const resData  = response.data.success
-      if(resData) {
-        setDoctor(resData)
-      }
+      await dispatch(ShowUserApi())
     }
     fetchUsers()
-  }, [doctorId])
+  }, [dispatch])
 
+  useEffect(() => {
+    setDoctor(users.find((user: UserInterface) => user._id === doctorId) || DefaultUserInterface)
+  }, [doctorId, users])
+
+  useEffect(() => {
+    setSelectedDay(daysOfWork.dayOfWork)
+  }, [daysOfWork])
 
   return (
     <DataDayOfWorkContext.Provider value={{

@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import { DataDayOfWorkContext } from './types';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
 import InputsDayOfWork from './forms/InputsDayOfWork';
-import { post } from '../../../../requestMethods';
 import { useParams } from 'react-router';
 import { Timeout } from '../../../../functions/functions';
 import { ConfigAppointmentContext } from '../ConfigAppointment';
+import { useDispatch } from 'react-redux';
+import { UpdateDayOfWorkApi } from '../../../../redux/dayOfWork/dayOfWorkApiCalls';
 
 interface AddDayOfWorkInterface {
   modal: boolean,
@@ -17,14 +18,14 @@ const AddDayOfWork:React.FC<AddDayOfWorkInterface> = ({ modal, toggle }) => {
   const { setShowSuccessMsg } = useContext(ConfigAppointmentContext)
   
   const { selectedDay } = useContext(DataDayOfWorkContext)
+  const dispatch: any = useDispatch()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-
     try {
-      const response = await post(`appointment/dayOfWork/${doctorId}`, {dayOfWork: selectedDay})
-      const resData = response.data.success
-      if(resData) {
+      // const response = await post(`appointment/dayOfWork/${doctorId}`, {dayOfWork: selectedDay})
+      const response = await dispatch(UpdateDayOfWorkApi(doctorId, {dayOfWork: selectedDay}))
+      if(response === true) {
         toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)

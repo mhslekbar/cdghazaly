@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { ShowAssuranceApi } from "../../../redux/assurances/assuranceApiCalls";
 import DeleteInvoiceAssurance from "./DeleteInvoiceAssurance";
 import DataPatientAssurance from "./DataPatientAssurance";
+import PayInvoiceAssurance from "./PayInvoiceAssurance";
 
 const ShowPatientsAssurance: React.FC = () => {
   const [selectedInvoice, setSelectedInvoice] = useState(
@@ -14,6 +15,7 @@ const ShowPatientsAssurance: React.FC = () => {
   );
 
   const [showDeleteInvoice, setShowDeleteInvoice] = useState(false);
+  const [showPayInvoice, setShowPayInvoice] = useState(false);
   const [factureGlobal, setFactureGlobal] = useState(false);
 
   const { selectedDoctor } = useContext(ShowAssurancesContext)
@@ -34,6 +36,7 @@ const ShowPatientsAssurance: React.FC = () => {
         setSelectedInvoice,
         showDeleteInvoice,
         setShowDeleteInvoice,
+        showPayInvoice, setShowPayInvoice,
         factureGlobal, setFactureGlobal
       }}
     >
@@ -49,7 +52,15 @@ const ShowPatientsAssurance: React.FC = () => {
             toggle={() => setShowDeleteInvoice(!showDeleteInvoice)}
           />
         )}
+        {showPayInvoice && (
+          <PayInvoiceAssurance
+            InvoiceData={selectedInvoice}
+            modal={showPayInvoice}
+            toggle={() => setShowPayInvoice(!showPayInvoice)}
+          />
+        )}
       </div>
+      
     </ShowPatientsAssuranceContext.Provider>
   );
 };

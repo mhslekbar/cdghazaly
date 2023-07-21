@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
 import InputsAddUser from "./forms/InputsAddUser";
 import ButtonsAddUser from "./forms/ButtonsAddUser";
 import { AddUserContext, DoctorType } from "./types";
@@ -10,6 +10,7 @@ import { Timeout, hideMsg } from "../../functions/functions";
 
 import { ShowUserContext } from "./ShowUsers";
 import { PermissionType } from "../roles/types";
+import { useNavigate } from "react-router";
 
 const AddUser: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -60,6 +61,8 @@ const AddUser: React.FC = () => {
       setErrors(response);
     }
   };
+  
+  const navigate = useNavigate()
 
   return (
     <AddUserContext.Provider
@@ -78,9 +81,12 @@ const AddUser: React.FC = () => {
         setShowDoctor
       }}
     >
-      <button className="p-2 rounded btn-main text-white" onClick={toggle}>
-        <FaPlus />
-      </button>
+      <div className="flex justify-start gap-2">
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate(-1)}/>
+        <button className="p-2 rounded btn-main" onClick={toggle}>
+          <FaPlus />
+        </button>
+      </div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

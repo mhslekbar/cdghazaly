@@ -31,6 +31,7 @@ const reducer = (state: STATE = initialState, action: RoleAction) => {
         return {
           ...state,
           isFetching: false,
+          roles: action.payload ? action.payload[0].startsWith("AFFICHER") ? [] : state.roles : state.roles,
           error: action.payload,
         };
       default: return state

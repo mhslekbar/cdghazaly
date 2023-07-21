@@ -16,15 +16,15 @@ const TotalAmount: React.FC<TotalAmountInterface> = ({
   }, [sumPayment, sumCons, setSumTotalAmount])
   return (
     <>
-      <tr className="border-b">
-        <td colSpan={2}></td>
-        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{sumCons.toString()}</td>
-        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{sumPayment.toString()}</td>
+      <tr >
+        <td colSpan={2} className="border-r"></td>
+        <td className="whitespace-nowrap px-4 py-2 border-b border-r print:border-0 bg-white font-medium">{sumCons.toString()}</td>
+        <td className="whitespace-nowrap px-4 py-2 border-b border-r print:border-0 bg-white font-medium">{sumPayment.toString()}</td>
       </tr>
-      <tr className="border-b">
+      <tr className="">
         <td colSpan={2}></td>
-        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">Total</td>
-        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{sumPayment + +sumCons}</td>
+        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">Total</td>
+        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">{sumPayment + +sumCons}</td>
       </tr>
     </>
   );

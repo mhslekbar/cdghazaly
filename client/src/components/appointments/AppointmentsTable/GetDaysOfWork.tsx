@@ -1,27 +1,22 @@
-import React, { useContext, useEffect } from "react";
-import { useParams } from "react-router";
-import { get } from "../../../requestMethods";
+import React from "react"; // useContext, 
 import { DayInfo } from "../ConfigAppointment/DayOfWork/types";
-import { AppointmentTableContext } from "./types";
 import ThTable from "./Table/ThTable";
+import { useSelector } from "react-redux";
+import { State } from "../../../redux/store";
+
 
 const GetDaysOfWork: React.FC = () => {
-  const { doctorId } = useParams();
-  const { Days, setDays } = useContext(AppointmentTableContext);
+  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
 
-  useEffect(() => {
-    const fetchDays = async () => {
-      const response = await get(`appointment/dayOfWork/${doctorId}`);
-      setDays(response.data.success.dayOfWork);
-    };
-    fetchDays();
-  }, [doctorId, setDays]);
-  
   return (
     // bg-white text-main
     <thead className="border-b font-medium bg-blue-400 text-white text-center">
       <tr>
-        {Days.sort((a: DayInfo, b: DayInfo) => a.order - b.order).map(
+        {daysOfWork
+        ?.dayOfWork
+        ?.slice()
+        ?.sort((a: DayInfo, b: DayInfo) => a.order - b.order)
+        ?.map(
           (day: DayInfo) => {
             return <React.Fragment key={day.order}>
               <ThTable day={day}/>

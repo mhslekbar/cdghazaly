@@ -4,10 +4,10 @@ import { ShowStatisticContext } from '../types'
 const RemainAmount:React.FC = () => {
   const { sumTotalAmount, sumConsoLab} = useContext(ShowStatisticContext)
   return (
-  <tr className='border-b'>
+  <tr className=''>
     <td colSpan={2}></td>
-    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">Reste</td>
-    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{sumTotalAmount - sumConsoLab}</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">Reste</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">{sumTotalAmount - sumConsoLab}</td>
   </tr>
   )
 }

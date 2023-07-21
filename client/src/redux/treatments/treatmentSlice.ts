@@ -19,6 +19,9 @@ const treatmentSlice = createSlice({
     },
     statusTreatFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0].startsWith("AFFICHER")) {
+        state.treatments = []
+      }
       state.error = action.payload
     }
   }

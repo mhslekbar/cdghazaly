@@ -53,17 +53,23 @@ const updateFiche = async (request, response) => {
     const { LineFiche } = request.body;
 
     const FicheInfo = await FicheModel.findOne({ _id: id });
+
+    // i want to sort FicheInfo.LineFiche
+    // because the result come from the front-end is sorted by dateAppointment
+    const sortedArray = FicheInfo.LineFiche.sort((a, b) => (a.dateAppointment?.getTime() - b.dateAppointment?.getTime()))
     for(let index in LineFiche._id) {
-      Object.assign(FicheInfo.LineFiche[index], {
+      Object.assign(sortedArray[index], {
         _id: LineFiche._id[index],
         dateAppointment: LineFiche.dateAppointment[index],
         acte: LineFiche.acte[index],
         amount: LineFiche.amount[index],
       })
     }
+
     await FicheInfo.save();
     await getFiches(request, response);
   } catch (err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message });
   }
 };
@@ -363,3 +369,17 @@ var clearDataPrevLineFiche = async (patient, ficheId, lineFicheId) => {
   // END Patient Labo
   // END to delete previous info from line Fiche
 };
+
+
+// for (let i = 0; i < LineFiche._id.length; i++) {
+//   const _id = LineFiche._id[i];
+//   Object.assign(FicheInfo.LineFiche, {
+//     [_id]: {
+//       _id,
+//       dateAppointment: LineFiche.dateAppointment[i],
+//       acte: LineFiche.acte[i],
+//       amount: LineFiche.amount[i],
+//     }
+//   });
+// }
+

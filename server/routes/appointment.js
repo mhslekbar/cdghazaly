@@ -4,21 +4,21 @@ const { getDays, createDay, editDay, deleteDay } = require("../controllers/Appoi
 const { getSettingAppoint, createSettingAppoint, updateSettingAppoint, deleteSettingAppoint } = require("../controllers/Appointment/SetAppointmentController") 
 
 const { getAppointments, createAppointment, deleteAppointment, sendMessage } = require("../controllers/Appointment/AppointmentController")
+const { authorizedPermission } = require("../middlewares/authorizedPermission");
 
-router.get("/:doctor", getAppointments)
-router.post("/:doctor", createAppointment)
-router.delete("/:doctor/:id", deleteAppointment)
+router.get("/:doctor", authorizedPermission(["AFFICHER", "AFFICHER_GLOBAL"], "ASSURANCES"), getAppointments)
+router.post("/:doctor", authorizedPermission(["AJOUTER"], "ASSURANCES"), createAppointment)
+router.delete("/:doctor/:id", authorizedPermission(["SUPPRIMER"], "ASSURANCES"), deleteAppointment)
 
+// authorizedPermission(["AFFICHER"], "ASSURANCES"),
 router.post("/send-message/msg", sendMessage)
 
-router.get("/dayOfWork/:doctor", getDays)
-router.post("/dayOfWork/:doctor", createDay)
-router.put("/dayOfWork/:doctor/:id", editDay)
-router.delete("/dayOfWork/:doctor/:id", deleteDay)
+router.get("/dayOfWork/:doctor", authorizedPermission(["AFFICHER"], "JOUR_RDV"), getDays)
+router.post("/dayOfWork/:doctor", authorizedPermission(["MODIFIER"], "JOUR_RDV"), createDay)
 
-router.get("/setAppointment/:doctor", getSettingAppoint)
+router.get("/setAppointment/:doctor", authorizedPermission(["AFFICHER"], "FIXER_RDV"), getSettingAppoint)
 router.post("/setAppointment/:doctor", createSettingAppoint)
-router.put("/setAppointment/:doctor/:id", updateSettingAppoint)
+router.put("/setAppointment/:doctor/:id", authorizedPermission(["MODIFIER"], "FIXER_RDV"), updateSettingAppoint)
 router.delete("/setAppointment/:doctor/:id", deleteSettingAppoint)
 
 module.exports = router

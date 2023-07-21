@@ -69,15 +69,18 @@ const ShowLaboratory: React.FC = () => {
       <div className="flex justify-between gap-2">
         <div>
           {selectedLaboratory._id ? 
-            <FaChevronCircleLeft className="text-main" style={{ fontSize: "28px" }} onClick={() => {
+            <FaChevronCircleLeft className="text-main" style={{ fontSize: "30px" }} onClick={() => {
               setSelectedLaboratory(DefaultLaboratoryInterface)
               navigate("/laboratory")
             }}
             />
           :
-          <button className="bg-main p-2 rounded border" onClick={() => setShowAddModal(!showAddModal)}>
-            <FaPlus style={{ fontSize: "22px" }}/>
-          </button>
+          <div className="flex justify-start gap-2">
+            <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
+            <button className="bg-main p-2 rounded border" onClick={() => setShowAddModal(!showAddModal)}>
+              <FaPlus />
+            </button>
+          </div>
         }
         </div>
         {UserData().doctor._id && selectedLaboratory?._id &&(

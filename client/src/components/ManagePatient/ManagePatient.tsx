@@ -25,6 +25,7 @@ const ManagePatient: React.FC = () => {
   const [showPassPatient, setShowPassPatient] = useState(false);
   const [showFinishPatient, setShowFinishPatient] = useState(false);
   const [showReturnPatient, setShowReturnPatient] = useState(false);
+  const [showAddPatient, setShowAddPatient] = useState(false);
   
   const [filterPatient, setFilterPatient] = useState<filterPatientType>(DefaultFilterPatientType);
       
@@ -49,7 +50,8 @@ const ManagePatient: React.FC = () => {
         showReturnPatient, 
         setShowReturnPatient,
         filterPatient,
-        setFilterPatient
+        setFilterPatient,
+        showAddPatient, setShowAddPatient
       }}
     >
     <ManagePatientContext.Provider value={{

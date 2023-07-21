@@ -1,13 +1,30 @@
 import { createContext } from "react"
-
+import { DefaultUserInterface, UserInterface } from "../../../../users/types";
 export interface DayInfo {
+  _id?: string,
   name: string;
   order: number;
 }
 export const DefaultDayInfo: DayInfo = {
+  _id: "",
   name: "",
   order: -1
 }
+export interface DayOfWorkInterface {
+  _id: string,
+  doctor: UserInterface,
+  dayOfWork: DayInfo[],
+  createdAt: Date
+}
+
+export const DefaultDayOfWorkInterface: DayOfWorkInterface = {
+  _id: "",
+  doctor: DefaultUserInterface,
+  dayOfWork: [DefaultDayInfo],
+  createdAt: new Date()
+}
+
+
 
 export interface DataDayOfWork {
   DayArray: any[], 

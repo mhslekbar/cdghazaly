@@ -31,7 +31,6 @@ const ShowUsers:React.FC = () => {
     fetchUsers()
   }, [dispatch])
 
-
   return (
     <ShowUserContext.Provider value={{ successMsg, setSuccessMsg,
       showEditModal, setShowEditModal,

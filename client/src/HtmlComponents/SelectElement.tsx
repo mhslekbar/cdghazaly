@@ -9,7 +9,8 @@ interface SelectElementInterface {
   options: any;
   defaultOption?: any,
   valueType?: string, // is important to specify which type of value do you need string | object
-  showPrice?: boolean // show price of Treatment lab 
+  showPrice?: boolean, // show price of Treatment lab 
+  divClass?: string,
 }
 
 export const SelectElement: React.FC<SelectElementInterface> = ({
@@ -20,11 +21,12 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
   options,
   defaultOption,
   valueType = "string",
-  showPrice = false
+  showPrice = false,
+  divClass = ""
 }) => {
   const { selectedTreat } = useContext(DataDevisContext)
   return (
-    <div className="mb-2">
+    <div className={`mb-2 ${divClass}`}>
       {name && 
         <label htmlFor={id} className={`block text-gray-700 font-bold w-fit`}>
           {name}

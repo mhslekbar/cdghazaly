@@ -1,5 +1,4 @@
 import React, { FormEvent, useContext, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { DefaultDataInputsPatientContext, ShowPatientsContext } from '../types';
 import InputsPatient from '../forms/InputsPatient';
@@ -9,7 +8,12 @@ import { useDispatch } from 'react-redux';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import { DefaultUserInterface, UserInterface } from '../../users/types';
 
-const AddNewPatient:React.FC = () => {
+interface AddNewPatientInterface {
+  modal: boolean,
+  toggle: () => void
+}
+
+const AddNewPatient:React.FC<AddNewPatientInterface> = ({ modal, toggle }) => {
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [whatsApp, setWhatsApp] = useState("+222")
@@ -28,11 +32,6 @@ const AddNewPatient:React.FC = () => {
   const [RegNoProfessional, setRegNoProfessional] = useState("")
   const [supported, setSupported] = useState("")
   const [percentage, setPercentage] = useState("")
-
-  const [modal, setModal] = useState(false)
-  const toggle = () => {
-    setModal(!modal)
-  }
 
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowPatientsContext)
@@ -104,9 +103,6 @@ const AddNewPatient:React.FC = () => {
       percentage, setPercentage,
       selectedDoctor, setSelectedDoctor,
     }}>
-        <button className="p-2 rounded bg-main text-white mb-2" onClick={toggle}>
-          <FaPlus />
-        </button>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

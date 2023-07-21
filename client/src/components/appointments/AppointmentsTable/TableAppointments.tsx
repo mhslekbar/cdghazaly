@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GetDaysOfWork from "./GetDaysOfWork";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -17,7 +17,13 @@ const AppointmentsTable: React.FC = () => {
   const setAppoint = (partOfTime: string): SetAppointmentInterface => {
     return setAppointment.find((setApp: SetAppointmentInterface) => setApp.doctor._id === doctorId && setApp.partOfTime === partOfTime) || DefaultSetAppointmentInterface
   }
-  
+
+  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
+
+  useEffect(() => {
+    setDays(daysOfWork.dayOfWork)
+  }, [daysOfWork])
+
   return (
     <AppointmentTableContext.Provider value={{
       Days, setDays,

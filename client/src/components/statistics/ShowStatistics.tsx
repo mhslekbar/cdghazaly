@@ -11,7 +11,10 @@ const ShowStatistics:React.FC = () => {
   
   const [sumTotalAmount, setSumTotalAmount] = useState<number>(0)
   const [sumConsoLab, setSumConsoLab] = useState<number>(0)
-
+  const [sumPurchaseOrders, setSumPurchaseOrders] = useState<number>(0)
+  const [sumConsumptions, setSumConsumptions] = useState<number>(0)
+  const [percentCabinet, setPercentCabinet] = useState<number>(0)
+  
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date(new Date().setDate(new Date().getDate() + 1))) // tomorrow
 
@@ -36,7 +39,6 @@ const ShowStatistics:React.FC = () => {
     const fetchUserData = async () => {
       const response = await get(`user/specificUser?userId=${doctorId}`)
       const resData  = response.data.success
-      console.log("resData: ", resData)
       if(resData) {
         setUserData(resData)
       }
@@ -56,7 +58,10 @@ const ShowStatistics:React.FC = () => {
       endDate, setEndDate,
       sumTotalAmount, setSumTotalAmount,
       sumConsoLab, setSumConsoLab,
-      userData, setUserData
+      userData, setUserData,
+      sumPurchaseOrders, setSumPurchaseOrders,
+      sumConsumptions, setSumConsumptions,
+      percentCabinet, setPercentCabinet
     }}>
       <TypeStatistics />
     </ShowStatisticContext.Provider>

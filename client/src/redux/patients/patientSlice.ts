@@ -27,6 +27,9 @@ const patientSlice = createSlice({
     },
     statusPatientFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.patients = []
+      }
       state.error = action.payload
     }
   }

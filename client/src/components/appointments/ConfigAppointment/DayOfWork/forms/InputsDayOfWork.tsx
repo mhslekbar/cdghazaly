@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { DataDayOfWorkContext, DayInfo } from "../types";
 
 const InputsDayOfWork: React.FC = () => {
-  const { DayArray, selectedDay, setSelectedDay } = useContext(DataDayOfWorkContext);
+  const { selectedDay, setSelectedDay, DayArray } = useContext(DataDayOfWorkContext);
 
   const handleAddDay = (e: any, arr: any) => {
     if (!e.target.checked) {
@@ -20,7 +20,7 @@ const InputsDayOfWork: React.FC = () => {
             type="checkbox"
             name={arr.name}
             id={`day-${arr.order}`}
-            checked={selectedDay.some((day) => day.order === arr.order)}
+            checked={selectedDay.some((day: DayInfo) => day.order === arr.order)}
             onChange={(e) => handleAddDay(e, arr)}
           />
           <label

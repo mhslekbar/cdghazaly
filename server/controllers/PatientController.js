@@ -58,7 +58,7 @@ const createPatient = async (request, response) => {
       if (assurance.professionalId.length === 0) {
         formErrors.push("Donner le matricule.");
       }
-      if (supported.length === 0) {
+      if (supported?.length === 0) {
         formErrors.push("Donner la prise en charge.");
       }
 
@@ -131,8 +131,8 @@ const updatePatient = async (request, response) => {
         whatsApp: patientInfo.whatsApp,
       };
     }
-    if (HealthCondition.length === 0) {
-      HealthCondition = patientInfo.HealthCondition;
+    if (HealthCondition?.length === 0) {
+      HealthCondition = patientInfo?.HealthCondition;
     }
     if (dob.length === 0) {
       dob = patientInfo.dob;
@@ -148,7 +148,7 @@ const updatePatient = async (request, response) => {
       if (assurance.professionalId.length === 0) {
         formErrors.push("Donner le matricule.");
       }
-      if (supported.length === 0) {
+      if (supported?.length === 0) {
         formErrors.push("Donner la prise en charge.");
       }
       if (
@@ -188,6 +188,7 @@ const updatePatient = async (request, response) => {
       response.status(300).json({ formErrors });
     }
   } catch (err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message });
   }
 };

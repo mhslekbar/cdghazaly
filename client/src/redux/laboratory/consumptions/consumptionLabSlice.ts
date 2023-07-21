@@ -28,6 +28,9 @@ const consumptionLabSlice = createSlice({
     },
     statusConsumptionLabFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.consumptionLab = []
+      }
       state.error = action.payload
     }
   }

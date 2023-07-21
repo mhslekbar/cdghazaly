@@ -26,6 +26,9 @@ const invoiceSlice = createSlice({
     },
     statusInvoiceFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.invoices = []
+      }
       state.error = action.payload
     }
   }

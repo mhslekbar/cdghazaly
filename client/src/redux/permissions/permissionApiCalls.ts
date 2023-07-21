@@ -1,31 +1,96 @@
-import { Dispatch } from "react";
-import { PermissionAction, PermissionStatus, PermissionType } from "./permissionActions";
-import { get } from "../../requestMethods";
+import { Dispatch } from "react"
+import { statusPermissionStart, statusPermissionSuccess, statusPermissionFailure } from "./permissionSlice"
+import { get, post, put, remove } from "../../requestMethods"
 
-export const ShowPermissionsApi = (filter: string = "") => async (dispatch: Dispatch<PermissionAction>) => {
+export const ShowPermissionApi = (filter: string = "") => async (dispatch: Dispatch<any>) => {
   try {
-    dispatch({ type: {name: "permission", method: PermissionType.SHOW_PERMISSIONS}, status: PermissionStatus.START })
+    dispatch(statusPermissionStart())
     let response
     if(filter) {
       response = await get(`permission${filter}`)
     } else {
-      response = await get("permission")
+      response = await get(`permission`)
     }
     const resData = response.data.success
     if(resData) {
-      dispatch({ type: {name: "permission", method: PermissionType.SHOW_PERMISSIONS}, status: PermissionStatus.SUCCESS, payload: resData })
-      return false
+      dispatch(statusPermissionSuccess(resData))
+      return true
     }
-  } catch(error: any) {
-    const errorData = error.response.data
-    if(errorData && error.response === 300) {
-      const formErrors = errorData.formErrors ? errorData.formErrors : [errorData]
-      dispatch({ type: {name: "permission", method: PermissionType.SHOW_PERMISSIONS}, status: PermissionStatus.FAILURE, payload: formErrors })      
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPermissionFailure(formErrors))
       return formErrors
     } else {
-      dispatch({ type: {name: "permission", method: PermissionType.SHOW_PERMISSIONS}, status: PermissionStatus.FAILURE, payload: [errorData] })      
-      return [errorData]
+      dispatch(statusPermissionFailure([errData.err]))
+      return [errData.err]
     }
   }
+}
 
+export const AddPermissionApi = (data: {}) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPermissionStart())
+    let response = await post('permission', data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPermissionSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPermissionFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPermissionFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const EditPermissionApi = (permissionId: string, data: {}) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPermissionStart())
+    let response = await put(`permission/${permissionId}`, data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPermissionSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPermissionFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPermissionFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const DeletePermissionApi = (permissionId: string) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPermissionStart())
+    let response = await remove(`permission/${permissionId}`)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPermissionSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPermissionFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPermissionFailure([errData.err]))
+      return [errData.err]
+    }
+  }
 }

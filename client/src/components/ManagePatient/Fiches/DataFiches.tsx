@@ -36,7 +36,7 @@ const DataFiches: React.FC = () => {
       {selectedFiche && 
         <div className={`flex flex-col border border-[#95a5a6] shadow-lg ${selectedFiche ? "data-line-fiche" : ""}`}>
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full sm:px-6 lg:px-8">
+            <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
               <div className="overflow-hidden">
                 <table className="min-w-full text-left text-sm font-light">
                   <thead className="border-b border-[#95a5a6] font-medium bg-white text-center">
@@ -50,7 +50,7 @@ const DataFiches: React.FC = () => {
                       <th className="px-6 py-4 border-r border-[#95a5a6]">
                         Montant
                       </th>
-                      <th className="px-6 py-4">Facture</th>
+                      <th className="px-6 py-4 print:hidden">Facture</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -26,6 +26,9 @@ const ListConsumableSlice = createSlice({
     },
     statusListConsumableFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.ListConsumable = []
+      }
       state.error = action.payload
     }
   }

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import { DataTreatmentContext, careTypeInterface, defaultcareTypeInterface } from './types';
 import InputsTreatment from './forms/InputsTreatment';
 import ButtonsTreatment from './forms/ButtonsTreatment';
@@ -8,6 +8,7 @@ import { AddTreatmentApi } from '../../redux/treatments/treatmentApiCalls';
 import { bindActionCreators } from 'redux';
 import { Timeout, hideMsg } from '../../functions/functions';
 import { ShowTreatmentContext } from './ShowTreatments';
+import { useNavigate } from 'react-router';
 
 const AddTreatment:React.FC = () => {
   const [treatment, setTreatment] = useState("")
@@ -44,15 +45,20 @@ const AddTreatment:React.FC = () => {
     } catch {}
   }
 
+  const navigate = useNavigate()
+
   return (
     <DataTreatmentContext.Provider value={{
       treatment, setTreatment,
       price, setPrice,
       treatmentType, setTreatmentType
     }}>
-      <button className="p-2 rounded bg-main text-white" onClick={toggle}>
-        <FaPlus />
-      </button>
+      <div className="flex justisy-start gap-2">
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate(-1)}/>
+        <button className="p-2 rounded btn-main" onClick={toggle}>
+          <FaPlus />
+        </button>
+      </div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

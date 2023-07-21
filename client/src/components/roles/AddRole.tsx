@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
 import { addRoleApi } from "../../redux/roles/roleApiCalls";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
 import { ShowRoleContext } from "./ShowRoles";
 import { Timeout, hideMsg } from "../../functions/functions";
+import { useNavigate } from "react-router";
 
 const AddRole: React.FC = () => {
   const [role, setRole] = useState<string>("");
@@ -33,11 +34,16 @@ const AddRole: React.FC = () => {
     setModal(!modal);
   };
 
+  const navigate = useNavigate()
+
   return (
     <div>
-      <button className="p-2 rounded btn-main" onClick={toggle}>
-        <FaPlus />
-      </button>
+      <div className="flex justify-start gap-2">
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
+        <button className="p-2 rounded btn-main" onClick={toggle}>
+          <FaPlus />
+        </button>
+      </div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

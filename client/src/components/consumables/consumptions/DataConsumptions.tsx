@@ -33,14 +33,14 @@ const DataConsumptions: React.FC = () => {
     <div className="grid grid-cols-3">
       <div className="col-span-2 flex flex-col border mt-3">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full sm:px-6 lg:px-8">
+          <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
             <div className="overflow-hidden">
               <table className="min-w-full text-left text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>
-                    <th className="px-6 py-4 border-r">Montant</th>
                     <th className="px-6 py-4 border-r">Note</th>
-                    <th className="px-6 py-4 border-r">Actions</th>
+                    <th className="px-6 py-4 border-r">Montant</th>
+                    <th className="px-6 py-4 border-r print:hidden">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -53,12 +53,12 @@ const DataConsumptions: React.FC = () => {
                     (consumption: MyConsumptionsInterface, index) => (
                       <tr className="border-b" key={index}>
                         <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                          {consumption.amount}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                           {consumption.note}
                         </td>
-                        <td className="bg-white">
+                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                          {consumption.amount}
+                        </td>
+                        <td className="bg-white print:hidden">
                           <div className="flex justify-center items-center">
                             <FaEdit className="text-blue" style={{ fontSize: "22px" }} onClick={() => handleShowEditConsumption(consumption)} />
                             <MdRemoveCircle className="text-red" style={{ fontSize: "22px" }} onClick={() => handleShowDeleteConsumption(consumption)} />
@@ -67,6 +67,17 @@ const DataConsumptions: React.FC = () => {
                       </tr>
                     )
                   )}
+                  <tr>
+                    <td></td>
+                    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">
+                      {filterSpecificDate(
+                        consumptions, day, month, showSwitchDate, startDate, endDate, selectedDate
+                      )
+                      .filter((consumption: MyConsumptionsInterface) => consumption.doctor._id === doctorId)
+                      .reduce((acc, currVal) => acc + (Number(currVal.amount) ?? 0), 0)
+                      }
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>

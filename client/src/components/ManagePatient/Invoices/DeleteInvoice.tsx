@@ -23,7 +23,6 @@ const DeleteInvoice:React.FC<DeleteInvoiceInterface> = ({ modal, toggle, Invoice
     e.preventDefault()
     try {
       const response = await dispatch(DeleteInvoiceApi(patientId, InvoiceData._id))
-      console.log("response: ", response)
       if(response === true) {
         toggle()
         setShowSuccessMsg(true)

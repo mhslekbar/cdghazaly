@@ -26,6 +26,9 @@ const setAppointSlice = createSlice({
     },
     statusSetAppointFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.setAppointment = []
+      }
       state.error = action.payload
     }
   }

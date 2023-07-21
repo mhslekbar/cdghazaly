@@ -69,12 +69,12 @@ const RoleByPermission: React.FC<RoleByPermissionInterface> = ({ role }) => {
             key={index}
           >
           <div className="flex justify-between">
-            <p>{collectionName._id}</p>
+            <p onClick={() => toggleCollection(collectionName)}>{collectionName._id}</p>
             <span id={`icon-collection${collectionName._id}${role._id}`} data-type="plus" className='text-main' style={{
               fontSize: "22px",
             }} onClick={() => toggleCollection(collectionName)}
             >
-              <FaPlus />  
+              <FaPlus />
             </span>
           </div>
           <ListPermission collectionName={collectionName} role={role} />

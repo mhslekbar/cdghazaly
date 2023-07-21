@@ -26,6 +26,9 @@ const purchaseOrderSlice = createSlice({
     },
     statusPurchaseOrderFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.purchaseOrders = []
+      }
       state.error = action.payload
     }
   }

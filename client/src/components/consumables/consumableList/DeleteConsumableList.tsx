@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ListConsumableInterface, ShowConsumableListContext } from './types';
+import { ListConsumableInterface } from './types';
 import { DeleteListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
+import { ShowConsumableContext } from '../types';
 
 export interface DeleteConsumableListInterface {
   modal: boolean,
@@ -14,7 +15,7 @@ export interface DeleteConsumableListInterface {
 const DeleteConsumableList:React.FC<DeleteConsumableListInterface> = ({ modal, toggle, ConsumableListData  }) => {
   const [errors, setErrors] = useState<string[]>([])
 
-  const { setShowSuccessMsg } = useContext(ShowConsumableListContext)
+  const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
 
   const handleSubmit = async (e: any) => {

@@ -101,7 +101,7 @@ const DataPatients: React.FC = () => {
           )
           .map((patient: PatientInterface) => (
             <section
-              className="bg-white border rounded shadow px-4 py-2 hover:bg-main Data-Patient"
+              className="bg-white border rounded-lg shadow px-4 py-2 hover:bg-main Data-Patient"
               key={patient._id}
             >
               <div 

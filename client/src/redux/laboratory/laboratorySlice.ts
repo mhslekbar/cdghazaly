@@ -28,6 +28,9 @@ const laboratorySlice = createSlice({
     },
     statusLabFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.laboratory = []
+      }
       state.error = action.payload
     }
   }

@@ -4,6 +4,7 @@ import { Days, Months, ShowStatisticContext, Years } from "./types";
 import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
 import { InputElement } from "../../HtmlComponents/InputElement";
 import { formattedDate } from "../../functions/functions";
+import { FaPrint } from "react-icons/fa";
 
 const FilterStatistics: React.FC = () => {
   const {
@@ -37,6 +38,7 @@ const FilterStatistics: React.FC = () => {
           <SelectElement valueType="string" value={year} setValue={setYears} options={Years} />
         </>
       )}
+      <FaPrint onClick={() => window.print()} className="text-blue" style={{ fontSize: "22px" }} />
     </div>
   );
 };

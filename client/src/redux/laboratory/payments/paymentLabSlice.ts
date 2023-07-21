@@ -19,6 +19,9 @@ const paymentLabSlice = createSlice({
     },
     statusPaymentLabFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.paymentLab = []
+      }
       state.error = action.payload
     }
   }

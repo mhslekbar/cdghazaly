@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import loginReducer       from "./login/loginReducer";
 import roleReducer       from "./roles/roleReducer";
-import permissionReducer from "./permissions/permissionReducer";
+import permissionReducer from "./permissions/permissionSlice";
 import userReducer from "./users/userSlice";
 import treatReducer from "./treatments/treatmentSlice";
 import labReducer from "./laboratory/laboratorySlice";
@@ -22,6 +22,7 @@ import appointmentReducer from "./appointments/appointmentSlice";
 import consumptionReducer from "./consumptions/consumptionSlice";
 import listConsumableReducer from "./listConsumable/listConsumableSlice";
 import purchaseOrderReducer from "./purchaseOrder/purchaseOrderSlice";
+import daysOfWorkReducer from "./dayOfWork/dayOfWorkSlice";
 
 import {
   persistStore,
@@ -64,7 +65,8 @@ const rootReducer = combineReducers({
   appointments: appointmentReducer,
   consumptions: consumptionReducer,
   ListConsumable: listConsumableReducer,
-  purchaseOrder: purchaseOrderReducer
+  purchaseOrder: purchaseOrderReducer,
+  daysOfWork: daysOfWorkReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

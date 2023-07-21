@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import { DefaultUserInterface, UserInterface } from '../../users/types';
 import { DataConsumptionContext } from './types';
 import InputsConsumptions from './forms/InputsConsumptions';
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { AddConsumptionsApi } from '../../../redux/consumptions/consumptionApiCalls';
 import { ShowConsumableContext } from '../types';
 import { Timeout, hideMsg } from '../../../functions/functions';
+import { useNavigate } from 'react-router';
 
 const AddConsumption:React.FC = () => {
   const [amount, setAmount] = useState(0)
@@ -39,15 +40,20 @@ const AddConsumption:React.FC = () => {
     } catch { }
   }
 
+  const navigate = useNavigate()
+
   return (
     <DataConsumptionContext.Provider value={{
       amount, setAmount,
       note, setNote,
       doctor, setDoctorId
     }}>
-        <button className="p-2 rounded bg-main text-white mt-3" onClick={toggle}>
+      <div className="flex justify-start gap-2 mt-2">
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
+        <button className="p-2 rounded btn-main" onClick={toggle}>
           <FaPlus />
         </button>
+      </div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

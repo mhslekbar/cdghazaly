@@ -19,6 +19,9 @@ const accountLabSlice = createSlice({
     },
     statusAccountLabFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.accountLab = []
+      }
       state.error = action.payload
     }
   }

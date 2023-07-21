@@ -1,16 +1,16 @@
 const UserModel = require("../models/UserModel");
 
-const authorizedPermission = (permission) => {
+const authorizedPermission = (permission = [], collectionName) => {
   return async (req, res, next) => {
     const { id } = req.user;
 
-    const users = await UserModel.findById(id).populate("groups");
+    const users = await UserModel.findById(id).populate("roles");
     let hasPermission = false;
 
-    for (const group of users.groups || []) {
-      const populatedGroup = await group.populate("permissions");
+    for (const role of users.roles || []) {
+      const populatedRole = await role.populate("permissions");
       if (
-        populatedGroup.permissions.find((p) => p.permissionName === permission)
+        populatedRole.permissions.find((p) => permission.includes(p.name) && p.collectionName === collectionName)
       ) {
         hasPermission = true;
         break;
@@ -21,7 +21,7 @@ const authorizedPermission = (permission) => {
     } else {
       return res
         .status(300)
-        .json(`You are not allowed to : ${permission.toLowerCase()}`);
+        .json(`You are not allowed to : ${permission[0].toLowerCase()} ${collectionName.toLowerCase()}`);
     }
   };
 };

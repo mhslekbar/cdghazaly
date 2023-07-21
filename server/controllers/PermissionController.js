@@ -7,13 +7,13 @@ const getPermissions = async (req, res) => {
         let permission
         if(userId) {
             const userData = await UserModel.findOne({_id: userId}).populate({
-                path: "groups",
+                path: "roles",
                 populate: {
                     path: "permissions"
                 }
             })
             let allowedPermission = []
-            for(let grp of userData.groups) {
+            for(let grp of userData.roles) {
                 allowedPermission.push(grp.permissions)
             }
             permission = allowedPermission[0]
@@ -52,7 +52,7 @@ const createPermission = async (req, res) => {
         const formErrors = [];
         const { name, collectionName } = req.body 
 
-        const PermissionData = await PermissionModel.findOne({ name });
+        const PermissionData = await PermissionModel.findOne({ name, collectionName });
 
         if(PermissionData) {
             formErrors.push("Le nom du Permission deja existe");
@@ -74,12 +74,44 @@ const createPermission = async (req, res) => {
     }
 }
 
+
+const createManyPermission = async (req, res) => {
+    try {
+        const formErrors = [];
+
+        const { permissions } = req.body 
+
+        permissions.map(async permission => {
+            const PermissionData = await PermissionModel.findOne({ name: permission.name, collectionName: permission.collectionName });
+
+            if(PermissionData) {
+                formErrors.push("Le nom du Permission deja existe");
+            }
+            if(permission.name.length === 0) {
+                formErrors.push("Le nom du Permission est obligatoire");
+            }
+            if(permission.collectionName.length === 0) {
+                formErrors.push("Le choix du nom de la collection est obligatoire");
+            }
+            
+            await PermissionModel.create(permission);
+        })
+
+        await getPermissions(req, res)
+
+    } catch (err) {
+        res.status(500).json({err})
+    }
+}
+
+
 const updatePermission = async (req, res) => {
     try {
         const {id} = req.params;
         const { name, collectionName } = req.body 
         const formErrors = [];
-        const checkPermission = await PermissionModel.findOne({ $ne: {_id: id}, name });
+
+        const checkPermission = await PermissionModel.findOne({ _id: {$ne: id}, name , collectionName});
         const PermissionData = await PermissionModel.findOne({ name });
 
         if(checkPermission) {
@@ -112,4 +144,13 @@ const deletePermission = async (req, res) => {
     }
 }
 
-module.exports = { getPermissions, getPermissionsByTable, createPermission, updatePermission, deletePermission }
+const deleteAllPermission = async (req, res) => {
+    try {
+        await PermissionModel.deleteMany();
+        await getPermissions(req, res)
+      } catch (err) {
+        res.status(500).json({err})
+    }
+}
+
+module.exports = { getPermissions, getPermissionsByTable, createPermission, createManyPermission, updatePermission, deletePermission, deleteAllPermission }

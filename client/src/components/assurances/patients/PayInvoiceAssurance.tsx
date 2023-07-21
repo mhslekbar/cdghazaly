@@ -1,48 +1,37 @@
-import React, { useContext } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import React, { FormEvent, useContext } from 'react';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
-import { EditFicheApi } from '../../../../redux/fiches/ficheApiCalls';
+import { InvoicesAssuranceInterface, ShowAssurancesContext } from '../types';
+import { Timeout } from '../../../functions/functions';
 import { useParams } from 'react-router';
-import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
-import { FicheInterface, ShowFichesContext } from '../types';
-import { Timeout } from '../../../../functions/functions';
+import { PayInvoiceAssuranceApi } from '../../../redux/assurances/invoiceAssApiCalls';
 
-interface EditFicheInterface {
+interface PayInvoiceAssuranceInterface {
   modal: boolean,
   toggle: () => void,
-  FicheData: FicheInterface
+  InvoiceData: InvoicesAssuranceInterface
 }
 
-const EditFiche:React.FC<EditFicheInterface> = ({
-  modal,
-  toggle,
-  FicheData
-}) => {
-
+const PayInvoiceAssurance:React.FC<PayInvoiceAssuranceInterface> = ({ modal, toggle, InvoiceData }) => {
   const dispatch: any = useDispatch()
-  const { patientId } = useParams()
-  const { setShowSuccessMsg } = useContext(ShowFichesContext)
+  const { setShowSuccessMsg } = useContext(ShowAssurancesContext)
 
+  const { AssId } = useParams()
 
-  const HandlSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      console.log("FicheData.LineFiche: ", FicheData.LineFiche)
-      const response = true
-      // const response = await dispatch(EditFicheApi(patientId, FicheData._id, FicheData.LineFiche))
+      const response = await dispatch(PayInvoiceAssuranceApi(AssId, InvoiceData._id))
       if(response === true) {
-        toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
+        toggle()
       }
     } catch {}
   }
 
   return (
     <div>
-        <button className="p-2 rounded bg-main text-white" onClick={toggle}>
-          <FaPlus />
-        </button>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -56,9 +45,9 @@ const EditFiche:React.FC<EditFicheInterface> = ({
                   {/* Start Modal Body */}
                   <form
                     className="mt-2 sm:ml-4 sm:text-left"
-                    onSubmit={HandlSubmit}
+                    onSubmit={handleSubmit}
                   >
-                    <ButtonsForm typeBtn='Modifier' toggle={toggle} />
+                    <ButtonsForm toggle={toggle} typeBtn="Payer" />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -71,4 +60,4 @@ const EditFiche:React.FC<EditFicheInterface> = ({
   );
 }
 
-export default EditFiche
+export default PayInvoiceAssurance

@@ -7,7 +7,8 @@ export interface ButtonInterface {
   toggleDropDown?: any;
   openDropdown?: boolean;
   icon?: any,
-  pathDropDown?: string
+  pathDropDown?: string,
+  FromHomePage?: any
 }
 const ButtonElement: React.FC<ButtonInterface> = ({
   name,
@@ -15,7 +16,8 @@ const ButtonElement: React.FC<ButtonInterface> = ({
   toggleDropDown,
   openDropdown,
   icon,
-  pathDropDown
+  pathDropDown,
+  FromHomePage
 }) => {
   const location = useLocation()
 
@@ -35,6 +37,18 @@ const ButtonElement: React.FC<ButtonInterface> = ({
           <span className="ml-2 mt-1">{name.toUpperCase()}</span>
         </Link>
       ) : (
+        <>
+        {FromHomePage?.className ? 
+         <div
+           className={`flex justify-center items-center flex-col`}
+           onClick={() => {toggleDropDown(name)}}
+           aria-expanded={openDropdown}
+           aria-haspopup="true"
+         >
+          {icon}
+          {name.toUpperCase()}
+         </div>
+        : 
         <button
           className={`${location.pathname.split("/")[1] === pathDropDown ? "btn-main" : "bg-transparent"} inline-flex justify-between w-full px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-[#00b894] `} // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
           onClick={() => {toggleDropDown(name);}}
@@ -63,6 +77,8 @@ const ButtonElement: React.FC<ButtonInterface> = ({
             />
           </svg>
         </button>
+        }
+        </>
       )}
     </div>
   );

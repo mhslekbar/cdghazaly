@@ -4,8 +4,7 @@ import { SingleRoleByPermissionType, RoleType, PermissionType } from "../types";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { ShowPermissionsApi } from "../../../redux/permissions/permissionApiCalls";
+import { ShowPermissionApi } from "../../../redux/permissions/permissionApiCalls";
 
 interface ListPermissionInterface {
   collectionName: SingleRoleByPermissionType;
@@ -17,11 +16,13 @@ const ListPermission: React.FC<ListPermissionInterface> = ({
 }) => {
   const { permissions }: { permissions: PermissionType[]} = useSelector((state: State) => state.permissions);
   const [allowedPermission, setAllowedPermissions] = useState<PermissionType[]>([]);
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
   useEffect(() => {
-    const boundActions = bindActionCreators({ ShowPermissionsApi }, dispatch);
-    boundActions.ShowPermissionsApi()
+    const fetchPermission = async () => {
+      await dispatch(ShowPermissionApi())
+    }
+    fetchPermission()
   }, [dispatch]);
 
   useEffect(() => {

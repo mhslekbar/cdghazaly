@@ -10,7 +10,7 @@ interface InputElementInterface {
   divClass?: string
 }
 
-export const InputElement:React.FC<InputElementInterface> = ({ type = "text", name, id, value, setValue, placeholder, divClass }) => {
+export const InputElement:React.FC<InputElementInterface> = ({ type = "text", name, id, value, setValue, placeholder, divClass = "" }) => {
   return (
     <div className={`mb-2 ${divClass}`}>
       {name && 

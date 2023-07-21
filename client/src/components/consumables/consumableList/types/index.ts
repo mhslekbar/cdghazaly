@@ -31,8 +31,6 @@ export interface ShowConsumableListInterface {
   setShowDeleteListConsumable: (showDeleteListConsumable: boolean) => void,
   selectedListConsumable: ListConsumableInterface,
   setSelectedListConsumable: (selectedListConsumable: ListConsumableInterface) => void,
-  showSuccessMsg: boolean,
-  setShowSuccessMsg: (showSuccessMsg: boolean) => void,
 }
 
 export const DefaultShowConsumableListInterface: ShowConsumableListInterface = {
@@ -42,8 +40,6 @@ export const DefaultShowConsumableListInterface: ShowConsumableListInterface = {
   setShowDeleteListConsumable: () => {},
   selectedListConsumable: DefaultListConsumableInterface,
   setSelectedListConsumable: () => {},
-  showSuccessMsg: false,
-  setShowSuccessMsg: () => {},
 }
 
 export const ShowConsumableListContext = createContext(DefaultShowConsumableListInterface)

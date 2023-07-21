@@ -26,7 +26,6 @@ const ButtonsForm: React.FC<ButtonsFormType> = ({
     case "Terminer":
       btnColor = "bg-main";
       break;
-      
     default:
       btnColor = "bg-main";
   }

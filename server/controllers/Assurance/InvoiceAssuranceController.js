@@ -1,5 +1,4 @@
 const AssuranceModel = require("../../models/AssuranceModel")
-const UserModel = require("../../models/UserModel")
 const { getAssurances } = require("../Assurance/AssuranceController")
 
 const createInvoiceAssurance = async (request, response) => {
@@ -19,7 +18,21 @@ const createInvoiceAssurance = async (request, response) => {
     }
     await getAssurances(request, response)      
   } catch(err) {
-    console.log("err: ", err)
+    response.status(500).json({ err: err.json })
+  }
+}
+
+const payInvoiceAssurance = async (request, response) => {
+  try {
+    const { AssId, invoiceId } = request.params
+    const assurance = await AssuranceModel.findOne({ _id: AssId })
+    const findIndex = assurance.invoices.findIndex(ass => ass._id.equals(invoiceId))
+    if(findIndex > -1) {
+      assurance.invoices[findIndex].payed = true
+    }
+    await assurance.save();
+    await getAssurances(request, response)
+  } catch(err) {
     response.status(500).json({ err: err.json })
   }
 }
@@ -36,4 +49,4 @@ const deleteInvoiceAssurance = async (request, response) => {
   }
 }
 
-module.exports = { createInvoiceAssurance, deleteInvoiceAssurance }
+module.exports = { createInvoiceAssurance, payInvoiceAssurance, deleteInvoiceAssurance }

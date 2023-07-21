@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { AddListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
-import { DataConsumableListContext, ShowConsumableListContext } from './types';
+import { DataConsumableListContext } from './types';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { InputElement } from '../../../HtmlComponents/InputElement';
+import { useNavigate } from 'react-router';
+import { ShowConsumableContext } from '../types';
 
 const AddListConsumable:React.FC = () => {
   const [name, setName] = useState("")
@@ -16,7 +18,7 @@ const AddListConsumable:React.FC = () => {
     setModal(!modal)
   }
 
-  const { setShowSuccessMsg } = useContext(ShowConsumableListContext)
+  const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
 
   const handleSubmit = async (e: any) => {
@@ -34,13 +36,18 @@ const AddListConsumable:React.FC = () => {
     } catch { }
   }
 
+  const navigate = useNavigate()
+
   return (
     <DataConsumableListContext.Provider value={{
       name, setName
     }}>
-        <button className="p-2 rounded bg-main text-white mt-3" onClick={toggle}>
+      <div className="flex justify-start gap-2 mt-2">
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
+        <button className="p-2 rounded btn-main" onClick={toggle}>
           <FaPlus />
         </button>
+      </div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -65,7 +72,7 @@ const AddListConsumable:React.FC = () => {
                         >
                           {err}
                         </p>
-                      ))}
+                    ))}
                     <InputElement name="Note" placeholder='donner une note si vous voulez.' value={name} setValue={setName} />
                     <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
                   </form>

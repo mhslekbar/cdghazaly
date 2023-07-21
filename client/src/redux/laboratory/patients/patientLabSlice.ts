@@ -19,6 +19,9 @@ const patientLabSlice = createSlice({
     },
     statusPatientLabFailure: (state, action) => {
       state.isFetching = false
+      if(action.payload[0]?.startsWith("AFFICHER")) {
+        state.patientLab = []
+      }
       state.error = action.payload
     }
   }

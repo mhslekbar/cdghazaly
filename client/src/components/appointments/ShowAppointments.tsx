@@ -10,6 +10,7 @@ import { useParams } from "react-router";
 import DeleteAppointment from "./DeleteAppointment";
 import ToggleTableAppointment from "./ToggleTableAppointment";
 import { ShowSetAppointApi } from "../../redux/setAppoint/setAppointApiCalls";
+import { ShowDayOfWorkApi } from "../../redux/dayOfWork/dayOfWorkApiCalls";
 
 const ShowAppointments: React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
@@ -36,14 +37,18 @@ const ShowAppointments: React.FC = () => {
     fetchSetAppointment();
   }, [dispatch, doctorId]);
 
+  useEffect(() => {
+    const fetchDays = async () => {
+      await dispatch(ShowDayOfWorkApi(doctorId))
+    }
+    fetchDays()
+  }, [dispatch, doctorId])
 
   return (
     <ShowAppointmentContext.Provider
       value={{
-        showSuccessMsg,
-        setShowSuccessMsg,
-        showAddModal,
-        setShowAddModal,
+        showSuccessMsg, setShowSuccessMsg,
+        showAddModal, setShowAddModal,
         selectedTd, setSelectedTd,
         showDeleteModal, setShowDeleteModal,
         selectedAppointment, setSelectedAppointment,

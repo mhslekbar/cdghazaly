@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DataDevisContext, DefaultDevisInterface, DevisInterface, LineDevisType, ShowDevisInterfaceContext } from '../../../Devis/types'
+import { DataDevisContext, DevisInterface, LineDevisType, ShowDevisInterfaceContext } from '../../../Devis/types'
 import { FaEye } from 'react-icons/fa'
 import { ShowFichesContext } from '../../types'
 

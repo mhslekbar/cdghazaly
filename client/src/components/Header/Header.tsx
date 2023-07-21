@@ -21,7 +21,7 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
           navbar
         </button>
       </div>
-      <h1 className="text-white text-3xl font-bold capitalize col-span-2 col-start-2 text-center">
+      <h1 className="text-white text-3xl font-bold col-span-2 col-start-2 text-center uppercase">
         Atlas Software
       </h1>
       <div className="flex items-center justify-end">

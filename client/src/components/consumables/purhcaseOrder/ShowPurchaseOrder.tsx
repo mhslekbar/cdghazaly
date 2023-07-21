@@ -4,10 +4,17 @@ import { ShowPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrder
 import DataPurchaseOrder from './DataPurchaseOrder';
 import { useParams } from 'react-router';
 import AddPurchaseOrder from './AddPurchaseOrder';
-import { ShowPurchaseOrderContext } from './types';
+import { DefaultPurchaseOrderInterface, PurchaseOrderInterface, ShowPurchaseOrderContext } from './types';
+import EditPurchaseOrder from './EditPurchaseOrder';
+import DeletePurchaseOrder from './DeletePurchaseOrder';
+import SuccessMsg from '../../../Messages/SuccessMsg';
+import FilterConsumable from '../FilterConsumable';
 
 const ShowPurchaseOrder:React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false)
+  const [showEditPurchaseOrder, setShowEditPurchaseOrder] = useState(false)
+  const [showDeletePurchaseOrder, setShowDeletePurchaseOrder] = useState(false)
+  const [selectedPurchaseOrder, setSelectedPurchaseOrder] = useState<PurchaseOrderInterface>(DefaultPurchaseOrderInterface)
 
   const dispatch: any = useDispatch();
   const { doctorId } = useParams()
@@ -21,10 +28,21 @@ const ShowPurchaseOrder:React.FC = () => {
 
   return (
     <ShowPurchaseOrderContext.Provider value={{
-      showSuccessMsg, setShowSuccessMsg
+      showSuccessMsg, setShowSuccessMsg,
+      selectedPurchaseOrder, setSelectedPurchaseOrder,
+      showEditPurchaseOrder, setShowEditPurchaseOrder,
+      showDeletePurchaseOrder, setShowDeletePurchaseOrder
     }}>
+      {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <AddPurchaseOrder />
+      <FilterConsumable />
       <DataPurchaseOrder />
+      {selectedPurchaseOrder && showEditPurchaseOrder &&
+        <EditPurchaseOrder PurchaseOrderData={selectedPurchaseOrder} modal={showEditPurchaseOrder} toggle={() => setShowEditPurchaseOrder(!showEditPurchaseOrder)}  />
+      }
+      {selectedPurchaseOrder && showDeletePurchaseOrder &&
+        <DeletePurchaseOrder PurchaseOrderData={selectedPurchaseOrder} modal={showDeletePurchaseOrder} toggle={() => setShowDeletePurchaseOrder(!showDeletePurchaseOrder)}  />
+      }
     </ShowPurchaseOrderContext.Provider>
   )
 }

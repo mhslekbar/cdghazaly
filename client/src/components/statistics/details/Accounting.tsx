@@ -8,5 +8,4 @@ const Accounting: React.FC = () => {
     </section>
   );
 };
-
 export default Accounting;

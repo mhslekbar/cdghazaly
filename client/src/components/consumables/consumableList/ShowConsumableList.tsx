@@ -10,7 +10,6 @@ import DataConsumableList from './DataConsumptions'
 
 
 const ShowConsumableList:React.FC = () => {
-  const [showSuccessMsg, setShowSuccessMsg] = useState(false)
   const [showEditListConsumable, setShowEditListConsumable] = useState(false)
   const [selectedListConsumable, setSelectedListConsumable] = useState<ListConsumableInterface>(DefaultListConsumableInterface)
   const [showDeleteListConsumable, setShowDeleteListConsumable] = useState(false)
@@ -28,7 +27,6 @@ const ShowConsumableList:React.FC = () => {
       showEditListConsumable, setShowEditListConsumable,
       selectedListConsumable, setSelectedListConsumable,
       showDeleteListConsumable, setShowDeleteListConsumable,
-      showSuccessMsg, setShowSuccessMsg
     }}>
       <AddListConsumable />
       <DataConsumableList />
