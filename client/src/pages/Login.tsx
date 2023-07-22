@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { hideMsg } from "../functions/functions";
 
 const Login:React.FC = () => {
-  const { userData }: { userData: [] } = useSelector((state: State) => state.login)  
+  const { userData } = useSelector((state: State) => state.login)  
   const navigate = useNavigate()
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -29,7 +29,7 @@ const Login:React.FC = () => {
   };
 
   useEffect(() => {
-    if(Object.keys(userData).length > 0) {
+    if(userData) {
       setErrors([])
       navigate("/", { replace: true });
     }
@@ -84,7 +84,7 @@ const Login:React.FC = () => {
         <button className="mb-2 font-bold btn-main w-full shadow rounded focus:outline-none px-3 py-2">
           Connect
         </button>
-        {errors.length > 0 && errors?.map((err: string, index: number) => (
+        {errors?.length > 0 && errors?.map((err: string, index: number) => (
           <div key={index} className="bg-red-400 text-white p-2 rounded" onClick={(e) => hideMsg(e, errors, setErrors)}>{err}</div>
         ))}
       </form>

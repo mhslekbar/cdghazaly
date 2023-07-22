@@ -10,7 +10,7 @@ export interface DevisInterface {
   numDevis: number,
   reduce: number,
   LineDevis: [LineDevisType],
-  createdAt: Date
+  createdAt: string,
 }
 
 export interface LineDevisType {
@@ -22,8 +22,8 @@ export interface LineDevisType {
     nums: string[],
     surface: string
   },
-  createdAt?: Date,
-  updatedAt?: Date
+  createdAt?: string,
+  updatedAt?: string
 }
 
 export const DefaultLineDevisType: LineDevisType = {
@@ -35,8 +35,8 @@ export const DefaultLineDevisType: LineDevisType = {
     nums: [""],
     surface: ""
   },
-  createdAt: new Date(),
-  updatedAt: new Date()
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString()
 
 }
 
@@ -47,7 +47,7 @@ export const DefaultDevisInterface:DevisInterface = {
   numDevis: 0,
   reduce: 0,
   LineDevis: [DefaultLineDevisType],
-  createdAt: new Date()
+  createdAt: new Date().toISOString()
 }
 
 export interface ShowDevisInterface {

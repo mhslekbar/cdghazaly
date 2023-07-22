@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InterfaceOfLink } from './OffCanvas';
 import ButtonElement from './ButtonElement';
 import PopOverChooseDoctor from './PopOverChooseDoctor';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+import { State } from '../../redux/store';
+import { DefaultPermissionInterface, PermissionInterface } from '../permissions/types';
+import { UserData } from '../../requestMethods';
 
 interface DropdownPropsInterface {
   linkList: InterfaceOfLink[],
@@ -20,6 +24,21 @@ const Dropdown:React.FC<DropdownPropsInterface> = ({ linkList, name, openDropdow
   const [selectedPopOver, setSelectedPopOver] = useState("")
 
   const location = useLocation()
+  const { permissions } = useSelector((state: State) => state.permissions);
+  const [AllowGlobal, setAllowGlobal] = useState<PermissionInterface>(DefaultPermissionInterface)
+
+  useEffect(() => {
+    setAllowGlobal(
+      permissions.find(
+        (permission: PermissionInterface) =>
+          permission.name === "AFFICHER_GLOBAL" &&
+          permission.collectionName === "PATIENTS"
+      )
+      || DefaultPermissionInterface
+    )
+  }, [permissions])
+
+  const navigate = useNavigate()
 
   return (
     <div className={FromHomePage?.className + " relative inline-block text-left w-full mb-2"}>
@@ -38,11 +57,16 @@ const Dropdown:React.FC<DropdownPropsInterface> = ({ linkList, name, openDropdow
                 {`${location.pathname.split("/")[1] === pathDropDown && location.pathname.split("/")[2] === link.path  ? "bg-gray-200" : "bg-transparent"} relative text-start block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900`}
                 key={index}
                 onClick={() => {
-                  setPopOverIsOpen(!popOverIsOpen)
-                  setSelectedPopOver(link.title)
+                  if(AllowGlobal.name) {
+                    setPopOverIsOpen(!popOverIsOpen)
+                    setSelectedPopOver(link.title)
+                  } else {
+                    !AllowGlobal.name && navigate(`/${pathDropDown}${link.path ? "/"+link.path : ""}/${UserData()._id}`)
+                  }
                 }}
               >
                 {link.title}
+                {/* !AllowGlobal.name &&  */}
                 {popOverIsOpen && selectedPopOver === link.title && 
                   <PopOverChooseDoctor link={link} pathDropDown={pathDropDown} popOverIsOpen={popOverIsOpen} togglePopover={() => setPopOverIsOpen(!popOverIsOpen)} />
                 }

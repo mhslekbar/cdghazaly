@@ -11,6 +11,7 @@ import {
 import { InputCheckbox } from "../../../HtmlComponents/InputCheckbox";
 import { MdAttachMoney, MdRemoveCircleOutline } from "react-icons/md";
 import { FaPrint } from "react-icons/fa";
+import { PermissionInterface } from "../../permissions/types";
 
 const InvoicesAssurance: React.FC = () => {
   const { AssId, doctorId } = useParams();
@@ -58,6 +59,8 @@ const InvoicesAssurance: React.FC = () => {
     setSelectedInvoice(invoice)
   }
 
+  const { permissions } = useSelector((state: State) => state.permissions)
+
   return (
     <div className="mt-2">
       <div className="flex justify-start gap-2">
@@ -67,12 +70,16 @@ const InvoicesAssurance: React.FC = () => {
           value={archiveInvoice}
           setValue={setArchiveInvoice}
         />
-        <InputCheckbox
+        {permissions.find(
+          (permission: PermissionInterface) =>
+            permission.name === "FACTURE_GLOBAL" &&
+            permission.collectionName === "PATIENTS_ASSURANCE"
+        ) && <InputCheckbox
           id="FGlobal"
           name="Facture Global"
           value={factureGlobal}
           setValue={setFactureGlobal}
-        />
+        />}        
         <FaPrint className="text-blue mt-2" style={{ fontSize: "22px" }} onClick={() => window.print()}/>
       </div>
       <section className="flex flex-row gap-2">

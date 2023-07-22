@@ -45,6 +45,7 @@ const MyRoutes:React.FC = () => {
         <Route path="/role" element={<Roles />}/>
         <Route path="/user" element={<Users />}/>
         <Route path="/laboratory" element={<Laboratory />} >
+          <Route path=":labId" element />
           <Route path=":labId/accounts" element={<ShowLabAccounts />} />
           <Route path=":labId/treatments" element={<ShowTreatLab />} />
           <Route path=":labId/consumptions/:doctorId" element={<ShowLabConsumptions />} />
@@ -53,6 +54,7 @@ const MyRoutes:React.FC = () => {
         </Route>
         <Route path="/treatment" element={<Treatments />}/>
         <Route path="/assurance" element={<Assurances />} >
+          <Route path=":AssId" element />        
           <Route path=":AssId/treatments" element={<ShowTreatAssurance />}/>        
           <Route path=":AssId/patients/:doctorId" element={<ShowPatientsAssurance />}/>        
         </Route>

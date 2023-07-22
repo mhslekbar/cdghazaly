@@ -58,7 +58,9 @@ export interface ShowInvoicesInterface  {
   showDeleteInvoice: boolean,
   setShowDeleteInvoice: (showDeleteInvoice: boolean) => void
   showSuccessMsg: boolean,
-  setShowSuccessMsg: (showSuccessMsg: boolean) => void
+  setShowSuccessMsg: (showSuccessMsg: boolean) => void,
+  typeInvoice: string,
+  setTypeInvoice: (typeInvoice: string) => void,
 }
 
 export const DefaultShowInvoicesInterface:ShowInvoicesInterface = {
@@ -69,7 +71,9 @@ export const DefaultShowInvoicesInterface:ShowInvoicesInterface = {
   showDeleteInvoice: false,
   setShowDeleteInvoice: () => {},
   showSuccessMsg: false,
-  setShowSuccessMsg: () => {}
+  setShowSuccessMsg: () => {},
+  typeInvoice: "",
+  setTypeInvoice: () => {},
 }
 
 export const ShowInvoicesContext = createContext(DefaultShowInvoicesInterface)

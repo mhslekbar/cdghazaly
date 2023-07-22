@@ -23,7 +23,7 @@ export interface AppointmentInterface {
   _id: string,
   doctor: UserInterface,
   patient: PatientInterface,
-  date: Date,
+  date: string,
   time: string,
   numSeance: number,
   partOfTime: string
@@ -33,7 +33,7 @@ export const DefaultAppointmentInterface:AppointmentInterface = {
   _id: "",
   doctor: DefaultUserInterface,
   patient: DefaultPatientInterface,
-  date: new Date(),
+  date: new Date().toISOString(),
   time: "",
   numSeance: 0,
   partOfTime: ""

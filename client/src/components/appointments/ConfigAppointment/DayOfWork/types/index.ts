@@ -14,14 +14,14 @@ export interface DayOfWorkInterface {
   _id: string,
   doctor: UserInterface,
   dayOfWork: DayInfo[],
-  createdAt: Date
+  createdAt: string
 }
 
 export const DefaultDayOfWorkInterface: DayOfWorkInterface = {
   _id: "",
   doctor: DefaultUserInterface,
   dayOfWork: [DefaultDayInfo],
-  createdAt: new Date()
+  createdAt: new Date().toISOString()
 }
 
 

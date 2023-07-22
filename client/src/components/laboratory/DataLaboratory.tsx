@@ -34,7 +34,8 @@ const DataLaboratory: React.FC = () => {
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-2 mt-2">
       {laboratory.map((labo: laboratoryInterface, index) => (
-        <Link to={`/laboratory/${labo._id}/accounts`} onClick={() => handleSelectedLab(labo)} className={`${labo.name === selectedLaboratory.name ? "btn-main" : ""} shadow rounded border bg-white px-6 py-4 hover:bg-[#00b894] hover:text-white`} key={index}>
+        // /accounts
+        <Link to={`/laboratory/${labo._id}`} onClick={() => handleSelectedLab(labo)} className={`${labo.name === selectedLaboratory.name ? "btn-main" : ""} shadow rounded border bg-white px-6 py-4 hover:bg-[#00b894] hover:text-white`} key={index}>
           <p className="grid grid-cols-2">
             <span>Nom:</span><b>{labo.name}</b>
           </p>

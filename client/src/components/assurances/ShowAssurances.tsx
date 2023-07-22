@@ -38,14 +38,16 @@ const ShowAssurances:React.FC = () => {
 
       {showAddModal && <AddAssurance modal={showAddModal} toggle={() => setShowAddModal(!showAddModal)} /> }
       
-      {!hideDataAssurance && <div className="flex justify-start gap-2 mt-2">
+      {!AssId && <div className="flex justify-start gap-2 mt-2">
         <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
         <button className="p-2 rounded btn-main" onClick={() => setShowAddModal(!showAddModal)}>
           <FaPlus />
         </button>
       </div>}
       
-      {hideDataAssurance ? <FaChevronCircleLeft className='text-main mt-2' style={{ fontSize: "30px" }} onClick={() => setHideDataAssurance(false)} /> : <DataAssurances />}
+      {AssId ? <FaChevronCircleLeft className='text-main mt-2' style={{ fontSize: "30px" }} onClick={() => { 
+        navigate(`/assurance`)
+      }} /> : <DataAssurances />}
       {showEditModal && selectedAssurance && <EditAssurance AssuranceData={selectedAssurance} modal={showEditModal}  toggle={() => setShowEditModal(!showEditModal)} />}
       {showDeleteModal && selectedAssurance && <DeleteAssurance AssuranceData={selectedAssurance} modal={showDeleteModal}  toggle={() => setShowDeleteModal(!showDeleteModal)} />}
       {/* {selectedAssurance.name.length > 0 && <ManageAssurance Assurance={selectedAssurance} /> } */}

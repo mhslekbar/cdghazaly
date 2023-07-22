@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import loginReducer       from "./login/loginReducer";
+import loginReducer       from "./login/loginSlice";
 import roleReducer       from "./roles/roleReducer";
 import permissionReducer from "./permissions/permissionSlice";
 import userReducer from "./users/userSlice";

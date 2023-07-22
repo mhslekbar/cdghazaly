@@ -14,8 +14,8 @@ export interface LabConsumptionInterface {
     nums: string[],
     surface: string
   }
-  createdAt: Date,
-  updatedAt: Date
+  createdAt: string,
+  updatedAt: string
 }
 
 export const DefaultLabConsumptionInterface: LabConsumptionInterface = {
@@ -29,6 +29,6 @@ export const DefaultLabConsumptionInterface: LabConsumptionInterface = {
     nums: [""],
     surface: ""
   },
-  createdAt: new Date(),
-  updatedAt: new Date()
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString()
 }

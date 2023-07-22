@@ -1,5 +1,6 @@
 import { createContext } from "react"
 import { DefaultUserInterface, UserInterface } from "../../users/types";
+
 export interface PatientInterface {
   _id: string;
   doctor: UserInterface[];
@@ -19,9 +20,9 @@ export interface PatientInterface {
   },
   finish: boolean;
   balance: number;
-  date_archive: Date;
+  date_archive: string;
   archive: boolean;
-  createdAt: Date
+  createdAt: string
 }
 
 export const DefaultPatientInterface: PatientInterface = {
@@ -43,9 +44,9 @@ export const DefaultPatientInterface: PatientInterface = {
   },
   finish: false,
   balance: 0,
-  date_archive: new Date(),
+  date_archive: new Date().toString(),
   archive: false,
-  createdAt: new Date()
+  createdAt: new Date().toString()
 }
 
 

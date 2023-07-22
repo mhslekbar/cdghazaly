@@ -7,7 +7,7 @@ export const hideMsg = (e: any, error: string[], setError: any) => {
 
 
 export const filterSpecificDate = (MyArray: any[], day: number, month: number, showSwitchDate: boolean, startDate: Date, endDate: Date, selectedDate: Date): any [] => {
-  return MyArray.filter((consumption: any) => {
+  return MyArray?.filter((consumption: any) => {
     const consumptionDate = new Date(consumption.createdAt);
     if(showSwitchDate) {
       return consumptionDate >= startDate && consumptionDate <= endDate;

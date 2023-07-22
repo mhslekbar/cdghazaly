@@ -11,12 +11,12 @@ import SelectInvoice from './SelectInvoice'
 import CreateInvoice from './CreateInvoice'
 import DeleteInvoice from './DeleteInvoice'
 
-
 const ShowInvoices:React.FC = () => {
   const [selectedInvoice, setSelectedInvoice] = useState<InvoicesInterface>(DefaultInvoicesInterface)
   const [showEditInvoice, setShowEditInvoice] = useState(false)
   const [showDeleteInvoice, setShowDeleteInvoice] = useState(false)
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [typeInvoice, setTypeInvoice] = useState<string>("global")
 
   const handleShowDelete = () => {
     setShowDeleteInvoice(!showDeleteInvoice)
@@ -37,7 +37,8 @@ const ShowInvoices:React.FC = () => {
       selectedInvoice, setSelectedInvoice,
       showEditInvoice, setShowEditInvoice,
       showDeleteInvoice, setShowDeleteInvoice,
-      showSuccessMsg, setShowSuccessMsg
+      showSuccessMsg, setShowSuccessMsg,
+      typeInvoice, setTypeInvoice
     }}>
     {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
     <div className='grid grid-cols-6 mt-4'>

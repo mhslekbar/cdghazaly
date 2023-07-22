@@ -49,7 +49,7 @@ const DataAssurances: React.FC = () => {
           onClick={() => {
             setHideDataAssurance(true)
             setSelectedAssurance(assurance)
-            navigte(`/assurance/${assurance._id}/treatments`)
+            navigte(`/assurance/${assurance._id}`)
           }}
           key={index}>
           <span className="flex justify-between block">

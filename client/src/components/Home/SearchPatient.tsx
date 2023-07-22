@@ -54,7 +54,7 @@ const SearchPatient:React.FC = () => {
   const [showAddPatient, setShowAddPatient] = useState(false)
 
   return (
-    <section className='mt-4 relative'>
+    <section className='mt-4 relative col-start-2'>
         <InputElement divClass='w-full' placeholder="Nom ou numero du patient" value={patient} setValue={setPatient} />
         <SelectElement
           divClass='w-full'

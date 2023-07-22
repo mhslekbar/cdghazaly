@@ -3,12 +3,14 @@ const UserModel = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 
 const generateAccessToken = (user) =>
-  jwt.sign({ id: user._id }, process.env.JWT_SEC, { expiresIn: "15d" });
+  jwt.sign({ id: user._id }, process.env.JWT_SEC);
+  // jwt.sign({ id: user._id }, process.env.JWT_SEC, { expiresIn: "15d" });
 
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await UserModel.findOne({ username});
+
     if (!user) {
       res.status(300).json({ formErrors: "Username is wrong!!" });
     } else {

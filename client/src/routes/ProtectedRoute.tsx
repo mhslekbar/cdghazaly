@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import {  Navigate, Outlet } from 'react-router'
 import { State } from '../redux/store'
 
-const ProtectedRoutes = () => {
+const ProtectedRoutes:React.FC = () => {
   const { userData } = useSelector((state: State) => state.login)
   
   return (

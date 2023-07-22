@@ -25,7 +25,7 @@ const ConsoLab: React.FC = () => {
 
   useEffect(() => {
     setSumConsoLab(consumptionLab        
-      .reduce(
+      ?.reduce(
         (accF: any, currValF: any) =>
           accF +
           filterSpecificDate(
@@ -37,8 +37,8 @@ const ConsoLab: React.FC = () => {
           )
           ?.reduce(
             (acc: any, currVal: any) => acc + currVal.teeth.nums.length * currVal.price, 0
-            ),
-            0
+          ),
+        0
       ))
     }, [day, month, selectedDate, showSwitchDate, startDate, endDate, setSumConsoLab, sumConsoLab, doctorId, consumptionLab])
 

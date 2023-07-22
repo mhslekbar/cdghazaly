@@ -65,7 +65,6 @@ const ShowLaboratory: React.FC = () => {
           toggle={() => setShowSuccessMsg(!showSuccessMsg)}
         />
       )}
-
       <div className="flex justify-between gap-2">
         <div>
           {selectedLaboratory._id ? 
@@ -83,7 +82,7 @@ const ShowLaboratory: React.FC = () => {
           </div>
         }
         </div>
-        {UserData().doctor._id && selectedLaboratory?._id &&(
+        {UserData().doctor.cabinet && selectedLaboratory?._id &&(
           <p className="bg-main py-2 px-4 rounded border">
             solde: {selectedLaboratory?.accounts?.find(acc => acc.doctor._id === UserData()._id)?.balance.toString()} 
           </p>

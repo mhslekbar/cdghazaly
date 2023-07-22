@@ -42,7 +42,7 @@ const verifyToken = require("./middlewares/verifyToken")
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
-app.use("/api/auth",        verifyToken, setCacheControl, require("./routes/auth"))
+app.use("/api/auth",        setCacheControl, require("./routes/auth"))
 app.use("/api/user",        verifyToken, setCacheControl, require("./routes/user"))
 app.use("/api/permission",  verifyToken, setCacheControl, require("./routes/permission"))
 app.use("/api/role",        verifyToken, setCacheControl, require("./routes/role"))

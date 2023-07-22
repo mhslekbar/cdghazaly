@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router";
 import ButtonAssurance from "./ButtonAssurance";
 import {
-  LinksInterface,
   ManageAssuranceContext,
   ManageAssuranceInterface,
-  linskAssurance,
 } from "./types";
 import DropdownAssurance from "./DropdownAssurance";
 import { useSelector } from "react-redux";
@@ -13,6 +11,8 @@ import { State } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 import { ShowUserApi } from "../../../redux/users/UserApiCalls";
 import { UserInterface } from "../../users/types";
+import { UserData } from "../../../requestMethods";
+import { PermissionInterface } from "../../permissions/types";
 
 const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -40,6 +40,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   };
 
   const { AssId } = useParams();
+  const { permissions } = useSelector((state: State) => state.permissions);
 
   return (
     <ManageAssuranceContext.Provider
@@ -49,27 +50,42 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
         
       }}
     >
-      <div className="bg-white grid lg:grid-cols-2 sm:grid-cols-1 rounded border shadow mt-2 font-bold text-center">
-        {AssId &&
-          linskAssurance.map((link: LinksInterface, index) => (
-            <React.Fragment key={index}>
-              {link.type === "button" ? (
-                <ButtonAssurance
-                  name={link.title}
-                  path={`/assurance/${AssId}/${link.path}`}
-                />
-              ) : (
-                <DropdownAssurance
-                  openDropdown={openDropdown}
-                  name={link.title}
-                  pathDropDown={link.pathDrop || ""}
-                  linkList={doctors}
-                  selectedDropDown={selectedDropDown}
-                  toggleDropDown={toggleDropDown}
-                />
-              )}
-            </React.Fragment>
-          ))}
+      <div className="grid lg:grid-cols-2 sm:grid-cols-1 rounded border mt-2 font-bold text-center">
+        {AssId && <>
+          
+          {permissions.find(
+              (permission: PermissionInterface) =>
+                permission.name === "AFFICHER" &&
+                permission.collectionName === "TRAITEMENTS"
+            ) && <ButtonAssurance
+            name="Traitements"
+            path={`/assurance/${AssId}/treatments`}
+          />}
+
+          {permissions.find(
+            (permission: PermissionInterface) =>
+              permission.name === "AFFICHER_GLOBAL" &&
+              permission.collectionName === "PATIENTS_ASSURANCE"
+          ) ?
+          <DropdownAssurance
+            openDropdown={openDropdown}
+            name="Patients"
+            pathDropDown={`patients`}
+            linkList={doctors}
+            selectedDropDown={selectedDropDown}
+            toggleDropDown={toggleDropDown}
+          /> : 
+          permissions.find(
+            (permission: PermissionInterface) =>
+              permission.name === "AFFICHER" &&
+              permission.collectionName === "PATIENTS_ASSURANCE"
+          ) &&
+          <ButtonAssurance
+            name="Patients"
+            path={`/assurance/${AssId}/patients/${UserData()._id}`}
+          />}
+
+        </>}
       </div>
       <Outlet />
     </ManageAssuranceContext.Provider>
