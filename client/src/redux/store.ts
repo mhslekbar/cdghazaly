@@ -37,7 +37,7 @@ import {
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-  key: "dentist",
+  key: "cdghazaly",
   version: 1,
   storage,
 };

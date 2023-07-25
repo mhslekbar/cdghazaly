@@ -8,6 +8,7 @@ const PaymentModel = require("../models/PaymentModel");
 const DevisModel = require("../models/DevisModel");
 const FicheModel = require("../models/FicheModel");
 const InvoiceModel = require("../models/InvoiceModel");
+const PurchaseOrderModel = require("../models/PurchaseOrderModel");
 
 const { convertToHoursMins, strToTime, AllDayOfWork } = require("../functions/functions")
 
@@ -127,9 +128,17 @@ const deleteUser = async (req, res) => {
       await DevisModel.deleteMany({ "LineDevis.doctor": id })
       await FicheModel.deleteMany({ "LineFiche.doctor": id })
       await InvoiceModel.deleteMany({ "LineInvoice.doctor": id })
-      await LaboratoryModel.deleteMany({ "accounts.doctor": id })
       
+      const labo = await LaboratoryModel.findOne({ "accounts.doctor": id })
+      if(labo) {
+        LaboratoryModel.accounts = LaboratoryModel.accounts.filter(acc => !acc.doctor.equals(id))
+        LaboratoryModel.payments = LaboratoryModel.payments.filter(payment => !payment.doctor.equals(id))
+        LaboratoryModel.consumptions = LaboratoryModel.consumptions.filter(consumption => !consumption.doctor.equals(id))
+        LaboratoryModel.patients = LaboratoryModel.patients.filter(patient => !patient.doctor.equals(id))
+        await LaboratoryModel.save()
+      }
       await PatientModel.deleteMany({ doctor: id })
+      await PurchaseOrderModel.deleteMany({ doctor: id })
       
       await UserModel.findByIdAndDelete(id)
       await getUsers(req, res)

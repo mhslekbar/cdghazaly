@@ -94,3 +94,7 @@ export const DeleteTreatmentApi = (treatId: string) => async (dispatch: Dispatch
     }
   }
 }
+
+export const clearTreatApi = async (dispatch: Dispatch<any>) => {
+  dispatch(statusTreatSuccess([]))
+}

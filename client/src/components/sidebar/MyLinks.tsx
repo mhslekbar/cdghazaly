@@ -11,6 +11,8 @@ import { UserInterface } from "../users/types";
 import { ShowUserApi } from "../../redux/users/UserApiCalls";
 import DropdownDoctor from "./DropDownDoctor";
 import { BsCart4 } from "react-icons/bs";
+import { PermissionInterface } from "../permissions/types";
+import { UserData } from "../../requestMethods";
 
 interface MyLinkInterface {
   openDropdown: boolean;
@@ -44,24 +46,32 @@ const MyLink: React.FC<MyLinkInterface> = ({
         }))
     );
   }, [users]);
+  const { permissions } = useSelector((state: State) => state.permissions)
+
+  const show = false
 
   return (
     <div>
       <ButtonElement name="page d'acceuil" path="/" />
-      <ButtonElement icon={<FaUsersCog />} name="roles" path="/role" />
-      <ButtonElement icon={<FaUsers />} name="utlisateurs" path="/user" />
-      <ButtonElement
-        icon={<FaBriefcaseMedical />}
-        name="traitements"
-        path="/treatment"
-      />
-      <ButtonElement
-        icon={<FaTooth />}
-        name="Laboratoires"
-        path="/laboratory"
-      />
+
+      {permissions.find(
+        (permission: PermissionInterface) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "ASSURANCES"
+      ) && (
+        <ButtonElement
+          icon={<FaTooth />}
+          name="Laboratoires"
+          path="/laboratory"
+        />
+      )}
       {/* <ButtonElement icon={<FaUser />} name="Patients" path="/patient" /> */}
-      <Dropdown
+
+      {permissions.find(
+        (permission: PermissionInterface) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "PATIENTS"
+        ) && <Dropdown
         icon={<FaUser />}
         openDropdown={openDropdown}
         name="Patients"
@@ -69,22 +79,57 @@ const MyLink: React.FC<MyLinkInterface> = ({
         linkList={listTypePatient}
         selectedDropDown={selectedDropDown}
         toggleDropDown={toggleDropDown}
-      />
+      /> }
+      
+      {permissions.find(
+      (permission: PermissionInterface) =>
+        permission.name === "AFFICHER" &&
+        permission.collectionName === "LABORATOIRES"
+    ) && (
       <ButtonElement
         icon={<MdOutlineAssuredWorkload />}
         name="Assurances"
         path="/assurance"
       />
-      <DropdownDoctor
-        icon={<FaCalendarCheck />}
-        openDropdown={openDropdown}
-        name="Rendez-vous"
-        pathDropDown="appointments"
-        linkList={listDoctors}
-        selectedDropDown={selectedDropDown}
-        toggleDropDown={toggleDropDown}
-      />
-      <DropdownDoctor
+
+    )}
+
+
+      {permissions.find(
+        (permission: PermissionInterface) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "RDV"
+      ) && (
+        permissions.find(
+          (permission: PermissionInterface) =>
+            permission.name === "AFFICHER_GLOBAL" &&
+            permission.collectionName === "RDV"
+        ) ?           
+        <DropdownDoctor
+          icon={<FaCalendarCheck />}
+          openDropdown={openDropdown}
+          name="Rendez-vous"
+          pathDropDown="appointments"
+          linkList={listDoctors}
+          selectedDropDown={selectedDropDown}
+          toggleDropDown={toggleDropDown}
+        />
+          :
+          <ButtonElement icon={<FaCalendarCheck />} name="Rendez-vous" path={`/appointments/${UserData()?._id}`} />
+        )}
+
+      
+      {permissions.find(
+        (permission: PermissionInterface) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "STATISTIQUES_FINANCIERES"
+      ) && (
+        permissions.find(
+          (permission: PermissionInterface) =>
+            permission.name === "AFFICHER_GLOBAL" &&
+            permission.collectionName === "STATISTIQUES_FINANCIERES"
+        ) ? 
+        <DropdownDoctor
         icon={<FaChartLine />}
         openDropdown={openDropdown}
         name="Stats Financières"
@@ -93,8 +138,22 @@ const MyLink: React.FC<MyLinkInterface> = ({
         nestedLink="payments"
         selectedDropDown={selectedDropDown}
         toggleDropDown={toggleDropDown}
-      />
-      <DropdownDoctor
+      /> :
+        <ButtonElement icon={<FaChartLine />} name="Stats Financières" path={`/statistics/${UserData()?._id}/payments`} />
+      )}
+
+
+      {permissions.find(
+        (permission: PermissionInterface) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "CONSOMMABLES"
+      ) && (
+        permissions.find(
+          (permission: PermissionInterface) =>
+            permission.name === "AFFICHER_GLOBAL" &&
+            permission.collectionName === "CONSOMMABLES"
+        ) ? 
+        <DropdownDoctor
         icon={<BsCart4 />}
         openDropdown={openDropdown}
         name="consommables"
@@ -103,8 +162,39 @@ const MyLink: React.FC<MyLinkInterface> = ({
         selectedDropDown={selectedDropDown}
         toggleDropDown={toggleDropDown}
         nestedLink="consumptions"
-      />
-      <ButtonElement icon={<FaShieldAlt />}  name="Permissions" path="/permissions" />
+      /> :     
+        <ButtonElement icon={<BsCart4 />} name="consommables" path="/consumables/consumptions" />
+      )}
+
+      {permissions.find(
+        (permission: PermissionInterface) =>
+        permission.name === "AFFICHER" &&
+        permission.collectionName === "UTILISATEURS"
+        ) 
+        && 
+        <ButtonElement icon={<FaUsers />} name="utlisateurs" path="/user" />
+      }
+
+      {permissions.find(
+        (permission: PermissionInterface) =>
+        permission.name === "AFFICHER" &&
+        permission.collectionName === "TRAITEMENTS"
+        ) 
+        && <ButtonElement icon={<FaBriefcaseMedical />} name="traitements" path="/treatment"/>
+      }
+
+      {show && <>
+        {permissions.find(
+          (permission: PermissionInterface) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "ROLES"
+          ) 
+          && <ButtonElement icon={<FaUsersCog />} name="roles" path="/role" /> 
+        }
+
+
+        <ButtonElement icon={<FaShieldAlt />}  name="Permissions" path="/permissions" />
+      </>}
     </div>
   );
 };

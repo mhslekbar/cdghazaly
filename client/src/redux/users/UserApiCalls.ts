@@ -94,3 +94,7 @@ export const DeleteUserApi = (userId: string) => async (dispatch: Dispatch<any>)
     }
   }
 }
+
+export const clearUserApi = async (dispatch: Dispatch<any>) => {
+  dispatch(statusUserSuccess([]))
+}

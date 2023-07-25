@@ -25,3 +25,7 @@ export const loginApi = (data: object) => async (dispatch: Dispatch<any>) => {
   }
 }
 
+export const logoutApi = async (dispatch: Dispatch<any>) => {
+  dispatch(statusLoginSuccess([]))
+}
+

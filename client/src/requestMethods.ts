@@ -1,13 +1,14 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/"
+// const BASE_URL = "http://154.56.57.194:8890/api/"
+const BASE_URL = "http://localhost:8890/api/"
 
 export const publicRequest = axios.create({
   baseURL: BASE_URL
 })
 
 export const UserData = () => {
-  let persist = localStorage.getItem("persist:dentist")
+  let persist = localStorage.getItem("persist:cdghazaly")
   let userData
   if(persist) {
     const login = JSON.parse(persist).login

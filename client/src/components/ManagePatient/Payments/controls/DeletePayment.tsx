@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
 import { PaymentInterface, ShowPaymentsContext } from '../types';
-import { Timeout } from '../../../../functions/functions';
+import { Timeout, hideMsg } from '../../../../functions/functions';
 import { DeletePaymentsApi } from '../../../../redux/payments/paymentApiCalls';
 import { useDispatch } from 'react-redux';
 import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
@@ -16,9 +16,9 @@ const DeletePayment:React.FC<DeletePaymentInterface> = ({ modal, toggle, payment
   const { setShowSuccessMsg } = useContext(ShowPaymentsContext)
 
   const dispatch: any = useDispatch()
+  const [errors, setErrors] = useState<string[]>([])
 
-  const handleSubmit = async (e: any) => {
-    
+  const handleSubmit = async (e: any) => {    
     e.preventDefault()
     try {
       const response = await dispatch(DeletePaymentsApi(paymentData._id)) 
@@ -27,6 +27,8 @@ const DeletePayment:React.FC<DeletePaymentInterface> = ({ modal, toggle, payment
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         await dispatch(ShowPatientsApi())
+      } else {
+        setErrors(response)
       }
     } catch {}
   }
@@ -48,6 +50,16 @@ const DeletePayment:React.FC<DeletePaymentInterface> = ({ modal, toggle, payment
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
+                    {errors.length > 0 &&
+                    errors.map((err, index) => (
+                      <p
+                        className="p-3 my-2 rounded bg-red text-white msg"
+                        key={index}
+                        onClick={(e) => hideMsg(e, errors, setErrors)}
+                      >
+                        {err}
+                      </p>
+                    ))}
                     <ButtonsForm toggle={toggle} typeBtn='Supprimer'/>
                   </form>
                   {/* End Modal Body */}

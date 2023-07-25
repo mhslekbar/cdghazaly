@@ -3,7 +3,7 @@ import InputsPayment from '../forms/InputsPayment';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
 import { DataPaymentsContext, DefaultPaymentMethodInterface, PaymentInterface, PaymentMethodInterface, ShowPaymentsContext } from '../types';
 import { UserInterface } from '../../../users/types';
-import { Timeout, formattedDate } from '../../../../functions/functions';
+import { Timeout, formattedDate, hideMsg } from '../../../../functions/functions';
 import { EditPaymentsApi } from '../../../../redux/payments/paymentApiCalls';
 import { useDispatch } from 'react-redux';
 import { UserData } from '../../../../requestMethods';
@@ -29,6 +29,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
 
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
+  const [errors, setErrors] = useState<string[]>([])
 
   const handleSubmit = async (e: any) => {
     const data = {
@@ -52,6 +53,8 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         await dispatch(ShowPatientsApi())
+      } else {
+        setErrors(response)
       }
     } catch {}
   }
@@ -80,6 +83,16 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
+                    {errors.length > 0 &&
+                    errors.map((err, index) => (
+                      <p
+                        className="p-3 my-2 rounded bg-red text-white msg"
+                        key={index}
+                        onClick={(e) => hideMsg(e, errors, setErrors)}
+                      >
+                        {err}
+                      </p>
+                    ))}
                     <InputsPayment />
                     <ButtonsForm toggle={toggle} typeBtn='Modifier'/>
                   </form>

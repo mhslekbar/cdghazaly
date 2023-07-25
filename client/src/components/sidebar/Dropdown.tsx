@@ -44,7 +44,7 @@ const Dropdown:React.FC<DropdownPropsInterface> = ({ linkList, name, openDropdow
     <div className={FromHomePage?.className + " relative inline-block text-left w-full mb-2"}>
       <ButtonElement FromHomePage={FromHomePage} name={name} icon={icon} pathDropDown={pathDropDown} toggleDropDown={toggleDropDown} openDropdown={openDropdown} />
       {openDropdown && selectedDropDown === name && (
-        <div className="w-full z-10 origin-top-right absolute left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" style={{ bottom: FromHomePage?.className ? "-75px" : 0 }}>
+        <div className="w-full z-10 origin-top-right absolute left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" style={{ bottom: FromHomePage?.className ? "-75px" : "auto" }}>
           <div
             className="py-1 w-full"
             role="menu"

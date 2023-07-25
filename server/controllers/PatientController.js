@@ -5,6 +5,8 @@ const SettingModel = require("../models/SettingModel");
 const FicheModel = require("../models/FicheModel");
 const InvoiceModel = require("../models/InvoiceModel");
 const DevisModel = require("../models/DevisModel");
+const AppointmentModel = require("../models/AppointmentModel");
+const LaboratoryModel = require("../models/LaboratoryModel");
 
 const getPatients = async (request, response) => {
   try {
@@ -196,12 +198,29 @@ const updatePatient = async (request, response) => {
 const deletePatient = async (request, response) => {
   try {
     const { id } = request.params;
-    await PatientModel.deleteOne({ _id: id });
     await PaymentModel.deleteMany({ patient: id });
     await FicheModel.deleteMany({ patient: id });
-    await FicheModel.deleteMany({ patient: id });
-    await InvoiceModel.deleteMany({ patient: id })
-    await DevisModel.deleteMany({ patient: id })
+    await DevisModel.deleteMany({ patient: id });
+    await InvoiceModel.deleteMany({ patient: id });
+    await AppointmentModel.deleteMany({ patient: id });
+    
+    // START find laboratory With Consumptions
+    const laboConsumption = await LaboratoryModel.findOne({ "consumptions.patient": id })
+    if(laboConsumption) {
+      laboConsumption.consumptions = laboConsumption.consumptions.filter(consumption => !consumption.patient.equals(id))
+      await laboConsumption.save()
+    }
+    // END find laboratory With Consumptions
+    
+    // START find laboratory With Patients
+    const laboPatients = await LaboratoryModel.findOne({ "patients.patient": id })
+    if(laboPatients) {
+      laboPatients.consumptions = laboPatients.patients.filter(patient => !patient.patient.equals(id))
+      await laboPatients.save()
+    }
+    // END find laboratory With Consumptions
+
+    await PatientModel.deleteOne({ _id: id });
     await getPatients(request, response);
   } catch (err) {
     response.status(500).json({ err: err.message });

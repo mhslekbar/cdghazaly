@@ -21,6 +21,8 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
   const { permissions } = useSelector((state: State) => state.permissions);
   const navigate = useNavigate()
 
+  const show = false
+
   return (
     <section className="grid grid-cols-3 gap-2 mt-3">
       {permissions.find(
@@ -73,19 +75,21 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           Traitements
         </div>
       )}
-      {permissions.find(
-        (permission: PermissionInterface) =>
-          permission.name === "AFFICHER" &&
-          permission.collectionName === "ROLES"
-      ) && (
-        <div className={className} onClick={() => navigate("role")}>
-          <FaUsersCog className="mb-3 text-4xl" /> Roles
+      {show && <>
+        {permissions.find(
+          (permission: PermissionInterface) =>
+            permission.name === "AFFICHER" &&
+            permission.collectionName === "ROLES"
+        ) && (
+          <div className={className} onClick={() => navigate("role")}>
+            <FaUsersCog className="mb-3 text-4xl" /> Roles
+          </div>
+        )}
+        <div className={className} onClick={() => navigate("/permissions")}>
+          <FaShieldAlt className="mb-3 text-4xl" />
+          Permissions
         </div>
-      )}
-      <div className={className} onClick={() => navigate("/permissions")}>
-        <FaShieldAlt className="mb-3 text-4xl" />
-        Permissions
-      </div>
+      </>}
     </section>
   )
 }
