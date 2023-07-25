@@ -4,6 +4,16 @@ const bodyParser = require("body-parser")
 
 const cors = require("cors");
 
+// origin: "http://154.56.57.194:8890/",
+
+// const corsOptions = {
+// origin: "https://cdghazaly.com/",
+//   optionsSuccessStatus: 200,
+//   credentials: true
+// };
+
+// app.use(cors(corsOptions));
+
 app.use(cors());
 
 // include .env file

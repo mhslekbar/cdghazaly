@@ -229,9 +229,8 @@ node index.js
 npm i -g pm2
 ```
 Let's create a new pm2 instance
-
 ```
-pm2 start --name server index.js   
+pm2 start --name server index.js
 ```
 ```
 pm2 startup ubuntu 
@@ -323,20 +322,7 @@ server {
   }
 }
 
-server {
-  listen 80;
-  server_name admin.safakkocaoglu.com;
-  location / {
-    root /var/www/cdghazaly/admin;
-    index  index.html index.htm;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-    try_files $uri $uri/ /index.html;
-  }
-}
+
 ```
 
 ## SSL Certification
