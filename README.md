@@ -127,7 +127,7 @@ ufw allow "Nginx Full"
 
 #### First configuration
 ```
- nano /etc/nginx/sites-available/cdghazaly
+nano /etc/nginx/sites-available/cdghazaly
 ```
 ```
 server {
@@ -173,9 +173,6 @@ apt install git
 ```
 mkdir cdghazaly
 ```
-
-#### START FROM HERE !!!!! ######
-
 ```
 cd cdghazaly
 ```
@@ -238,6 +235,7 @@ pm2 start --name server index.js
 ```
 ```
 pm2 startup ubuntu 
+pm2 status
 ```
 
 ## React App Deployment
