@@ -19,13 +19,17 @@ export const DataPermissionContext = createContext(DefaultDataPermissionInterfac
 export interface PermissionInterface {
   _id: string, 
   name: string,
-  collectionName: string,  
+  collectionName: string,
+  createdAt: string,
+  updatedAt: string,
 }
 
 export const DefaultPermissionInterface: PermissionInterface = {
   _id: "", 
   name: "",
   collectionName: "",  
+  createdAt: "",
+  updatedAt: "",
 }
 
 export interface ShowPermissionInterface {

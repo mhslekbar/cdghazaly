@@ -25,7 +25,6 @@ const DataAssurances: React.FC = () => {
     showDeleteModal, 
     setShowDeleteModal,
     setSelectedAssurance,
-    setHideDataAssurance
   } = useContext(ShowAssurancesContext)
 
   const toggleEditAssurance = (assurance: AssuranceInterface) => { 
@@ -45,19 +44,19 @@ const DataAssurances: React.FC = () => {
     <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-2 mt-4">
       {assurances.map((assurance: AssuranceInterface, index) => (
         <div className={`${assurance._id === AssId  ? "bg-main" : "" } bg-white px-6 py-4 rounded border shadow hover:bg-main`} 
-        // style={{ backgroundColor: assurance.color }} 
-          onClick={() => {
-            setHideDataAssurance(true)
+        // style={{ backgroundColor: assurance.color }}           
+          key={index}>
+          <div onClick={() => {
             setSelectedAssurance(assurance)
             navigte(`/assurance/${assurance._id}`)
-          }}
-          key={index}>
-          <span className="flex justify-between block">
-            Societé : <b>{assurance.name}</b>
-          </span>
-          <span className="flex justify-between block">
-            Consultation : <b>{assurance.cons_price}</b>
-          </span>
+          }}>
+            <span className="flex justify-between block">
+              Societé : <b>{assurance.name}</b>
+            </span>
+            <span className="flex justify-between block">
+              Consultation : <b>{assurance.cons_price}</b>
+            </span>
+          </div>
           <div className="flex justify-center">
             <FaEdit
               className="text-blue"

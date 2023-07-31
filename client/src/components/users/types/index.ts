@@ -11,6 +11,7 @@ export const DefaultUserInterface = {
     cabinet: "",
     percentage: ""
   },
+  dev: false,
   createdAt: "",
   updatedAt: ""
 }
@@ -44,6 +45,7 @@ export interface UserInterface {
   phone: string,
   roles: PermissionType[],
   doctor?: DoctorType,
+  dev: boolean,
   createdAt?: string,
   updatedAt?: string
 }

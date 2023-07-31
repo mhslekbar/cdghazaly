@@ -18,7 +18,7 @@ const getPermissions = async (req, res) => {
             }
             permission = allowedPermission[0]
         } else {
-            permission = await PermissionModel.find().sort({createdAt: -1})
+            permission = await PermissionModel.find().sort({ createdAt: -1})
         }
         res.status(200).json({success: permission});
     } catch (err) {
@@ -41,7 +41,7 @@ const getPermissionsByTable = async (req, res) => {
             }},
             {$sort: {"data.createdAt": -1}},
         ]);
-        res.status(200).json({success: permission});
+        res.status(200).json({ success: permission });
     } catch (err) {
         res.status(500).json({err})
     }

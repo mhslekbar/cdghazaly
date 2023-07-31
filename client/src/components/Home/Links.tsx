@@ -38,7 +38,6 @@ const Links: React.FC = () => {
     );
   }, [users]);
 
-
   useEffect(() => {
     const fetchPermission = async () => {
       await dispatch(ShowPermissionApi(`?userId=${UserData()._id}`));
@@ -51,7 +50,7 @@ const Links: React.FC = () => {
 
   return (
     <>
-      <FirstSection className={className} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} selectedDropDown={selectedDropDown} setSelectedDropDown={setSelectedDropDown}/>
+      <FirstSection listDoctors={listDoctors} className={className} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} selectedDropDown={selectedDropDown} setSelectedDropDown={setSelectedDropDown}/>
       <SecondSection listDoctors={listDoctors} className={className} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} selectedDropDown={selectedDropDown} setSelectedDropDown={setSelectedDropDown}/>
       <ThirdSection listDoctors={listDoctors} className={className} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} selectedDropDown={selectedDropDown} setSelectedDropDown={setSelectedDropDown}/>
     </>

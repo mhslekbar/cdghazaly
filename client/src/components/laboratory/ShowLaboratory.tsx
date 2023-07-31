@@ -16,7 +16,7 @@ import ManageLab from "./ManageLab";
 import { DefaultUserInterface, UserInterface } from "../users/types";
 import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
 import { UserData } from "../../requestMethods";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export const ShowLaboratoryContext = createContext(
   DefaultShowLaboratoryInterface
@@ -46,6 +46,7 @@ const ShowLaboratory: React.FC = () => {
   }, [dispatch]);
 
   const navigate = useNavigate()
+  const { labId } = useParams()
 
   return (
     <ShowLaboratoryContext.Provider
@@ -75,14 +76,14 @@ const ShowLaboratory: React.FC = () => {
             />
           :
           <div className="flex justify-start gap-2">
-            <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
+            <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-blue" onClick={() => navigate("/")}/>
             <button className="bg-main p-2 rounded border" onClick={() => setShowAddModal(!showAddModal)}>
               <FaPlus />
             </button>
           </div>
         }
         </div>
-        {UserData().doctor.cabinet && selectedLaboratory?._id &&(
+        {UserData().doctor.cabinet && labId &&(
           <p className="bg-main py-2 px-4 rounded border">
             solde: {selectedLaboratory?.accounts?.find(acc => acc.doctor._id === UserData()._id)?.balance.toString()} 
           </p>
@@ -93,22 +94,22 @@ const ShowLaboratory: React.FC = () => {
         <AddLaboratory modal={showAddModal} toggle={() => setShowAddModal(!showAddModal)} />
       }
 
-      {showEditModal && selectedLaboratory.name.length > 0 && (
+      {showEditModal && selectedLaboratory._id && (
         <EditLaboratory
           laboratory={selectedLaboratory}
           modal={showEditModal}
           toggle={() => setShowEditModal(!showEditModal)}
         />
       )}
-      {showDeleteModal && selectedLaboratory.name.length > 0 && (
+      {showDeleteModal && selectedLaboratory._id && (
         <DeleteLaboratory
           laboratory={selectedLaboratory}
           modal={showDeleteModal}
           toggle={() => setShowDeleteModal(!showDeleteModal)}
         />
       )}
-      {!selectedLaboratory._id && <DataLaboratory />}
-      {selectedLaboratory._id && (
+      {!labId && <DataLaboratory />}
+      {labId && (
         <ManageLab laboratory={selectedLaboratory} />
       )}
     </ShowLaboratoryContext.Provider>

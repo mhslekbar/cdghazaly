@@ -35,13 +35,15 @@ const DataLaboratory: React.FC = () => {
     <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-2 mt-2">
       {laboratory.map((labo: laboratoryInterface, index) => (
         // /accounts
-        <Link to={`/laboratory/${labo._id}`} onClick={() => handleSelectedLab(labo)} className={`${labo.name === selectedLaboratory.name ? "btn-main" : ""} shadow rounded border bg-white px-6 py-4 hover:bg-[#00b894] hover:text-white`} key={index}>
-          <p className="grid grid-cols-2">
-            <span>Nom:</span><b>{labo.name}</b>
-          </p>
-          <p className="grid sm:grid-cols-2 lg:grid-cols-2">
-            <span>Telephone:</span><b>{labo.phone}</b>
-          </p>
+        <section className={`${labo.name === selectedLaboratory.name ? "btn-main" : ""} shadow rounded border bg-white px-6 py-4 hover:bg-[#00b894] hover:text-white`} key={index}>
+          <Link to={`/laboratory/${labo._id}`} onClick={() => handleSelectedLab(labo)}>
+            <p className="grid grid-cols-2">
+              <span>Nom:</span><b>{labo.name}</b>
+            </p>
+            <p className="grid sm:grid-cols-2 lg:grid-cols-2">
+              <span>Telephone:</span><b>{labo.phone}</b>
+            </p>
+          </Link>
           <div className="flex justify-center gap-2 mt-2">
               <FaEdit
                 className="text-blue"
@@ -58,7 +60,7 @@ const DataLaboratory: React.FC = () => {
                 onClick={() => toggleDeleteUser(labo)}
               />
           </div>
-        </Link>
+        </section>
       ))}
     </div>
   );

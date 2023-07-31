@@ -11,7 +11,13 @@ const ButtonsAddUser: React.FC<ButtonsAddUserInterface> = ({
 }) => {
   return (
     <div className="items-center gap-2 mt-3 sm:flex">
-      {/* START Modal Footer */}
+      {/* START Modal Footer */}      
+      <button
+        className="w-full mt-2 p-2.5 flex-1 bg-gray-600 text-white rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
+        onClick={toggle}
+      >
+        Fermer
+      </button>
       {typeBtn === "edit" ? (
         <button
           type="submit"
@@ -27,12 +33,6 @@ const ButtonsAddUser: React.FC<ButtonsAddUserInterface> = ({
           Ajouter
         </button>
       )}
-      <button
-        className="w-full mt-2 p-2.5 flex-1 bg-gray-600 text-white rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-        onClick={toggle}
-      >
-        Fermer
-      </button>
       {/* End Modal Footer */}
     </div>
   );

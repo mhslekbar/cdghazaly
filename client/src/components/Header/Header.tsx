@@ -3,6 +3,8 @@ import { AiOutlinePoweroff } from "react-icons/ai";
 import { useNavigate } from "react-router";
 import { logoutApi } from "../../redux/login/loginApiCalls";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { State } from "../../redux/store";
 
 interface HeaderInterface {
   toggleOffcanvas: any;
@@ -21,6 +23,8 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
     } catch {}
   }
 
+  const { userData } = useSelector((state: State) => state.login)
+
   return (
     <header className="bg-main p-4 mx-auto grid xs:grid-cols-1 lg:grid-cols-4">
       <div className="flex items-start">
@@ -33,7 +37,7 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
             `}
           onClick={toggleOffcanvas}
         >
-          navbar
+         {userData?.username} 
         </button>
       </div>
       <h1 className="text-white text-3xl font-bold col-span-2 col-start-2 text-center uppercase">

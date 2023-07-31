@@ -1,12 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
-import { PermissionInterface } from '../../permissions/types';
 import { useNavigate } from 'react-router';
 import { FaCalendarCheck, FaChartLine } from 'react-icons/fa';
 import DropdownDoctor from '../../sidebar/DropDownDoctor';
 import { UserData } from '../../../requestMethods';
 import SearchPatient from '../SearchPatient';
+import { PermissionType } from '../../roles/types';
 
 interface SecondSectionInterface {
   className: string,
@@ -23,16 +23,16 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
 
   return (
     <section className="grid grid-cols-3 gap-2 mt-3">
-      {permissions.find(
-        (permission: PermissionInterface) =>
+      {(permissions.find(
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "RDV"
-      ) && (
+      ) || (
         permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "RDV"
-        ) ?           
+        )) ?           
         <DropdownDoctor
           linkList={listDoctors}
           openDropdown={openDropdown}
@@ -54,16 +54,16 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
       )}
 
       <SearchPatient />
-      {permissions.find(
-        (permission: PermissionInterface) =>
+      {(permissions.find(
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "STATISTIQUES_FINANCIERES"
-      ) && (
+      ) || (
         permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "STATISTIQUES_FINANCIERES"
-        ) ? 
+        )) ? 
         <DropdownDoctor
           linkList={listDoctors}
           openDropdown={openDropdown}

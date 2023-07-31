@@ -51,8 +51,8 @@ export const DefaultPermission:PermissionType = {
   _id: "",
   name: "",
   collectionName: "",
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 }
 
 export type RoleByPermissionType = {
@@ -79,8 +79,8 @@ export type PermissionType = {
   _id: string,
   name: string,
   collectionName: string,
-  createdAt: Date,
-  updatedAt: Date,
+  createdAt: string,
+  updatedAt: string,
 }
 
 // End Permission ANd ROle

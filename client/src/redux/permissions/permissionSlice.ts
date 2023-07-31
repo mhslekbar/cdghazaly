@@ -1,12 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DefaultPermission, PermissionType } from "../../components/roles/types";
+
+interface InitialStateInterface {
+  isFetching: boolean,
+  permissions: PermissionType[],
+  error: [],
+}
+
+const initialState:InitialStateInterface = {
+  isFetching: false,
+  permissions: [DefaultPermission],
+  error: [],
+}
 
 const permissionSlice = createSlice({
   name: "permission",
-  initialState: {
-    isFetching: false,
-    permissions: [],
-    error: [],
-  },
+  initialState,
   reducers: {
     statusPermissionStart: (state) => {
       state.isFetching = true

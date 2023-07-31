@@ -1,0 +1,29 @@
+
+
+
+// server {
+//   listen 80;
+//   servername 154.56.57.194;
+//   location / {
+//     root /var/www/build;
+//     index index.html index.htm;
+//   }
+// }
+
+
+
+<!-- server {
+  listen 80;
+  server_name 154.56.57.194;
+  location / {
+    root /var/www/cdghazaly/client;
+    index index.html index.htm;
+  }
+
+ location /api {
+  proxy_pass http://154.56.57.194:8890/api;
+ }
+
+} -->
+
+

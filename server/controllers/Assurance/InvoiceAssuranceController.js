@@ -1,4 +1,5 @@
 const AssuranceModel = require("../../models/AssuranceModel")
+const PaymentModel = require("../../models/PaymentModel")
 const { getAssurances } = require("../Assurance/AssuranceController")
 
 const createInvoiceAssurance = async (request, response) => {
@@ -31,6 +32,7 @@ const payInvoiceAssurance = async (request, response) => {
       assurance.invoices[findIndex].payed = true
     }
     await assurance.save();
+    await PaymentModel.updateOne({ invoiceAssur: invoiceId }, { createdAt: new Date() }, { new: true })
     await getAssurances(request, response)
   } catch(err) {
     response.status(500).json({ err: err.json })

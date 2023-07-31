@@ -18,12 +18,12 @@ interface EditPaymentInterface {
 
 const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData }) => {
   const { setShowSuccessMsg } = useContext(ShowPaymentsContext)
-
+  
   const [amount, setAmount] = useState(paymentData.amount)
   const [doctor, setDoctor] = useState<UserInterface>(paymentData.doctor)
   const [type, setType] = useState(paymentData.type)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodInterface>(paymentData?.method || DefaultPaymentMethodInterface)
-  const [supported, setSupported] = useState("")
+  const [supported, setSupported] = useState(paymentData?.supported)
   const [createdAt, setCreatedAt] = useState(formattedDate(paymentData.createdAt))
 
 

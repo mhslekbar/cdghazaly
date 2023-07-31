@@ -38,7 +38,9 @@ const ShowConsumptions: React.FC = () => {
               </thead>
               <tbody>
                 {consumptionLab?.map((labo: any) =>
-                  labo.consumptions?.map((consumption: any, index: number) => (
+                  labo.consumptions
+                  ?.filter((consumption: any) => consumption.patient._id === patientId)
+                  ?.map((consumption: any, index: number) => (
                     <tr className="border-b" key={index}>
                       <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                         {consumption.treatment.name}

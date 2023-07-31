@@ -115,6 +115,9 @@ const createPayment = async (request, response) => {
         let LineFiche = []
         for(let i=1; i<=15; i++) {
           LineFiche.push({ })
+          if(i === 1) {
+            LineFiche[0].dateAppointment = createdAt
+          }
         }
         const latestFiche = await FicheModel.findOne({ patient }).sort({ createdAt: -1 })
         let numFiche = latestFiche?.numInvoice || 0
@@ -159,6 +162,31 @@ const updatePayment = async (request, response) => {
     if(method?._id?.length === 0) {
       method = null
     } 
+
+    // Start keep invoice assurance
+    let patientInfo   = await PatientModel.findOne({ _id: patient })
+
+    const { assurance } = patientInfo
+    const AssInfo = await AssuranceModel.findOne({ _id: assurance.society })
+    const invoiceAssurance = AssInfo?.invoices.find(invoice => !invoice.finish)    
+    
+    if(AssInfo && supported.length === 0) {
+      formErrors.push("Donner la prise en charge")
+    } 
+    // END keep invoice assurance
+    
+    if(supported.length === 0) {
+      supported = null
+    } else {
+      supported = parseInt(supported) + "/" + new Date().getFullYear()
+      if(!invoiceAssurance) {
+        formErrors.push("Le patient est assuré par une societe que vous n'avez pas encore creer sa facture")
+        formErrors.push("Veuillez creer une facture pour cette societe d'assurance")
+      } else {
+        invoiceAssur = invoiceAssurance._id
+      }
+    }
+
     if(formErrors.length === 0) {
       if(type === "payment") {
         const patientInfo = await PatientModel.findOne({ _id: patient })

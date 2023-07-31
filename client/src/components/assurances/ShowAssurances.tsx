@@ -7,7 +7,7 @@ import EditAssurance from './EditAssurance'
 import DeleteAssurance from './DeleteAssurance'
 import ManageAssurance from './ManageAssurance'
 import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams  } from 'react-router'
 
 const ShowAssurances:React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false)
@@ -44,15 +44,18 @@ const ShowAssurances:React.FC = () => {
           <FaPlus />
         </button>
       </div>}
-      
-      {AssId ? <FaChevronCircleLeft className='text-main mt-2' style={{ fontSize: "30px" }} onClick={() => { 
-        navigate(`/assurance`)
-      }} /> : <DataAssurances />}
-      {showEditModal && selectedAssurance && <EditAssurance AssuranceData={selectedAssurance} modal={showEditModal}  toggle={() => setShowEditModal(!showEditModal)} />}
-      {showDeleteModal && selectedAssurance && <DeleteAssurance AssuranceData={selectedAssurance} modal={showDeleteModal}  toggle={() => setShowDeleteModal(!showDeleteModal)} />}
-      {/* {selectedAssurance.name.length > 0 && <ManageAssurance Assurance={selectedAssurance} /> } */}
 
-      {AssId && <ManageAssurance Assurance={selectedAssurance} /> }
+      {AssId ? <FaChevronCircleLeft className='text-blue mt-2' style={{ fontSize: "30px" }} onClick={() => { 
+        navigate(`/assurance`)
+        setSelectedAssurance(DefaultAssuranceInterface)
+      }} /> : <DataAssurances />} 
+      
+      {showEditModal && selectedAssurance._id && <EditAssurance AssuranceData={selectedAssurance} modal={showEditModal}  toggle={() => setShowEditModal(!showEditModal)} />}
+      {showDeleteModal && selectedAssurance._id && <DeleteAssurance AssuranceData={selectedAssurance} modal={showDeleteModal}  toggle={() => setShowDeleteModal(!showDeleteModal)} />}
+      {/* {selectedAssurance.name.length > 0 && <ManageAssurance Assurance={selectedAssurance} /> } */}
+      
+      {AssId && <ManageAssurance Assurance={selectedAssurance} />}
+
     </ShowAssurancesContext.Provider>
   )
 }

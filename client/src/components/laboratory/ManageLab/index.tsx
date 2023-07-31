@@ -10,8 +10,8 @@ import ButtonLab from "./ButtonLab";
 import { useDispatch } from "react-redux";
 import { ShowUserApi } from "../../../redux/users/UserApiCalls";
 import DropdownLab from "./DropDownLab";
-import { PermissionInterface } from "../../permissions/types";
 import { UserData } from "../../../requestMethods";
+import { PermissionType } from "../../roles/types";
 
 interface ManageLabInterface {
   laboratory: laboratoryInterface;
@@ -56,7 +56,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
         {selectedLaboratory.name.length > 0 &&
         <>
           {permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER_GLOBAL" &&
               permission.collectionName === "COMPTES_LABORATOIRE"
           ) && <ButtonLab
@@ -65,7 +65,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           />}
 
           {permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER" &&
               permission.collectionName === "TRAITEMENTS_LABORATOIRES"
           ) && <ButtonLab
@@ -74,7 +74,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           />}
           
           {permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER_GLOBAL" &&
               permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
           ) ?
@@ -87,7 +87,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
             toggleDropDown={toggleDropDown}
           /> : 
           permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER" &&
               permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
           ) &&
@@ -97,7 +97,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           />}
 
           {permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER_GLOBAL" &&
               permission.collectionName === "PATIENTS_LABORATOIRE"
           ) ?
@@ -110,7 +110,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
             toggleDropDown={toggleDropDown}
           /> : 
           permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER" &&
               permission.collectionName === "PATIENTS_LABORATOIRE"
           ) &&
@@ -120,7 +120,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           />}
 
           {permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER_GLOBAL" &&
               permission.collectionName === "PAIEMENTS_LABORATOIRES"
           ) ?
@@ -133,7 +133,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
             toggleDropDown={toggleDropDown}
           /> : 
           permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER" &&
               permission.collectionName === "PAIEMENTS_LABORATOIRES"
           ) &&
@@ -164,7 +164,7 @@ export default ManageLab;
 //         />
 //       ) : (
 //         permissions.find(
-//           (permission: PermissionInterface) =>
+//           (permission: PermissionType) =>
 //             permission.name === "AFFICHER_GLOBAL" &&
 //             permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
 //         ) ? 

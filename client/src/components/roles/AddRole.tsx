@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { ShowRoleContext } from "./ShowRoles";
 import { Timeout, hideMsg } from "../../functions/functions";
 import { useNavigate } from "react-router";
+import ButtonsForm from "../../HtmlComponents/ButtonsForm";
 
 const AddRole: React.FC = () => {
   const [role, setRole] = useState<string>("");
@@ -87,20 +88,7 @@ const AddRole: React.FC = () => {
                       />
                     </div>
                     {/* START Modal Footer */}
-                    <div className="items-center gap-2 mt-3 sm:flex">
-                      <button
-                        type="submit"
-                        className="w-full mt-2 p-2.5 flex-1 text-white btn-main rounded-md outline-none"
-                      >
-                        Ajouter
-                      </button>
-                      <button
-                        className="w-full mt-2 p-2.5 flex-1 bg-gray-600 text-white rounded-md outline-none border"
-                        onClick={toggle}
-                      >
-                        Fermer
-                      </button>
-                    </div>
+                    <ButtonsForm typeBtn="Ajouter" toggle={toggle} /> 
                     {/* End Modal Footer */}
                   </form>
                   {/* End Modal Body */}

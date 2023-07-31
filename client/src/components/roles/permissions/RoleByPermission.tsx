@@ -63,8 +63,10 @@ const RoleByPermission: React.FC<RoleByPermissionInterface> = ({ role }) => {
   return (
     <div>
       {roleAndPermission.length > 0 &&
-        roleAndPermission.map((collectionName, index: number) => (
-          <section 
+        roleAndPermission
+        ?.sort((a: any, b: any) => a._id?.localeCompare(b._id))
+        .map((collectionName, index: number) => (
+          <section
             className="bg-[#EEE] border rounded px-4 py-2 shadow mt-2"
             key={index}
           >

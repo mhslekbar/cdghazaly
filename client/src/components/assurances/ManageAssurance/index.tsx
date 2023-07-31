@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { ShowUserApi } from "../../../redux/users/UserApiCalls";
 import { UserInterface } from "../../users/types";
 import { UserData } from "../../../requestMethods";
-import { PermissionInterface } from "../../permissions/types";
+import { PermissionType } from "../../roles/types";
 
 const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -47,14 +47,13 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
       value={{
         openDropdown,
         setOpenDropdown,
-        
       }}
     >
       <div className="grid lg:grid-cols-2 sm:grid-cols-1 rounded border mt-2 font-bold text-center">
         {AssId && <>
           
           {permissions.find(
-              (permission: PermissionInterface) =>
+              (permission: PermissionType) =>
                 permission.name === "AFFICHER" &&
                 permission.collectionName === "TRAITEMENTS"
             ) && <ButtonAssurance
@@ -63,7 +62,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
           />}
 
           {permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER_GLOBAL" &&
               permission.collectionName === "PATIENTS_ASSURANCE"
           ) ?
@@ -76,7 +75,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
             toggleDropDown={toggleDropDown}
           /> : 
           permissions.find(
-            (permission: PermissionInterface) =>
+            (permission: PermissionType) =>
               permission.name === "AFFICHER" &&
               permission.collectionName === "PATIENTS_ASSURANCE"
           ) &&

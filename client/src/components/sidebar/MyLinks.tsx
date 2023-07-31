@@ -11,8 +11,8 @@ import { UserInterface } from "../users/types";
 import { ShowUserApi } from "../../redux/users/UserApiCalls";
 import DropdownDoctor from "./DropDownDoctor";
 import { BsCart4 } from "react-icons/bs";
-import { PermissionInterface } from "../permissions/types";
 import { UserData } from "../../requestMethods";
+import { PermissionType } from "../roles/types";
 
 interface MyLinkInterface {
   openDropdown: boolean;
@@ -55,7 +55,7 @@ const MyLink: React.FC<MyLinkInterface> = ({
       <ButtonElement name="page d'acceuil" path="/" />
 
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "ASSURANCES"
       ) && (
@@ -68,7 +68,7 @@ const MyLink: React.FC<MyLinkInterface> = ({
       {/* <ButtonElement icon={<FaUser />} name="Patients" path="/patient" /> */}
 
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "PATIENTS"
         ) && <Dropdown
@@ -82,7 +82,7 @@ const MyLink: React.FC<MyLinkInterface> = ({
       /> }
       
       {permissions.find(
-      (permission: PermissionInterface) =>
+      (permission: PermissionType) =>
         permission.name === "AFFICHER" &&
         permission.collectionName === "LABORATOIRES"
     ) && (
@@ -96,12 +96,12 @@ const MyLink: React.FC<MyLinkInterface> = ({
 
 
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "RDV"
       ) && (
         permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "RDV"
         ) ?           
@@ -120,12 +120,12 @@ const MyLink: React.FC<MyLinkInterface> = ({
 
       
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "STATISTIQUES_FINANCIERES"
       ) && (
         permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "STATISTIQUES_FINANCIERES"
         ) ? 
@@ -144,12 +144,12 @@ const MyLink: React.FC<MyLinkInterface> = ({
 
 
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "CONSOMMABLES"
       ) && (
         permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "CONSOMMABLES"
         ) ? 
@@ -167,7 +167,7 @@ const MyLink: React.FC<MyLinkInterface> = ({
       )}
 
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
         permission.name === "AFFICHER" &&
         permission.collectionName === "UTILISATEURS"
         ) 
@@ -176,7 +176,7 @@ const MyLink: React.FC<MyLinkInterface> = ({
       }
 
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
         permission.name === "AFFICHER" &&
         permission.collectionName === "TRAITEMENTS"
         ) 
@@ -185,7 +185,7 @@ const MyLink: React.FC<MyLinkInterface> = ({
 
       {show && <>
         {permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "ROLES"
           ) 

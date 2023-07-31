@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { RoleType } from "./types";
 import { deleteRoleApi } from "../../redux/roles/roleApiCalls";
 import { Timeout, hideMsg } from '../../functions/functions';
+import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 
 interface DeleteRoleInterface {
  modal: boolean,
@@ -61,20 +62,7 @@ const DeleteRole:React.FC<DeleteRoleInterface> = ({ modal, toggle, roleData }) =
                         </p>
                       ))}
                     {/* START Modal Footer */}
-                    <div className="items-center gap-2 mt-3 sm:flex">
-                      <button
-                        type="submit"
-                        className="w-full mt-2 p-2.5 flex-1 text-white bg-red-600 rounded-md outline-none ring-offset-2 ring-red-600 focus:ring-2"
-                      >
-                        Supprimer
-                      </button>
-                      <button
-                        className="w-full mt-2 p-2.5 flex-1 bg-gray-600 text-white rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-                        onClick={toggle}
-                      >
-                        Fermer
-                      </button>
-                    </div>
+                    <ButtonsForm typeBtn="Supprimer" toggle={toggle} /> 
                     {/* End Modal Footer */}
                   </form>
                   {/* End Modal Body */}

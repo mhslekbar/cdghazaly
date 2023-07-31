@@ -28,7 +28,7 @@ const TdTable: React.FC<TdTableInterface> = ({ Start, time, index, day, partOfTi
   useEffect(() => {
     setDesiredDate(filterByDate)
   }, [filterByDate])
-  
+
   const tdTime = AddPlayTime(Start, MultiplyTime(time, index));
   const findDate: AppointmentInterface = useMemo(() => {
     return appointments.find((appoint: AppointmentInterface) => appoint.doctor._id === doctorId && formatDate(appoint.date.toString()) === formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) && appoint.partOfTime === partOfTime && appoint.numSeance === (index + 1)) || DefaultAppointmentInterface

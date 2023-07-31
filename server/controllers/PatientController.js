@@ -246,6 +246,9 @@ const passPatient = async (request, response) => {
     let LineFiche = [];
     for (let i = 1; i <= 15; i++) {
       LineFiche.push({});
+      if(i === 1) {
+        LineFiche[0].dateAppointment = new Date()
+      }
     }
     await FicheModel.create({ doctor, patient, numFiche: 1, LineFiche });
     // END create A File

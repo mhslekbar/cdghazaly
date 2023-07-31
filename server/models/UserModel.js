@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   doctor: { 
     cabinet: { type: String },
     percentage: { type: String },
-  }
+  },
+  dev: { type: Boolean, default: false },
 }, { timestamps: true })
 
 module.exports = mongoose.model("user", userSchema);

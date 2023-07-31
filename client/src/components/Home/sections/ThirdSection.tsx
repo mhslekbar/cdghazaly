@@ -1,12 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
-import { PermissionInterface } from '../../permissions/types';
 import { useNavigate } from 'react-router';
-import { FaBriefcaseMedical, FaShieldAlt, FaUsers, FaUsersCog } from 'react-icons/fa';
+import { FaBriefcaseMedical, FaShieldAlt, FaTooth, FaUsers, FaUsersCog } from 'react-icons/fa';
 import DropdownDoctor from '../../sidebar/DropDownDoctor';
 import { UserData } from '../../../requestMethods';
 import { BsCart4 } from 'react-icons/bs';
+import { PermissionType } from '../../roles/types';
+import { MdOutlineAssuredWorkload } from 'react-icons/md';
 
 interface ThirdSectionInterface {
   className: string,
@@ -21,12 +22,39 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
   const { permissions } = useSelector((state: State) => state.permissions);
   const navigate = useNavigate()
 
-  const show = false
+  const { userData } = useSelector((state: State) => state.login)
 
   return (
     <section className="grid grid-cols-3 gap-2 mt-3">
+      {/* Start One */}
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "ASSURANCES"
+      ) && (
+        <div className={className} onClick={() => navigate("/assurance")}>
+          <MdOutlineAssuredWorkload className="mb-3 text-4xl" />
+          Assurance
+        </div>
+      )}
+      {/* END One */}
+
+      {/* Start Two */}
+
+      {permissions.find(
+        (permission: PermissionType) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "LABORATOIRES"
+      ) && (
+        <div className={className} onClick={() => navigate("/laboratory")}>
+          <FaTooth className="mb-3 text-4xl" />
+          Laboratoires
+        </div>
+      )}
+      {/* End Two */}
+      
+      {permissions.find(
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "UTILISATEURS"
       ) && (
@@ -35,16 +63,16 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           Utilisateurs
         </div>
       )}
-      {permissions.find(
-        (permission: PermissionInterface) =>
+      {(permissions.find(
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "CONSOMMABLES"
-      ) && (
+      ) || (
         permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "CONSOMMABLES"
-        ) ? 
+        )) ? 
         <DropdownDoctor
           linkList={listDoctors}
           openDropdown={openDropdown}
@@ -66,7 +94,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
       )}
 
       {permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "TRAITEMENTS"
       ) && (
@@ -75,21 +103,22 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           Traitements
         </div>
       )}
-      {show && <>
-        {permissions.find(
-          (permission: PermissionInterface) =>
-            permission.name === "AFFICHER" &&
-            permission.collectionName === "ROLES"
-        ) && (
-          <div className={className} onClick={() => navigate("role")}>
-            <FaUsersCog className="mb-3 text-4xl" /> Roles
-          </div>
-        )}
-        <div className={className} onClick={() => navigate("/permissions")}>
-          <FaShieldAlt className="mb-3 text-4xl" />
-          Permissions
+      
+      {permissions.find(
+        (permission: PermissionType) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "ROLES"
+      ) && (
+        <div className={className} onClick={() => navigate("role")}>
+          <FaUsersCog className="mb-3 text-4xl" /> Roles
         </div>
-      </>}
+      )}
+      
+      {userData.dev && <div className={className} onClick={() => navigate("/permissions")}>
+        <FaShieldAlt className="mb-3 text-4xl" />
+        Permissions
+      </div>}
+
     </section>
   )
 }

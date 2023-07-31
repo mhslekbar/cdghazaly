@@ -32,10 +32,6 @@ const DataInvoice: React.FC = () => {
     setPatientInfo(patients.find((patient: PatientInterface) => patient._id === patientId) || DefaultPatientInterface)
   }, [patients, patientId])
 
-  useEffect(() => {
-    console.log("patientInfo: ", patientInfo?.assurance?.professionalId)
-  }, [patientInfo])
-
   return (
     <>
       {selectedInvoice && <>

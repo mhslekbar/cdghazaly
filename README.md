@@ -186,21 +186,21 @@ git clone <your repository>
 nano /etc/nginx/sites-available/cdghazaly
 ```
 ```
-location /server {
-        proxy_pass http://154.56.57.194:8080;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-  }
+location /api {
+  proxy_pass http://154.56.57.194:8080;
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection 'upgrade';
+  proxy_set_header Host $host;
+  proxy_cache_bypass $http_upgrade;
+}
 ```
 
 ##### If you check the location /api you are going to get "502" error which is good. Our configuration works. The only thing we need to is running our app
 
 ```
 apt install nodejs
-# Using Ubuntu install latest version 
+
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
@@ -208,8 +208,6 @@ sudo apt-get install -y nodejs
 
 ```
 apt install npm
-```
-
 ```
 cd api
 ```
@@ -233,7 +231,7 @@ Let's create a new pm2 instance
 pm2 start --name server index.js
 ```
 ```
-pm2 startup ubuntu 
+pm2 startup ubuntu
 pm2 status
 ```
 
@@ -264,24 +262,31 @@ rm -rf /var/www/cdghazaly/*
 ```
 ```
 mkdir /var/www/cdghazaly/client
-```
+``` 
 
 ```
 cp -r build/* /var/www/cdghazaly/client
 ```
 
+```
+rm -rf /var/www/cdghazaly/*
+mkdir /var/www/cdghazaly/client
+cp -r build/* /var/www/cdghazaly/client
+```
+
+
 Let's make some server configuration
 ```
- location / {
-        root /var/www/cdghazaly/client/;
-        index  index.html index.htm;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-        try_files $uri $uri/ /index.html;
-  }
+location / {
+  root /var/www/cdghazaly/client/;
+  index  index.html index.htm;
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection 'upgrade';
+  proxy_set_header Host $host;
+  proxy_cache_bypass $http_upgrade;
+  try_files $uri $uri/ /index.html;
+}
 
 ```
 ### Adding Domain
@@ -298,21 +303,28 @@ server {
  server_name cdghazaly.com www.cdghazaly.com;
 
   location / {
-  root /var/www/cdghazaly/client;
-  index  index.html index.htm;
-  proxy_http_version 1.1;
-  proxy_set_header Upgrade $http_upgrade;
-  proxy_set_header Connection 'upgrade';
-  proxy_set_header Host $host;
-  proxy_cache_bypass $http_upgrade;
-  try_files $uri $uri/ /index.html;
+    root /var/www/cdghazaly/client;
+    index  index.html index.htm;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+    try_files $uri $uri/ /index.html;
   }
+
+ listen 443 ssl; # managed by Certbot
+  ssl_certificate /etc/letsencrypt/live/cdghazaly.com/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/cdghazaly.com/privkey.pem; # managed by Certbot
+  include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+  
 }
 
 server {
-  listen 80;
-  server_name api.cdghazaly.com;
-  location / {
+  listen 8890;
+
+  location /api {
     proxy_pass http://154.56.57.194:8890;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
@@ -321,7 +333,6 @@ server {
     proxy_cache_bypass $http_upgrade;
   }
 }
-
 
 ```
 

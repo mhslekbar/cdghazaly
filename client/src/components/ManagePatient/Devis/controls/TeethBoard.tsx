@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import ButtonsDevis from '../../../../HtmlComponents/ButtonsDevis';
 import Mouth from './Mouth';
-import { DataDevisContext, EnumTypeModal, EnumTypeTeethBoard, LineDevisType, ShowDevisInterfaceContext } from '../types';
+import { DataDevisContext, DefaultLineDevisType, DevisInterface, EnumTypeModal, EnumTypeTeethBoard, LineDevisType, ShowDevisInterfaceContext } from '../types';
 import { InputElement } from '../../../../HtmlComponents/InputElement';
 import { SelectElement } from '../../../../HtmlComponents/SelectElement';
 import { UserData } from '../../../../requestMethods';
@@ -78,11 +78,18 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
     }
   }, [laboratory, TypeTeethBoard, selectedTreat])
 
-  
   useEffect(() => {
     setMyLaboratory(filteredLabo[0])
   }, [filteredLabo])
-  
+
+  const { devis } = useSelector((state: State) => state.devis)
+  useEffect(() => {
+    if(TypeModal === EnumTypeModal.ADD_DEVIS_MODAL) {
+      setLineDevis([])
+    } else {
+      setLineDevis(devis.find((dev: DevisInterface) => dev._id === selectedDevis._id)?.LineDevis || [DefaultLineDevisType])
+    }
+  }, [devis, selectedDevis, setLineDevis, TypeModal])
 
   const handleAppendTreatToTable = async (e: any) => {
     const TeethBoardErrors = []
@@ -105,8 +112,9 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
           surface: selectedSurface
         }
       }
-      const findIndex = LineDevis.findIndex((ln: LineDevisType) => ln.treatment._id === selectedTreat._id)
-      
+
+      const findIndex = LineDevis.findIndex((ln: LineDevisType) => ln.doctor._id === doctor._id && ln.treatment._id === selectedTreat._id)
+
       if(TypeTeethBoard === EnumTypeTeethBoard.ADD_NEW_TEETH) {
         if(findIndex === -1) {
           setLineDevis([...LineDevis, data])
@@ -123,20 +131,23 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
           setLineDevis(LineDevis)
         }
       } else if(TypeTeethBoard === EnumTypeTeethBoard.EDIT_NEW_TEETH) {
+        // const findIndex = LineDevis.findIndex((ln: LineDevisType) => ln.treatment._id === selectedTreat._id)
         const Line: LineDevisType = {...LineDevis[findIndex]}
         Object.assign(Line, {
           doctor,
           treatment: selectedTreat,
           price: Number(price),
           teeth: {
-            nums: selectedTeeth.sort((a: string, b: string) => a.localeCompare(b)),
+            nums: selectedTeeth ? [...selectedTeeth].sort((a: string, b: string) => a.localeCompare(b)) : [],
             surface: selectedSurface
           }
         })
-        LineDevis[findIndex] = Line
-        setLineDevis(LineDevis)
+
         if(TypeModal === EnumTypeModal.EDIT_DEVIS_MODAL) {
           await dispatch(editLineDevisApi(patientId, selectedDevis._id, Line._id, Line))
+        } else {
+          LineDevis[findIndex] = Line
+          setLineDevis(LineDevis)
         }
       } else if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH) {
         // Add it into data base

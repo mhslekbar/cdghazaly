@@ -67,9 +67,6 @@ const editLineDevis = async (request, response) => {
       })
     }
     const formErrors = [] 
-    if(Number(reduce) > 100 || Number(reduce) < 0) {
-      formErrors.push("Donner une reduction valide") 
-    }
     
     if(formErrors.length === 0) {
       await devisData.save()
@@ -88,8 +85,17 @@ const updateDevis = async (request, response) => {
   try {
     const { id, patient } = request.params
     const { user, reduce } = request.body
-    await DevisModel.updateOne({ _id: id }, { user, patient, reduce }, { new: true })
-    await getDevis(request, response)
+    const formErrors = [] 
+    if(Number(reduce) > 100 || Number(reduce) < 0) {
+      formErrors.push("Donner une reduction valide") 
+    }
+    if(formErrors.length === 0) {
+      await DevisModel.updateOne({ _id: id }, { user, patient, reduce }, { new: true })
+      await getDevis(request, response)
+    } else {
+      response.status(300).json({ formErrors })
+    }
+
   } catch(err) {
     response.status(500).json({ err: err.message })
   }

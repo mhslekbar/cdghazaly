@@ -14,18 +14,18 @@ const ButtonsTreatment: React.FC<ButtonsTreatmentType> = ({ toggle, typeBtn }) =
     default: btnColor = "bg-main";
   }
   return (
-    <div className="items-center gap-2 mt-3 sm:flex">
-      <button
-        type="submit"
-        className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none`}
-      >
-        {typeBtn}
-      </button>
+    <div className="items-center gap-2 mt-3 sm:flex">      
       <button
         className="w-full mt-2 p-2.5 flex-1 bg-gray-600 text-white rounded-md outline-none border"
         onClick={toggle}
       >
         Fermer
+      </button>
+      <button
+        type="submit"
+        className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none`}
+      >
+        {typeBtn}
       </button>
     </div>
   );

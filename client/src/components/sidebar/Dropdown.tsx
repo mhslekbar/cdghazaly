@@ -5,8 +5,8 @@ import PopOverChooseDoctor from './PopOverChooseDoctor';
 import { useLocation, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import { State } from '../../redux/store';
-import { DefaultPermissionInterface, PermissionInterface } from '../permissions/types';
 import { UserData } from '../../requestMethods';
+import { DefaultPermission, PermissionType } from '../roles/types';
 
 interface DropdownPropsInterface {
   linkList: InterfaceOfLink[],
@@ -25,16 +25,16 @@ const Dropdown:React.FC<DropdownPropsInterface> = ({ linkList, name, openDropdow
 
   const location = useLocation()
   const { permissions } = useSelector((state: State) => state.permissions);
-  const [AllowGlobal, setAllowGlobal] = useState<PermissionInterface>(DefaultPermissionInterface)
+  const [AllowGlobal, setAllowGlobal] = useState<PermissionType>(DefaultPermission)
 
   useEffect(() => {
     setAllowGlobal(
       permissions.find(
-        (permission: PermissionInterface) =>
+        (permission: PermissionType) =>
           permission.name === "AFFICHER_GLOBAL" &&
           permission.collectionName === "PATIENTS"
       )
-      || DefaultPermissionInterface
+      || DefaultPermission
     )
   }, [permissions])
 

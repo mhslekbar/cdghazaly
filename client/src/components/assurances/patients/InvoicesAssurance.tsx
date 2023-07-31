@@ -11,7 +11,7 @@ import {
 import { InputCheckbox } from "../../../HtmlComponents/InputCheckbox";
 import { MdAttachMoney, MdRemoveCircleOutline } from "react-icons/md";
 import { FaPrint } from "react-icons/fa";
-import { PermissionInterface } from "../../permissions/types";
+import { PermissionType } from "../../roles/types";
 
 const InvoicesAssurance: React.FC = () => {
   const { AssId, doctorId } = useParams();
@@ -71,7 +71,7 @@ const InvoicesAssurance: React.FC = () => {
           setValue={setArchiveInvoice}
         />
         {permissions.find(
-          (permission: PermissionInterface) =>
+          (permission: PermissionType) =>
             permission.name === "FACTURE_GLOBAL" &&
             permission.collectionName === "PATIENTS_ASSURANCE"
         ) && <InputCheckbox
