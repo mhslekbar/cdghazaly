@@ -109,7 +109,7 @@ const InvoicesAssurance: React.FC = () => {
                     }}
                   />
                 }
-                {/* {!invoice.payed &&  */}
+                {!invoice.payed && 
                   <button className="bg-blue rounded-lg border" onClick={() => handleShowPayInvoice(invoice)}>
                     <MdAttachMoney 
                       style={{
@@ -117,7 +117,7 @@ const InvoicesAssurance: React.FC = () => {
                       }}
                     />
                   </button>
-                {/* } */}
+                }
               </div>
             ))}
       </section>

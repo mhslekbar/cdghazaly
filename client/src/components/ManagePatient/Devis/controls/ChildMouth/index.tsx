@@ -1,16 +1,10 @@
 import React, { useContext, useEffect } from 'react'
 import "./mouth.css"
 
-import URQ from './Gums/URQ'
 import TeethLeftUp from './Teeth/TeethLeftUp'
 import TeethLeftDown from './Teeth/TeethLeftDown'
 import TeethRightUp from './Teeth/TeethRightUp'
 import TeethRightDown from './Teeth/TeethRightDown'
-import ULQ from './Gums/ULQ'
-import LLQ from './Gums/LLQ'
-import LRQ from './Gums/LRQ'
-import L from './Gums/L'
-import U from './Gums/U'
 import { DataDevisContext, EnumTypeTeethBoard } from '../../types'
 import { ShowFichesContext } from '../../../Fiches/types'
 
@@ -101,13 +95,6 @@ const Tooth:React.FC = () => {
         <TeethLeftUp />
         <TeethRightDown />
         <TeethLeftDown />
-
-        <URQ />
-        <ULQ />
-        <LRQ />
-        <LLQ />
-        <L />
-        <U />
       </div>
 
   )

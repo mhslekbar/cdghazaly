@@ -14,6 +14,7 @@ const LRQ: React.FC = () => {
     <div className="relative">
       <div
         className={`${chooseClass("LRQ")} LRQ Gums`}
+        id="LRQ-Gums"
         onClick={() => configSelectedTeeth("LRQ")}
       ></div>
     </div>
