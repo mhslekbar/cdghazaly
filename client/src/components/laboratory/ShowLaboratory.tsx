@@ -76,7 +76,7 @@ const ShowLaboratory: React.FC = () => {
             />
           :
           <div className="flex justify-start gap-2">
-            <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-blue" onClick={() => navigate("/")}/>
+            <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
             <button className="bg-main p-2 rounded border" onClick={() => setShowAddModal(!showAddModal)}>
               <FaPlus />
             </button>
