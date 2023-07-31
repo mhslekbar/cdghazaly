@@ -45,7 +45,7 @@ const ShowAssurances:React.FC = () => {
         </button>
       </div>}
 
-      {AssId ? <FaChevronCircleLeft className='text-blue mt-2' style={{ fontSize: "30px" }} onClick={() => { 
+      {AssId ? <FaChevronCircleLeft className='text-main mt-2' style={{ fontSize: "30px" }} onClick={() => { 
         navigate(`/assurance`)
         setSelectedAssurance(DefaultAssuranceInterface)
       }} /> : <DataAssurances />} 

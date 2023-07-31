@@ -52,7 +52,6 @@ export interface UserInterface {
 
 
 export type DoctorType ={
-  _id?: string,
   cabinet?: string,
   percentage?: string
 }

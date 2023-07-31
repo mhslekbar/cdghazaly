@@ -1,9 +1,9 @@
-import React, { FormEvent, useContext } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
 import { DeleteInvoiceAssuranceApi } from '../../../redux/assurances/invoiceAssApiCalls';
 import { InvoicesAssuranceInterface, ShowAssurancesContext } from '../types';
-import { Timeout } from '../../../functions/functions';
+import { Timeout, hideMsg } from '../../../functions/functions';
 import { useParams } from 'react-router';
 
 interface DeleteInvoiceAssuranceInterface {
@@ -17,6 +17,7 @@ const DeleteInvoiceAssurance:React.FC<DeleteInvoiceAssuranceInterface> = ({ moda
   const { setShowSuccessMsg } = useContext(ShowAssurancesContext)
 
   const { AssId } = useParams()
+  const [errors, setErrors] = useState<string[]>([])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -26,6 +27,8 @@ const DeleteInvoiceAssurance:React.FC<DeleteInvoiceAssuranceInterface> = ({ moda
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         toggle()
+      } else {
+        setErrors(response)
       }
     } catch {}
   }
@@ -42,6 +45,16 @@ const DeleteInvoiceAssurance:React.FC<DeleteInvoiceAssuranceInterface> = ({ moda
             <div className="flex items-center min-h-screen px-4 py-8">
               <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                 <div className="mt-3">
+                  {errors.length > 0 &&
+                    errors.map((err, index) => (
+                      <p
+                        className="p-3 my-2 rounded bg-red text-white msg"
+                        key={index}
+                        onClick={(e) => hideMsg(e, errors, setErrors)}
+                      >
+                        {err}
+                      </p>
+                    ))}
                   {/* Start Modal Body */}
                   <form
                     className="mt-2 sm:ml-4 sm:text-left"

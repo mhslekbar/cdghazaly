@@ -19,7 +19,7 @@ const createInvoiceAssurance = async (request, response) => {
     }
     await getAssurances(request, response)      
   } catch(err) {
-    response.status(500).json({ err: err.json })
+    response.status(500).json({ err: err.message })
   }
 }
 
@@ -32,10 +32,10 @@ const payInvoiceAssurance = async (request, response) => {
       assurance.invoices[findIndex].payed = true
     }
     await assurance.save();
-    await PaymentModel.updateOne({ invoiceAssur: invoiceId }, { createdAt: new Date() }, { new: true })
+    await PaymentModel.updateMany({ invoiceAssur: invoiceId }, { $set: { createdAt: new Date() }});
     await getAssurances(request, response)
   } catch(err) {
-    response.status(500).json({ err: err.json })
+    response.status(500).json({ err: err.message })
   }
 }
 
@@ -43,11 +43,24 @@ const deleteInvoiceAssurance = async (request, response) => {
   try {
     const { AssId, invoiceId } = request.params
     const assurance = await AssuranceModel.findOne({ _id: AssId })
-    assurance.invoices = assurance.invoices.filter(ass => !ass._id.equals(invoiceId))
-    await assurance.save();
-    await getAssurances(request, response)
+    const findIndex = assurance.invoices.findIndex(ass => ass._id.equals(invoiceId))
+    const formErrors = []
+    if(findIndex > -1) {
+      if(assurance.invoices[findIndex].payed) {
+        formErrors.push("Impossible de supprimer la facture !!");
+      }
+    }
+
+    if(formErrors.length === 0) {
+      assurance.invoices = assurance.invoices.filter(ass => !ass._id.equals(invoiceId))
+      await assurance.save();
+      await getAssurances(request, response)
+    } else {
+      response.status(300).json({ formErrors })
+    }
+
   } catch(err) {
-    response.status(500).json({ err: err.json })
+    response.status(500).json({ err: err.message })
   }
 }
 

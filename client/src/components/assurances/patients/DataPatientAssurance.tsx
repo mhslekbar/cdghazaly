@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { PaymentInterface } from "../../ManagePatient/Payments/types";
+import { EnumTypePayment, PaymentInterface } from "../../ManagePatient/Payments/types";
 import { ShowPatientsAssuranceContext } from "./types";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
@@ -36,9 +36,9 @@ const DataPatientAssurance: React.FC = () => {
                 <tr>
                   <th className="px-6 py-4 border-r">Doss.NO</th>
                   <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">Montant</th>
                   <th className="px-6 py-4 border-r">Prise en charge</th>
                   <th className="px-6 py-4 border-r">Type</th>
+                  <th className="px-6 py-4 border-r">Montant</th>
                   <th className="px-6 py-4 border-r">Doctor</th>
                 </tr>
               </thead>
@@ -69,13 +69,13 @@ const DataPatientAssurance: React.FC = () => {
                       {payment.patient.name}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {payment.amount}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {payment.supported}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {payment.type}
+                      {payment.type === EnumTypePayment.PAYMENT ? "versement" : payment.type === EnumTypePayment.CONSULTATION && "cons"}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                      {payment.amount}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {payment.doctor.username}

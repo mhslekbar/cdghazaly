@@ -100,7 +100,7 @@ const InvoicesAssurance: React.FC = () => {
               >
                 <span className="flex justify-center items-center gap-1">                 
                 Facture-{invoice.numInvoice}</span>
-                {!invoice.finish && 
+                {(!invoice.finish) && 
                   <MdRemoveCircleOutline
                     onClick={() => handleShowDeleteInvoice(invoice)}
                     className="text-red"
@@ -109,7 +109,7 @@ const InvoicesAssurance: React.FC = () => {
                     }}
                   />
                 }
-                {!invoice.payed && 
+                {/* {!invoice.payed &&  */}
                   <button className="bg-blue rounded-lg border" onClick={() => handleShowPayInvoice(invoice)}>
                     <MdAttachMoney 
                       style={{
@@ -117,7 +117,7 @@ const InvoicesAssurance: React.FC = () => {
                       }}
                     />
                   </button>
-                }
+                {/* } */}
               </div>
             ))}
       </section>
