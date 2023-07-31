@@ -68,7 +68,7 @@ const ShowLaboratory: React.FC = () => {
       )}
       <div className="flex justify-between gap-2">
         <div>
-          {selectedLaboratory._id ? 
+          {labId ? 
             <FaChevronCircleLeft className="text-main" style={{ fontSize: "30px" }} onClick={() => {
               setSelectedLaboratory(DefaultLaboratoryInterface)
               navigate("/laboratory")
