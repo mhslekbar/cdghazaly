@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import ButtonsDevis from '../../../../HtmlComponents/ButtonsDevis';
 import Mouth from './Mouth';
+import ChildMouth from './ChildMouth';
 import { DataDevisContext, DefaultLineDevisType, DevisInterface, EnumTypeModal, EnumTypeTeethBoard, LineDevisType, ShowDevisInterfaceContext } from '../types';
 import { InputElement } from '../../../../HtmlComponents/InputElement';
 import { SelectElement } from '../../../../HtmlComponents/SelectElement';
@@ -182,7 +183,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
       }
     }
   }
-
+  const [showChildMouth, setShowChildMouth] = useState(false)
   return (
     <div>
       {modal && (
@@ -217,6 +218,8 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
                         <SelectElement showPrice={true} valueType="object" id="laboratory" value={MyLaboratory} setValue={setMyLaboratory} options={filteredLabo.map((option: any) => ({...option, name: option.name}))} />
                       }
                     </div>
+                    <button className="shadow p-2 rounded shadow bg-blue" onClick={() => setShowChildMouth(!showChildMouth)}>Dents Pediatre</button>
+                    {showChildMouth && <ChildMouth />}
                   </section>
                   <section className='text-end'>
                     <Mouth />

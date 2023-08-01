@@ -11,14 +11,14 @@ const TeethLeftDown = () => {
 
   return (
     <React.Fragment>
-      <div className={`tooth ${chooseClass("31")}`} onClick={() => configSelectedTeeth("31")} id="tooth-31"><b>31</b></div>
-      <div className={`tooth ${chooseClass("32")}`} onClick={() => configSelectedTeeth("32")} id="tooth-32"><b>32</b></div>
-      <div className={`tooth ${chooseClass("33")}`} onClick={() => configSelectedTeeth("33")} id="tooth-33"><b>33</b></div>
-      <div className={`tooth ${chooseClass("34")}`} onClick={() => configSelectedTeeth("34")} id="tooth-34"><b>34</b></div>
-      <div className={`tooth ${chooseClass("35")}`} onClick={() => configSelectedTeeth("35")} id="tooth-35"><b>35</b></div>
-      <div className={`tooth ${chooseClass("36")}`} onClick={() => configSelectedTeeth("36")} id="tooth-36"><b>36</b></div>
-      <div className={`tooth ${chooseClass("37")}`} onClick={() => configSelectedTeeth("37")} id="tooth-37"><b>37</b></div>
-      <div className={`tooth ${chooseClass("38")}`} onClick={() => configSelectedTeeth("38")} id="tooth-38"><b>38</b></div>
+      <div className={`tooth ${chooseClass("71")}`} onClick={() => configSelectedTeeth("71")} id="tooth-71"><b>71</b></div>
+      <div className={`tooth ${chooseClass("72")}`} onClick={() => configSelectedTeeth("72")} id="tooth-72"><b>72</b></div>
+      <div className={`tooth ${chooseClass("73")}`} onClick={() => configSelectedTeeth("73")} id="tooth-73"><b>73</b></div>
+      <div className={`tooth ${chooseClass("74")}`} onClick={() => configSelectedTeeth("74")} id="tooth-74"><b>74</b></div>
+      <div className={`tooth ${chooseClass("75")}`} onClick={() => configSelectedTeeth("75")} id="tooth-75"><b>75</b></div>
+      <div className={`tooth ${chooseClass("76")}`} onClick={() => configSelectedTeeth("76")} id="tooth-76"><b>76</b></div>
+      <div className={`tooth ${chooseClass("77")}`} onClick={() => configSelectedTeeth("77")} id="tooth-77"><b>77</b></div>
+      <div className={`tooth ${chooseClass("78")}`} onClick={() => configSelectedTeeth("78")} id="tooth-78"><b>78</b></div>
     </React.Fragment>
   )
 }

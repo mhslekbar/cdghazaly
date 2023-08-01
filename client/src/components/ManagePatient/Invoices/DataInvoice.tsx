@@ -10,6 +10,7 @@ import {
 import FilterTypeInvoice from "./FilterTypeInvoice";
 import { useParams } from "react-router";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
+import TotalFacture from "./TotalFacture";
 
 const DataInvoice: React.FC = () => {
   const { invoices } = useSelector((state: State) => state.invoices);
@@ -94,30 +95,11 @@ const DataInvoice: React.FC = () => {
                         </tr>
                       )
                     })}
-                    <tr className="text-center">
-                      <td colSpan={4}></td>
-                      <td className="whitespace-nowrap px-3 py-2 bg-white font-medium">
-                        Total:{" "}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-2 bg-white font-medium">
-                        {selectedInvoice?.LineInvoice
-                        ?.filter(
-                          (lnInvoice: LineInvoiceInterface) => {
-                            if (typeInvoice === "assuré") {
-                              return lnInvoice.treatment.assurance;
-                            } else if (typeInvoice === "cabinet") {
-                              return !lnInvoice.treatment.assurance;
-                            }
-                            return true;
-                          }
-                        )
-                        ?.reduce(
-                          (acc: any, currVal: LineInvoiceInterface) =>
-                            currVal.price * currVal.teeth.nums.length + acc,
-                          0
-                        )}
-                      </td>
-                    </tr>
+                    {patientInfo.assurance.professionalId && typeInvoice === "global" && <>
+                      <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé par l'Assurance" paymentType="assurance" />
+                      <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé Par le patient" paymentType="patient" />
+                    </>}
+                    <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Total" paymentType="total" />
                   </tbody>
                 </table>
               </div>

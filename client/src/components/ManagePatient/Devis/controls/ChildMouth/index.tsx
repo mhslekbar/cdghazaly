@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import "./mouth.css"
+import "./ChildMouth.css"
 
 import TeethLeftUp from './Teeth/TeethLeftUp'
 import TeethLeftDown from './Teeth/TeethLeftDown'
@@ -88,7 +88,7 @@ const Tooth:React.FC = () => {
   }, [selectedTreat])
 
   return (
-      <div className='border mouth'>
+      <div className='border child-mouth'>
         <div className='horizontal-line'></div>
         <div className='vertical-line'></div>
         <TeethRightUp />

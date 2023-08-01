@@ -11,14 +11,14 @@ const TeethLeftDown = () => {
 
   return (
     <React.Fragment>
-      <div className={`tooth ${chooseClass("21")}`} onClick={() => configSelectedTeeth("21")}  id="tooth-21"><b>21</b></div>
-      <div className={`tooth ${chooseClass("22")}`} onClick={() => configSelectedTeeth("22")}  id="tooth-22"><b>22</b></div>
-      <div className={`tooth ${chooseClass("23")}`} onClick={() => configSelectedTeeth("23")}  id="tooth-23"><b>23</b></div>
-      <div className={`tooth ${chooseClass("24")}`} onClick={() => configSelectedTeeth("24")}  id="tooth-24"><b>24</b></div>
-      <div className={`tooth ${chooseClass("25")}`} onClick={() => configSelectedTeeth("25")}  id="tooth-25"><b>25</b></div>
-      <div className={`tooth ${chooseClass("26")}`} onClick={() => configSelectedTeeth("26")}  id="tooth-26"><b>26</b></div>
-      <div className={`tooth ${chooseClass("27")}`} onClick={() => configSelectedTeeth("27")}  id="tooth-27"><b>27</b></div>
-      <div className={`tooth ${chooseClass("28")}`} onClick={() => configSelectedTeeth("28")}  id="tooth-28"><b>28</b></div>
+      <div className={`tooth ${chooseClass("61")}`} onClick={() => configSelectedTeeth("61")}  id="tooth-61"><b>61</b></div>
+      <div className={`tooth ${chooseClass("62")}`} onClick={() => configSelectedTeeth("62")}  id="tooth-62"><b>62</b></div>
+      <div className={`tooth ${chooseClass("63")}`} onClick={() => configSelectedTeeth("63")}  id="tooth-63"><b>63</b></div>
+      <div className={`tooth ${chooseClass("64")}`} onClick={() => configSelectedTeeth("64")}  id="tooth-64"><b>64</b></div>
+      <div className={`tooth ${chooseClass("65")}`} onClick={() => configSelectedTeeth("65")}  id="tooth-65"><b>65</b></div>
+      <div className={`tooth ${chooseClass("66")}`} onClick={() => configSelectedTeeth("66")}  id="tooth-66"><b>66</b></div>
+      <div className={`tooth ${chooseClass("67")}`} onClick={() => configSelectedTeeth("67")}  id="tooth-67"><b>67</b></div>
+      <div className={`tooth ${chooseClass("68")}`} onClick={() => configSelectedTeeth("68")}  id="tooth-68"><b>68</b></div>
     </React.Fragment>
   )
 }

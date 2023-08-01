@@ -61,6 +61,10 @@ export interface ShowInvoicesInterface  {
   setShowSuccessMsg: (showSuccessMsg: boolean) => void,
   typeInvoice: string,
   setTypeInvoice: (typeInvoice: string) => void,
+  totalAssurance: number,
+  setTotalAssurance: (totalAssurance: number) => void,
+  totalPatient: number,
+  setTotalPatient: (totalPatient: number) => void,
 }
 
 export const DefaultShowInvoicesInterface:ShowInvoicesInterface = {
@@ -74,6 +78,10 @@ export const DefaultShowInvoicesInterface:ShowInvoicesInterface = {
   setShowSuccessMsg: () => {},
   typeInvoice: "",
   setTypeInvoice: () => {},
+  totalAssurance: 0,
+  setTotalAssurance: () => {},
+  totalPatient: 0,
+  setTotalPatient: () => {},
 }
 
 export const ShowInvoicesContext = createContext(DefaultShowInvoicesInterface)
