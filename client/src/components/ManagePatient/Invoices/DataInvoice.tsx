@@ -95,7 +95,7 @@ const DataInvoice: React.FC = () => {
                         </tr>
                       )
                     })}
-                    {patientInfo.assurance.professionalId && typeInvoice === "global" && <>
+                    {patientInfo.assurance?.professionalId && typeInvoice === "global" && <>
                       <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé par l'Assurance" paymentType="assurance" />
                       <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé Par le patient" paymentType="patient" />
                     </>}

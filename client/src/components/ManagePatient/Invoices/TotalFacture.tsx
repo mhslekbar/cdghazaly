@@ -37,7 +37,7 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
       )
       ?.reduce(
         (acc: any, currVal: LineInvoiceInterface) => {
-          return (currVal.price * currVal.teeth.nums.length * (Number(patientInfo.assurance.percentCovered) / 100)) + acc
+          return (currVal.price * currVal.teeth.nums.length * (Number(patientInfo.assurance?.percentCovered) / 100)) + acc
         },0
       )
     )
