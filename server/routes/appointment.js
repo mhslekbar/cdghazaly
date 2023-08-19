@@ -11,7 +11,7 @@ router.post("/:doctor", authorizedPermission(["AJOUTER"], "RDV"), createAppointm
 router.delete("/:doctor/:id", authorizedPermission(["SUPPRIMER"], "RDV"), deleteAppointment)
 
 // authorizedPermission(["AFFICHER"], "RDV"),
-router.post("/send-message/msg", sendMessage)
+// router.post("/send-message/msg", sendMessage)
 
 router.get("/dayOfWork/:doctor", authorizedPermission(["AFFICHER"], "JOUR_RDV"), getDays)
 router.post("/dayOfWork/:doctor", authorizedPermission(["MODIFIER"], "JOUR_RDV"), createDay)

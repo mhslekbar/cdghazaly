@@ -33,7 +33,7 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
         </label>
       }
       <select
-        className="w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none uppercase"
+        className="w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none"
         id={id}
         // value={value._id}
         value={valueType === "object" ? value._id : value}

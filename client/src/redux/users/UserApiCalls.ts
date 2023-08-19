@@ -11,7 +11,7 @@ export const ShowUserApi = (filter: string = "") => async (dispatch: Dispatch<an
     } else {
       response = await get("user")
     }
-    const resData =response.data.success
+    const resData = response.data.success
     if(resData) {
       dispatch(statusUserSuccess(resData))
       return true

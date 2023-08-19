@@ -77,7 +77,7 @@ const MyRoutes:React.FC = () => {
         </Route>
 
         <Route path="/Consumables/:doctorId" element={<Consumables />}>
-          <Route path='purhcase-order' element={<ShowPurchaseOrder />}/>
+          <Route path='purchase-order' element={<ShowPurchaseOrder />}/>
           <Route path='consumptions' element={<ShowMyConsumptions />}/>
           <Route path="consumable_list" element={<ShowConsumableList />}/>
         </Route>

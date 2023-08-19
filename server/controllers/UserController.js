@@ -21,6 +21,7 @@ const getUsers = async (req, res) => {
     } else {
       users = await UserModel.find().populate("roles").sort({ createdAt: -1 });
     }
+    console.log("users: ", users)
     res.status(200).json({ success: users })
   } catch (err) {
     res.status(500).json({ err: err.message })

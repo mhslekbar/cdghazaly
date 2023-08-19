@@ -11,6 +11,12 @@
 @tailwind utilities;
 
 @layer utilities {
+  body, input, button, select {
+    text-transform: uppercase;
+  }
+  body {
+    background-color: #dfe6e9;
+  }     
   .btn-main {
     background-color: var(--mainColor) !important;
     color: #FFF;
