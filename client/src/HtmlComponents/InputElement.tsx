@@ -1,4 +1,5 @@
 import React from "react";
+import { formattedDate } from "../functions/functions";
 
 interface InputElementInterface {
   type?: string,
@@ -28,7 +29,7 @@ export const InputElement:React.FC<InputElementInterface> = ({ type = "text", na
         value={value}
         autoComplete="off"
         onChange={(e) => {
-          type === "date" ? setValue(new Date(e.target.value)) : setValue(e.target.value)
+          type === "date" ? setValue(formattedDate(e.target.value)) : setValue(e.target.value)
         }}
       />
     </div>

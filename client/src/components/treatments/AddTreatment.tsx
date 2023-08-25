@@ -2,13 +2,13 @@ import React, { useContext, useState } from 'react';
 import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import { DataTreatmentContext, careTypeInterface, defaultcareTypeInterface } from './types';
 import InputsTreatment from './forms/InputsTreatment';
-import ButtonsTreatment from './forms/ButtonsTreatment';
 import { useDispatch } from 'react-redux';
 import { AddTreatmentApi } from '../../redux/treatments/treatmentApiCalls';
 import { bindActionCreators } from 'redux';
 import { Timeout, hideMsg } from '../../functions/functions';
 import { ShowTreatmentContext } from './ShowTreatments';
 import { useNavigate } from 'react-router';
+import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 
 const AddTreatment:React.FC = () => {
   const [treatment, setTreatment] = useState("")
@@ -86,7 +86,7 @@ const AddTreatment:React.FC = () => {
                     ))}
                     {/* My Inputs */}
                     <InputsTreatment />
-                    <ButtonsTreatment toggle={toggle} typeBtn="Ajouter" />
+                    <ButtonsForm toggle={toggle} typeBtn="Ajouter" />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -6,6 +6,11 @@ const PurchaseOrderSchema = new mongoose.Schema({
     ref: "user",
     required: true
   },
+  supplier: {
+    type: mongoose.Types.ObjectId,
+    ref: "supplier",
+    required: true
+  },
   num: {
     type: String, 
     required: true

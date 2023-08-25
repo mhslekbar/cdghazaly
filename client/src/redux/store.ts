@@ -23,6 +23,7 @@ import consumptionReducer from "./consumptions/consumptionSlice";
 import listConsumableReducer from "./listConsumable/listConsumableSlice";
 import purchaseOrderReducer from "./purchaseOrder/purchaseOrderSlice";
 import daysOfWorkReducer from "./dayOfWork/dayOfWorkSlice";
+import supplierReducer from "./suppliers/supplierSlice";
 
 import {
   persistStore,
@@ -66,7 +67,8 @@ const rootReducer = combineReducers({
   consumptions: consumptionReducer,
   ListConsumable: listConsumableReducer,
   purchaseOrder: purchaseOrderReducer,
-  daysOfWork: daysOfWorkReducer
+  daysOfWork: daysOfWorkReducer,
+  suppliers: supplierReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

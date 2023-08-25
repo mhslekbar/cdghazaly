@@ -94,3 +94,69 @@ export const DeletePurchaseOrderApi = (doctorId: string = "", purchaseOrderId: s
     }
   }
 }
+
+export const AddPaymentPurchaseOrderApi = (doctorId: string = "", purchaseId: string = "",  data: {}) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPurchaseOrderStart())
+    let response = await post(`purchaseOrder/${doctorId}/${purchaseId}/payment`, data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPurchaseOrderSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPurchaseOrderFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPurchaseOrderFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const EditPaymentPurchaseOrderApi = (doctorId: string = "", purchaseId: string = "", paymentId: string = "",  data: {}) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPurchaseOrderStart())
+    let response = await put(`purchaseOrder/${doctorId}/${purchaseId}/payment/${paymentId}`, data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPurchaseOrderSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPurchaseOrderFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPurchaseOrderFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
+export const DeletePaymentPurchaseOrderApi = (doctorId: string = "", purchaseId: string = "", paymentId: string = "") => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPurchaseOrderStart())
+    let response = await remove(`purchaseOrder/${doctorId}/${purchaseId}/payment/${paymentId}`)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPurchaseOrderSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPurchaseOrderFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPurchaseOrderFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}

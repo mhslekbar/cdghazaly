@@ -46,7 +46,7 @@ const DataAssurances: React.FC = () => {
   const { users } = useSelector((state: State) => state.users)
 
   useEffect(() => {
-    setDoctor(UserData().doctor ? UserData() : users.find((user: UserInterface) => user.doctor))
+    setDoctor(UserData().doctor?.cabinet ? UserData() : users.find((user: UserInterface) => user.doctor?.cabinet))
   }, [users])
 
   return (

@@ -7,9 +7,11 @@ import { useDispatch } from 'react-redux';
 import { AddPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls';
 import { useNavigate, useParams } from 'react-router';
 import { Timeout, hideMsg } from '../../../functions/functions';
+import { DefaultSuppliersInterface, SuppliersInterface } from '../suppliers/types';
 
 const AddPurchaseOrder:React.FC = () => { 
   const [ListPurchaseOrder, setListPurchaseOrder] = useState<LinePurchaseOrderInterface[]>([DefaultLinePurchaseOrderInterface])
+  const [supplier, setSupplier] = useState<SuppliersInterface>(DefaultSuppliersInterface)
   const [errors, setErrors] = useState<string[]>([])
   
   const [modal, setModal] = useState(false)
@@ -36,12 +38,14 @@ const AddPurchaseOrder:React.FC = () => {
       }
       
       if(formErrors.length === 0) {
-        const response = await dispatch(AddPurchaseOrderApi(doctorId, { LinePurchaseOrder: ListPurchaseOrder }))
+        const response = await dispatch(AddPurchaseOrderApi(doctorId, { supplier: supplier._id, LinePurchaseOrder: ListPurchaseOrder }))
         if(response === true) {
           toggle()
           setShowSuccessMsg(true)
           setTimeout(() => setShowSuccessMsg(false), Timeout)
           setListPurchaseOrder([DefaultLinePurchaseOrderInterface])
+        } else {
+          setErrors(response)
         }
       } else {
         setErrors(formErrors)
@@ -54,6 +58,7 @@ const AddPurchaseOrder:React.FC = () => {
   return (
     <DataPurchaseOrderContext.Provider value={{
       ListPurchaseOrder, setListPurchaseOrder,
+      supplier, setSupplier
     }}>
       <div className="flex justify-start gap-2 mt-2">
         <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>

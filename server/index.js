@@ -61,6 +61,7 @@ app.use("/api/invoice",        verifyToken, setCacheControl, require("./routes/i
 app.use("/api/purchaseOrder",  verifyToken, setCacheControl, require("./routes/purchaseOrder"))
 app.use("/api/consumption",    verifyToken, setCacheControl, require("./routes/consumption"))
 app.use("/api/appointment",    verifyToken, setCacheControl, require("./routes/appointment"))
+app.use("/api/supplier",    verifyToken, setCacheControl, require("./routes/supplier"))
 
 
 app.listen(port, () => {

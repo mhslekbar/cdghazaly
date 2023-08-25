@@ -39,6 +39,15 @@ const TypeConsumable:React.FC = () => {
           List Consommable
         </div>
       )}
+      {/* {permissions.find(
+        (permission: PermissionType) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "LIST_CONSOMMABLE"
+      ) && ( */}
+        <div className={`${location.pathname.split("/")[3] === "suppliers" ? "bg-main" : ""} px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("suppliers")} >
+          Fournisseurs
+        </div>
+      {/* )} */}
     </section>
     <Outlet />
     </>

@@ -5,6 +5,7 @@ import { Timeout, hideMsg } from '../../functions/functions';
 import { DeleteUserApi } from '../../redux/users/UserApiCalls';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
+import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 
 interface DeleteUserInterface {
   modal: boolean,
@@ -60,20 +61,7 @@ const DeleteUser:React.FC<DeleteUserInterface> = ({ modal, toggle, user }) => {
                     {/* My Inputs */}
                     <p>Vous etes sur de vouloir supprimer <b>{user.username}</b>?</p>
                     {/* START Modal Footer */}
-                    <div className="items-center gap-2 mt-3 sm:flex">
-                      <button
-                        type="submit"
-                        className="w-full mt-2 p-2.5 flex-1 text-white bg-red rounded-md outline-none"
-                      >
-                        Supprimer
-                      </button>
-                      <button
-                        className="w-full mt-2 p-2.5 flex-1 bg-gray-600 text-white rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-                        onClick={toggle}
-                      >
-                        Fermer
-                      </button>
-                    </div>
+                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
                     {/* End Modal Footer */}
                   </form>
                   {/* End Modal Body */}

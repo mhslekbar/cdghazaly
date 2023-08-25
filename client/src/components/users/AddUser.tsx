@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
 import InputsAddUser from "./forms/InputsAddUser";
-import ButtonsAddUser from "./forms/ButtonsAddUser";
 import { AddUserContext, DoctorType } from "./types";
 import { bindActionCreators } from "redux";
 import { AddUserApi } from "../../redux/users/UserApiCalls";
@@ -11,6 +10,7 @@ import { Timeout, hideMsg } from "../../functions/functions";
 import { ShowUserContext } from "./ShowUsers";
 import { PermissionType } from "../roles/types";
 import { useNavigate } from "react-router";
+import ButtonsForm from "../../HtmlComponents/ButtonsForm";
 
 const AddUser: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -113,7 +113,7 @@ const AddUser: React.FC = () => {
                     onSubmit={handleSubmit}
                   >
                     <InputsAddUser />
-                    <ButtonsAddUser toggle={toggle} />
+                    <ButtonsForm toggle={toggle} typeBtn="Ajouter" />
                   </form>
                   {/* End Modal Body */}
                 </div>

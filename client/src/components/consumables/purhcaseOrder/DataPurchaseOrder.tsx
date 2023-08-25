@@ -4,16 +4,18 @@ import { State } from "../../../redux/store";
 import { PurchaseOrderInterface, ShowPurchaseOrderContext } from "./types";
 import { useParams } from "react-router";
 import { FaEdit } from "react-icons/fa";
-import { MdRemoveCircle } from "react-icons/md";
+import { MdAttachMoney, MdRemoveCircle } from "react-icons/md";
 import { filterSpecificDate, formatDate } from "../../../functions/functions";
 import { ShowConsumableContext } from "../types";
+import { historyPaymentInterface } from "../suppliers/types";
 
 const DataPurchaseOrder:React.FC = () => {
   const { purchaseOrders } = useSelector((state: State) => state.purchaseOrder);
   const { doctorId } = useParams()
   const { showEditPurchaseOrder, setShowEditPurchaseOrder,
     setSelectedPurchaseOrder,
-    showDeletePurchaseOrder, setShowDeletePurchaseOrder } = useContext(ShowPurchaseOrderContext)
+    showDeletePurchaseOrder, setShowDeletePurchaseOrder,
+    showPaymentPurchaseOrder, setShowPaymentPurchaseOrder } = useContext(ShowPurchaseOrderContext)
   const { showSwitchDate, startDate, endDate, selectedDate, month, day } = useContext(ShowConsumableContext)
 
   return (
@@ -27,7 +29,9 @@ const DataPurchaseOrder:React.FC = () => {
                   <th className="px-6 py-4 border-r">#</th>
                   <th className="px-6 py-4 border-r">Nom</th>
                   <th className="px-6 py-4 border-r">Reference</th>
-                  <th className="px-6 py-4 border-r">Total</th>
+                  <th className="px-6 py-4 border-r">Total BC</th>
+                  <th className="px-6 py-4 border-r">Total Payé</th>
+                  <th className="px-6 py-4 border-r">Reste</th>
                   <th className="px-6 py-4 border-r">Date</th>
                   <th className="px-6 py-4 border-r print:hidden">Actions</th>
                 </tr>
@@ -39,6 +43,8 @@ const DataPurchaseOrder:React.FC = () => {
                 )
                 .filter((purchaseOrder: PurchaseOrderInterface) => purchaseOrder.doctor._id === doctorId)
                 .map((purchaseOrder: PurchaseOrderInterface, index) => {
+                  const totalPayer = purchaseOrder.supplier?.historyPayment.filter((hp: historyPaymentInterface) => hp.purchaseOrderId === purchaseOrder._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0) ?? 0
+                  // console.log("purchaseOrder: ", purchaseOrder.supplier.historyPayment.filter((hp: historyPaymentInterface) => hp.purchaseOrderId === purchaseOrder._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0))
                   return (
                   <tr className="border-b" key={index}>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
@@ -54,10 +60,20 @@ const DataPurchaseOrder:React.FC = () => {
                       {purchaseOrder.total}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                      {totalPayer}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                      {Number(purchaseOrder.total ?? 0) - Number(totalPayer)}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {purchaseOrder?.paymentDate && formatDate(purchaseOrder?.paymentDate?.toString())}
                     </td>
                     <td className="bg-white print:hidden">
-                      <div className="flex justify-center items-center">
+                      <div className="flex justify-center items-center gap-2">
+                        <MdAttachMoney className="text-main" style={{ fontSize: "22px" }} onClick={() => { 
+                          setSelectedPurchaseOrder(purchaseOrder)
+                          setShowPaymentPurchaseOrder(!showPaymentPurchaseOrder)
+                        }}/>
                         <FaEdit className="text-blue" style={{ fontSize: "22px" }} onClick={() => { 
                           setSelectedPurchaseOrder(purchaseOrder)
                           setShowEditPurchaseOrder(!showEditPurchaseOrder)

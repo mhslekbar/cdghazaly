@@ -9,12 +9,16 @@ import EditPurchaseOrder from './EditPurchaseOrder';
 import DeletePurchaseOrder from './DeletePurchaseOrder';
 import SuccessMsg from '../../../Messages/SuccessMsg';
 import FilterConsumable from '../FilterConsumable';
+import { ShowListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
+import { ShowSuppliersApi } from '../../../redux/suppliers/supplierApiCalls';
+import HistoryPaymentPurchaseOrder from './controls/payments/HistoryPaymentPurchaseOrder';
 
 const ShowPurchaseOrder:React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false)
   const [showEditPurchaseOrder, setShowEditPurchaseOrder] = useState(false)
   const [showDeletePurchaseOrder, setShowDeletePurchaseOrder] = useState(false)
   const [selectedPurchaseOrder, setSelectedPurchaseOrder] = useState<PurchaseOrderInterface>(DefaultPurchaseOrderInterface)
+  const [showPaymentPurchaseOrder, setShowPaymentPurchaseOrder] = useState(false)
 
   const dispatch: any = useDispatch();
   const { doctorId } = useParams()
@@ -26,12 +30,28 @@ const ShowPurchaseOrder:React.FC = () => {
     fetchPurchaseOrder()
   }, [dispatch, doctorId])
 
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      await dispatch(ShowSuppliersApi())
+    }
+    fetchSuppliers()
+  }, [dispatch, doctorId])
+
+  useEffect(() => {
+    const fetchListConsumable = async () => {
+      await dispatch(ShowListConsumableApi())
+    }
+    fetchListConsumable()
+  }, [dispatch])
+
+
   return (
     <ShowPurchaseOrderContext.Provider value={{
       showSuccessMsg, setShowSuccessMsg,
       selectedPurchaseOrder, setSelectedPurchaseOrder,
       showEditPurchaseOrder, setShowEditPurchaseOrder,
-      showDeletePurchaseOrder, setShowDeletePurchaseOrder
+      showDeletePurchaseOrder, setShowDeletePurchaseOrder,
+      showPaymentPurchaseOrder, setShowPaymentPurchaseOrder
     }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <AddPurchaseOrder />
@@ -39,6 +59,9 @@ const ShowPurchaseOrder:React.FC = () => {
       <DataPurchaseOrder />
       {selectedPurchaseOrder && showEditPurchaseOrder &&
         <EditPurchaseOrder PurchaseOrderData={selectedPurchaseOrder} modal={showEditPurchaseOrder} toggle={() => setShowEditPurchaseOrder(!showEditPurchaseOrder)}  />
+      }
+      {selectedPurchaseOrder && showPaymentPurchaseOrder &&
+        <HistoryPaymentPurchaseOrder PurchaseOrderData={selectedPurchaseOrder} modal={showPaymentPurchaseOrder} toggle={() => setShowPaymentPurchaseOrder(!showPaymentPurchaseOrder)}  />
       }
       {selectedPurchaseOrder && showDeletePurchaseOrder &&
         <DeletePurchaseOrder PurchaseOrderData={selectedPurchaseOrder} modal={showDeletePurchaseOrder} toggle={() => setShowDeletePurchaseOrder(!showDeletePurchaseOrder)}  />

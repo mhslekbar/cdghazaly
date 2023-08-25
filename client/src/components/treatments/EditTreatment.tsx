@@ -6,12 +6,12 @@ import {
   defaultcareTypeInterface,
 } from "./types";
 import InputsTreatment from "./forms/InputsTreatment";
-import ButtonsTreatment from "./forms/ButtonsTreatment";
 import { Timeout, hideMsg } from "../../functions/functions";
 import { bindActionCreators } from "redux";
 import { EditTreatmentApi } from "../../redux/treatments/treatmentApiCalls"
 import { useDispatch } from "react-redux";
 import { ShowTreatmentContext } from "./ShowTreatments";
+import ButtonsForm from "../../HtmlComponents/ButtonsForm";
 
 interface EditTreatmentInterface {
   modal: boolean;
@@ -94,7 +94,7 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
                       ))}
                     {/* My Inputs */}
                     <InputsTreatment />
-                    <ButtonsTreatment toggle={toggle} typeBtn="Modifier" />
+                    <ButtonsForm toggle={toggle} typeBtn="Modifier" />
                   </form>
                   {/* End Modal Body */}
                 </div>

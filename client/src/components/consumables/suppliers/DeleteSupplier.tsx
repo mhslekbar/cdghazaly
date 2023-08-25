@@ -1,41 +1,39 @@
 import React, { useContext, useState } from 'react';
-import { TreatmentType } from './types';
-import { bindActionCreators } from 'redux';
-import { DeleteTreatmentApi } from "../../redux/treatments/treatmentApiCalls"
+import { SuppliersInterface } from './types';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
-import { ShowTreatmentContext } from './ShowTreatments';
-import { Timeout, hideMsg } from '../../functions/functions';
-import ButtonsForm from '../../HtmlComponents/ButtonsForm';
+import { ShowConsumableContext } from '../types';
+import { Timeout, hideMsg } from '../../../functions/functions';
+import { DeleteSuppliersApi } from '../../../redux/suppliers/supplierApiCalls';
 
-interface DeleteTreatmentInterface {
+export interface DeleteSupplierInterface {
   modal: boolean,
   toggle: () => void,
-  treatmentData: TreatmentType
+  SupplierData: SuppliersInterface
 }
 
-const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, treatmentData}) => {
-  const dispatch = useDispatch()
-  const { setShowSuccessMsg } = useContext(ShowTreatmentContext)
-  const [errors, setErrors] = useState<string[]>([]);
+const DeleteSupplier:React.FC<DeleteSupplierInterface> = ({ modal, toggle, SupplierData  }) => {
+  const [errors, setErrors] = useState<string[]>([])
+
+  const { setShowSuccessMsg } = useContext(ShowConsumableContext)
+  const dispatch: any = useDispatch()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      const boundActions = bindActionCreators({ DeleteTreatmentApi }, dispatch)
-      const response = await boundActions.DeleteTreatmentApi(treatmentData._id)
-      if(typeof response === "boolean") {
+      const response = await dispatch(DeleteSuppliersApi(SupplierData._id))
+      if(response === true) {
         toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
-      } else if(Array.isArray(response)) {
+      } else {
         setErrors(response)
       }
-    } catch {}
+    } catch { }
   }
-  
-  
+
   return (
-    <div>
+    <>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -51,7 +49,6 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-
                     {errors.length > 0 &&
                       errors.map((err, index) => (
                         <p
@@ -62,8 +59,7 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
                           {err}
                         </p>
                       ))}
-                    <p>Vous etes sur de vouloir supprimer <b className='text-red'>{treatmentData.name}</b> ?</p>
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -72,8 +68,8 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }
 
-export default DeleteTreatment
+export default DeleteSupplier

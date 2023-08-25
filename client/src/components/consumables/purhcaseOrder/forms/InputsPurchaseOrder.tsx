@@ -2,15 +2,19 @@ import React, { useContext } from 'react'
 import { DataPurchaseOrderContext, DefaultLinePurchaseOrderInterface, LinePurchaseOrderInterface } from '../types'
 import { FaPlus } from 'react-icons/fa'
 import RowPurchaseOrder from '../controls/RowPurchaseOrder'
-
+import { SelectElement } from '../../../../HtmlComponents/SelectElement'
+import { useSelector } from 'react-redux'
+import { State } from '../../../../redux/store'
 
 const InputsPurchaseOrder:React.FC = () => {
-  const { ListPurchaseOrder, setListPurchaseOrder } = useContext(DataPurchaseOrderContext)
+  const { ListPurchaseOrder, setListPurchaseOrder, supplier, setSupplier } = useContext(DataPurchaseOrderContext)
 
   const newRow = () => {
     setListPurchaseOrder([...ListPurchaseOrder, DefaultLinePurchaseOrderInterface])
   }
 
+  const { suppliers } = useSelector((state: State) => state.suppliers)
+  
   return (
     <React.Fragment>
       <div className='mt-2'>
@@ -27,6 +31,7 @@ const InputsPurchaseOrder:React.FC = () => {
       <div className='bg-blue p-2 rounded border w-fit' onClick={newRow}>
         <FaPlus />
       </div>
+      <SelectElement name="Fournisseur" id="Fournisseur" value={supplier} setValue={setSupplier} defaultOption={<option>Choisir un fournisseur</option>} options={suppliers} valueType={"object"} />
     </React.Fragment>
   )
 }

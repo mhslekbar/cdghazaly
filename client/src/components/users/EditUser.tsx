@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import InputsAddUser from "./forms/InputsAddUser";
-import ButtonsAddUser from "./forms/ButtonsAddUser";
 import { AddUserContext, DoctorType, UserInterface } from "./types";
 import { bindActionCreators } from "redux";
 import { EditUserApi } from "../../redux/users/UserApiCalls";
@@ -9,6 +8,7 @@ import { Timeout, hideMsg } from "../../functions/functions";
 
 import { ShowUserContext } from "./ShowUsers";
 import { PermissionType } from "../roles/types";
+import ButtonsForm from "../../HtmlComponents/ButtonsForm";
 
 interface EditUserInterface {
   modal: boolean,
@@ -109,7 +109,7 @@ const EditUser: React.FC<EditUserInterface> = ({ modal, toggle, user }) => {
                     onSubmit={handleSubmit}
                   >
                     <InputsAddUser />
-                    <ButtonsAddUser toggle={toggle} typeBtn="edit" />
+                    <ButtonsForm toggle={toggle} typeBtn="Modifier" />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -77,15 +77,17 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                     </tr>
                   );
                 })}
-                {filterSpecificDate(
-                  payments, day, month, showSwitchDate, startDate, endDate, selectedDate
-                )
-                ?.filter(
-                  (payment: PaymentInterface) => 
-                  payment.doctor._id === doctorId 
-                  && (payment.type === paymentFilter || payment.type === "consultations")
-                  && (payment.invoiceAssur ? payment.invoiceAssur?.payed : payment)
-                )?.length > 0 && <>
+                {
+                // filterSpecificDate(
+                //   payments, day, month, showSwitchDate, startDate, endDate, selectedDate
+                // )
+                // ?.filter(
+                //   (payment: PaymentInterface) => 
+                //   payment.doctor._id === doctorId 
+                //   && (payment.type === paymentFilter || payment.type === "consultations")
+                //   && (payment.invoiceAssur ? payment.invoiceAssur?.payed : payment)
+                // )?.length >= 0 && 
+                <>
                   <TotalAmount sumPayment={sumPayment} sumCons={sumCons} />
                   <ConsoLab />
                   <RemainAmount />

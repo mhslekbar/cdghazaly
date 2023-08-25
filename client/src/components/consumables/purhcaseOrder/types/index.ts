@@ -1,6 +1,7 @@
 import { createContext } from "react"
 import { DefaultUserInterface, UserInterface } from "../../../users/types"
 import { DefaultListConsumableInterface, ListConsumableInterface } from "../../consumableList/types"
+import { DefaultSuppliersInterface, SuppliersInterface } from "../../suppliers/types"
 
 export interface LinePurchaseOrderInterface {
   _id?: string,
@@ -19,6 +20,7 @@ export const DefaultLinePurchaseOrderInterface: LinePurchaseOrderInterface = {
 export interface PurchaseOrderInterface {
   _id: string,
   doctor: UserInterface,
+  supplier: SuppliersInterface,
   num: string,
   reference: string,
   total: number,
@@ -30,6 +32,7 @@ export interface PurchaseOrderInterface {
 export const DefaultPurchaseOrderInterface:PurchaseOrderInterface = {
   _id: "",
   doctor: DefaultUserInterface,
+  supplier: DefaultSuppliersInterface,
   num: "",
   reference: "",
   total: 0,
@@ -47,6 +50,8 @@ export interface ShowPurchaseOrderInterface {
   setShowEditPurchaseOrder: (showEditPurchaseOrder: boolean) => void,
   showDeletePurchaseOrder: boolean,
   setShowDeletePurchaseOrder: (showDeletePurchaseOrder: boolean) => void,
+  showPaymentPurchaseOrder: boolean, 
+  setShowPaymentPurchaseOrder: (showPaymentPurchaseOrder: boolean) => void,
 }
 
 export const DefaultShowPurchaseOrderInterface: ShowPurchaseOrderInterface = {
@@ -58,6 +63,8 @@ export const DefaultShowPurchaseOrderInterface: ShowPurchaseOrderInterface = {
   setShowEditPurchaseOrder: () => {},
   showDeletePurchaseOrder: false,
   setShowDeletePurchaseOrder: () => {},
+  showPaymentPurchaseOrder: false, 
+  setShowPaymentPurchaseOrder: () => {},
 }
 
 export const ShowPurchaseOrderContext = createContext(DefaultShowPurchaseOrderInterface)
@@ -66,11 +73,15 @@ export const ShowPurchaseOrderContext = createContext(DefaultShowPurchaseOrderIn
 export interface DataPurchaseOrderInterface {
   ListPurchaseOrder: LinePurchaseOrderInterface[],
   setListPurchaseOrder: (ListPurchaseOrder: LinePurchaseOrderInterface[]) => void,
+  supplier: SuppliersInterface,
+  setSupplier: (supplier: SuppliersInterface) => void
 }
 
 export const DefaultDataPurchaseOrderInterface: DataPurchaseOrderInterface = {
   ListPurchaseOrder: [DefaultLinePurchaseOrderInterface],
   setListPurchaseOrder: () => {},
+  supplier: DefaultSuppliersInterface,
+  setSupplier: () => {}
 }
 
 export const DataPurchaseOrderContext = createContext(DefaultDataPurchaseOrderInterface)

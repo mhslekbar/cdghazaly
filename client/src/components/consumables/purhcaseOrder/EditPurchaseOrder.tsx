@@ -7,6 +7,7 @@ import { EditPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrder
 import { useParams } from 'react-router';
 import { Timeout, formattedDate, hideMsg } from '../../../functions/functions';
 import { InputElement } from '../../../HtmlComponents/InputElement';
+import { DefaultSuppliersInterface, SuppliersInterface } from '../suppliers/types';
 
 interface EditPurchaseOrderInterface {
   modal: boolean,
@@ -19,7 +20,8 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
   const [errors, setErrors] = useState<string[]>([])
   const [reference, setReference] = useState<string>(PurchaseOrderData.reference)
   const [total, setTotal] = useState<number>(PurchaseOrderData.total)
-  const [paymentDate, setPaymentDate] = useState<Date>(PurchaseOrderData.createdAt)
+  const [paymentDate, setPaymentDate] = useState<Date>(PurchaseOrderData.paymentDate)
+  const [supplier, setSupplier] = useState<SuppliersInterface>(PurchaseOrderData.supplier ?? DefaultSuppliersInterface)
   
 
   useEffect(() => {
@@ -54,12 +56,14 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
       }
       // Dies funktioniert nur, wenn keine Fehler vorliegen
       if(formErrors.length === 0) {
-        const response = await dispatch(EditPurchaseOrderApi(doctorId, PurchaseOrderData._id, { reference, total, paymentDate, LinePurchaseOrder: ListPurchaseOrder }))
+        const response = await dispatch(EditPurchaseOrderApi(doctorId, PurchaseOrderData._id, { supplier: supplier._id, reference, total, paymentDate, LinePurchaseOrder: ListPurchaseOrder }))
         if(response === true) {
           toggle()
           setShowSuccessMsg(true)
           setTimeout(() => setShowSuccessMsg(false), Timeout)
           setListPurchaseOrder([DefaultLinePurchaseOrderInterface])
+        } else {
+          setErrors(response)
         }
       } else {
         setErrors(formErrors)
@@ -70,6 +74,7 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
   return (
     <DataPurchaseOrderContext.Provider value={{
       ListPurchaseOrder, setListPurchaseOrder,
+      supplier, setSupplier
     }}>
       {modal && (
         <>
@@ -98,8 +103,8 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
                     ))}
 
                     <InputElement name='reference' placeholder='Donner la reference de la facture' value={reference} setValue={setReference} />
-                    <InputElement name='total' value={total} setValue={setTotal} />
-                    <InputElement type='date' name='Date' value={formattedDate(paymentDate.toString())} setValue={setPaymentDate} />                    
+                    <InputElement type='number' name='total' value={total} setValue={setTotal} />
+                    <InputElement type='date' name='Date' value={formattedDate(paymentDate?.toString())} setValue={setPaymentDate} />                    
                     
                     <InputsPurchaseOrder />
                     <ButtonsForm typeBtn='Modifier' toggle={toggle} />
