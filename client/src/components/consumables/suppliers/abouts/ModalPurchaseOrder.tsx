@@ -1,0 +1,65 @@
+import React, { useContext } from 'react';
+import { AboutSupplierContext } from './types';
+import { LinePurchaseOrderInterface } from '../../purhcaseOrder/types';
+
+interface ModalPurchaseOrderInterface {
+  modal: boolean,
+  toggle: () => void,
+}
+
+const ModalPurchaseOrder:React.FC<ModalPurchaseOrderInterface> = ({ modal, toggle }) => {
+  const { selectedModalPurchaseOrder } = useContext(AboutSupplierContext)
+
+  return (
+    <div>
+      {modal && (
+        <>
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div
+              className="fixed inset-0 w-full h-full bg-black opacity-40"
+              onClick={toggle}
+            ></div>
+            <div className="flex items-center min-h-screen px-4 py-8">
+              <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+              <div className="flex flex-col border">
+              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full sm:px-6 lg:px-8">
+                  <div className="overflow-hidden">
+                    <table className="min-w-full text-left text-sm font-light">
+                      <thead className="border-b font-medium bg-main text-white">
+                        <tr>
+                          <th className="px-6 py-4 border-r">Nom</th>
+                          <th className="px-6 py-4 border-r">Quantite</th>
+                          <th className="px-6 py-4 border-r">prix</th>
+                          <th className="px-6 py-4">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedModalPurchaseOrder.LinePurchaseOrder.map((purchase: LinePurchaseOrderInterface, index) => (
+                          <tr className="border-b" key={index}>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium">
+                              {purchase.consumable.name}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium text-center">
+                              {purchase.qty}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium"></td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium"></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default ModalPurchaseOrder

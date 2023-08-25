@@ -17,7 +17,7 @@ export interface DataConsumableListInterface {
   setName: (name: string) => void,
 }
 
-export const DefaultDataConsumableListInterface:DataConsumableListInterface = {
+export const DefaultDataConsumableListInterface: DataConsumableListInterface = {
   name: "",
   setName: () => {},
 }

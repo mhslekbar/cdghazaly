@@ -1,26 +1,29 @@
 import { createContext } from "react";
 import { DefaultUserInterface, UserInterface } from "../../../users/types";
+// import { DefaultPurchaseOrderInterface, PurchaseOrderInterface } from "../../purhcaseOrder/types";
 
 export interface accountSupplierInterface {
   doctor: UserInterface,
   balance: number,
 }
-export const DefaultaccountSupplierInterface = {
+export const DefaultAccountSupplierInterface: accountSupplierInterface = {
   doctor: DefaultUserInterface,
   balance: 0,
 }
+
 export interface historyPaymentInterface {
   _id: string,
   payment: number,
   purchaseOrderId: string,
   createdAt: string
 }
-export const DefaultHistoryPaymentInterface = {
+export const DefaultHistoryPaymentInterface: historyPaymentInterface = {
   _id: "",
   payment: 0,
   purchaseOrderId: "",
   createdAt: ""
 }
+
 export interface SuppliersInterface {
   _id: string,
   name: string,
@@ -32,7 +35,7 @@ export const DefaultSuppliersInterface: SuppliersInterface = {
   _id: "",
   name: "",
   phone: "",
-  accounts: [DefaultaccountSupplierInterface],
+  accounts: [DefaultAccountSupplierInterface],
   historyPayment: [DefaultHistoryPaymentInterface]
 }
 export interface DataSuppliersInterface {

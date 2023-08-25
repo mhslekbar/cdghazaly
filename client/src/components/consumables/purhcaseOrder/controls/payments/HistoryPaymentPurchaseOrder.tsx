@@ -34,7 +34,13 @@ const HistoryPaymentPurchaseOrder:React.FC<HistoryPaymentPurchaseOrderInterface>
                 <div className="mt-3">
                   <AddPayment purchaseOrder={PurchaseOrderInfo} />
                   <h1 className='text-center text-xl font-bold'>Paiement de {PurchaseOrderInfo.supplier.name} pour BC-{PurchaseOrderInfo.num}{"-" + (new Date(PurchaseOrderInfo.createdAt).getMonth() + 1)}</h1>
-                  <TablePayments purchaseOrder={PurchaseOrderInfo} historyPayment={PurchaseOrderInfo.supplier?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId === PurchaseOrderData._id)}/>
+                  <TablePayments 
+                    purchaseOrder={PurchaseOrderInfo} 
+                    historyPayment={PurchaseOrderInfo.supplier
+                      ?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId === PurchaseOrderData._id)
+                      // ?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId._id === PurchaseOrderData._id)
+                    }
+                  />
                 </div>
               </div>
             </div>
