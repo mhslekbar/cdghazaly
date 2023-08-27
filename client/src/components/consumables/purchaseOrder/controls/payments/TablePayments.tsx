@@ -21,7 +21,7 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
   const [errors, setErrors] = useState<string[]>([])
   const [success, setSuccess] = useState<string[]>([])
   const [showMsg, setShowMsg] = useState(false)
-  
+
   const handleEditPayment = async (paymentId: string) => {
     try {
       const payment = (document.querySelector(`#PaymentId${paymentId}`) as HTMLInputElement)?.value;
@@ -96,7 +96,8 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
                 </tr>
               </thead>
               <tbody>
-                {historyPayment
+                {
+                historyPayment
                 ?.slice()
                 ?.sort((a: historyPaymentInterface, b: historyPaymentInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                 ?.map((hp: historyPaymentInterface, index) => {

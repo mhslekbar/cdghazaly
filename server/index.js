@@ -3,12 +3,7 @@ const app = express()
 const bodyParser = require("body-parser")
 
 const cors = require("cors");
-const corsOptions = {
-  origin: 'http://154.56.57.194:8890', // Allow requests from this specific origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow only specified methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 // include .env file
 const dotenv = require("dotenv");

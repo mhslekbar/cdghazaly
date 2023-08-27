@@ -4,6 +4,7 @@ import AddPayment from './AddPayment';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../../redux/store';
 import { PurchaseOrderInterface, DefaultPurchaseOrderInterface } from '../../types';
+import { DefaultHistoryPaymentInterface, historyPaymentInterface } from '../../../suppliers/types';
 
 interface HistoryPaymentPurchaseOrderInterface {
   modal: boolean,
@@ -14,11 +15,23 @@ interface HistoryPaymentPurchaseOrderInterface {
 const HistoryPaymentPurchaseOrder:React.FC<HistoryPaymentPurchaseOrderInterface> = ({ modal, toggle, PurchaseOrderData }) => {
   const { purchaseOrders } = useSelector((state: State) => state.purchaseOrder);
   const [PurchaseOrderInfo, setPurchaseOrderInfo] = useState<PurchaseOrderInterface>(DefaultPurchaseOrderInterface)
- 
+  const [historyPayment, setHistoryPayment] = useState<historyPaymentInterface[]>([DefaultHistoryPaymentInterface])
+  
   useEffect(() => {
     setPurchaseOrderInfo(purchaseOrders.find((po: PurchaseOrderInterface) => po._id === PurchaseOrderData._id) ?? DefaultPurchaseOrderInterface)
   }, [purchaseOrders, PurchaseOrderData])
   
+  useEffect(() => {
+    const purchaseOrd: PurchaseOrderInterface = purchaseOrders.find((po: PurchaseOrderInterface) => po._id === PurchaseOrderData._id) ?? DefaultPurchaseOrderInterface
+    if(purchaseOrd?._id) {
+      setHistoryPayment(purchaseOrd.supplier
+        ?.historyPayment
+        ?.filter((hPayment: any) => hPayment.purchaseOrderId === PurchaseOrderData._id) 
+        ?? DefaultHistoryPaymentInterface
+      )
+    }
+  }, [purchaseOrders, PurchaseOrderData])
+
   return (
     <div>
       {modal && (
@@ -35,10 +48,7 @@ const HistoryPaymentPurchaseOrder:React.FC<HistoryPaymentPurchaseOrderInterface>
                   <h1 className='text-center text-xl font-bold'>Paiement de {PurchaseOrderInfo.supplier.name} pour BC-{PurchaseOrderInfo.num}{"-" + (new Date(PurchaseOrderInfo.createdAt).getMonth() + 1)}</h1>
                   <TablePayments 
                     purchaseOrder={PurchaseOrderInfo} 
-                    historyPayment={PurchaseOrderInfo.supplier
-                      // ?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId === PurchaseOrderData._id)
-                      ?.historyPayment?.filter((hPayment: any) => hPayment.purchaseOrderId._id === PurchaseOrderData._id)
-                    }
+                    historyPayment={historyPayment}
                   />
                 </div>
               </div>

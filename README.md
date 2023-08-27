@@ -356,3 +356,13 @@ Let’s Encrypt’s certificates are only valid for ninety days. To set a timer 
 ```
 systemctl status certbot.timer
 ```
+
+
+
+
+```
+restart the server
+  - ps aux | grep node
+  - kill -9 <PID>
+  - sudo systemctl reload nginx
+```

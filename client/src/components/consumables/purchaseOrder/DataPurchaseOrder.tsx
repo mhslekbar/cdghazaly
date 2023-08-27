@@ -43,7 +43,7 @@ const DataPurchaseOrder:React.FC = () => {
                 )
                 .filter((purchaseOrder: PurchaseOrderInterface) => purchaseOrder.doctor._id === doctorId)
                 .map((purchaseOrder: PurchaseOrderInterface, index) => {
-                  const totalPayer = purchaseOrder.supplier?.historyPayment?.filter((hp: any) => hp.purchaseOrderId._id === purchaseOrder._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0) ?? 0
+                  const totalPayer = purchaseOrder.supplier?.historyPayment?.filter((hp: any) => hp.purchaseOrderId === purchaseOrder._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0) ?? 0
                   // const totalPayer = purchaseOrder.supplier?.historyPayment.filter((hp: historyPaymentInterface) => hp.purchaseOrderId === purchaseOrder._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0) ?? 0
                   return (
                   <tr className="border-b" key={index}>
