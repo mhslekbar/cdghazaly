@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { State } from '../../../../redux/store'
-import { DefaultSuppliersInterface, SuppliersInterface } from '../types'
 import { useNavigate, useParams } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { ShowPurchaseOrderApi } from '../../../../redux/purchaseOrder/purchaseOrderApiCalls'
-import { FaChevronCircleLeft, FaEye } from 'react-icons/fa'
+import { FaChevronCircleLeft, FaEye, FaEyeSlash } from 'react-icons/fa'
 import PurchaseOrderSupplier from './PurchaseOrderSupplier'
 import { AboutSupplierContext } from './types'
-import { DefaultPurchaseOrderInterface, PurchaseOrderInterface } from '../../purhcaseOrder/types'
 import HistoryPaymentSupplier from './HistoryPaymentSupplier'
+import { DefaultPurchaseOrderInterface, PurchaseOrderInterface } from '../../purchaseOrder/types'
+import { SupplierInterface, DefaultSupplierInterface} from '../types'
 
 const AboutSupplier:React.FC = () => {
   const { suppliers } = useSelector((state: State) => state.suppliers)
   const { supplierId } = useParams()
-  const [selectedSupplier, setSelectedSupplier] = useState<SuppliersInterface>(DefaultSuppliersInterface)
+  const [selectedSupplier, setSelectedSupplier] = useState<SupplierInterface>(DefaultSupplierInterface)
 
   useEffect(() => {
-    setSelectedSupplier(suppliers.find((supp: SuppliersInterface) => supp._id === supplierId) ?? DefaultSuppliersInterface)
+    setSelectedSupplier(suppliers.find((supp: SupplierInterface) => supp._id === supplierId) ?? DefaultSupplierInterface)
   }, [suppliers, supplierId])
 
   const dispatch: any = useDispatch();
@@ -51,9 +51,23 @@ const AboutSupplier:React.FC = () => {
         <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate(-1)}/>
         <h1 className='text-xl font-bold text-cente text-gray-700'>{selectedSupplier.name}</h1>
       </section>
-      <p className='flex gap-2' onClick={() => setShowPurchaseOrders(!showPurchaseOrders)}><FaEye className='text-blue' style={{ fontSize: "22px" }} /> Afficher les bons de commandes</p>
+      <p className='flex gap-2' onClick={() => setShowPurchaseOrders(!showPurchaseOrders)}>
+        {showPurchaseOrders ?
+          <FaEyeSlash className='text-blue' style={{ fontSize: "22px" }}/>
+          :
+          <FaEye className='text-blue' style={{ fontSize: "22px" }} /> 
+        }
+        {showPurchaseOrders ? "Cacher" : "Afficher" } les bons de commandes
+      </p>
       <PurchaseOrderSupplier />
-      <p className='flex gap-2 mt-3' onClick={() => setShowHistoryPayment(!showHistoryPayment)}><FaEye className='text-blue' style={{ fontSize: "22px" }} /> Afficher Historique de paiements</p>
+      <p className='flex gap-2 mt-3' onClick={() => setShowHistoryPayment(!showHistoryPayment)}>
+        {showHistoryPayment ?
+          <FaEyeSlash className='text-blue' style={{ fontSize: "22px" }}/>
+          :
+          <FaEye className='text-blue' style={{ fontSize: "22px" }} /> 
+        }
+          {showHistoryPayment ? "Cacher" : "Afficher" }  Historique de paiements
+      </p>
       <HistoryPaymentSupplier />
     </div>
     </AboutSupplierContext.Provider>

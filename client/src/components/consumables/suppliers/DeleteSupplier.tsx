@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { SuppliersInterface } from './types';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
 import { ShowConsumableContext } from '../types';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import { DeleteSuppliersApi } from '../../../redux/suppliers/supplierApiCalls';
+import { SupplierInterface } from './types';
 
 export interface DeleteSupplierInterface {
   modal: boolean,
   toggle: () => void,
-  SupplierData: SuppliersInterface
+  SupplierData: SupplierInterface
 }
 
 const DeleteSupplier:React.FC<DeleteSupplierInterface> = ({ modal, toggle, SupplierData  }) => {

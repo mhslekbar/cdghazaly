@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { DataSuppliersContext, SuppliersInterface } from './types';
+import { DataSuppliersContext, SupplierInterface } from './types';
 import InputsConsumptions from './forms/InputsConsumptions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ import { Timeout, hideMsg } from '../../../functions/functions';
 export interface EditSupplierInterface {
   modal: boolean,
   toggle: () => void,
-  SupplierData: SuppliersInterface
+  SupplierData: SupplierInterface
 }
 
 const EditSupplier:React.FC<EditSupplierInterface> = ({ modal, toggle, SupplierData  }) => {

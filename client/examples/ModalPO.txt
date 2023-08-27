@@ -1,0 +1,119 @@
+import React, { useContext, useRef, useState } from 'react';
+import { AboutSupplierContext } from './types';
+import { LinePurchaseOrderInterface } from '../../purchaseOrder/types';
+import html2canvas from 'html2canvas';
+
+interface ModalPurchaseOrderInterface {
+  modal: boolean,
+  toggle: () => void,
+}
+
+const ModalPurchaseOrder:React.FC<ModalPurchaseOrderInterface> = ({ modal, toggle }) => {
+  const { selectedModalPurchaseOrder } = useContext(AboutSupplierContext)
+  const invoiceRef = useRef(null);
+  const [img, setImg] = useState("")
+  
+  const generateImage = () => {
+    const invoiceElement = invoiceRef.current;
+    const phone = 32010171
+    if (invoiceElement) {
+      html2canvas(invoiceElement).then(async canvas => {
+        // `canvas` is the generated image in canvas format
+        // You can convert it to an image URL using canvas.toDataURL()
+        const imageURL = canvas.toDataURL('image/png');
+        // Convert base64 image data URL to Blob
+        const blob = base64ToBlob(imageURL);
+        const blobURL = URL.createObjectURL(blob);
+        // Create a message containing the image URL
+        setImg(blobURL)
+        // Create a WhatsApp URL
+        const whatsappURL = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(blobURL)}`;
+        // Open the WhatsApp link in a new tab
+        window.open(whatsappURL);
+        // window.open(whatsappURL, '_blank');
+      });
+    }
+  };
+
+  return (
+    <div>
+      {modal && (
+        <>
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div
+              className="fixed inset-0 w-full h-full bg-black opacity-40"
+              onClick={toggle}
+            ></div>
+            <div className="flex items-center min-h-screen px-4 py-8">
+              <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+              <div className="flex flex-col border">
+              <button onClick={generateImage}>Generate Invoice Image</button>
+              {img && <img src={img} alt="sniper" />}
+              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full sm:px-6 lg:px-8">
+                  <div className="overflow-hidden" ref={invoiceRef}>
+                    <table className="min-w-full text-left text-sm font-light">
+                      <thead className="border-b font-medium bg-main text-white">
+                        <tr>
+                          <th className="px-6 py-4 border-r">Nom</th>
+                          <th className="px-6 py-4 border-r">Quantite</th>
+                          <th className="px-6 py-4 border-r">prix</th>
+                          <th className="px-6 py-4">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedModalPurchaseOrder.LinePurchaseOrder.map((purchase: LinePurchaseOrderInterface, index) => (
+                          <tr className="border-b" key={index}>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium">
+                              {purchase.consumable.name}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium text-center">
+                              {purchase.qty}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium"></td>
+                            <td className="whitespace-nowrap px-4 py-2 border-r font-medium"></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default ModalPurchaseOrder
+
+
+// Helper function for converting base64 to Blob
+function base64ToBlob(base64Data: any, contentType = 'image/png') {
+  const byteCharacters = atob(base64Data.split(',')[1]);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+    const slice = byteCharacters.slice(offset, offset + 512);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  return new Blob(byteArrays, { type: contentType });
+}
+// This code integrates the provided base64ToBlob function and uses it to convert the image data URL to a Blob before sending it to the backend. The Blob URL is also stored in the img state to display the generated image.
+
+
+
+
+

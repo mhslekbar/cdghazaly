@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { DefaultPurchaseOrderInterface, PurchaseOrderInterface } from '../../types';
 import TablePayments from './TablePayments';
 import AddPayment from './AddPayment';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../../redux/store';
-import { historyPaymentInterface } from '../../../suppliers/types';
+import { PurchaseOrderInterface, DefaultPurchaseOrderInterface } from '../../types';
 
 interface HistoryPaymentPurchaseOrderInterface {
   modal: boolean,
@@ -37,8 +36,8 @@ const HistoryPaymentPurchaseOrder:React.FC<HistoryPaymentPurchaseOrderInterface>
                   <TablePayments 
                     purchaseOrder={PurchaseOrderInfo} 
                     historyPayment={PurchaseOrderInfo.supplier
-                      ?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId === PurchaseOrderData._id)
-                      // ?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId._id === PurchaseOrderData._id)
+                      // ?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId === PurchaseOrderData._id)
+                      ?.historyPayment.filter((hPayment: any) => hPayment.purchaseOrderId._id === PurchaseOrderData._id)
                     }
                   />
                 </div>

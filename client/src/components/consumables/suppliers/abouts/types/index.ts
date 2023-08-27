@@ -1,10 +1,10 @@
 import { createContext } from "react";
-import { DefaultPurchaseOrderInterface, PurchaseOrderInterface } from "../../../purhcaseOrder/types";
-import { DefaultSuppliersInterface, SuppliersInterface } from "../../types";
+import { SupplierInterface, DefaultSupplierInterface } from "../../types";
+import { DefaultPurchaseOrderInterface, PurchaseOrderInterface } from "../../../purchaseOrder/types";
 
 export interface AboutSupplierInterface {
-  selectedSupplier: SuppliersInterface,
-  setSelectedSupplier: (selectedSupplier: SuppliersInterface) => void,
+  selectedSupplier: SupplierInterface,
+  setSelectedSupplier: (selectedSupplier: SupplierInterface) => void,
   showPurchaseOrders: boolean,
   setShowPurchaseOrders: (showPurchaseOrders: boolean) => void,
   showModalPurchaseOrder: boolean,
@@ -16,7 +16,7 @@ export interface AboutSupplierInterface {
 }
 
 export const DefaultAboutSupplierInterface: AboutSupplierInterface =  {
-  selectedSupplier: DefaultSuppliersInterface,
+  selectedSupplier: DefaultSupplierInterface,
   setSelectedSupplier: () => {},
   showPurchaseOrders: false,
   setShowPurchaseOrders: () => {},

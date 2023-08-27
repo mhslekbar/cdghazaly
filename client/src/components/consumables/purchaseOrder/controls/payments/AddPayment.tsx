@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { InputElement } from '../../../../../HtmlComponents/InputElement'
-import { PurchaseOrderInterface } from '../../types'
 import { FaCheck } from 'react-icons/fa'
 import { formattedDate, hideMsg } from '../../../../../functions/functions'
 import { useDispatch } from 'react-redux'
 import { AddPaymentPurchaseOrderApi } from '../../../../../redux/purchaseOrder/purchaseOrderApiCalls'
 import { useParams } from 'react-router'
 import { ShowSuppliersApi } from '../../../../../redux/suppliers/supplierApiCalls'
+import { PurchaseOrderInterface } from '../../types'
 
 interface AddPaymentInterface {
   purchaseOrder: PurchaseOrderInterface

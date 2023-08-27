@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { DefaultSuppliersInterface, SuppliersInterface, ShowSuppliersContext } from './types'
+import { DefaultSupplierInterface, ShowSuppliersContext, SupplierInterface } from './types'
 import AddSupplier from './AddSupplier'
 import EditSupplier from './EditSupplier'
 import DataSuppliers from './DataSupplier'
@@ -9,7 +9,7 @@ import { ShowSuppliersApi } from '../../../redux/suppliers/supplierApiCalls'
 
 const ShowSupplier:React.FC = () => {
   const [showEditSupplier, setShowEditSupplier] = useState(false)
-  const [selectedSupplier, setSelectedSupplier] = useState<SuppliersInterface>(DefaultSuppliersInterface)
+  const [selectedSupplier, setSelectedSupplier] = useState<SupplierInterface>(DefaultSupplierInterface)
   const [showDeleteSupplier, setShowDeleteSupplier] = useState(false)
   const dispatch: any = useDispatch()
 

@@ -31,7 +31,7 @@ import Statistics from '../pages/Statistics';
 import Accounting from '../components/statistics/details/Accounting';
 import Payments from '../components/statistics/details/Payments';
 import Consumables from '../pages/Consumables';
-import ShowPurchaseOrder from '../components/consumables/purhcaseOrder/ShowPurchaseOrder';
+import ShowPurchaseOrder from '../components/consumables/purchaseOrder/ShowPurchaseOrder';
 import ShowMyConsumptions from '../components/consumables/consumptions/ShowMyConsumptions';
 import ShowConsumableList from '../components/consumables/consumableList/ShowConsumableList';
 import Permissions from '../pages/Permissions';

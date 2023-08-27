@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
-import { SuppliersInterface, ShowSuppliersContext, accountSupplierInterface } from "./types";
+import { ShowSuppliersContext, SupplierInterface, accountSupplierInterface } from "./types";
 import { FaEdit } from "react-icons/fa";
 import { MdRemoveCircle } from "react-icons/md";
 import { useNavigate, useParams } from "react-router";
@@ -14,12 +14,12 @@ const DataSuppliers: React.FC = () => {
     setSelectedSupplier,
     showDeleteSupplier, setShowDeleteSupplier } = useContext(ShowSuppliersContext)
 
-  const handleShowEditSupplier = (supplier: SuppliersInterface) => {
+  const handleShowEditSupplier = (supplier: SupplierInterface) => {
     setShowEditSupplier(!showEditSupplier)
     setSelectedSupplier(supplier)
   }
 
-  const handleShowDeleteSupplier = (supplier: SuppliersInterface) => {
+  const handleShowDeleteSupplier = (supplier: SupplierInterface) => {
     setShowDeleteSupplier(!showDeleteSupplier)
     setSelectedSupplier(supplier)
   }
@@ -45,7 +45,7 @@ const DataSuppliers: React.FC = () => {
                   {
                   suppliers
                   .map(
-                    (supplier: SuppliersInterface, index) => (
+                    (supplier: SupplierInterface, index) => (
                       <tr className="border-b" key={index}>
                         <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium hover:bg-[#EEE]" onClick={() => navigate(`${supplier._id}`)}>
                           {supplier.name}

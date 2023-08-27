@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { historyPaymentInterface } from '../types'
 import { AboutSupplierContext } from './types'
 import { formatDate } from '../../../../functions/functions'
 
@@ -22,10 +21,10 @@ const HistoryPaymentSupplier:React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {selectedSupplier.historyPayment.map((hPayment: historyPaymentInterface, index) => (
+                {selectedSupplier.historyPayment.map((hPayment: any, index) => (
                   <tr className="border-b" key={index}>
                     <td className="whitespace-nowrap px-4 py-2 border-r font-medium bg-white">
-                      {/* BC-{hPayment.purchaseOrderId.num}{"-" + (new Date(hPayment.purchaseOrderId.createdAt).getMonth() + 1)} */}
+                      BC-{hPayment.purchaseOrderId.num}{"-" + (new Date(hPayment.purchaseOrderId.createdAt).getMonth() + 1)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r font-medium bg-white">
                       {hPayment.payment}

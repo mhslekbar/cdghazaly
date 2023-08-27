@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AboutSupplierContext } from './types';
-import { LinePurchaseOrderInterface } from '../../purhcaseOrder/types';
+import { LinePurchaseOrderInterface } from '../../purchaseOrder/types';
+import { FaPrint } from 'react-icons/fa';
 
 interface ModalPurchaseOrderInterface {
   modal: boolean,
@@ -21,6 +22,7 @@ const ModalPurchaseOrder:React.FC<ModalPurchaseOrderInterface> = ({ modal, toggl
             ></div>
             <div className="flex items-center min-h-screen px-4 py-8">
               <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+              <FaPrint className='text-blue mb-2' style={{ fontSize: "22px" }} onClick={() => window.print()} />
               <div className="flex flex-col border">
               <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full sm:px-6 lg:px-8">
@@ -28,10 +30,10 @@ const ModalPurchaseOrder:React.FC<ModalPurchaseOrderInterface> = ({ modal, toggl
                     <table className="min-w-full text-left text-sm font-light">
                       <thead className="border-b font-medium bg-main text-white">
                         <tr>
-                          <th className="px-6 py-4 border-r">Nom</th>
-                          <th className="px-6 py-4 border-r">Quantite</th>
-                          <th className="px-6 py-4 border-r">prix</th>
-                          <th className="px-6 py-4">Total</th>
+                          <th className="px-3 py-3 border-r">Nom</th>
+                          <th className="px-3 py-3 border-r">Quantite</th>
+                          <th className="px-3 py-3 border-r">prix</th>
+                          <th className="px-3 py-3">Total</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -63,3 +65,4 @@ const ModalPurchaseOrder:React.FC<ModalPurchaseOrderInterface> = ({ modal, toggl
 }
 
 export default ModalPurchaseOrder
+

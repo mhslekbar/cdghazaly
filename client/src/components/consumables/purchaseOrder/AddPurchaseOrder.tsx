@@ -1,41 +1,23 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
+import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
-import { DataPurchaseOrderContext, DefaultLinePurchaseOrderInterface, LinePurchaseOrderInterface, PurchaseOrderInterface, ShowPurchaseOrderContext } from './types';
+import { DataPurchaseOrderContext, DefaultLinePurchaseOrderInterface, LinePurchaseOrderInterface, ShowPurchaseOrderContext } from './types';
 import InputsPurchaseOrder from './forms/InputsPurchaseOrder';
 import { useDispatch } from 'react-redux';
-import { EditPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls';
-import { useParams } from 'react-router';
-import { Timeout, formattedDate, hideMsg } from '../../../functions/functions';
-import { InputElement } from '../../../HtmlComponents/InputElement';
-import { DefaultSuppliersInterface, SuppliersInterface } from '../suppliers/types';
+import { AddPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls';
+import { useNavigate, useParams } from 'react-router';
+import { Timeout, hideMsg } from '../../../functions/functions';
+import { DefaultSupplierInterface, SupplierInterface } from '../suppliers/types';
 
-interface EditPurchaseOrderInterface {
-  modal: boolean,
-  toggle: () => void,
-  PurchaseOrderData: PurchaseOrderInterface,
-}
-
-const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle, PurchaseOrderData }) => { 
-  const [ListPurchaseOrder, setListPurchaseOrder] = useState<LinePurchaseOrderInterface[]>(PurchaseOrderData.LinePurchaseOrder)
+const AddPurchaseOrder:React.FC = () => { 
+  const [ListPurchaseOrder, setListPurchaseOrder] = useState<LinePurchaseOrderInterface[]>([DefaultLinePurchaseOrderInterface])
+  const [supplier, setSupplier] = useState<SupplierInterface>(DefaultSupplierInterface)
   const [errors, setErrors] = useState<string[]>([])
-  const [reference, setReference] = useState<string>(PurchaseOrderData.reference)
-  const [total, setTotal] = useState<number>(PurchaseOrderData.total)
-  const [paymentDate, setPaymentDate] = useState<Date>(PurchaseOrderData.paymentDate)
-  const [supplier, setSupplier] = useState<SuppliersInterface>(PurchaseOrderData.supplier ?? DefaultSuppliersInterface)
   
-
-  useEffect(() => {
-    setListPurchaseOrder(
-      PurchaseOrderData.LinePurchaseOrder.map((LinePurchaseOrder) => ({
-        ...LinePurchaseOrder,
-        consumable: {
-          ...LinePurchaseOrder.consumable,
-          value: LinePurchaseOrder.consumable._id,
-          label: LinePurchaseOrder.consumable.name,
-        },
-      }))
-    );
-  }, [PurchaseOrderData])
+  const [modal, setModal] = useState(false)
+  const toggle = () => {
+    setModal(!modal)
+  }
 
   const dispatch: any = useDispatch()
   const { doctorId } = useParams()
@@ -54,9 +36,9 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
       if(findEmptyQtyPurchase) {
         formErrors.push("il y a un element que vous n'avez pas donner sa quantite")
       }
-      // Dies funktioniert nur, wenn keine Fehler vorliegen
+      
       if(formErrors.length === 0) {
-        const response = await dispatch(EditPurchaseOrderApi(doctorId, PurchaseOrderData._id, { supplier: supplier._id, reference, total, paymentDate, LinePurchaseOrder: ListPurchaseOrder }))
+        const response = await dispatch(AddPurchaseOrderApi(doctorId, { supplier: supplier._id, LinePurchaseOrder: ListPurchaseOrder }))
         if(response === true) {
           toggle()
           setShowSuccessMsg(true)
@@ -71,11 +53,19 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
     } catch {}
   }
 
+  const navigate = useNavigate()
+
   return (
     <DataPurchaseOrderContext.Provider value={{
       ListPurchaseOrder, setListPurchaseOrder,
       supplier, setSupplier
     }}>
+      <div className="flex justify-start gap-2 mt-2">
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
+        <button className="p-2 rounded btn-main" onClick={toggle}>
+          <FaPlus />
+        </button>
+      </div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -101,13 +91,8 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
                         {err}
                       </p>
                     ))}
-
-                    <InputElement name='reference' placeholder='Donner la reference de la facture' value={reference} setValue={setReference} />
-                    <InputElement type='number' name='total' value={total} setValue={setTotal} />
-                    <InputElement type='date' name='Date' value={formattedDate(paymentDate?.toString())} setValue={setPaymentDate} />                    
-                    
                     <InputsPurchaseOrder />
-                    <ButtonsForm typeBtn='Modifier' toggle={toggle} />
+                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>
@@ -120,4 +105,4 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
   );
 }
 
-export default EditPurchaseOrder
+export default AddPurchaseOrder

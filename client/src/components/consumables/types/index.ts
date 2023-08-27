@@ -1,5 +1,4 @@
 import { createContext } from "react"
-
 export interface ShowConsumableInterface {
   showSuccessMsg: boolean,
   setShowSuccessMsg: (showSuccessMsg: boolean) => void,

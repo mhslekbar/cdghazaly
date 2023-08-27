@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import { State } from '../../../redux/store'
 import { filterSpecificDate } from '../../../functions/functions'
 import { useParams } from 'react-router'
-import { PurchaseOrderInterface } from '../../consumables/purhcaseOrder/types'
 import { useDispatch } from 'react-redux'
 import { ShowPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls'
+import { PurchaseOrderInterface } from '../../consumables/purchaseOrder/types'
 
 const PurchaseOrderStats:React.FC = () => {
   const { selectedDate, day, month, showSwitchDate, startDate, endDate, sumPurchaseOrders, setSumPurchaseOrders } = useContext(ShowStatisticContext)

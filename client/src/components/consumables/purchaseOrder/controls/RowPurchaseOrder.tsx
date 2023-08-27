@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { State } from "../../../../redux/store";
 import { ListConsumableInterface } from "../../consumableList/types";
 import { MdRemoveCircle } from "react-icons/md";
-// import { InputElement } from "../../../../HtmlComponents/InputElement";
 
 interface RowPurchaseOrderInterface {
   list?: LinePurchaseOrderInterface,
