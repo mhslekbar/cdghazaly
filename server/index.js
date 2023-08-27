@@ -2,19 +2,13 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 
-// const cors = require("cors");
-
-// origin: "http://154.56.57.194:8890/",
-
-// const corsOptions = {
-// origin: "https://cdghazaly.com/",
-//   optionsSuccessStatus: 200,
-//   credentials: true
-// };
-
-// app.use(cors(corsOptions));
-
-// app.use(cors());
+const cors = require("cors");
+const corsOptions = {
+  origin: 'http://154.56.57.194:8890', // Allow requests from this specific origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow only specified methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+};
+app.use(cors(corsOptions));
 
 // include .env file
 const dotenv = require("dotenv");
@@ -43,6 +37,7 @@ const verifyToken = require("./middlewares/verifyToken")
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
+
 app.use("/api/auth",        setCacheControl, require("./routes/auth"))
 app.use("/api/user",        verifyToken, setCacheControl, require("./routes/user"))
 app.use("/api/permission",  verifyToken, setCacheControl, require("./routes/permission"))
@@ -63,7 +58,23 @@ app.use("/api/consumption",    verifyToken, setCacheControl, require("./routes/c
 app.use("/api/appointment",    verifyToken, setCacheControl, require("./routes/appointment"))
 app.use("/api/supplier",       verifyToken, setCacheControl, require("./routes/supplier"))
 
-
 app.listen(port, () => {
   console.log(`dentist software is running on port: ${port}`)
 })
+
+
+
+// const cors = require("cors");
+
+// origin: "http://154.56.57.194:8890/",
+
+// const corsOptions = {
+// origin: "https://cdghazaly.com/",
+//   optionsSuccessStatus: 200,
+//   credentials: true
+// };
+
+// app.use(cors(corsOptions));
+
+// const cors = require("cors");
+// app.use(cors());

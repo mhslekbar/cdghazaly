@@ -37,7 +37,7 @@ const HistoryPaymentPurchaseOrder:React.FC<HistoryPaymentPurchaseOrderInterface>
                     purchaseOrder={PurchaseOrderInfo} 
                     historyPayment={PurchaseOrderInfo.supplier
                       // ?.historyPayment.filter((hPayment: historyPaymentInterface) => hPayment.purchaseOrderId === PurchaseOrderData._id)
-                      ?.historyPayment.filter((hPayment: any) => hPayment.purchaseOrderId._id === PurchaseOrderData._id)
+                      ?.historyPayment?.filter((hPayment: any) => hPayment.purchaseOrderId._id === PurchaseOrderData._id)
                     }
                   />
                 </div>

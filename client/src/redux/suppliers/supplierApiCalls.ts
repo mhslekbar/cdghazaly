@@ -17,6 +17,7 @@ export const ShowSuppliersApi = (filter: string = "") => async (dispatch: Dispat
       return true
     }
   } catch (error: any) {
+    console.log("error: ", error)
     const errData = error.response.data
     if(errData && error.response.status === 300) {
       const formErrors = errData.formErrors ? errData.formErrors : [errData]

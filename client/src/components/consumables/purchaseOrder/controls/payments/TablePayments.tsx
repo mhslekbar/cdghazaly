@@ -97,9 +97,9 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
               </thead>
               <tbody>
                 {historyPayment
-                .slice()
-                .sort((a: historyPaymentInterface, b: historyPaymentInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-                .map((hp: historyPaymentInterface, index) => {
+                ?.slice()
+                ?.sort((a: historyPaymentInterface, b: historyPaymentInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                ?.map((hp: historyPaymentInterface, index) => {
                   return (
                   <tr className="border-b" key={index}>
                     <td className="whitespace-nowrap px-4 py-2 border-r font-medium text-left">
