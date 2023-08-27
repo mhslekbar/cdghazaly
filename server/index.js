@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 
-const cors = require("cors");
+// const cors = require("cors");
 
 // origin: "http://154.56.57.194:8890/",
 
@@ -14,7 +14,7 @@ const cors = require("cors");
 
 // app.use(cors(corsOptions));
 
-app.use(cors());
+// app.use(cors());
 
 // include .env file
 const dotenv = require("dotenv");
@@ -61,7 +61,7 @@ app.use("/api/invoice",        verifyToken, setCacheControl, require("./routes/i
 app.use("/api/purchaseOrder",  verifyToken, setCacheControl, require("./routes/purchaseOrder"))
 app.use("/api/consumption",    verifyToken, setCacheControl, require("./routes/consumption"))
 app.use("/api/appointment",    verifyToken, setCacheControl, require("./routes/appointment"))
-app.use("/api/supplier",    verifyToken, setCacheControl, require("./routes/supplier"))
+app.use("/api/supplier",       verifyToken, setCacheControl, require("./routes/supplier"))
 
 
 app.listen(port, () => {
