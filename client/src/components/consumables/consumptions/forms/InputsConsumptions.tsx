@@ -32,7 +32,7 @@ const InputsConsumptions:React.FC = () => {
       <InputElement name="Montant" value={amount} setValue={setAmount} />
       <InputElement name="Note" placeholder='donner une note si vous voulez.' value={note} setValue={setNote} />
       {hide && 
-        <SelectElement name="Doctor" id="doctor" value={doctor} setValue={setDoctorId} defaultOption={<option>Cabinet Centrale</option>} options={doctors} valueType={"object"} />
+        <SelectElement name="Doctor" id="doctor" value={doctor} setValue={setDoctorId} defaultOption={<option data-element={JSON.stringify(DefaultUserInterface)} value={DefaultUserInterface._id}>Cabinet Centrale</option>} options={doctors} valueType={"object"} />
       }
     </>
   )

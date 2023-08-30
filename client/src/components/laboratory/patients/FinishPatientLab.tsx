@@ -1,9 +1,9 @@
-import React, { FormEvent, useContext } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { ShowPatientLabContext } from './types';
 import { useParams } from 'react-router';
 import { ShowLaboratoryContext } from '../ShowLaboratory';
-import { Timeout } from '../../../functions/functions';
+import { Timeout, hideMsg } from '../../../functions/functions';
 import { useDispatch } from 'react-redux';
 import { ShowLaboratoryApi } from '../../../redux/laboratory/laboratoryApiCalls';
 import { FinishPatientLabApi } from '../../../redux/laboratory/patients/patientLabApiCalls';
@@ -18,6 +18,7 @@ const FinishPatientLab:React.FC<FinishPatientLabInterface> = ({ modal, toggle })
   const { labId } = useParams()
   const { setShowSuccessMsg } = useContext(ShowLaboratoryContext)
   const dispatch: any = useDispatch()
+  const [errors, setErrors] = useState<string[]>([])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -28,6 +29,8 @@ const FinishPatientLab:React.FC<FinishPatientLabInterface> = ({ modal, toggle })
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         await dispatch(ShowLaboratoryApi(labId))
+      } else {
+        setErrors(response)
       }
     } catch {}
   }
@@ -49,6 +52,16 @@ const FinishPatientLab:React.FC<FinishPatientLabInterface> = ({ modal, toggle })
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
+                    {errors.length > 0 &&
+                    errors.map((err, index) => (
+                      <p
+                        className="p-3 my-2 rounded bg-red text-white msg"
+                        key={index}
+                        onClick={(e) => hideMsg(e, errors, setErrors)}
+                      >
+                        {err}
+                      </p>
+                    ))}
                     <ButtonsForm typeBtn='Terminer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}

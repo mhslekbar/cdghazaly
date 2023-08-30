@@ -65,7 +65,7 @@ const AddTreatLab:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                                        {errors.length > 0 &&
+                  {errors.length > 0 &&
                     errors.map((err, index) => (
                       <p
                         className="p-3 my-2 rounded bg-red text-white msg"
