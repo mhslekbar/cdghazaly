@@ -69,17 +69,21 @@ const updatePurchaseOrder = async (request, response) => {
         if(pushaseOrderData.supplier) {
           const prevTotal = pushaseOrderData.total ?? 0
           let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier, "accounts.doctor": pushaseOrderData.doctor })
-          let prevBalanceSupplier = prevSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
-          prevSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevBalanceSupplier) + Number(prevTotal)
+          let prevBalanceSupplier = prevSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
+          if(prevSupplierData.accounts) {
+            prevSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevBalanceSupplier) + Number(prevTotal)
+          }
           await prevSupplierData.save()
         }
         // END prev supplier
 
         // START NEW supplier
         const newSupplierData = await SupplierModel.findOne({ _id: supplier, "accounts.doctor": pushaseOrderData.doctor })
-        let newBalanceSupplier = newSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
-        const prevNewBalanceSupplier = Number(newBalanceSupplier) - Number(total)
-        newSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevNewBalanceSupplier)
+        let newBalanceSupplier = newSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
+        if(newSupplierData.accounts) {
+          const prevNewBalanceSupplier = Number(newBalanceSupplier) - Number(total)
+          newSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevNewBalanceSupplier)
+        }
         await newSupplierData.save()
         // END NEW supplier
       }
@@ -100,10 +104,18 @@ const deletePurchaseOrder = async (request, response) => {
 
     // START prev supplier =>  here i will set the data to default because supplier can be not like previous
     if(pushaseOrderData.supplier) {
+      // const prevTotal = pushaseOrderData.total ?? 0
+      // let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier })
+      // let prevBalanceSupplier = prevSupplierData.balance ?? 0
+      // prevSupplierData.balance = Number(prevBalanceSupplier) + Number(prevTotal)
+      // await prevSupplierData.save()
+
       const prevTotal = pushaseOrderData.total ?? 0
-      let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier })
-      let prevBalanceSupplier = prevSupplierData.balance ?? 0
-      prevSupplierData.balance = Number(prevBalanceSupplier) + Number(prevTotal)
+      let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier, "accounts.doctor": pushaseOrderData.doctor })
+      let prevBalanceSupplier = prevSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
+      if(prevSupplierData.accounts) {
+        prevSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevBalanceSupplier) + Number(prevTotal)
+      }
       await prevSupplierData.save()
     }
     // END prev supplier
