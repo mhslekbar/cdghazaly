@@ -31,11 +31,12 @@ const createSupplier = async (req, res) => {
     if(formErrors.length === 0) {
       const users = await UserModel.find()
       let doctors = users.filter(user => user.doctor.cabinet)
-      let compte = []
+      let accounts = []
       doctors.map(doctor => {
-        compte.push({doctor, balance: 0})
+        accounts.push({doctor, balance: 0})
       })
-      await SupplierModel.create({ name, phone, compte })
+      console.log
+      await SupplierModel.create({ name, phone, accounts })
       await getSuppliers(req, res)
     } else {
       res.status(300).json({ formErrors })
