@@ -5,7 +5,7 @@ import { PurchaseOrderInterface, ShowPurchaseOrderContext } from "./types";
 import { useParams } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { MdAttachMoney, MdRemoveCircle } from "react-icons/md";
-import { filterSpecificDate } from "../../../functions/functions";
+import { Timeout, filterSpecificDate } from "../../../functions/functions";
 import { ShowConsumableContext } from "../types";
 import { historyPaymentInterface } from "../suppliers/types";
 import InputsTotalPurchase from "./controls/InputsTotalPurchase";
@@ -19,18 +19,21 @@ const DataPurchaseOrder:React.FC = () => {
     setSelectedPurchaseOrder,
     showDeletePurchaseOrder, setShowDeletePurchaseOrder,
     showPaymentPurchaseOrder, setShowPaymentPurchaseOrder } = useContext(ShowPurchaseOrderContext)
-  const { showSwitchDate, startDate, endDate, selectedDate, month, day } = useContext(ShowConsumableContext)
+  const { showSwitchDate, startDate, endDate, selectedDate, month, day, setShowSuccessMsg } = useContext(ShowConsumableContext)
 
   const dispatch: any = useDispatch()
 
   const setTotalPurchaseOrder = async (purchaseOrder: PurchaseOrderInterface) => {
     const totalAmountPurchaseOrder = (document.querySelector(`#total${purchaseOrder._id}`) as HTMLInputElement)?.value
     try {
-      await dispatch(setTotalPurchaseOrderApi(doctorId, purchaseOrder._id, { total: totalAmountPurchaseOrder }))
+      const response = await dispatch(setTotalPurchaseOrderApi(doctorId, purchaseOrder._id, { total: totalAmountPurchaseOrder }))
+      if(response) {
+        setShowSuccessMsg(true)
+        setTimeout(() => setShowSuccessMsg(false), Timeout)
+      }
     } catch {}
   }
-
-
+  
   return (
     <div className="flex flex-col border">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">

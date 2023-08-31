@@ -1,7 +1,5 @@
 const PurchaseOrderModel = require("../models/PurchaseOrderModel")
 const SupplierModel = require("../models/SupplierModel")
-const fs = require('fs');
-const path = require('path');
 
 const getPurchaseOrders = async (request, response) => {
   try {
@@ -55,6 +53,7 @@ const updatePurchaseOrder = async (request, response) => {
     const { id } = request.params
     const { supplier, LinePurchaseOrder } = request.body
     const formErrors = []
+    const pushaseOrderData = await PurchaseOrderModel.findOne({ _id: id })
     if(LinePurchaseOrder.length === 0) {
       formErrors.push("Le donneés du bon de commande sont obligatoire.")
     }
@@ -62,6 +61,27 @@ const updatePurchaseOrder = async (request, response) => {
       formErrors.push("Le fournisseurs est obligatoire")
     }
     if(formErrors.length === 0) {
+      // START prev supplier =>  here i will set the data to default because supplier can be not like previous
+      const prevTotal = pushaseOrderData.total ?? 0
+      if(pushaseOrderData.supplier) {
+        let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier, "accounts.doctor": pushaseOrderData.doctor })
+        let prevBalanceSupplier = prevSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
+        if(prevSupplierData.accounts) {
+          prevSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevBalanceSupplier) + Number(prevTotal)
+        }
+        await prevSupplierData.save()
+      }
+      // END prev supplier
+
+      // START NEW supplier
+      const newSupplierData = await SupplierModel.findOne({ _id: supplier, "accounts.doctor": pushaseOrderData.doctor })
+      let newBalanceSupplier = newSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
+      if(newSupplierData.accounts) {
+        const prevNewBalanceSupplier = Number(newBalanceSupplier) - Number(prevTotal)
+        newSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevNewBalanceSupplier)
+      }
+      await newSupplierData.save()
+      // END NEW supplier
       await PurchaseOrderModel.updateOne({ _id: id }, { supplier, LinePurchaseOrder }, { new: true })
       await getPurchaseOrders(request, response)
     } else {
