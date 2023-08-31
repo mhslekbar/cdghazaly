@@ -5,9 +5,12 @@ import { PurchaseOrderInterface, ShowPurchaseOrderContext } from "./types";
 import { useParams } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { MdAttachMoney, MdRemoveCircle } from "react-icons/md";
-import { filterSpecificDate, formatDate } from "../../../functions/functions";
+import { filterSpecificDate } from "../../../functions/functions";
 import { ShowConsumableContext } from "../types";
 import { historyPaymentInterface } from "../suppliers/types";
+import InputsTotalPurchase from "./controls/InputsTotalPurchase";
+import { useDispatch } from "react-redux";
+import { setTotalPurchaseOrderApi } from "../../../redux/purchaseOrder/purchaseOrderApiCalls";
 
 const DataPurchaseOrder:React.FC = () => {
   const { purchaseOrders } = useSelector((state: State) => state.purchaseOrder);
@@ -17,6 +20,16 @@ const DataPurchaseOrder:React.FC = () => {
     showDeletePurchaseOrder, setShowDeletePurchaseOrder,
     showPaymentPurchaseOrder, setShowPaymentPurchaseOrder } = useContext(ShowPurchaseOrderContext)
   const { showSwitchDate, startDate, endDate, selectedDate, month, day } = useContext(ShowConsumableContext)
+
+  const dispatch: any = useDispatch()
+
+  const setTotalPurchaseOrder = async (purchaseOrder: PurchaseOrderInterface) => {
+    const totalAmountPurchaseOrder = (document.querySelector(`#total${purchaseOrder._id}`) as HTMLInputElement)?.value
+    try {
+      await dispatch(setTotalPurchaseOrderApi(doctorId, purchaseOrder._id, { total: totalAmountPurchaseOrder }))
+    } catch {}
+  }
+
 
   return (
     <div className="flex flex-col border">
@@ -28,11 +41,9 @@ const DataPurchaseOrder:React.FC = () => {
                 <tr>
                   <th className="px-6 py-4 border-r">#</th>
                   <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">Reference</th>
                   <th className="px-6 py-4 border-r">Total BC</th>
                   <th className="px-6 py-4 border-r">Total Payé</th>
                   <th className="px-6 py-4 border-r">Reste</th>
-                  <th className="px-6 py-4 border-r">Date</th>
                   <th className="px-6 py-4 border-r print:hidden">Actions</th>
                 </tr>
               </thead>
@@ -53,20 +64,17 @@ const DataPurchaseOrder:React.FC = () => {
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       BC-{purchaseOrder.num}{"-" + (new Date(purchaseOrder.createdAt).getMonth() + 1)}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {purchaseOrder.reference}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {purchaseOrder.total}
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium w-36">
+                      <div className="flex justify-between gap-1">
+                        <InputsTotalPurchase purchaseOrder={purchaseOrder} total={purchaseOrder.total} />
+                        <FaEdit className="text-4xl text-main" onClick={() => setTotalPurchaseOrder(purchaseOrder)} />
+                      </div>
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {totalPayer}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {Number(purchaseOrder.total ?? 0) - Number(totalPayer)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {purchaseOrder?.paymentDate && formatDate(purchaseOrder?.paymentDate?.toString())}
                     </td>
                     <td className="bg-white print:hidden">
                       <div className="flex justify-center items-center gap-2">
@@ -87,7 +95,7 @@ const DataPurchaseOrder:React.FC = () => {
                   </tr>
                 )})}
                 <tr>
-                  <td colSpan={3}></td>
+                  <td colSpan={2}></td>
                   <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">
                   {filterSpecificDate(
                     purchaseOrders, day, month, showSwitchDate, startDate, endDate, selectedDate

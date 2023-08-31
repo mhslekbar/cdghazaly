@@ -53,9 +53,8 @@ const createPurchaseOrder = async (request, response) => {
 const updatePurchaseOrder = async (request, response) => {
   try {
     const { id } = request.params
-    const { supplier, reference, total, paymentDate, LinePurchaseOrder } = request.body
+    const { supplier, LinePurchaseOrder } = request.body
     const formErrors = []
-    const pushaseOrderData = await PurchaseOrderModel.findOne({ _id: id })
     if(LinePurchaseOrder.length === 0) {
       formErrors.push("Le donneés du bon de commande sont obligatoire.")
     }
@@ -63,36 +62,47 @@ const updatePurchaseOrder = async (request, response) => {
       formErrors.push("Le fournisseurs est obligatoire")
     }
     if(formErrors.length === 0) {
-
-      if(total >= 0) {
-        // START prev supplier =>  here i will set the data to default because supplier can be not like previous
-        if(pushaseOrderData.supplier) {
-          const prevTotal = pushaseOrderData.total ?? 0
-          let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier, "accounts.doctor": pushaseOrderData.doctor })
-          let prevBalanceSupplier = prevSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
-          if(prevSupplierData.accounts) {
-            prevSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevBalanceSupplier) + Number(prevTotal)
-          }
-          await prevSupplierData.save()
-        }
-        // END prev supplier
-
-        // START NEW supplier
-        const newSupplierData = await SupplierModel.findOne({ _id: supplier, "accounts.doctor": pushaseOrderData.doctor })
-        let newBalanceSupplier = newSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
-        if(newSupplierData.accounts) {
-          const prevNewBalanceSupplier = Number(newBalanceSupplier) - Number(total)
-          newSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevNewBalanceSupplier)
-        }
-        await newSupplierData.save()
-        // END NEW supplier
-      }
-      await PurchaseOrderModel.updateOne({ _id: id }, { supplier, reference, total, paymentDate, LinePurchaseOrder }, { new: true })
+      await PurchaseOrderModel.updateOne({ _id: id }, { supplier, LinePurchaseOrder }, { new: true })
       await getPurchaseOrders(request, response)
     } else {
       response.status(300).json({ formErrors })
     }
   } catch (error) {
+    response.status(500).json({ error: error.message })
+  }
+}
+
+const setTotalPurchaseOrder = async (request, response) => {
+  try {
+    const { id } = request.params
+    const { total } = request.body
+
+    const pushaseOrderData = await PurchaseOrderModel.findOne({ _id: id })
+    const { supplier } = pushaseOrderData
+    // START prev supplier =>  here i will set the data to default because supplier can be not like previous
+    if(pushaseOrderData.supplier) {
+      const prevTotal = pushaseOrderData.total ?? 0
+      let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier, "accounts.doctor": pushaseOrderData.doctor })
+      let prevBalanceSupplier = prevSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
+      if(prevSupplierData.accounts) {
+        prevSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevBalanceSupplier) + Number(prevTotal)
+      }
+      await prevSupplierData.save()
+    }
+    // END prev supplier
+
+    // START NEW supplier
+    const newSupplierData = await SupplierModel.findOne({ _id: supplier, "accounts.doctor": pushaseOrderData.doctor })
+    let newBalanceSupplier = newSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
+    if(newSupplierData.accounts) {
+      const prevNewBalanceSupplier = Number(newBalanceSupplier) - Number(total)
+      newSupplierData.accounts.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance = Number(prevNewBalanceSupplier)
+    }
+    await newSupplierData.save()
+    // END NEW supplier
+    await PurchaseOrderModel.updateOne({ _id: id }, { total, paymentDate: new Date() }, { new: true })
+    await getPurchaseOrders(request, response)
+  } catch(error) {
     response.status(500).json({ error: error.message })
   }
 }
@@ -104,12 +114,6 @@ const deletePurchaseOrder = async (request, response) => {
 
     // START prev supplier =>  here i will set the data to default because supplier can be not like previous
     if(pushaseOrderData.supplier) {
-      // const prevTotal = pushaseOrderData.total ?? 0
-      // let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier })
-      // let prevBalanceSupplier = prevSupplierData.balance ?? 0
-      // prevSupplierData.balance = Number(prevBalanceSupplier) + Number(prevTotal)
-      // await prevSupplierData.save()
-
       const prevTotal = pushaseOrderData.total ?? 0
       let prevSupplierData = await SupplierModel.findOne({ _id: pushaseOrderData.supplier, "accounts.doctor": pushaseOrderData.doctor })
       let prevBalanceSupplier = prevSupplierData.accounts?.find(c => c.doctor?.equals(pushaseOrderData.doctor)).balance ?? 0
@@ -219,6 +223,6 @@ const deletePayment = async (request, response) => {
 
 module.exports = { 
   getPurchaseOrders, createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder, 
-  createPayment, updatePayment, deletePayment
+  createPayment, updatePayment, deletePayment, setTotalPurchaseOrder
 }
 

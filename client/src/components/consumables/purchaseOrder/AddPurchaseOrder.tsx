@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { DataPurchaseOrderContext, DefaultLinePurchaseOrderInterface, LinePurchaseOrderInterface, ShowPurchaseOrderContext } from './types';
@@ -8,12 +8,20 @@ import { AddPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderA
 import { useNavigate, useParams } from 'react-router';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import { DefaultSupplierInterface, SupplierInterface } from '../suppliers/types';
+import { useSelector } from 'react-redux';
+import { State } from '../../../redux/store';
 
 const AddPurchaseOrder:React.FC = () => { 
   const [ListPurchaseOrder, setListPurchaseOrder] = useState<LinePurchaseOrderInterface[]>([DefaultLinePurchaseOrderInterface])
   const [supplier, setSupplier] = useState<SupplierInterface>(DefaultSupplierInterface)
   const [errors, setErrors] = useState<string[]>([])
   
+  const { suppliers } = useSelector((state: State) => state.suppliers)
+
+  useEffect(() => {
+    setSupplier(suppliers[0])
+  }, [suppliers])
+
   const [modal, setModal] = useState(false)
   const toggle = () => {
     setModal(!modal)

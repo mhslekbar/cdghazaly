@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DefaultSupplierInterface, SupplierInterface } from "../../components/consumables/suppliers/types";
 
 interface supplierStateInterface {
   isFetching: boolean;
-  suppliers: [];
+  suppliers: SupplierInterface[];
   error: string[];
 }
 
 const initialState: supplierStateInterface = {
   isFetching: false,
-  suppliers: [],
+  suppliers: [DefaultSupplierInterface],
   error: [],
 }
 const supplierSlice = createSlice({

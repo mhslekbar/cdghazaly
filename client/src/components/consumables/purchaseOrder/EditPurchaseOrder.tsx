@@ -5,8 +5,7 @@ import InputsPurchaseOrder from './forms/InputsPurchaseOrder';
 import { useDispatch } from 'react-redux';
 import { EditPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls';
 import { useParams } from 'react-router';
-import { Timeout, formattedDate, hideMsg } from '../../../functions/functions';
-import { InputElement } from '../../../HtmlComponents/InputElement';
+import { Timeout, hideMsg } from '../../../functions/functions';
 import { DefaultSupplierInterface, SupplierInterface } from '../suppliers/types';
 
 interface EditPurchaseOrderInterface {
@@ -18,9 +17,6 @@ interface EditPurchaseOrderInterface {
 const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle, PurchaseOrderData }) => { 
   const [ListPurchaseOrder, setListPurchaseOrder] = useState<LinePurchaseOrderInterface[]>(PurchaseOrderData.LinePurchaseOrder)
   const [errors, setErrors] = useState<string[]>([])
-  const [reference, setReference] = useState<string>(PurchaseOrderData.reference)
-  const [total, setTotal] = useState<number>(PurchaseOrderData.total)
-  const [paymentDate, setPaymentDate] = useState<Date>(PurchaseOrderData.paymentDate)
   const [supplier, setSupplier] = useState<SupplierInterface>(PurchaseOrderData.supplier ?? DefaultSupplierInterface)
   
 
@@ -56,7 +52,7 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
       }
       // Dies funktioniert nur, wenn keine Fehler vorliegen
       if(formErrors.length === 0) {
-        const response = await dispatch(EditPurchaseOrderApi(doctorId, PurchaseOrderData._id, { supplier: supplier._id, reference, total, paymentDate, LinePurchaseOrder: ListPurchaseOrder }))
+        const response = await dispatch(EditPurchaseOrderApi(doctorId, PurchaseOrderData._id, { supplier: supplier._id, LinePurchaseOrder: ListPurchaseOrder }))
         if(response === true) {
           toggle()
           setShowSuccessMsg(true)
@@ -100,12 +96,7 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
                       >
                         {err}
                       </p>
-                    ))}
-
-                    <InputElement name='reference' placeholder='Donner la reference de la facture' value={reference} setValue={setReference} />
-                    <InputElement type='number' name='total' value={total} setValue={setTotal} />
-                    <InputElement type='date' name='Date' value={formattedDate(paymentDate?.toString())} setValue={setPaymentDate} />                    
-                    
+                    ))}                    
                     <InputsPurchaseOrder />
                     <ButtonsForm typeBtn='Modifier' toggle={toggle} />
                   </form>

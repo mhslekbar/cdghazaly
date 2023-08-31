@@ -31,7 +31,8 @@ const InputsPurchaseOrder:React.FC = () => {
       <div className='bg-blue p-2 rounded border w-fit' onClick={newRow}>
         <FaPlus />
       </div>
-      <SelectElement name="Fournisseur" id="Fournisseur" value={supplier} setValue={setSupplier} defaultOption={<option>Choisir un fournisseur</option>} options={suppliers} valueType={"object"} />
+      {/* defaultOption={<option>Choisir un fournisseur</option>}  */}
+      <SelectElement name="Fournisseur" id="Fournisseur" value={supplier} setValue={setSupplier} options={suppliers} valueType={"object"} />
     </React.Fragment>
   )
 }

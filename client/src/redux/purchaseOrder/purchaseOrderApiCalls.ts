@@ -73,6 +73,28 @@ export const EditPurchaseOrderApi = (doctorId: string = "", purchaseOrderId: str
   }
 }
 
+export const setTotalPurchaseOrderApi = (doctorId: string = "", purchaseOrderId: string, data: {}) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPurchaseOrderStart())
+    let response = await put(`purchaseOrder/${doctorId}/${purchaseOrderId}/setTotal`, data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPurchaseOrderSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPurchaseOrderFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPurchaseOrderFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
 export const DeletePurchaseOrderApi = (doctorId: string = "", purchaseOrderId: string) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusPurchaseOrderStart())
