@@ -14,13 +14,13 @@
   body, input, button, select {
     text-transform: uppercase;
   }
+  body {
+    background-color: #dfe6e9;
+  }
   @media print {
     body {
       background-color: #FFF;
     }
-  }
-  body {
-    background-color: #dfe6e9;
   }
   .btn-main {
     background-color: var(--mainColor) !important;

@@ -7,6 +7,9 @@ import {
   PaymentInterface,
 } from "./types";
 import { formatDate } from "../../../functions/functions";
+import HeaderInvoice from "../HeaderInvoice";
+import { useParams } from "react-router";
+import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 
 const SoinsPayments: React.FC = () => {
   const { payments } = useSelector((state: State) => state.payments);
@@ -25,6 +28,8 @@ const SoinsPayments: React.FC = () => {
     );
   }, [payments]);
 
+  const { patients } = useSelector((state: State) => state.patients)
+  const { patientId } = useParams()
 
   return (
     <>
@@ -40,11 +45,12 @@ const SoinsPayments: React.FC = () => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-bloc sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
+                  <HeaderInvoice type={`soins`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
                   <table className="min-w-full text-left text-sm font-light text-center">
-                    <thead className="border-b font-medium bg-main text-white">
+                    <thead className="border border-gray-950 font-medium bg-white text-black">
                       <tr>
-                        <th className="py-1 border-r">Date</th>
-                        <th className="py-1 border-r">Montant</th>
+                        <th className="py-1 border-r border-gray-950">Date</th>
+                        <th className="py-1 border-r border-gray-950">Montant</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -54,20 +60,22 @@ const SoinsPayments: React.FC = () => {
                             payment.type === EnumTypePayment.SOINS
                         )
                         .map((payment: PaymentInterface, index) => (
-                          <tr className="border-b" key={index}>
-                            <td className="whitespace-nowrap py-1 border-r bg-white font-medium">
+                          <tr className="border-b border-l border-gray-950" key={index}>
+                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
                               {formatDate(payment.createdAt)}
                             </td>
-                            <td className="whitespace-nowrap py-1 border-r bg-white font-medium">
+                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
                               {payment.amount}
                             </td>
                           </tr>
                         ))}
+                    </tbody>
+                    <tfoot>
                       <tr className="font-bold">
                         <td></td>
-                        <td className="text-center">{totalPayments}</td>
+                        <td className="text-center bg-white border border-gray-950">{totalPayments}</td>
                       </tr>
-                    </tbody>
+                    </tfoot>
                   </table>
                 </div>
               </div>

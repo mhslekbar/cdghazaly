@@ -91,8 +91,8 @@ const createPayment = async (request, response) => {
         .findOne({ RegNo: { $not: { $type: 10 } } })
         .sort({ RegNo: -1 })
 
-      let prevMatricule = latestPatient.RegNo || 0
-
+      let prevMatricule = latestPatient?.RegNo ?? 0
+      
       if(!patientInfo.RegNo) { // start Check RegNo
         // Start Create RegNo
         let newMatricule  = prevMatricule + 1
@@ -102,7 +102,7 @@ const createPayment = async (request, response) => {
 
         // START Create Invoice
         const latestInvoice = await InvoiceModel.findOne({ patient }).sort({ createdAt: -1 })
-        let numInvoice = latestInvoice?.numInvoice || 0
+        let numInvoice = latestInvoice?.numInvoice ?? 0
         if(latestInvoice?.numInvoice) {
           latestInvoice.finish = true
           await latestInvoice.save()
@@ -120,7 +120,7 @@ const createPayment = async (request, response) => {
           }
         }
         const latestFiche = await FicheModel.findOne({ patient }).sort({ createdAt: -1 })
-        let numFiche = latestFiche?.numInvoice || 0
+        let numFiche = latestFiche?.numInvoice ?? 0
         numFiche++
         await FicheModel.create({ doctor, patient, numFiche, LineFiche })
         // END Create Fiche
@@ -145,6 +145,7 @@ const createPayment = async (request, response) => {
       response.status(300).json({ formErrors })
     }
   } catch(err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message })
   }
 }
@@ -163,6 +164,7 @@ const updatePayment = async (request, response) => {
       method = null
     } 
 
+    let invoiceAssur = null
     // Start keep invoice assurance
     let patientInfo   = await PatientModel.findOne({ _id: patient })
 
@@ -174,16 +176,17 @@ const updatePayment = async (request, response) => {
       formErrors.push("Donner la prise en charge")
     } 
     // END keep invoice assurance
-    
-    if(supported.length === 0) {
-      supported = null
-    } else {
-      supported = parseInt(supported) + "/" + new Date().getFullYear()
-      if(!invoiceAssurance) {
-        formErrors.push("Le patient est assuré par une societe que vous n'avez pas encore creer sa facture")
-        formErrors.push("Veuillez creer une facture pour cette societe d'assurance")
+    if(Object.assign(assurance).length > 0) {
+      if(supported?.length === 0) {
+        supported = null
       } else {
-        invoiceAssur = invoiceAssurance._id
+        supported = parseInt(supported) + "/" + new Date().getFullYear()
+        if(!invoiceAssurance) {
+          formErrors.push("Le patient est assuré par une societe que vous n'avez pas encore creer sa facture")
+          formErrors.push("Veuillez creer une facture pour cette societe d'assurance")
+        } else {
+          invoiceAssur = invoiceAssurance._id
+        }
       }
     }
 

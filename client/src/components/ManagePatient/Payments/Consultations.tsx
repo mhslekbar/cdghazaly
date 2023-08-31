@@ -11,6 +11,9 @@ import {
   ShowPaymentsContext,
 } from "./types";
 import { formatDate } from "../../../functions/functions";
+import HeaderInvoice from "../HeaderInvoice";
+import { useParams } from "react-router";
+import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 
 const Consultations: React.FC = () => {
   const { payments } = useSelector((state: State) => state.payments);
@@ -55,6 +58,9 @@ const Consultations: React.FC = () => {
     setSelectedPayment(payment);
   };
 
+  const { patients } = useSelector((state: State) => state.patients)
+  const { patientId } = useParams()
+
   return (
     <>
       {filteredCons.length > 0 && (
@@ -64,25 +70,26 @@ const Consultations: React.FC = () => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-bloc sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
+                  <HeaderInvoice type={`consultation`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
                   <table className="min-w-full text-left text-sm font-light text-center">
-                    <thead className="border-b font-medium bg-main text-white">
+                    <thead className="border border-gray-950 font-medium bg-white text-black">
                       <tr>
-                        <th className="py-1 border-r">Date</th>
-                        <th className="py-1 border-r">Montant</th>
-                        <th className="py-1 print:hidden">Actions</th>
+                        <th className="py-1 border-r border-gray-950">Date</th>
+                        <th className="py-1 border-r border-gray-950">Montant</th>
+                        <th className="py-1 print:hidden border-r border-gray-950">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filteredCons
                         .map((payment: PaymentInterface, index) => (
-                          <tr className="border-b" key={index}>
-                            <td className="whitespace-nowrap py-1 border-r bg-white font-medium">
+                          <tr className="border-b border-l border-gray-950" key={index}>
+                            <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
                               {formatDate(payment.createdAt)}
                             </td>
-                            <td className="whitespace-nowrap py-1 border-r bg-white font-medium">
+                            <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
                               {payment.amount}
                             </td>
-                            <td className="bg-white h-full print:hidden">
+                            <td className="bg-white h-full print:hidden border-r border-gray-950">
                               <div className="flex justify-center">
                                 <FaEdit
                                   className="text-blue"
@@ -102,13 +109,15 @@ const Consultations: React.FC = () => {
                             </td>
                           </tr>
                         ))}
+                    </tbody>
+                    <tfoot>
                       <tr className="font-bold">
-                        <td className="text-end px-2">
+                        <td className="text-end px-2 border print:border-gray-950">
                           Total:
                         </td>
-                        <td>{totalPayments}</td>
+                        <td className="border print:border-gray-950">{totalPayments}</td>
                       </tr>
-                    </tbody>
+                    </tfoot>
                   </table>
                 </div>
               </div>

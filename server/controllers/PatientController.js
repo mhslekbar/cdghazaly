@@ -144,10 +144,10 @@ const updatePatient = async (request, response) => {
     }
 
     if (assure) {
-      if (assurance.society.length === 0) {
+      if (assurance.society?.length === 0) {
         formErrors.push("Choisir societe d'assurance.");
       }
-      if (assurance.professionalId.length === 0) {
+      if (assurance.professionalId?.length === 0) {
         formErrors.push("Donner le matricule.");
       }
       if (supported?.length === 0) {
@@ -162,7 +162,7 @@ const updatePatient = async (request, response) => {
         const societyInfo = await AssuranceModel.findOne({
           _id: assurance.society,
         });
-        cons_price = societyInfo.cons_price;
+        cons_price = societyInfo.cons_price ?? paymentInfo.amount;
         supported = supported + "/" + new Date().getUTCFullYear();
       }
     } else {

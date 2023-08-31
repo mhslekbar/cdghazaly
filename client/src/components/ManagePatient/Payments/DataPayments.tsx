@@ -16,6 +16,9 @@ import {
 } from "./types";
 import { DevisInterface, LineDevisType } from "../Devis/types";
 import { formatDate } from "../../../functions/functions";
+import HeaderInvoice from "../HeaderInvoice";
+import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
+import { useParams } from "react-router";
 
 const DataPayments: React.FC = () => {
   const { payments } = useSelector((state: State) => state.payments);
@@ -71,6 +74,9 @@ const DataPayments: React.FC = () => {
     setSelectedPayment(payment);
   };
 
+  const { patientId } = useParams()
+  const { patients } = useSelector((state: State) => state.patients)
+
   return (
     <>
       {payments
@@ -85,12 +91,13 @@ const DataPayments: React.FC = () => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-bloc sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
+                  <HeaderInvoice type={`versement`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
                   <table className="min-w-full text-left text-sm font-light text-center">
-                    <thead className="border-b font-medium bg-main text-white">
+                    <thead className="border border-gray-950 font-medium bg-white text-black">
                       <tr>
-                        <th className="py-1 border-r">Status</th>
-                        <th className="py-1 border-r">Date</th>
-                        <th className="py-1 border-r">Montant</th>
+                        <th className="py-1 border-r border-gray-950">Status</th>
+                        <th className="py-1 border-r border-gray-950">Date</th>
+                        <th className="py-1 border-r border-gray-950">Montant</th>
                         <th className="py-1 print:hidden">Actions</th>
                       </tr>
                     </thead>
@@ -101,8 +108,8 @@ const DataPayments: React.FC = () => {
                             payment.type === EnumTypePayment.PAYMENT
                         )
                         .map((payment: PaymentInterface, index) => (
-                          <tr className="border-b" key={index}>
-                            <td className="whitespace-nowrap py-1 border-r bg-white font-medium flex justify-center">
+                          <tr className="border-b border-l border-gray-950" key={index}>
+                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium flex justify-center">
                               {payment.amount > 0 ? (
                                 <FaArrowCircleRight
                                   className="text-main"
@@ -119,13 +126,13 @@ const DataPayments: React.FC = () => {
                                 />
                               )}
                             </td>
-                            <td className="whitespace-nowrap py-1 border-r bg-white font-medium">
+                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
                               {formatDate(payment.createdAt)}
                             </td>
-                            <td className="whitespace-nowrap py-1 border-r bg-white font-medium">
+                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
                               {payment.amount}
                             </td>
-                            <td className="bg-white h-full print:hidden">
+                            <td className="bg-white h-full print:hidden border-r border-gray-950">
                               <div className="flex justify-center">
                                 <FaEdit
                                   className="text-blue"

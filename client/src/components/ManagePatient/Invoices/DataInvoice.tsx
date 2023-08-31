@@ -11,6 +11,7 @@ import FilterTypeInvoice from "./FilterTypeInvoice";
 import { useParams } from "react-router";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import TotalFacture from "./TotalFacture";
+import HeaderInvoice from "../HeaderInvoice";
 
 const DataInvoice: React.FC = () => {
   const { invoices } = useSelector((state: State) => state.invoices);
@@ -41,15 +42,16 @@ const DataInvoice: React.FC = () => {
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <div className="overflow-hidden">
+                <HeaderInvoice type={`Facture N-${selectedInvoice.numInvoice}`} PatientInfo={patientInfo}/>            
                 <table className="min-w-full text-left text-sm font-light text-center">
-                  <thead className="border-b font-medium bg-main text-white">
+                  <thead className="border font-medium bg-white text-black border-gray-950">
                     <tr>
-                      <th className="px-3 py-2 border-r">Traitment</th>
-                      <th className="px-3 py-2 border-r">Dents</th>
-                      <th className="px-3 py-2 border-r">Surface</th>
-                      <th className="px-3 py-2 border-r">NBS</th>
-                      <th className="px-3 py-2 border-r">Prix</th>
-                      <th className="px-3 py-2 border-r">total</th>
+                      <th className="px-3 py-2 border-r border-gray-950">Traitment</th>
+                      <th className="px-3 py-2 border-r border-gray-950">Dents</th>
+                      <th className="px-3 py-2 border-r border-gray-950">Surface</th>
+                      <th className="px-3 py-2 border-r border-gray-950">NBS</th>
+                      <th className="px-3 py-2 border-r border-gray-950">Prix</th>
+                      <th className="px-3 py-2 border-r border-gray-950">total</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -67,11 +69,11 @@ const DataInvoice: React.FC = () => {
                       const price = lnInvoice.price
                       const totalPrice = price * lnInvoice.teeth.nums.length
                       return (
-                        <tr className="border-b" key={index}>
-                          <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium text-start">
+                        <tr className="border-b border-l border-gray-950" key={index}>
+                          <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium text-start">
                             {lnInvoice.treatment?.name}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium">
+                          <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
                             {lnInvoice.teeth.nums.map(
                               (num: string, index) =>
                                 num +
@@ -80,27 +82,29 @@ const DataInvoice: React.FC = () => {
                                   : "")
                             )}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium">
+                          <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
                             {lnInvoice.teeth.surface}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium">
+                          <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
                             {lnInvoice.teeth.nums.length}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium">
+                          <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
                             {price}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium">
+                          <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
                             {totalPrice}
                           </td>
                         </tr>
                       )
                     })}
+                  </tbody>
+                  <tfoot>
                     {patientInfo.assurance?.professionalId && typeInvoice === "global" && <>
                       <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé par l'Assurance" paymentType="assurance" />
                       <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé Par le patient" paymentType="patient" />
                     </>}
                     <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Total" paymentType="total" />
-                  </tbody>
+                  </tfoot>
                 </table>
               </div>
             </div>

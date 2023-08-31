@@ -59,24 +59,24 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
 
   return (
     <tr className="text-center">
-    <td colSpan={4}></td>
-    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium">
-      {message + ": "}
-    </td>
-    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium">
-      {paymentType === "assurance" && totalAssurance}
-      {paymentType === "patient" && Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance)} {/*  + Number(totalAssuranceNoPercent - totalAssurance) */}
-      {paymentType === "total" ?
-        typeInvoice === "assuré" ?
-          totalAssurance
-        : 
-          typeInvoice === "cabinet" ? 
-            Number(totalPatient)  // + Number(totalAssuranceNoPercent - totalAssurance)
-          : Number(totalAssurance) + Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance)
-        : ""
-      }
-    </td>
-  </tr>
+      <td colSpan={4}></td>
+      <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
+        {message + ": "}
+      </td>
+      <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
+        {paymentType === "assurance" && totalAssurance}
+        {paymentType === "patient" && Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance)} {/*  + Number(totalAssuranceNoPercent - totalAssurance) */}
+        {paymentType === "total" ?
+          typeInvoice === "assuré" ?
+            totalAssurance
+          : 
+            typeInvoice === "cabinet" ? 
+              Number(totalPatient)  // + Number(totalAssuranceNoPercent - totalAssurance)
+            : Number(totalAssurance) + Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance)
+          : ""
+        }
+      </td>
+    </tr>
   )
 }
 
