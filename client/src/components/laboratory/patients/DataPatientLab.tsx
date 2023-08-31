@@ -31,12 +31,12 @@ const DataPatientLab:React.FC = () => {
             <table className="min-w-full text-left text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
-                  <th className="px-6 py-4 border-r">Doss.NO</th>
-                  <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">Traitement</th>
-                  <th className="px-6 py-4 border-r">Dents</th>
-                  <th className="px-6 py-4 border-r">Date D'empreinte</th>
-                  <th className="px-6 py-4 border-r">Date RDV</th>
+                  <th className="p-3 border-r">Doss.NO</th>
+                  <th className="p-3 border-r">Nom</th>
+                  <th className="p-3 border-r">Traitement</th>
+                  <th className="p-3 border-r">Dents</th>
+                  <th className="p-3 border-r">Date D'empreinte</th>
+                  <th className="p-3 border-r">Date RDV</th>
                   {!typePatientLab && <th className="px-6 py-4 border-r">Terminer</th>}
                 </tr>
               </thead>

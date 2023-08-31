@@ -2,8 +2,7 @@ import React, { useContext, useState } from "react";
 import {
   DataTreatmentContext,
   TreatmentType,
-  careTypeInterface,
-  defaultcareTypeInterface,
+  careTypeInterface
 } from "./types";
 import InputsTreatment from "./forms/InputsTreatment";
 import { Timeout, hideMsg } from "../../functions/functions";
@@ -46,7 +45,7 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
       if(typeof response === "boolean") {
         setTreatment("")
         setPrice("")
-        setTreatmentType(defaultcareTypeInterface)
+        setTreatmentType(treatmentType)
         toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)

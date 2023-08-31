@@ -19,7 +19,7 @@ const TypeStatistics: React.FC = () => {
 
   return (
     <>
-    <section className="grid grid-cols-4 gap-2 mt-3">
+    <section className="grid xs:grid-cols-1 md:grid-cols-4 gap-2 mt-3">
       <div className={`${location.pathname.split("/")[3] === "payments" ? "bg-main" : ""} px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("payments")}>
         Versement
       </div>

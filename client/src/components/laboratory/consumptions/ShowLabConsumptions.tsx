@@ -33,11 +33,11 @@ const ShowLabConsumptions:React.FC = () => {
               <table className="min-w-full text-left text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>
-                    <th className="px-6 py-4 border-r">Patient</th>
-                    <th className="px-6 py-4 border-r">Traitement</th>
-                    <th className="px-6 py-4 border-r">Dents</th>
-                    <th className="px-6 py-4 border-r">Prix du lab</th>
-                    <th className="px-6 py-4">Total</th>
+                    <th className="px-3 py-2 border-r">Patient</th>
+                    <th className="px-3 py-2 border-r">Traitement</th>
+                    <th className="px-3 py-2 border-r">Dents</th>
+                    <th className="px-3 py-2 border-r">Prix du lab</th>
+                    <th className="px-3 py-2">Total</th>
                   </tr>
                 </thead>
                 <tbody>

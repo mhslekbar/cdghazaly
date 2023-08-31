@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import { DataTreatmentContext, careTypeInterface, defaultcareTypeInterface } from './types';
 import InputsTreatment from './forms/InputsTreatment';
@@ -17,7 +17,12 @@ const AddTreatment:React.FC = () => {
   const [treatmentType, setTreatmentType] = useState<careTypeInterface>(defaultcareTypeInterface)
   const [errors, setErrors] = useState<string[]>([]);
 
-  const { setShowSuccessMsg, setSelectedType } = useContext(ShowTreatmentContext)
+  const { setShowSuccessMsg, setSelectedType, selectedType } = useContext(ShowTreatmentContext)
+
+  useEffect(() => {
+    setTreatmentType(selectedType)
+  }, [selectedType])
+
 
   const dispatch = useDispatch()
   
@@ -34,7 +39,7 @@ const AddTreatment:React.FC = () => {
       if(typeof response === "boolean") {
         setTreatment("")
         setPrice("")
-        setTreatmentType(defaultcareTypeInterface)
+        setTreatmentType(selectedType)
         toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)

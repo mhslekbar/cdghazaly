@@ -15,9 +15,9 @@ const CareTypes:React.FC = () => {
   ]
 
   return (
-    <div className='bg-white grid grid-cols-6 rounded border shadow mt-2 font-bold text-center'>
+    <div className='bg-white grid xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 rounded border shadow mt-2 md:font-bold xs:font-normal text-center'>
       {types.map((type: careTypeInterface, index) => (
-        <span key={index} className={`px-4 py-2 border-r ${selectedType.name === type.name ? "bg-main" : ""}`} onClick={() => setSelectedType(type)}>{type.name}</span>
+        <span key={index} className={`px-4 py-2 xs:text-xs md:text-md border-r border-b ${selectedType.name === type.name ? "bg-main" : ""}`} onClick={() => setSelectedType(type)}>{type.name}</span>
       ))}
     </div>
   )

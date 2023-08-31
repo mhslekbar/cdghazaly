@@ -92,29 +92,25 @@ const InvoicesAssurance: React.FC = () => {
             )
             .map((invoice: InvoicesAssuranceInterface) => (
               <div
-                className={`${invoice?._id === selectedInvoice?._id ? "border-b-4 border-main" : ""} rounded bg-white px-4 py-2 uppercase w-1/6 flex justify-between`}
+                className={`${invoice?._id === selectedInvoice?._id ? "border-b-4 border-main" : ""} rounded bg-white px-4 py-2 w-1/6 flex justify-between`}
                 onClick={() => {
                   setSelectedInvoice(invoice)
                 }}
                 key={invoice._id}
               >
-                <span className="flex justify-center items-center gap-1">                 
-                Facture-{invoice.numInvoice}</span>
+                <span className="flex justify-center items-center gap-1 xs:text-xs md:text-md">                 
+                  Facture-{invoice.numInvoice}
+                </span>
                 {(!invoice.finish) && 
                   <MdRemoveCircleOutline
                     onClick={() => handleShowDeleteInvoice(invoice)}
-                    className="text-red"
-                    style={{
-                      fontSize: "22px",
-                    }}
+                    className="text-red xs:text-md md:text-xl"
                   />
                 }
                 {!invoice.payed && 
                   <button className="bg-blue rounded-lg border" onClick={() => handleShowPayInvoice(invoice)}>
                     <MdAttachMoney 
-                      style={{
-                        fontSize: "22px",
-                      }}
+                      className="xs:text-md md:text-xl"
                     />
                   </button>
                 }

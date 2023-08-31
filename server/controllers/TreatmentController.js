@@ -10,14 +10,14 @@ const getTreatments = async (req, res) => {
         treatments = await TreatmentModel.find({
           name: { $regex: new RegExp("^" + treat, "i") },
           assurance
-        }).sort({ name: 1 })
+        }).populate("assurance").sort({ name: 1 })
       } else {
         treatments = await TreatmentModel.find({
           name: { $regex: new RegExp("^" + treat, "i") }
-        }).sort({ name: 1 })
+        }).populate("assurance").sort({ name: 1 })
       }
     } else {
-      treatments = await TreatmentModel.find().sort({ name: 1 })
+      treatments = await TreatmentModel.find().populate("assurance").sort({ name: 1 })
     }
     res.status(200).json({ success: treatments })
   } catch(err) {
@@ -27,12 +27,21 @@ const getTreatments = async (req, res) => {
 
 const createTreatment = async (req, res) => {
   try {
-    const { name, type, price } = req.body
+    const { name, type, price, assurance } = req.body
+
     const formErrors = []
-    const checkTreatment = await TreatmentModel.findOne({ name })
-    if(checkTreatment) {
-      formErrors.push("Traitement Existe deja")
+    const checkTreatment = await TreatmentModel.find({ name })
+
+    if(checkTreatment.length > 0) {
+      if(assurance) {
+        if(checkTreatment.find(check => check.assurance?.equals(assurance))) {
+          formErrors.push("Traitement deja assuré")          
+        }
+      } else {
+        formErrors.push("Traitement deja existe")
+      }
     }
+    
     if(name.length === 0) {
       formErrors.push("Le nom du traitement est obligatoire")
     }
@@ -57,12 +66,22 @@ const updateTreatment = async (req, res) => {
   try {
     const { id } = req.params
     const treatData = await TreatmentModel.findOne({ _id: id })
-    const { name, type, price } = req.body
+    const { name, type, price, assurance } = req.body
     const formErrors = []
-    const checkTreatment = await TreatmentModel.findOne({ _id: {$ne: id},  name })
-    if(checkTreatment) {
-      formErrors.push("Traitement Existe deja")
+    
+    const checkTreatment = await TreatmentModel.find({ _id: {$ne: id},  name })
+    // const checkTreatment = await TreatmentModel.find({ name })
+
+    if(checkTreatment.length > 0) {
+      if(assurance) {
+        if(checkTreatment.find(check => check.assurance?.equals(assurance))) {
+          formErrors.push("Traitement deja assuré")          
+        }
+      } else {
+        formErrors.push("Traitement deja existe")
+      }
     }
+
     if(name.length === 0) {
       name = treatData.name
     }

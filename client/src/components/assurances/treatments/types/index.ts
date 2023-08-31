@@ -1,4 +1,5 @@
 import { createContext } from "react"
+import { AssuranceInterface, DefaultAssuranceInterface } from "../../types"
 
 
 export interface DataTreatmentInterface {
@@ -22,7 +23,7 @@ export type TreatmentType = {
   name: string,
   type: string,
   price: string,
-  assurance: string
+  assurance: AssuranceInterface
 }
 
 export const DefaultTreatmentType = {
@@ -30,6 +31,6 @@ export const DefaultTreatmentType = {
   name: "",
   type: "",
   price: "",
-  assurance: ""
+  assurance: DefaultAssuranceInterface
 }
 

@@ -33,7 +33,9 @@ const TreatmentTable:React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {treatments.filter((treat: TreatmentType) => treat.type === selectedType.type).map((treatment: TreatmentType, index) => (
+                {treatments
+                  .filter((treat: TreatmentType) => !treat.assurance?._id && treat.type === selectedType.type)
+                  .map((treatment: TreatmentType, index) => (
                   <tr className="border-b" key={index}>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {treatment.name}

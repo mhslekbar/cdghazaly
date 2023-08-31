@@ -26,25 +26,29 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
   const { userData } = useSelector((state: State) => state.login)
 
   return (
-    <header className="bg-main p-4 mx-auto grid xs:grid-cols-1 lg:grid-cols-4">
-      <div className="flex items-start">
+    <header className="bg-main p-4 mx-auto flex justify-between items-center">
+      {/* Left section */}
+      <div>
         <button
           className={`bg-[#FFF] text-main 
               hover:bg-[#00b894] hover:text-[#FFF]
               border-2 border-[#FFF]
               font-bold py-2 px-4 rounded
-              uppercase
             `}
           onClick={toggleOffcanvas}
         >
-         {userData?.username} 
+          {userData?.username}
         </button>
       </div>
-      <h1 className="text-white text-3xl font-bold col-span-2 col-start-2 text-center uppercase">
+
+      {/* Middle section */}
+      <h1 className="text-white lg:text-2xl font-bold col-span-2 col-start-2 text-center uppercase">
         Atlas Software
       </h1>
-      <div className="flex items-center justify-end">
-        <AiOutlinePoweroff className="text-red font-bold text-3xl mr-2" onClick={handleLogout}/>
+
+      {/* Right section */}
+      <div className="flex items-center">
+        <AiOutlinePoweroff className="text-red font-bold text-3xl mr-2" onClick={handleLogout} />
       </div>
     </header>
   );
