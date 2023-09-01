@@ -154,7 +154,7 @@ const updatePayment = async (request, response) => {
   try {
     // versement
     const { id } = request.params
-    let { user, doctor, patient, amount, type, method, supported } = request.body
+    let { user, doctor, patient, amount, type, method, supported, createdAt } = request.body
     const formErrors = []
     const paymentInfo = await PaymentModel.findOne({_id: id})
     if(amount.length === 0 || amount === 0) {
@@ -198,14 +198,13 @@ const updatePayment = async (request, response) => {
         patientInfo.balance = newBalance
         await patientInfo.save()
       }
-      await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported })
+      await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported, createdAt })
       request.query.patient = patient
       await getPayments(request, response)
     } else {
       response.status(300).json({ formErrors })
     }
   } catch(err) {
-    console.log("err: ", err)
     response.status(500).json({ err: err.message })
   }
 }

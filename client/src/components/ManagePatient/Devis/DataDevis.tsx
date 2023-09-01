@@ -62,7 +62,7 @@ const DataDevis: React.FC = () => {
                     <td className="whitespace-nowrap px-3 py-2 border-r bg-white text-start font-medium border-gray-950">
                       {lnDevis.treatment?.name}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
+                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950" style={{ maxWidth: "150px",  whiteSpace: "normal" }} >
                       {lnDevis.teeth.nums.map((num: string, index) => num + (index < lnDevis.teeth.nums.length - 1 ? ", " : ""))}
                     </td>
                     <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">

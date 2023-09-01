@@ -44,11 +44,17 @@ const DataPayments: React.FC = () => {
     let sumDevis: number = 0;
     devis.map((dev: DevisInterface) => {
       sumDevis +=
-        dev.LineDevis.reduce(
+        (dev.LineDevis.reduce(
           (acc: number, currVal: LineDevisType) =>
             Number(acc) + Number(currVal.price * currVal.teeth.nums.length),
           0
-        ) - dev.reduce;
+        )) 
+        - 
+        (dev.LineDevis.reduce(
+          (acc: number, currVal: LineDevisType) =>
+            Number(acc) + Number(currVal.price * currVal.teeth.nums.length),
+          0
+        ) * (dev.reduce / 100));
       return sumDevis;
     });
     setTotalDevis(sumDevis);

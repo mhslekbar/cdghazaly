@@ -268,15 +268,6 @@ mkdir /var/www/cdghazaly/client
 cp -r build/* /var/www/cdghazaly/client
 ```
 
-```
-##### START to do this for best one
-rm -rf /var/www/cdghazaly/*
-mkdir /var/www/cdghazaly/client
-cp -r build/* /var/www/cdghazaly/client
-##### END to do this for best one
-```
-
-
 Let's make some server configuration
 ```
 location / {
@@ -359,6 +350,25 @@ systemctl status certbot.timer
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+```
+##### START to do this for best one
+rm -rf /var/www/cdghazaly/*
+mkdir /var/www/cdghazaly/client
+cp -r build/* /var/www/cdghazaly/client
+##### END to do this for best one
+```
 
 ```
 restart the server
