@@ -55,11 +55,7 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
       )}
 
       <SearchPatient />
-      {(permissions.find(
-        (permission: PermissionType) =>
-          permission.name === "AFFICHER" &&
-          permission.collectionName === "STATISTIQUES_FINANCIERES"
-      ) || (
+      {(
         permissions.find(
           (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
@@ -79,11 +75,16 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
           FromHomePage={{ className }}
           nestedLink="payments"
         /> :
+        permissions.find(
+          (permission: PermissionType) =>
+            permission.name === "AFFICHER" &&
+            permission.collectionName === "STATISTIQUES_FINANCIERES"
+        ) &&
         <div className={className} onClick={() => navigate(`/statistics/${UserData()?._id}/payments`)}>
           <FaCalendarCheck className="mb-3 text-4xl" />
           Statistiques Financiéres
         </div>
-      )}
+      }
     </section>
   )
 }
