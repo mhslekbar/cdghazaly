@@ -63,11 +63,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           Utilisateurs
         </div>
       )}
-      {(permissions.find(
-        (permission: PermissionType) =>
-          permission.name === "AFFICHER" &&
-          permission.collectionName === "CONSOMMABLES"
-      ) || (
+      {((
         permissions.find(
           (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
@@ -87,6 +83,11 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           FromHomePage={{ className }}
           nestedLink="consumptions"
         /> : 
+        permissions.find(
+          (permission: PermissionType) =>
+            permission.name === "AFFICHER" &&
+            permission.collectionName === "CONSOMMABLES"
+        ) &&
         <div className={className} onClick={() => navigate(`/Consumables/${UserData()._id}/consumptions`)}>
           <BsCart4 className="mb-3 text-4xl" />
           Consommables

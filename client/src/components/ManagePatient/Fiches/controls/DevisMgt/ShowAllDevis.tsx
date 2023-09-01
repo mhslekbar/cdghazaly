@@ -93,7 +93,7 @@ const ShowAllDevis: React.FC<ShowAllDevisInterface> = ({ modal, toggle }) => {
               <div
                 className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg"
                 style={{
-                  minWidth: "800px",
+                  minWidth: "1000px",
                 }}
               >
                 <div className="mt-3">

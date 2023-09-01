@@ -50,8 +50,8 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
   }, [TeethBoardData, TypeTeethBoard])
 
   useEffect(() => {
-    setPrice(Number(selectedTreat.price))
-  }, [selectedTreat, setPrice])
+    TypeTeethBoard !== EnumTypeTeethBoard.APPEND_TEETH_FICHE && setPrice(Number(selectedTreat.price))
+  }, [selectedTreat, setPrice, TypeTeethBoard])
 
   useEffect(() => {
     const doctorData = UserData().doctor.cabinet
