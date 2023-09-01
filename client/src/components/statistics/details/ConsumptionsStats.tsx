@@ -36,8 +36,8 @@ const ConsumptionStats:React.FC = () => {
   return (
   <tr className=''>
     <td colSpan={2}></td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">Consommations</td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">Consommations</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">
       {sumConsumptions}
     </td>
   </tr>

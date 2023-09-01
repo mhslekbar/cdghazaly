@@ -23,16 +23,12 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
 
   return (
     <section className="grid grid-cols-3 gap-2 mt-3">
-      {(permissions.find(
-        (permission: PermissionType) =>
-          permission.name === "AFFICHER" &&
-          permission.collectionName === "RDV"
-      ) || (
+      {(
         permissions.find(
           (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "RDV"
-        )) ?           
+        ) ?           
         <DropdownDoctor
           linkList={listDoctors}
           openDropdown={openDropdown}
@@ -47,6 +43,11 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
           FromHomePage={{ className }}
         />
         :
+        (permissions.find(
+          (permission: PermissionType) =>
+            permission.name === "AFFICHER" &&
+            permission.collectionName === "RDV"
+        )) &&
         <div className={className} onClick={() => navigate(`/appointments/${UserData()?._id}`)}>
           <FaCalendarCheck className="mb-3 text-4xl" />
           Rendez-Vous

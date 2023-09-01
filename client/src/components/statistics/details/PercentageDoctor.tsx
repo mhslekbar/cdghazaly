@@ -7,8 +7,8 @@ const PercentageDoctor:React.FC = () => {
   return (
   <tr className=''>
     <td colSpan={2}></td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">{userData.doctor?.percentage + "%"}</td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">{(Remain * Number(userData.doctor?.percentage || 0) / 100)}</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">{userData.doctor?.percentage + "%"}</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">{(Remain * Number(userData.doctor?.percentage || 0) / 100)}</td>
   </tr>
   )
 }

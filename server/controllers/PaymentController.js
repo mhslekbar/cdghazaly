@@ -198,6 +198,12 @@ const updatePayment = async (request, response) => {
         patientInfo.balance = newBalance
         await patientInfo.save()
       }
+      
+      createdAt = new Date(createdAt)
+      createdAt.setHours(new Date().getHours())
+      createdAt.setMinutes(new Date().getMinutes())
+      createdAt.setSeconds(new Date().getSeconds())
+
       await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported, createdAt })
       request.query.patient = patient
       await getPayments(request, response)

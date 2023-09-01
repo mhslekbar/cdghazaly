@@ -27,21 +27,22 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
   const location = useLocation()
 
   const filteredPayment = paymentFilter === "payment" ? EnumTypePayment.PAYMENT : EnumTypePayment.SOINS
+  
   return (
     <div className="col-span-2 flex flex-col border">
     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
         <div className="overflow-hidden">
           <table className="min-w-full text-left text-sm font-light text-center">
-            <thead className="border-b font-medium bg-main text-white">
+            <thead className="border border-gray-950 font-medium bg-main text-white">
               <tr>
-                <th className="px-6 py-4 border-r">Doss.No</th>
-                <th className="px-6 py-4 border-r">Nom</th>
-                <th className="px-6 py-4 border-r">Consultation</th>
+                <th className="px-6 py-4 border-r border-gray-950">Doss.No</th>
+                <th className="px-6 py-4 border-r border-gray-950">Nom</th>
+                <th className="px-6 py-4 border-r border-gray-950">Consultation</th>
                 <th className="px-6 py-4">{paymentFilter === "payment" ? "Versement" : paymentFilter === "soins" ?  "soins" : ""}</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='border border-gray-950'>
               {
                 filterSpecificDate(
                   payments, day, month, showSwitchDate, startDate, endDate, selectedDate
@@ -57,51 +58,41 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                   sumCons += payment.type === EnumTypePayment.CONSULTATION ? payment.amount : 0
                   sumPayment += payment.type === filteredPayment ? payment.amount : 0
                   return (
-                    <tr className="border-b" key={index}>
-                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                    <tr className="border-b border-gray-950" key={index}>
+                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
                         {payment.patient?.RegNo
                           ? RegNo(payment.patient?.RegNo)
                           : "0000"}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
                         {payment.patient?.name}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                        {payment.type === EnumTypePayment.CONSULTATION &&
-                          payment.amount}
+                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                        {payment.type === EnumTypePayment.CONSULTATION && payment.amount}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                        {payment.type === filteredPayment &&
-                          payment.amount}
+                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                        {payment.type === filteredPayment && payment.amount}
                       </td>
                     </tr>
                   );
                 })}
-                {
-                // filterSpecificDate(
-                //   payments, day, month, showSwitchDate, startDate, endDate, selectedDate
-                // )
-                // ?.filter(
-                //   (payment: PaymentInterface) => 
-                //   payment.doctor._id === doctorId 
-                //   && (payment.type === paymentFilter || payment.type === "consultations")
-                //   && (payment.invoiceAssur ? payment.invoiceAssur?.payed : payment)
-                // )?.length >= 0 && 
-                <>
-                  <TotalAmount sumPayment={sumPayment} sumCons={sumCons} />
-                  <ConsoLab />
-                  <RemainAmount />
-                  {location.pathname.split("/")[3] === "payments" && day.toString() === "jour" && month.toString() !== "mois" &&
-                    <>
-                      <PercentageDoctor />
-                      <PercentageCabinet />
-                      <PurchaseOrderStats />
-                      <ConsumptionStats />
-                      <TotalRemainStats />
-                    </>
-                  }
-                </>}
             </tbody>
+            <tfoot>
+            {<>
+              <TotalAmount sumPayment={sumPayment} sumCons={sumCons} />
+              <ConsoLab />
+              <RemainAmount />
+              {location.pathname.split("/")[3] === "payments" && day.toString() === "jour" && month.toString() !== "mois" &&
+                <>
+                  <PercentageDoctor />
+                  <PercentageCabinet />
+                  <PurchaseOrderStats />
+                  <ConsumptionStats />
+                  <TotalRemainStats />
+                </>
+              }
+            </>}
+            </tfoot>
           </table>
         </div>
       </div>

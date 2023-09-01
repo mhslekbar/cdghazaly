@@ -50,7 +50,7 @@ const DataInvoice: React.FC = () => {
                       <th className="px-3 py-2 border-r border-gray-950">Dents</th>
                       <th className="px-3 py-2 border-r border-gray-950">Surface</th>
                       <th className="px-3 py-2 border-r border-gray-950">NBS</th>
-                      <th className="px-3 py-2 border-r border-gray-950">Prix</th>
+                      <th className="px-3 py-2 border-r border-gray-950">Prix.U</th>
                       <th className="px-3 py-2 border-r border-gray-950">total</th>
                     </tr>
                   </thead>
@@ -73,7 +73,7 @@ const DataInvoice: React.FC = () => {
                           <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium text-start">
                             {lnInvoice.treatment?.name}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
+                          <td className="whitespace-normal px-3 py-2 border-r border-gray-950 bg-white font-medium w-36 whitesp">
                             {lnInvoice.teeth.nums.map(
                               (num: string, index) =>
                                 num +

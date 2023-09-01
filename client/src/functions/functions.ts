@@ -15,17 +15,35 @@ export const filterSpecificDate = (MyArray: any[], day: number, month: number, s
       if (day.toString() === "jour" && month.toString() !== "mois") {
         const startDate = new Date(selectedDate);
         startDate.setDate(1);
+        // I did this to prevent any errors with time
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        
         const endDate = new Date(selectedDate);
         endDate.setDate(31);
+        // I did this to prevent any errors with time
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(0);
         return consumptionDate >= startDate && consumptionDate <= endDate;
       }
       if (month.toString() === "mois") {
         const startDate = new Date(selectedDate);
         startDate.setDate(1);
         startDate.setMonth(0);
+        // I did this to prevent any errors with time
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        
         const endDate = new Date(selectedDate);
         endDate.setDate(31);
-        endDate.setMonth(11);          
+        endDate.setMonth(11);
+        // I did this to prevent any errors with time
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(0);
         return consumptionDate >= startDate && consumptionDate <= endDate;
       }
       const selectedDateFormatted = formatDate(selectedDate.toString());

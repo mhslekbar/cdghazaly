@@ -52,7 +52,7 @@ const DataDevis: React.FC = () => {
                   <th className="px-3 py-2 border-r border-gray-950">Dents</th>
                   <th className="px-3 py-2 border-r border-gray-950">Surface</th>
                   <th className="px-3 py-2 border-r border-gray-950">NBS</th>
-                  <th className="px-3 py-2 border-r border-gray-950">Price</th>
+                  <th className="px-3 py-2 border-r border-gray-950">Prix.U</th>
                   <th className="px-3 py-2 border-r border-gray-950">total</th>
                 </tr>
               </thead>
@@ -62,7 +62,7 @@ const DataDevis: React.FC = () => {
                     <td className="whitespace-nowrap px-3 py-2 border-r bg-white text-start font-medium border-gray-950">
                       {lnDevis.treatment?.name}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950" style={{ maxWidth: "150px",  whiteSpace: "normal" }} >
+                    <td className="px-3 py-2 border-r bg-white font-medium border-gray-950 whitespace-normal w-36"> {/* style={{ maxWidth: "150px",  whiteSpace: "normal" }}  */}
                       {lnDevis.teeth.nums.map((num: string, index) => num + (index < lnDevis.teeth.nums.length - 1 ? ", " : ""))}
                     </td>
                     <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">

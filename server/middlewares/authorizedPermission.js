@@ -21,7 +21,7 @@ const authorizedPermission = (permission = [], collectionName) => {
     } else {
       return res
         .status(300)
-        .json(`Vous n'etes pas autoriser à : ${permission[0].toLowerCase()} `); // ${collectionName.toLowerCase()}
+        .json(`Vous n'etes pas autoriser à : ${permission[0].toLowerCase()} ${collectionName.toLowerCase()}`); // 
     }
   };
 };

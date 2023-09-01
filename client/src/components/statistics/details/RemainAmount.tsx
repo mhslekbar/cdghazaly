@@ -6,8 +6,8 @@ const RemainAmount:React.FC = () => {
   return (
   <tr className=''>
     <td colSpan={2}></td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">Reste</td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">{sumTotalAmount - sumConsoLab}</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">Reste</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">{sumTotalAmount - sumConsoLab}</td>
   </tr>
   )
 }

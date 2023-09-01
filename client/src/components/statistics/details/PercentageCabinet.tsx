@@ -16,8 +16,8 @@ const PercentageCabinet:React.FC = () => {
   return (
   <tr className=''>
     <td colSpan={2}></td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">{100 - Number(userData.doctor?.percentage) + "%"}</td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">{(Remain * (100 - Number(userData.doctor?.percentage || 0)) / 100)}</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">{100 - Number(userData.doctor?.percentage) + "%"}</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">{(Remain * (100 - Number(userData.doctor?.percentage || 0)) / 100)}</td>
   </tr>
   )
 }
