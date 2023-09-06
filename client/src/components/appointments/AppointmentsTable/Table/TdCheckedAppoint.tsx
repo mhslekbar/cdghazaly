@@ -49,7 +49,7 @@ const TdCheckedAppoint:React.FC<TdCheckedAppointInterface> = ({ day, findDate, t
           localStorage.setItem("patientMgtPrevLink", location.pathname)
           navigate(`/patient/${doctorId}/${findDate.patient._id}/Manage/devis`)
         }}
-      >{findDate.patient.name}</span>
+      >{findDate.patient.name?.slice(0, 12) ?? ""}</span>
       <span className="block">{findDate.patient.contact?.phone}</span>
       <span className="block">{tdTime}</span>
     </td>

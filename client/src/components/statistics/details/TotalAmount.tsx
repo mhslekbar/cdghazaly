@@ -23,8 +23,8 @@ const TotalAmount: React.FC<TotalAmountInterface> = ({
       </tr>
       <tr >
         <td colSpan={2}></td>
-        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">Total</td>
-        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">{sumPayment + +sumCons}</td>
+        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950 bg-main">Total</td>
+        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950 bg-main">{sumPayment + +sumCons}</td>
       </tr>
     </>
   );

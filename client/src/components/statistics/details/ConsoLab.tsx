@@ -43,7 +43,7 @@ const ConsoLab: React.FC = () => {
     }, [day, month, selectedDate, showSwitchDate, startDate, endDate, setSumConsoLab, sumConsoLab, doctorId, consumptionLab])
 
   return (
-    <tr className="">
+    <tr>
       <td colSpan={2}></td>
       <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">
         Lab
