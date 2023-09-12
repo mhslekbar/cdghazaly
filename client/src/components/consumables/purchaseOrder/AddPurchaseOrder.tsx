@@ -19,7 +19,7 @@ const AddPurchaseOrder:React.FC = () => {
   const { suppliers } = useSelector((state: State) => state.suppliers)
 
   useEffect(() => {
-    setSupplier(suppliers[0])
+    setSupplier(suppliers[0] ?? DefaultSupplierInterface)
   }, [suppliers])
 
   const [modal, setModal] = useState(false)
