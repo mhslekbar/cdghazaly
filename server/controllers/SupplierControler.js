@@ -1,5 +1,6 @@
 const SupplierModel = require("../models/SupplierModel")
 const UserModel = require("../models/UserModel")
+const PurchaseOrderModel = require("../models/PurchaseOrderModel")
 
 const getSuppliers = async (req, res) => {
   try {
@@ -78,6 +79,10 @@ const deleteSupplier = async (req, res) => {
     const { id } = req.params
     const formErrors = []
     // start check Supplier has a purchase order
+    const PurchaseOrderInfo = await PurchaseOrderModel.find({ supplier: id })
+    if(PurchaseOrderInfo.length > 0) {
+      formErrors.push("Supprimer tous les bons de commandes de ce fournisseur, pour pouvoir le supprimer.")
+    }
     // end check Supplier has a purchase order
     if(formErrors.length === 0) {
       await SupplierModel.findByIdAndDelete(id)

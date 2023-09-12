@@ -73,10 +73,10 @@ export const EditPatientsApi = (patientId: string, data: {}) => async (dispatch:
   }
 }
 
-export const PassPatientsApi = (patientId: string, doctor: string) => async (dispatch: Dispatch<any>) => {
+export const PassPatientsApi = (patientId: string) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusPatientStart())
-    let response = await post(`patient/passPatient`, { doctor, patient: patientId })
+    let response = await post(`patient/passPatient`, { patient: patientId })
     const resData = response.data.success
     if(resData) {
       dispatch(statusPatientSuccess(resData))

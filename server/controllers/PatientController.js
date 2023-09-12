@@ -229,7 +229,7 @@ const deletePatient = async (request, response) => {
 
 const passPatient = async (request, response) => {
   try {
-    const { patient, doctor } = request.body;
+    const { patient } = request.body;
     let latestPatient = await PatientModel.findOne({
       RegNo: { $ne: null },
     }).sort({ RegNo: -1 });
@@ -239,7 +239,6 @@ const passPatient = async (request, response) => {
     
     let patientInfo = await PatientModel.findOne({ _id: patient });
     patientInfo.RegNo = newMatricule;
-    patientInfo.doctor = doctor;
     patientInfo.save();
     
     // START create A File
@@ -250,7 +249,7 @@ const passPatient = async (request, response) => {
         LineFiche[0].dateAppointment = new Date()
       }
     }
-    await FicheModel.create({ doctor, patient, numFiche: 1, LineFiche });
+    await FicheModel.create({ doctor: patientInfo.doctor, patient, numFiche: 1, LineFiche });
     // END create A File
 
     await getPatients(request, response);

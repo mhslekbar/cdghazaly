@@ -1,14 +1,9 @@
-import React, { FormEvent, useContext, useEffect, useState } from "react";
+import React, { FormEvent, useContext, useState } from "react";
 import ButtonsForm from "../../../HtmlComponents/ButtonsForm";
 import { PatientInterface, ShowPatientsContext } from "../types";
 import { useDispatch } from "react-redux";
 import { Timeout, hideMsg } from "../../../functions/functions";
 import { PassPatientsApi } from "../../../redux/patients/patientApiCalls";
-import { SelectElement } from "../../../HtmlComponents/SelectElement";
-import { useSelector } from "react-redux";
-import { State } from "../../../redux/store";
-import { DefaultUserInterface, UserInterface } from "../../users/types";
-import { useParams } from "react-router";
 
 type PassPatientType = {
   patientData: PatientInterface;
@@ -24,25 +19,11 @@ const PassPatient:React.FC<PassPatientType> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
-  const { users } = useSelector((state: State) => state.users)
-  
-  const [ArrayOfDoctors, setArrayOfDoctors] = useState<UserInterface[]>([DefaultUserInterface])
-  const { doctorId } = useParams()
-
-  useEffect(() => {
-    setArrayOfDoctors(users.filter((user: UserInterface) => user.doctor?.cabinet))
-  }, [users])
-
-  const [doctor, setDoctor] = useState("")
-
-  useEffect(() => {
-    setDoctor(doctorId || "")
-  }, [doctorId])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await dispatch(PassPatientsApi(patientData._id, doctor));
+      const response = await dispatch(PassPatientsApi(patientData._id));
       if (response === true) {
         toggle();
         setShowSuccessMsg(true);
@@ -80,8 +61,6 @@ const PassPatient:React.FC<PassPatientType> = ({
                         </p>
                       ))}
                     <p className="text-gray-700 text-xl">Passer <b>{patientData.name} </b>?</p>
-                    <SelectElement valueType="object" id="doctor" value={doctor} setValue={setDoctor} options={ArrayOfDoctors.map((option: any) => ({...option, name: option.username}))} />
-
                     <ButtonsForm toggle={toggle} typeBtn="Passer" />
                   </form>
                   {/* End Modal Body */}
