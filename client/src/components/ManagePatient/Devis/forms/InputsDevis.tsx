@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DataDevisContext, EnumTypeModal, EnumTypeTeethBoard, ShowDevisInterfaceContext } from "../types";
 import { InputElement } from "../../../../HtmlComponents/InputElement";
-import { get } from "../../../../requestMethods";
 import { TreatmentType } from "../../../treatments/types";
 import TeethBoard from "../controls/TeethBoard";
 import { InputCheckbox } from "../../../../HtmlComponents/InputCheckbox";
@@ -9,6 +8,8 @@ import { useSelector } from "react-redux";
 import { State } from "../../../../redux/store";
 import { DefaultPatientInterface, PatientInterface } from "../../../patients/types";
 import { useParams } from "react-router";
+import { useDispatch } from "react-redux";
+import { ShowTreatmentApi } from "../../../../redux/treatments/treatmentApiCalls";
 
 const InputsDevis: React.FC = () => {
   const { treat, setTreat, reduce, setReduce, setSelectedTeeth, setSelectedTreat, setSelectedSurface, setTypeTeethBoard, TypeModal } = useContext(DataDevisContext);
@@ -25,17 +26,45 @@ const InputsDevis: React.FC = () => {
     setSelectedPatient(patients.find((patient: PatientInterface) => patient._id === patientId) || DefaultPatientInterface)
   }, [patients, patientId])
   
+  const dispatch: any = useDispatch()
+  useEffect(() => {
+    const fetchTreatments = async () => {
+      await dispatch(ShowTreatmentApi())
+    }
+    fetchTreatments()
+  }, [dispatch])
+
+  const { treatments } = useSelector((state: State) => state.treatments)
+
   const searchTreat = async (e: any) => {
     setTreat(e.target.value)
-    let filteredAssure
+    let filteredTreatments
     let isAssure = selectedPatient?.assurance?.society ? true : false
-    filteredAssure = isAssure ? `&assurance=${selectedPatient?.assurance?.society}` : ''
+    filteredTreatments = isAssure ? 
+      treatments
+        .filter((treatment: TreatmentType) => 
+          treatment.name?.toLowerCase()
+          ?.startsWith(e.target.value?.toLowerCase())
+          && 
+          treatment.assurance?._id === selectedPatient?.assurance?.society
+        )
+        : 
+      treatments
+        .filter((treatment: TreatmentType) => 
+          treatment.name?.toLowerCase()
+          ?.startsWith(e.target.value?.toLowerCase())
+          && !treatment.assurance
+        )
     if(useCabinetTreat) {
-      filteredAssure = ""
+      filteredTreatments = treatments
+      .filter((treatment: TreatmentType) => 
+        treatment.name?.toLowerCase()
+        ?.startsWith(e.target.value?.toLowerCase())
+        && !treatment.assurance
+      )
     }
     if(e.target.value.length > 0) {
-      const response = await get(`treatment/searchTreat?treat=${e.target.value}${filteredAssure}`)
-      setTreatArray(response.data.success)
+      setTreatArray(filteredTreatments)
     } else {
       setTreatArray([])
     }

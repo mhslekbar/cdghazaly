@@ -109,7 +109,7 @@ const EditDevis:React.FC<EditDevisType> = ({ modal, toggle, DevisData }) => {
                     {LineDevis.length > 0 && 
                       <DataLineDevis LineDevis={selectedDevis.LineDevis} setLineDevis={setLineDevis} />
                     }
-                    <ButtonsForm toggle={toggle} typeBtn='Edit' />
+                    <ButtonsForm toggle={toggle} typeBtn='Modifier' />
                   </form>
                   {/* End Modal Body */}
                 </div>

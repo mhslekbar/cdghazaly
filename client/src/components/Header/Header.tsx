@@ -35,7 +35,8 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
               border-2 border-[#FFF]
               font-bold py-2 px-4 rounded
             `}
-          onClick={toggleOffcanvas}
+          onClick={() => navigate("/")}
+          // onClick={toggleOffcanvas}
         >
           {userData?.username}
         </button>

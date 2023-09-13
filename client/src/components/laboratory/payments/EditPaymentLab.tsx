@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import InputsPaymentLab from './forms/InputsPaymentLab';
 import ButtonsPaymentLab from './forms/ButtonsPaymentLab';
 import { DataPaymentLabContext, PaymentLabType } from './types';
@@ -7,6 +7,10 @@ import { EditPaymentLabApi } from '../../../redux/laboratory/payments/paymentLab
 import { useParams } from 'react-router';
 import { ShowLaboratoryContext } from '../ShowLaboratory';
 import { Timeout, hideMsg } from '../../../functions/functions';
+import { ShowLaboratoryApi } from '../../../redux/laboratory/laboratoryApiCalls';
+import { useSelector } from 'react-redux';
+import { State } from '../../../redux/store';
+import { DefaultLaboratoryInterface, laboratoryInterface } from '../types';
 
 interface EditPaymentLabInterface {
   modal: boolean,
@@ -20,9 +24,10 @@ const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, Payme
   const [errors, setErrors] = useState<string[]>([]);
  
   const { labId, doctorId } = useParams()
-  const { setShowSuccessMsg } = useContext(ShowLaboratoryContext)
+  const { setShowSuccessMsg, setSelectedLaboratory} = useContext(ShowLaboratoryContext)
   
   const dispatch: any = useDispatch()
+  const { laboratory } = useSelector((state: State) => state.laboratory);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -34,11 +39,16 @@ const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, Payme
         toggle();
         setShowSuccessMsg(true);
         setTimeout(() => setShowSuccessMsg(false), Timeout);
+        await dispatch(ShowLaboratoryApi())
       } else {
         setErrors(response);
       }
     } catch {}
   }
+
+  useEffect(() => {
+    setSelectedLaboratory(laboratory.find((lab: laboratoryInterface) => lab._id === labId) || DefaultLaboratoryInterface)
+  }, [laboratory, setSelectedLaboratory, labId])
 
   return (
     <DataPaymentLabContext.Provider value={{

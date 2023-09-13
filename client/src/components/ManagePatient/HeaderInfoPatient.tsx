@@ -31,7 +31,7 @@ const HeaderInfoPatient:React.FC = () => {
         }}
         onClick={() => navigate(localStorage.getItem("patientMgtPrevLink") || "")}
       />
-      <p className='bg-main px-4 py-2 rounded shadow w-fit'>balance: <b className='lg:text-xl'>{patientData.balance}</b></p>
+      <p className='bg-main px-4 py-2 rounded shadow w-fit'>balance: <b className={`lg:text-xl ${patientData.balance < 0 ? "text-red" : "text-white" }`}>{patientData.balance}</b></p>
     </header>
     
     {/* START ControlButtons */}

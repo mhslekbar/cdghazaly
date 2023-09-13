@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import InputsPaymentLab from './forms/InputsPaymentLab';
 import ButtonsPaymentLab from './forms/ButtonsPaymentLab';
@@ -8,6 +8,10 @@ import { AddPaymentLabApi } from '../../../redux/laboratory/payments/paymentLabA
 import { useParams } from 'react-router';
 import { ShowLaboratoryContext } from '../ShowLaboratory';
 import { Timeout, hideMsg } from '../../../functions/functions';
+import { useSelector } from 'react-redux';
+import { State } from '../../../redux/store';
+import { DefaultLaboratoryInterface, laboratoryInterface } from '../types';
+import { ShowLaboratoryApi } from '../../../redux/laboratory/laboratoryApiCalls';
 
 
 const AddPaymentLab:React.FC = () => {
@@ -16,12 +20,15 @@ const AddPaymentLab:React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
  
   const { labId, doctorId } = useParams()
-  const { setShowSuccessMsg } = useContext(ShowLaboratoryContext)
+  const { setShowSuccessMsg, setSelectedLaboratory } = useContext(ShowLaboratoryContext)
   const [modal, setModal] = useState(false)
+  
   const toggle = () => {
     setModal(!modal)
   }
   const dispatch: any = useDispatch()
+
+  const { laboratory } = useSelector((state: State) => state.laboratory);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -33,11 +40,16 @@ const AddPaymentLab:React.FC = () => {
         toggle();
         setShowSuccessMsg(true);
         setTimeout(() => setShowSuccessMsg(false), Timeout);
+        await dispatch(ShowLaboratoryApi())
       } else {
         setErrors(response);
       }
     } catch {}
   }
+
+  useEffect(() => {
+    setSelectedLaboratory(laboratory.find((lab: laboratoryInterface) => lab._id === labId) || DefaultLaboratoryInterface)
+  }, [laboratory, setSelectedLaboratory, labId])
 
   return (
     <DataPaymentLabContext.Provider value={{
