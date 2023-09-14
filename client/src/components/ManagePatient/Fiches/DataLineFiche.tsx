@@ -4,6 +4,11 @@ import { InputFiche } from './controls/InputFiche';
 import { FaEdit, FaEye } from 'react-icons/fa';
 import { MdRemoveCircle } from 'react-icons/md';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import TeethBoard from '../Devis/controls/TeethBoard';
+import { DataDevisContext, DefaultLineDevisType, EnumTypeTeethBoard, LineDevisType, ShowDevisInterfaceContext } from '../Devis/types';
+import { UserInterface } from '../../users/types';
+import { useSelector } from 'react-redux';
+import { State } from '../../../redux/store';
 
 
 interface DataLineFicheInterface {
@@ -14,17 +19,60 @@ interface DataLineFicheInterface {
 }
 
 const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex }) => {
-  const { setSelectedLineFiche, selectedFiche, showDeleteLineFiche, setShowDeleteLineFiche, setShowAppointmentModal } = useContext(ShowFichesContext);
+  const { setSelectedLineDevis, setSelectedLineFiche, selectedLineDevis, selectedFiche, showDeleteLineFiche, setShowDeleteLineFiche, setShowAppointmentModal } = useContext(ShowFichesContext);
   const [firstEmptyDateIndex, setFirstEmptyDateIndex] = useState(-1);
 
+  
   useEffect(() => {
     const emptyDateIndex = selectedFiche.LineFiche.findIndex((line) => !line.dateAppointment);
     setFirstEmptyDateIndex(emptyDateIndex);
   }, [selectedFiche]);
 
   const [dateModal, setDateModal] = useState(true)
+  const [showTeethBoard, setShowTeethBoard] = useState(false)
+  const { setSelectedTeeth, setSelectedSurface, setPrice, setTreat, setSelectedTreat, setArrayDoctor, setDoctor, setTypeTeethBoard } = useContext(DataDevisContext)
+  const { setSelectedDevis } = useContext(ShowDevisInterfaceContext)
+
+  const { users } = useSelector((state: State) => state.users);
+
+  useEffect(() => {
+    setArrayDoctor(users.filter((user: UserInterface) => user.doctor?.cabinet));
+  }, [users, setArrayDoctor]);
+
+  const setChangeLine = (line: LineFicheInterface) => {
+    // console.log("LineDevis: ", line.lineInvoice.devis.LineDevis.filter((lineDv: LineDevisType) => lineDv.treatment.toString() === line.lineInvoice?.treatment?._id))
+    // console.log("LineDevis: ", line.lineInvoice.devis.LineDevis.find((lineDv: LineDevisType) => lineDv.treatment._id === line.lineInvoice?.treatment?._id))
+    setTypeTeethBoard(EnumTypeTeethBoard.EDIT_TEETH_FICHE)
+    // LineFiche
+    // setSelectedLineDevis(line.lineInvoice?.devis?.LineDevis
+    //   .find((lnD: LineDevisType) => lnD.treatment._id === line.lineInvoice.treatment._id) 
+    //   || DefaultLineDevisType)
+
+    setSelectedLineDevis(line.lineInvoice?.devis?.LineDevis?.find((lineDv: LineDevisType) => 
+      lineDv.treatment.toString() === line.lineInvoice?.treatment?._id) 
+      ?? DefaultLineDevisType)
+    setShowTeethBoard(!showTeethBoard)
+    // teethBoard
+    setSelectedTeeth(line.lineInvoice?.teeth?.nums)
+    setSelectedSurface(line.lineInvoice?.teeth?.surface)
+    setPrice(line.amount)
+    console.log("line.amount: ", line.amount)
+    // setPrice(line.price)    
+    setTreat(line.lineInvoice?.treatment?._id)
+    setSelectedTreat(line.lineInvoice?.treatment)
+    setSelectedDevis(line.lineInvoice?.devis)
+    setDoctor(line.doctor)
+  }
 
   return (
+    <>
+      {showTeethBoard && selectedLineDevis && (
+        <TeethBoard
+          modal={showTeethBoard}
+          toggle={() => setShowTeethBoard(!showTeethBoard)}
+        />
+      )}
+
     <tr className="border-b border-[#95a5a6]">
       <td className='hidden'>
         <InputFiche type="hidden" Line={Line} kind="lineFicheId" />
@@ -78,11 +126,26 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
               fontSize: "22px",
               position: "absolute",
               top: "10px",
-              right: "35px",
+              right: "65px",
             }}
             onClick={() => {
               toggle();
               setSelectedLineFiche(Line);
+            }}
+          />
+          <FaEye
+            className="text-main"
+            style={{
+              fontSize: "22px",
+              position: "absolute",
+              top: "10px",
+              right: "35px",
+            }}
+            onClick={() => {
+              setChangeLine(Line)
+              setSelectedLineFiche(Line);
+              // toggle();
+              // setShowTeethBoard(!showTeethBoard)
             }}
           />
           <MdRemoveCircle
@@ -110,6 +173,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
       </td>
       <td className="bg-white w-3 print:hidden"></td>
     </tr>
+  </>
   );
 };
 

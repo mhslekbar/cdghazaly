@@ -10,13 +10,40 @@ const getFiches = async (request, response) => {
     const { patient } = request.params;
     const fiches = await FicheModel
       .find({ patient })
-        .populate("patient")
-        .populate("LineFiche.doctor")
-        .populate("LineFiche.payment")
-        .populate("LineFiche.appointment")
-      .sort({ createdAt: -1 })
-        
-    response.status(200).json({ success: fiches });
+      .populate("patient")
+      .populate("LineFiche.doctor")
+      .populate("LineFiche.payment")
+      .populate("LineFiche.appointment")
+      .sort({ createdAt: -1 });
+
+    const fichesAndInvoices = await Promise.all(fiches.map(async fiche => {
+      return {
+        _id: fiche._id,
+        patient: fiche.patient,
+        numFiche: fiche.numFiche,
+        LineFiche: await Promise.all(fiche.LineFiche.map(async lineFiche => {
+          let invoice = await InvoiceModel
+            .findOne({ "LineInvoice._id": lineFiche.lineInvoice })
+            .populate("patient")
+            .populate("LineInvoice.doctor")
+            .populate("LineInvoice.treatment")
+            .populate("LineInvoice.devis");
+
+          const findIndex = invoice ? invoice.LineInvoice.findIndex(LineInv => LineInv._id.equals(lineFiche.lineInvoice)) : -1;
+          let activeLineInvoice;
+          if (findIndex > -1) {
+            activeLineInvoice = invoice.LineInvoice[findIndex];
+          }
+
+          return {
+            ...lineFiche.toObject(),
+            lineInvoice: activeLineInvoice,
+          };
+        })),
+      };
+    }));
+
+    response.status(200).json({ success: fichesAndInvoices });
   } catch (err) {
     console.log("err: ", err)
     response.status(500).json({ err: err.message });

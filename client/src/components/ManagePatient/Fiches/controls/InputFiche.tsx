@@ -22,9 +22,9 @@ export const InputFiche:React.FC<InputFicheInterface> = ({ type = "text", Line, 
         setData(Line.acte)
       break;
       case "amount": 
-        setData(Line.amount)
+        setData(Line.amount?.toString())
       break;
-      case "lineFicheId": 
+      case "lineFicheId":
         setData(Line._id)
       break;
     }

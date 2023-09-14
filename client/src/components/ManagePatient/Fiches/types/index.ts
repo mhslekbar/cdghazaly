@@ -2,8 +2,8 @@ import { createContext } from "react"
 import { DefaultPatientInterface, PatientInterface } from "../../../patients/types"
 import { DefaultUserInterface, UserInterface } from "../../../users/types"
 import { DefaultPaymentInterface, PaymentInterface } from "../../Payments/types"
-import { DefaultLabConsumptionInterface } from "../../../laboratory/consumptions/types"
-import { DefaultLineInvoiceInterface } from "../../Invoices/types"
+import { DefaultLabConsumptionInterface, LabConsumptionInterface } from "../../../laboratory/consumptions/types"
+import { DefaultLineInvoiceInterface, LineInvoiceInterface } from "../../Invoices/types"
 import { DefaultLineDevisType, LineDevisType } from "../../Devis/types"
 
 
@@ -19,11 +19,11 @@ export interface LineFicheInterface {
   doctor: UserInterface,
   dateAppointment: string,
   acte: string,
-  amount: string,
+  amount: number,
   finish: number,
   payment: PaymentInterface,
-  consumptionLab: any
-  lineInvoice: any,
+  consumptionLab: LabConsumptionInterface,
+  lineInvoice: LineInvoiceInterface,
   appointment: string,
   createdAt: Date,
   updatedAt: Date
@@ -34,7 +34,7 @@ export const DefaultLineFicheInterface:LineFicheInterface = {
   doctor: DefaultUserInterface,
   dateAppointment: "",
   acte: "",
-  amount: "",
+  amount: 0,
   finish: 0,
   payment: DefaultPaymentInterface,
   consumptionLab: DefaultLabConsumptionInterface,

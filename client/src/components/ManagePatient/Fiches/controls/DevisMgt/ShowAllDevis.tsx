@@ -26,10 +26,10 @@ interface ShowAllDevisInterface {
 }
 
 const ShowAllDevis: React.FC<ShowAllDevisInterface> = ({ modal, toggle }) => {
-  const [doctor, setDoctor] = useState<UserInterface>(DefaultUserInterface);
   const [ArrayDoctor, setArrayDoctor] = useState<UserInterface[]>([
     DefaultUserInterface,
   ]);
+  const [doctor, setDoctor] = useState<UserInterface>(DefaultUserInterface);
   const [price, setPrice] = useState(0);
   const [treat, setTreat] = useState("");
   const [reduce, setReduce] = useState("");
@@ -41,6 +41,7 @@ const ShowAllDevis: React.FC<ShowAllDevisInterface> = ({ modal, toggle }) => {
   const [selectedSurface, setSelectedSurface] = useState<string>("");
   const [TeethBoardData, setTeethBoardData] =
     useState<LineDevisType>(DefaultLineDevisType);
+    
   const [TypeTeethBoard, setTypeTeethBoard] = useState("");
   const [TypeModal, setTypeModal] = useState<EnumTypeModal>(
     EnumTypeModal.APPEND_FICHE_MODAL

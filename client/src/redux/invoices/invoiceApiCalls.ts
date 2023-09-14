@@ -9,7 +9,11 @@ export const ShowInvoicesApi = (patientId: string = "", filter: string = "") => 
     if(filter) {
       response = await get(`invoice${filter}/${patientId}`)
     } else {
-      response = await get(`invoice/${patientId}`)
+      if(patientId) {
+        response = await get(`invoice/${patientId}`)
+      } else {
+        response = await get(`invoice`)
+      }
     }
     const resData = response.data.success
     if(resData) {

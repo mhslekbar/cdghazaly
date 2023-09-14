@@ -11,7 +11,6 @@ const ficheSchema = new mongoose.Schema({
     finish: { type: Number, default: 0 },
     payment: { type: mongoose.Types.ObjectId, ref: "payment" },
     consumptionLab: { type: mongoose.Types.ObjectId, ref: "laboratory.consumptions" },
-    // patientLab: { type: mongoose.Types.ObjectId, ref: "laboratory.patients" },
     lineInvoice: { type: mongoose.Types.ObjectId, ref: "invoice.LineInvoice" },
     appointment: { type: mongoose.Types.ObjectId, ref: "appointment" },
     createdAt: { type: Date, default: Date.now},
@@ -20,3 +19,4 @@ const ficheSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 module.exports = mongoose.model("fiche", ficheSchema)
+// patientLab: { type: mongoose.Types.ObjectId, ref: "laboratory.patients" },

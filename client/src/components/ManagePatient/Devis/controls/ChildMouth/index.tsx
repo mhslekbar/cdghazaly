@@ -22,8 +22,7 @@ const Tooth:React.FC = () => {
   const { selectedLineDevis } = useContext(ShowFichesContext)
 
   useEffect(() => {
-    if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE) {
-
+    if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE || TypeTeethBoard === EnumTypeTeethBoard.EDIT_TEETH_FICHE) {
       let previousTeeth:any = []; // Array to store previous teeth IDs
       let previousGums:any = []; // Array to store previous Gums IDs
       
@@ -76,8 +75,8 @@ const Tooth:React.FC = () => {
         previousGums.push(`${tooth}-Gums`); // Store the current Gum ID in the previousGums array
         previousTeeth.push(`tooth-${tooth}`); // Store the current tooth ID in the previousTeeth array
       });
-
     }
+
   }, [TypeTeethBoard, selectedLineDevis, selectedTreat])
 
   useEffect(() => {

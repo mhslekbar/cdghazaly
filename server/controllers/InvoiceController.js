@@ -4,13 +4,25 @@ const DevisModel = require("../models/DevisModel");
 const getInvoices = async (request, response) => {
   try {
     const { patient } = request.params
-    const invoices = await InvoiceModel
-    .find({ patient })
-      .populate("patient")
-      .populate("LineInvoice.doctor")
-      .populate("LineInvoice.treatment")
-      .populate("LineInvoice.devis")
-    .sort({ createdAt: -1 })
+    let invoices
+    if(patient) {
+      invoices = await InvoiceModel
+      .find({ patient })
+        .populate("patient")
+        .populate("LineInvoice.doctor")
+        .populate("LineInvoice.treatment")
+        .populate("LineInvoice.devis")
+      .sort({ createdAt: -1 })
+    } else {
+      invoices = await InvoiceModel
+      .find()
+        .populate("patient")
+        .populate("LineInvoice.doctor")
+        .populate("LineInvoice.treatment")
+        .populate("LineInvoice.devis")
+      .sort({ createdAt: -1 })
+    }
+
     response.status(200).json({ success: invoices })
   } catch(err) {
     response.status(500).json({ err: err.message })

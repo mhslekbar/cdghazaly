@@ -40,10 +40,10 @@ const DataDevis: React.FC = () => {
   return (
     <>
     {selectedDevis  &&
-      <div className="flex flex-col col-start-2 col-span-4 invoice print:w-full">
+      <div className="flex flex-col col-start-2 col-span-4 print:w-full">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-hidden">
+          <div className="overflow-hidden invoice">
             <HeaderInvoice type={`Devis N-${selectedDevis.numDevis}`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
             <table className="min-w-full text-left text-sm font-light text-center">
               <thead className="border font-medium bg-white text-black border-gray-950">

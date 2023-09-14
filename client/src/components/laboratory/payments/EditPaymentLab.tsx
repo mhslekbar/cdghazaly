@@ -21,6 +21,8 @@ interface EditPaymentLabInterface {
 const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, PaymentData }) => {
   const [amount, setAmount] = useState(PaymentData.amount)
   const [comment, setComment] = useState(PaymentData.comment)
+  const [createdAt, setCreatedAt] = useState(PaymentData.createdAt);
+
   const [errors, setErrors] = useState<string[]>([]);
  
   const { labId, doctorId } = useParams()
@@ -32,7 +34,7 @@ const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, Payme
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      const response: any = await dispatch(EditPaymentLabApi(labId || "", PaymentData._id, { amount, comment, doctor: doctorId }))
+      const response: any = await dispatch(EditPaymentLabApi(labId || "", PaymentData._id, { amount, comment, doctor: doctorId, createdAt }))
       if(response === true) {
         setAmount("")
         setComment("")
@@ -53,7 +55,8 @@ const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, Payme
   return (
     <DataPaymentLabContext.Provider value={{
       amount, setAmount,
-      comment, setComment
+      comment, setComment,
+      createdAt, setCreatedAt,
     }}>
       {modal && (
         <>

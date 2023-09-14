@@ -1,14 +1,38 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ShowFicheApi } from "../../../redux/fiches/ficheApiCalls";
 import { useDispatch } from "react-redux";
 import { LineFicheInterface, ShowFichesContext } from "./types";
 import ShowAllDevis from "./controls/DevisMgt/ShowAllDevis";
 import DataLineFiche from "./DataLineFiche";
-import { ShowDevisInterfaceContext } from "../Devis/types";
+import { DataDevisContext, DefaultLineDevisType, EnumTypeModal, LineDevisType, ShowDevisInterfaceContext } from "../Devis/types";
 import DeleteLineFiche from "./controls/DeleteLineFiche";
+import { DefaultUserInterface, UserInterface } from "../../users/types";
+import { DefaultTreatmentType, TreatmentType } from "../../treatments/types";
 
 const DataFiches: React.FC = () => {
+
+  const [doctor, setDoctor] = useState<UserInterface>(DefaultUserInterface);
+  const [ArrayDoctor, setArrayDoctor] = useState<UserInterface[]>([
+    DefaultUserInterface,
+  ]);
+  const [price, setPrice] = useState(0);
+  const [treat, setTreat] = useState("");
+  const [reduce, setReduce] = useState("");
+  const [selectedTreat, setSelectedTreat] =
+    useState<TreatmentType>(DefaultTreatmentType);
+  const [LineDevis, setLineDevis] = useState<LineDevisType[]>([]);
+
+  const [selectedTeeth, setSelectedTeeth] = useState<string[]>([]);
+  const [selectedSurface, setSelectedSurface] = useState<string>("");
+  const [TeethBoardData, setTeethBoardData] =
+    useState<LineDevisType>(DefaultLineDevisType);
+    
+  const [TypeTeethBoard, setTypeTeethBoard] = useState("");
+  const [TypeModal, setTypeModal] = useState<EnumTypeModal>(
+    EnumTypeModal.APPEND_FICHE_MODAL
+  );
+
 
   const { patientId } = useParams();
   const { selectedFiche, selectedLineFiche, showDeleteLineFiche, setShowDeleteLineFiche } = useContext(ShowFichesContext);
@@ -23,13 +47,28 @@ const DataFiches: React.FC = () => {
     fetchFiches();
   }, [dispatch, patientId]);
 
-
   return (
-    <>
+    <DataDevisContext.Provider
+      value={{
+        doctor, setDoctor,
+        treat, setTreat,
+        reduce, setReduce,
+        selectedTeeth, setSelectedTeeth,
+        selectedTreat, setSelectedTreat,
+        price, setPrice,
+        LineDevis, setLineDevis,
+        selectedSurface, setSelectedSurface,
+        ArrayDoctor, setArrayDoctor,
+        TeethBoardData, setTeethBoardData,
+        TypeTeethBoard, setTypeTeethBoard,
+        TypeModal, setTypeModal,
+      }}
+    >
       <ShowAllDevis
         modal={isShowingAllDevis}
         toggle={() => setIsShowingAllDevis(!isShowingAllDevis)}
       />
+
       {selectedLineFiche && selectedLineFiche &&
         <DeleteLineFiche LineFicheData={selectedLineFiche} modal={showDeleteLineFiche} toggle={() => setShowDeleteLineFiche(!showDeleteLineFiche)} />
       }
@@ -70,7 +109,7 @@ const DataFiches: React.FC = () => {
           </div>
         </div>
       }
-    </>
+    </DataDevisContext.Provider>
   );
 };
 

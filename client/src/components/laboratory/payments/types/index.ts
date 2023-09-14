@@ -23,14 +23,18 @@ export interface AddPaymentLabInterface {
   amount: string, 
   setAmount: (amount: string) => void,
   comment: string,
-  setComment: (comment: string) => void
+  setComment: (comment: string) => void,
+  createdAt: Date,
+  setCreatedAt: (createdAt: Date) => void,
 }
 
 export const DefaultAddPaymentLabInterface: AddPaymentLabInterface =  {
   amount: "", 
   setAmount: () => {},
   comment: "",
-  setComment: () => {}
+  setComment: () => {},
+  createdAt: new Date(),
+  setCreatedAt: () => {}, 
 }
  
 export const DataPaymentLabContext = createContext(DefaultAddPaymentLabInterface)

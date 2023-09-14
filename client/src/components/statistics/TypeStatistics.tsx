@@ -26,6 +26,9 @@ const TypeStatistics: React.FC = () => {
       <div className={`${location.pathname.split("/")[3] === "accounting" ? "bg-main" : ""}   px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("accounting")}>
         Comptabilité
       </div>
+      <div className={`${location.pathname.split("/")[3] === "treatments" ? "bg-main" : ""}   px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("treatments")}>
+        Traitements
+      </div>
     </section>
     <FilterStatistics />
     <Outlet />

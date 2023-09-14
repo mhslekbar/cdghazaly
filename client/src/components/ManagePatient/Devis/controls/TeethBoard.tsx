@@ -51,6 +51,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
 
   useEffect(() => {
     TypeTeethBoard !== EnumTypeTeethBoard.APPEND_TEETH_FICHE && setPrice(Number(selectedTreat.price))
+    TypeTeethBoard !== EnumTypeTeethBoard.EDIT_TEETH_FICHE && setPrice(Number(selectedTreat.price))
   }, [selectedTreat, setPrice, TypeTeethBoard])
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
   }, [laboratory, TypeTeethBoard, selectedTreat])
 
   useEffect(() => {
-    setMyLaboratory(filteredLabo[0])
+    setMyLaboratory(filteredLabo[0] ?? DefaultLaboratoryInterface)
   }, [filteredLabo])
 
   const { devis } = useSelector((state: State) => state.devis)
@@ -93,6 +94,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
   }, [devis, selectedDevis, setLineDevis, TypeModal])
 
   const handleAppendTreatToTable = async (e: any) => {
+
     const TeethBoardErrors = []
     if(selectedTeeth.length === 0) {
       TeethBoardErrors.push("Selectionner les dents !!")
@@ -153,7 +155,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
       } else if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH) {
         // Add it into data base
         await dispatch(AppendDevisApi(patientId, selectedDevis._id, data))
-      } else if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE) { 
+      } else if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE || TypeTeethBoard === EnumTypeTeethBoard.EDIT_TEETH_FICHE) { 
         const data = {
           user: UserData()._id,
           doctor,
@@ -183,7 +185,9 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
       }
     }
   }
+
   const [showChildMouth, setShowChildMouth] = useState(false)
+  
   return (
     <div>
       {modal && (

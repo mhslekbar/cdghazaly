@@ -15,7 +15,7 @@ const getPaymentsLab = async (request, response) => {
 const createPaymentLab = async (request, response) => {
   try {
     const { labId } = request.params
-    const { doctor, comment, amount } = request.body
+    const { doctor, comment, amount, createdAt } = request.body
     const laboratory = await LaboratoryModel.findOne({ _id: labId })
 
     const formErrors = []
@@ -31,7 +31,7 @@ const createPaymentLab = async (request, response) => {
     }
 
     if(formErrors.length === 0) {
-      laboratory.payments.push({ doctor, comment, amount })
+      laboratory.payments.push({ doctor, comment, amount, createdAt })
       const findAccount = laboratory.accounts.findIndex(acc => acc.doctor.equals(doctor))
       if(findAccount > -1) {
         const prevBalance = laboratory.accounts[findAccount].balance
@@ -52,7 +52,7 @@ const createPaymentLab = async (request, response) => {
 const updatePaymentLab = async (request, response) => {
   try {
     const { labId, paymentId } = request.params
-    const { doctor, comment, amount } = request.body
+    const { doctor, comment, amount, createdAt } = request.body
     const laboratory = await LaboratoryModel.findOne({ _id: labId })
 
     const formErrors = []
@@ -83,8 +83,8 @@ const updatePaymentLab = async (request, response) => {
         const data = laboratory.payments[findIndex]
         laboratory.payments[findIndex] = {
           _id: data._id,
-          createdAt: data.createdAt,
           updatedAt: data.updatedAt,
+          createdAt: createdAt,
           doctor,
           comment,
           amount

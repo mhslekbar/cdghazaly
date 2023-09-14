@@ -13,10 +13,10 @@ import { State } from '../../../redux/store';
 import { DefaultLaboratoryInterface, laboratoryInterface } from '../types';
 import { ShowLaboratoryApi } from '../../../redux/laboratory/laboratoryApiCalls';
 
-
 const AddPaymentLab:React.FC = () => {
   const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
+  const [createdAt, setCreatedAt] = useState(new Date());
   const [errors, setErrors] = useState<string[]>([]);
  
   const { labId, doctorId } = useParams()
@@ -33,7 +33,7 @@ const AddPaymentLab:React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      const response: any = await dispatch(AddPaymentLabApi(labId || "", { amount, comment, doctor: doctorId }))
+      const response: any = await dispatch(AddPaymentLabApi(labId || "", { amount, comment, doctor: doctorId, createdAt }))
       if(response === true) {
         setAmount("")
         setComment("")
@@ -54,7 +54,8 @@ const AddPaymentLab:React.FC = () => {
   return (
     <DataPaymentLabContext.Provider value={{
       amount, setAmount,
-      comment, setComment
+      comment, setComment,
+      createdAt, setCreatedAt
     }}>
         <button className="p-2 rounded bg-main text-white mb-2" onClick={toggle}>
           <FaPlus />

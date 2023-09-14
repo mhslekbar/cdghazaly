@@ -152,5 +152,6 @@ export enum EnumTypeTeethBoard {
   EDIT_NEW_TEETH = "Edit-New-Teeth",
   APPEND_TEETH = "Append-Teeth",
   APPEND_TEETH_FICHE = "Append-Teeth-Fiche",
+  EDIT_TEETH_FICHE = "EDIT-Teeth-Fiche",
 } 
 

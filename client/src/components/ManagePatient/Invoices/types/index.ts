@@ -2,6 +2,7 @@ import { createContext } from "react"
 import { DefaultPatientInterface, PatientInterface } from "../../../patients/types"
 import { DefaultTreatmentType, TreatmentType } from "../../../treatments/types"
 import { DefaultUserInterface, UserInterface } from "../../../users/types"
+import { DefaultDevisInterface, DevisInterface } from "../../Devis/types"
 
 export interface InvoicesInterface {
   _id: string,
@@ -15,7 +16,7 @@ export interface LineInvoiceInterface {
   _id: string,
   doctor: UserInterface,
   treatment: TreatmentType
-  devis: string,
+  devis: DevisInterface,
   acte: string,
   price: number,
   teeth: {
@@ -30,7 +31,7 @@ export const DefaultLineInvoiceInterface:LineInvoiceInterface = {
   _id: "",
   doctor: DefaultUserInterface,
   treatment: DefaultTreatmentType,
-  devis: "",
+  devis: DefaultDevisInterface,
   acte: "",
   price: 0,
   teeth: {

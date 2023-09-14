@@ -37,6 +37,7 @@ import ShowConsumableList from '../components/consumables/consumableList/ShowCon
 import Permissions from '../pages/Permissions';
 import ShowSupplier from '../components/consumables/suppliers/ShowSuppliers';
 import AboutSupplier from '../components/consumables/suppliers/abouts/AboutSupplier';
+import StatisticTreatments from '../components/statistics/Treatments/StatisticTreatments';
 
 
 const MyRoutes:React.FC = () => {
@@ -76,6 +77,7 @@ const MyRoutes:React.FC = () => {
         <Route path="/statistics/:doctorId" element={<Statistics />}>
           <Route path='accounting' element={<Accounting />}/>
           <Route path='payments' element={<Payments />}/>
+          <Route path='treatments' element={<StatisticTreatments />}/>
         </Route>
 
         <Route path="/Consumables/:doctorId" element={<Consumables />}>
