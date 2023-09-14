@@ -40,6 +40,13 @@ const StatisticTreatments:React.FC = () => {
   }, [invoices, doctorId]);
 
   // Rest of your component code
+  const [SumTotalNbrs, setSumTotalNbrs] = useState<number>(0)
+
+  useEffect(() => {
+    const ArrayGrp = Object.entries(groupedData)
+    .map(([treatment, lines], index) => (lines as LineInvoiceInterface[]).reduce((acc, line: LineInvoiceInterface) => acc + line.teeth.nums.length, 0)) 
+    setSumTotalNbrs(ArrayGrp.reduce((acc, currVal) => acc + currVal, 0))
+  }, [groupedData])
 
   return (
     <div className="flex flex-col border mt-3">
@@ -50,7 +57,8 @@ const StatisticTreatments:React.FC = () => {
             <thead className="border border-gray-950 font-medium bg-main text-white text-center">
               <tr>
                 <th className="px-6 py-4 border-r border-gray-950">Traitement</th>
-                <th className="px-6 py-4">Nbrs</th>
+                <th className="px-6 py-4 border-r border-gray-950">Nbrs</th>
+                <th className="px-6 py-4">Pourcentage</th>
               </tr>
             </thead>
             <tbody>
@@ -63,6 +71,9 @@ const StatisticTreatments:React.FC = () => {
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium text-center">
                     {(lines as LineInvoiceInterface[]).reduce((acc, line: LineInvoiceInterface) => acc + line.teeth.nums.length, 0)}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium text-center">
+                    {((lines as LineInvoiceInterface[]).reduce((acc, line: LineInvoiceInterface) => acc + line.teeth.nums.length, 0) * 100 / SumTotalNbrs)?.toFixed(2) + "%"}
                   </td>
                 </tr>
               ))}
