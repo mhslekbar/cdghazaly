@@ -48,7 +48,7 @@ const LineDevisData:React.FC<LineDevisDataInterface> = ({ ln, index, devis}) => 
         {ln.price - (ln.price * (devis.reduce / 100))} 
       </td>
       <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-        {ln.price * ln.teeth.nums.length}
+        {(ln.price - (ln.price * (devis.reduce / 100))) * ln.teeth.nums.length}
       </td>
       <td className='flex justify-center items-center'>
         <FaEye 

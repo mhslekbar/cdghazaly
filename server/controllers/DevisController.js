@@ -44,7 +44,16 @@ const appendToDevis = async (request, response) => {
     const { id } = request.params
     const { doctor, treatment, price, teeth } = request.body
     const devisData = await DevisModel.findOne({ _id: id })
-    devisData.LineDevis.push({doctor: doctor._id, treatment: treatment._id, price, teeth})
+
+    const findIndex  = devisData.LineDevis.findIndex(ln => ln.treatment.equals(treatment._id))
+    if(findIndex > -1) {
+      devisData.LineDevis[findIndex].teeth.nums.push(teeth.nums)
+      devisData.LineDevis[findIndex].teeth.surface += " " + teeth.surface
+      // console.log("LineDevis: ", devisData.LineDevis[findIndex])
+
+    } else {
+      devisData.LineDevis.push({doctor: doctor._id, treatment: treatment._id, price, teeth})
+    }
     await devisData.save()
     await getDevis(request, response)
   } catch(err) {

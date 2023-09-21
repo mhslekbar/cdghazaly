@@ -40,13 +40,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
   }, [users, setArrayDoctor]);
 
   const setChangeLine = (line: LineFicheInterface) => {
-    // console.log("LineDevis: ", line.lineInvoice.devis.LineDevis.filter((lineDv: LineDevisType) => lineDv.treatment.toString() === line.lineInvoice?.treatment?._id))
-    // console.log("LineDevis: ", line.lineInvoice.devis.LineDevis.find((lineDv: LineDevisType) => lineDv.treatment._id === line.lineInvoice?.treatment?._id))
     setTypeTeethBoard(EnumTypeTeethBoard.EDIT_TEETH_FICHE)
-    // LineFiche
-    // setSelectedLineDevis(line.lineInvoice?.devis?.LineDevis
-    //   .find((lnD: LineDevisType) => lnD.treatment._id === line.lineInvoice.treatment._id) 
-    //   || DefaultLineDevisType)
 
     setSelectedLineDevis(line.lineInvoice?.devis?.LineDevis?.find((lineDv: LineDevisType) => 
       lineDv.treatment.toString() === line.lineInvoice?.treatment?._id) 
@@ -56,7 +50,6 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
     setSelectedTeeth(line.lineInvoice?.teeth?.nums)
     setSelectedSurface(line.lineInvoice?.teeth?.surface)
     setPrice(line.amount)
-    console.log("line.amount: ", line.amount)
     // setPrice(line.price)    
     setTreat(line.lineInvoice?.treatment?._id)
     setSelectedTreat(line.lineInvoice?.treatment)

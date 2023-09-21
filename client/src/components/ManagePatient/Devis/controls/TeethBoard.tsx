@@ -50,8 +50,11 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
   }, [TeethBoardData, TypeTeethBoard])
 
   useEffect(() => {
-    TypeTeethBoard !== EnumTypeTeethBoard.APPEND_TEETH_FICHE && setPrice(Number(selectedTreat.price))
-    TypeTeethBoard !== EnumTypeTeethBoard.EDIT_TEETH_FICHE && setPrice(Number(selectedTreat.price))
+    // TypeTeethBoard !== EnumTypeTeethBoard.APPEND_TEETH_FICHE && setPrice(Number(selectedTreat.price))
+    // TypeTeethBoard !== EnumTypeTeethBoard.EDIT_TEETH_FICHE && setPrice(Number(selectedTreat.price))
+    if(TypeTeethBoard !== EnumTypeTeethBoard.EDIT_TEETH_FICHE && TypeTeethBoard !== EnumTypeTeethBoard.APPEND_TEETH_FICHE) {
+      setPrice(Number(selectedTreat.price))
+    }
   }, [selectedTreat, setPrice, TypeTeethBoard])
 
   useEffect(() => {
