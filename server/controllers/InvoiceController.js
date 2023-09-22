@@ -83,7 +83,8 @@ const getAllDevis = async (request, response) => {
                         )
                       )
                   ),
-                  price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price
+                  price: lineDevis.price
+                  // price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price
                 }
               })
             );
@@ -91,13 +92,15 @@ const getAllDevis = async (request, response) => {
         } else {
           // Treatment does not exist in any invoice
           remainingLines.push(
-            Object.assign(lineDevis, { price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price })
+            Object.assign(lineDevis, { 
+              price: lineDevis.price 
+              // price: devis.reduce ? lineDevis.price - (lineDevis.price * devis.reduce / 100) : lineDevis.price 
+            })
           );
         }
       });
       return [Object.assign(devis, { LineDevis: [...remainingLines] })];
     });
-    
     response.status(200).json({ success: filteredDevisModels })
   } catch(err) {
     console.log("err: ", err)

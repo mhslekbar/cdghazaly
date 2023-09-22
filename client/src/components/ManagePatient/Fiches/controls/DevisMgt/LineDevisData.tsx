@@ -13,7 +13,7 @@ const LineDevisData:React.FC<LineDevisDataInterface> = ({ ln, index, devis}) => 
   const { showTeethBoard, setShowTeethBoard, setSelectedDevis } = useContext(ShowDevisInterfaceContext)
   const { setSelectedTeeth, setSelectedSurface, setPrice, setTreat, setSelectedTreat } = useContext(DataDevisContext)
   const { setSelectedLineDevis } = useContext(ShowFichesContext)
-  
+
   const setChangeLine = (line: LineDevisType) => {
     // LineFiche
     setSelectedLineDevis(ln)
@@ -27,7 +27,6 @@ const LineDevisData:React.FC<LineDevisDataInterface> = ({ ln, index, devis}) => 
     setSelectedTreat(line.treatment)
     setSelectedDevis(devis)
   }
-
 
   return (
     <>
