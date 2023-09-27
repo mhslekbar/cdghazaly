@@ -57,7 +57,7 @@ const ShowRoles:React.FC = () => {
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)}/>}
       <AddRole />
 
-      <div className='grid grid-cols-3 mt-2 gap-2 h-fit' >
+      <div className='grid xs:grid-cols-1 lg:grid-cols-3 mt-2 gap-2 h-fit' >
       {
         roles.length > 0 &&
         roles?.map((role: RoleType, index: number) => 
