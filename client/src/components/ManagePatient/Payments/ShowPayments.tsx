@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import DataPayments from './DataPayments'
 import { useDispatch } from 'react-redux'
 import { ShowPaymentsApi } from '../../../redux/payments/paymentApiCalls'
-import { useParams } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import AddPayment from './controls/AddPayment'
 import { DefaultPaymentInterface, EnumTypeModalPayment, PaymentInterface, ShowPaymentsContext } from './types'
 import SuccessMsg from '../../../Messages/SuccessMsg'
 import EditPayment from './controls/EditPayment'
 import DeletePayment from './controls/DeletePayment'
-
+import PaymentsAssurance from './PaymentsAssurance'
 
 const ShowPayments:React.FC = () => {
   const dispatch: any = useDispatch()
@@ -26,6 +26,8 @@ const ShowPayments:React.FC = () => {
     fetchPayments()
   }, [dispatch, patientId])
 
+  const location = useLocation()
+
   return (
     <ShowPaymentsContext.Provider value={{
       showSuccessMsg, setShowSuccessMsg,
@@ -36,7 +38,7 @@ const ShowPayments:React.FC = () => {
     }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <AddPayment />
-      <DataPayments />
+      {location.pathname?.split("/")[5] === "payments" ? <DataPayments /> : <PaymentsAssurance />} 
       { 
         showEditPayment && 
         selectedPayment && 

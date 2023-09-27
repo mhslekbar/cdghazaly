@@ -23,7 +23,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
   const [doctor, setDoctor] = useState<UserInterface>(paymentData.doctor)
   const [type, setType] = useState(paymentData.type)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodInterface>(paymentData?.method || DefaultPaymentMethodInterface)
-  const [supported, setSupported] = useState(paymentData?.supported)
+  const [supported, setSupported] = useState(paymentData?.supported ?? null)
   const [createdAt, setCreatedAt] = useState(formattedDate(paymentData.createdAt))
 
 

@@ -23,9 +23,9 @@ const Buttons:React.FC = () => {
       <ControlEditPatient />
       {<ControlDeletePatient />}
       {/* {!showFilter?.RegNo && <ControlDeletePatient />} */}
-      {!showFilter?.archive && !showFilter?.RegNo && <ControlPassPatient />}
-      {showFilter?.RegNo && !showFilter?.finish && <ControlFinishPatient />}
-      {showFilter?.RegNo && showFilter?.finish && <ControlReturnPatient />}
+      {!showFilter?.archive && !showFilter?.RegNo ? <ControlPassPatient /> : ""}
+      {(showFilter?.RegNo && !showFilter?.finish) ? <ControlFinishPatient /> : ""}
+      {(showFilter?.RegNo && showFilter?.finish) ? <ControlReturnPatient /> : ""}
     </div>
   )
 }

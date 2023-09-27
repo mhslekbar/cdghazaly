@@ -13,6 +13,7 @@ const dataLinks: dataLinksType[] = [
   { path: "labo", title: "Labo" },
   // { path: "compte", title: "Compte" },
   { path: "payments", title: "Paiements" },
+  { path: "paymentsAssurance", title: "pay Assuré" },
   { path: "soins", title: "Soins" },
   { path: "consultations", title: "Consultations" },
   { path: "fiches", title: "Fiches" },
@@ -30,7 +31,7 @@ const LinksPatient:React.FC = () => {
 
   return (
     <>
-    <section className='bg-white grid sm:grid-cols-1 lg:grid-cols-7 text-gray-700 text-center font-bold shadow-md mt-6'>
+    <section className='bg-white grid sm:grid-cols-1 lg:grid-cols-8 text-gray-700 text-center font-bold shadow-md mt-6'>
       {dataLinks.map((link: dataLinksType, index) => (
         <div 
           key={index}

@@ -112,6 +112,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
             }}
           />
         ) :
+        Line?.lineInvoice?.treatment.name &&
         firstEmptyDateIndex > myIndex && <>
           <FaEdit
             className="text-blue hover:text-main"

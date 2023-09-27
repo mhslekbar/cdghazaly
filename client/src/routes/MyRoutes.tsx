@@ -39,7 +39,6 @@ import ShowSupplier from '../components/consumables/suppliers/ShowSuppliers';
 import AboutSupplier from '../components/consumables/suppliers/abouts/AboutSupplier';
 import StatisticTreatments from '../components/statistics/Treatments/StatisticTreatments';
 
-
 const MyRoutes:React.FC = () => {
   return (
     <Routes>
@@ -67,6 +66,7 @@ const MyRoutes:React.FC = () => {
           <Route path="invoices" element={<ShowInvoices />} />
           <Route path="labo" element={<ShowConsumptions />} />
           <Route path="payments" element={<ShowPayments />} />
+          <Route path="paymentsAssurance" element={<ShowPayments />} />
           <Route path="soins" element={<SoinsPayments />} />
           <Route path="consultations" element={<ShowConsultations />} />
           <Route path="fiches" element={<ShowFiches />} />

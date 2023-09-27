@@ -23,7 +23,7 @@ const getPayments = async (request, response) => {
         .populate("method")
       .sort({ createdAt: -1 })
     }
-
+    
     payments = await Promise.all(payments.map(async payment => {
       let invoiceLine
       if(payment.invoiceAssur) {
@@ -69,12 +69,12 @@ const createPayment = async (request, response) => {
     const AssInfo = await AssuranceModel.findOne({ _id: assurance.society })
     const invoiceAssurance = AssInfo?.invoices.find(invoice => !invoice.finish)    
 
-    if(AssInfo && supported.length === 0) {
-      formErrors.push("Donner la prise en charge")
+    if(AssInfo && supported?.length === 0) {
+      // formErrors.push("Donner la prise en charge")
     } 
     // END keep invoice assurance
     
-    if(supported.length === 0) {
+    if(supported?.length === 0) {
       supported = null
     } else {
       supported += "/" + new Date().getFullYear()
@@ -172,8 +172,8 @@ const updatePayment = async (request, response) => {
     const AssInfo = await AssuranceModel.findOne({ _id: assurance.society })
     const invoiceAssurance = AssInfo?.invoices.find(invoice => !invoice.finish)    
     
-    if(AssInfo && supported.length === 0) {
-      formErrors.push("Donner la prise en charge")
+    if(AssInfo && supported?.length === 0) {
+      // formErrors.push("Donner la prise en charge")
     } 
     // END keep invoice assurance
     if(Object.assign(assurance).length > 0) {

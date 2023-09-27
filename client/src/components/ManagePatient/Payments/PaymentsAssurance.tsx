@@ -20,7 +20,7 @@ import HeaderInvoice from "../HeaderInvoice";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import { useParams } from "react-router";
 
-const DataPayments: React.FC = () => {
+const PaymentsAssurance: React.FC = () => {
   const { payments } = useSelector((state: State) => state.payments);
   const { devis } = useSelector((state: State) => state.devis);
   const [totalDevis, setTotalDevis] = useState(0);
@@ -32,6 +32,7 @@ const DataPayments: React.FC = () => {
         .filter(
           (payment: PaymentInterface) =>
             payment.type === EnumTypePayment.PAYMENT
+            // && payment.supported
         )
         .reduce(
           (acc: number, currVal: PaymentInterface) => acc + currVal.amount,
@@ -89,10 +90,10 @@ const DataPayments: React.FC = () => {
       .filter(
         (payment: PaymentInterface) =>
           payment.type === EnumTypePayment.PAYMENT
-          && !payment.supported
+          && payment.supported
       )
       .length > 0 && (
-        <div className="grid grid-cols-12">
+        <div className="grid grid-cols-12 mt-5">
           <div className="col-span-3"></div>
           <div className="col-span-6 border">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -105,7 +106,6 @@ const DataPayments: React.FC = () => {
                         <th className="py-1 border-r border-gray-950">Status</th>
                         <th className="py-1 border-r border-gray-950">Date</th>
                         <th className="py-1 border-r border-gray-950">Montant</th>
-                        <th className="py-1 border-r border-gray-950">Methode</th>
                         <th className="py-1 print:hidden">Actions</th>
                       </tr>
                     </thead>
@@ -114,7 +114,7 @@ const DataPayments: React.FC = () => {
                         .filter(
                           (payment: PaymentInterface) =>
                             payment.type === EnumTypePayment.PAYMENT
-                            && !payment.supported
+                            && payment.supported
                         )
                         .map((payment: PaymentInterface, index) => (
                           <tr className="border-b border-l border-gray-950" key={index}>
@@ -140,9 +140,6 @@ const DataPayments: React.FC = () => {
                             </td>
                             <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
                               {payment.amount}
-                            </td>
-                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                              {payment.method?.name === null ? "CASH" : payment.method?.name}
                             </td>
                             <td className="bg-white h-full print:hidden border-r border-gray-950">
                               <div className="flex justify-center">
@@ -190,4 +187,4 @@ const DataPayments: React.FC = () => {
   );
 };
 
-export default DataPayments;
+export default PaymentsAssurance;
