@@ -56,6 +56,8 @@ export interface ShowPurchaseOrderInterface {
   setShowDeletePurchaseOrder: (showDeletePurchaseOrder: boolean) => void,
   showPaymentPurchaseOrder: boolean, 
   setShowPaymentPurchaseOrder: (showPaymentPurchaseOrder: boolean) => void,
+  showPurchaseOrderLine: boolean,
+  setShowPurchaseOrderLine: (showPurchaseOrderLine: boolean) => void,
 }
 
 export const DefaultShowPurchaseOrderInterface: ShowPurchaseOrderInterface = {
@@ -67,8 +69,10 @@ export const DefaultShowPurchaseOrderInterface: ShowPurchaseOrderInterface = {
   setShowEditPurchaseOrder: () => {},
   showDeletePurchaseOrder: false,
   setShowDeletePurchaseOrder: () => {},
-  showPaymentPurchaseOrder: false, 
+  showPaymentPurchaseOrder: false,
   setShowPaymentPurchaseOrder: () => {},
+  showPurchaseOrderLine: false,
+  setShowPurchaseOrderLine: () => {},
 }
 
 export const ShowPurchaseOrderContext = createContext(DefaultShowPurchaseOrderInterface)

@@ -18,7 +18,8 @@ const DataPurchaseOrder:React.FC = () => {
   const { showEditPurchaseOrder, setShowEditPurchaseOrder,
     setSelectedPurchaseOrder,
     showDeletePurchaseOrder, setShowDeletePurchaseOrder,
-    showPaymentPurchaseOrder, setShowPaymentPurchaseOrder } = useContext(ShowPurchaseOrderContext)
+    showPaymentPurchaseOrder, setShowPaymentPurchaseOrder,
+    showPurchaseOrderLine, setShowPurchaseOrderLine } = useContext(ShowPurchaseOrderContext)
   const { showSwitchDate, startDate, endDate, selectedDate, month, day, setShowSuccessMsg } = useContext(ShowConsumableContext)
 
   const dispatch: any = useDispatch()
@@ -35,10 +36,11 @@ const DataPurchaseOrder:React.FC = () => {
   }
   
   return (
+    <>
     <div className="flex flex-col border">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
-          <div className="overflow-hidden">
+        <div className="inline-block min-w-full sm:px-6 lg:px-8">
+          <div className={`overflow-hidden`}>
             <table className="min-w-full text-left text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
@@ -60,7 +62,10 @@ const DataPurchaseOrder:React.FC = () => {
                   const totalPayer = purchaseOrder.supplier?.historyPayment?.filter((hp: any) => hp.purchaseOrderId === purchaseOrder._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0) ?? 0
                   // const totalPayer = purchaseOrder.supplier?.historyPayment.filter((hp: historyPaymentInterface) => hp.purchaseOrderId === purchaseOrder._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0) ?? 0
                   return (
-                  <tr className="border-b" key={index}>
+                  <tr className="border-b" key={index} onClick={() => { 
+                    setSelectedPurchaseOrder(purchaseOrder)
+                    setShowPurchaseOrderLine(!showPurchaseOrderLine)
+                  }}>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                       {index + 1}
                     </td>
@@ -114,6 +119,7 @@ const DataPurchaseOrder:React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

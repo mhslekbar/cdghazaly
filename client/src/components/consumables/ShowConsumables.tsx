@@ -14,7 +14,7 @@ const ShowConsumables:React.FC = () => {
   const [year, setYear] = useState(new Date().getFullYear())  
   const [showSwitchDate, setShowSwitchDate] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-
+  
   useEffect(() => {
     const createDate = new Date()
     day.toString() !== "jour" && createDate.setDate(day)
@@ -32,7 +32,7 @@ const ShowConsumables:React.FC = () => {
       month, setMonth,
       year, setYear,
       showSwitchDate, setShowSwitchDate,
-      selectedDate, setSelectedDate
+      selectedDate, setSelectedDate,
      }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <TypeConsumable />

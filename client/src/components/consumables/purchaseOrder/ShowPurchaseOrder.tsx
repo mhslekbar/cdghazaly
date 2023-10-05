@@ -12,6 +12,7 @@ import FilterConsumable from '../FilterConsumable';
 import { ShowListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
 import { ShowSuppliersApi } from '../../../redux/suppliers/supplierApiCalls';
 import HistoryPaymentPurchaseOrder from './controls/payments/HistoryPaymentPurchaseOrder';
+import ShowListBC from './controls/ShowListBC';
 
 const ShowPurchaseOrder:React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false)
@@ -19,6 +20,7 @@ const ShowPurchaseOrder:React.FC = () => {
   const [showDeletePurchaseOrder, setShowDeletePurchaseOrder] = useState(false)
   const [selectedPurchaseOrder, setSelectedPurchaseOrder] = useState<PurchaseOrderInterface>(DefaultPurchaseOrderInterface)
   const [showPaymentPurchaseOrder, setShowPaymentPurchaseOrder] = useState(false)
+  const [showPurchaseOrderLine, setShowPurchaseOrderLine] = useState(false)
 
   const dispatch: any = useDispatch();
   const { doctorId } = useParams()
@@ -51,12 +53,16 @@ const ShowPurchaseOrder:React.FC = () => {
       selectedPurchaseOrder, setSelectedPurchaseOrder,
       showEditPurchaseOrder, setShowEditPurchaseOrder,
       showDeletePurchaseOrder, setShowDeletePurchaseOrder,
-      showPaymentPurchaseOrder, setShowPaymentPurchaseOrder
+      showPaymentPurchaseOrder, setShowPaymentPurchaseOrder,
+      showPurchaseOrderLine, setShowPurchaseOrderLine
     }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <AddPurchaseOrder />
       <FilterConsumable />
       <DataPurchaseOrder />
+      {selectedPurchaseOrder && showPurchaseOrderLine &&
+        <ShowListBC ActiveShowListBC={selectedPurchaseOrder} modal={showPurchaseOrderLine} toggle={() => setShowPurchaseOrderLine(!showPurchaseOrderLine)}  />
+      }
       {selectedPurchaseOrder && showEditPurchaseOrder &&
         <EditPurchaseOrder PurchaseOrderData={selectedPurchaseOrder} modal={showEditPurchaseOrder} toggle={() => setShowEditPurchaseOrder(!showEditPurchaseOrder)}  />
       }

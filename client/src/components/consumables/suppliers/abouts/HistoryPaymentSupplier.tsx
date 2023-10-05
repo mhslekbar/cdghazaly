@@ -24,13 +24,13 @@ const HistoryPaymentSupplier:React.FC = () => {
                 {selectedSupplier.historyPayment.map((hPayment: any, index) => (
                   <tr className="border-b" key={index}>
                     <td className="whitespace-nowrap px-4 py-2 border-r font-medium bg-white">
-                      BC-{hPayment.purchaseOrderId.num}{"-" + (new Date(hPayment.purchaseOrderId.createdAt).getMonth() + 1)}
+                      BC-{hPayment.purchaseOrderId?.num}{"-" + (new Date(hPayment.purchaseOrderId?.createdAt).getMonth() + 1)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r font-medium bg-white">
                       {hPayment.payment}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r font-medium  bg-white">
-                      {formatDate(hPayment.createdAt.toString())}
+                      {formatDate(hPayment.createdAt?.toString())}
                     </td>
                     {/* <td className="whitespace-nowrap px-4 py-2 border-r font-medium  bg-white"></td> */}
                   </tr>

@@ -34,7 +34,7 @@ const DataConsumptions: React.FC = () => {
       <div className="col-span-2 flex flex-col border mt-3">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
-            <div className="overflow-hidden">
+            <div className={`overflow-hidden invoice`}>
               <table className="min-w-full text-left text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>

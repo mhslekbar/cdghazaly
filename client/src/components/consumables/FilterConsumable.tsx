@@ -6,6 +6,7 @@ import { formattedDate } from "../../functions/functions";
 import { Days, Months, Years } from "../statistics/types";
 import { ShowConsumableContext } from "./types";
 import { FaPrint } from "react-icons/fa";
+import { useLocation } from "react-router";
 
 const FilterConsumable: React.FC = () => {
   const {
@@ -16,6 +17,8 @@ const FilterConsumable: React.FC = () => {
     startDate, setStartDate,
     endDate, setEndDate,
   } = useContext(ShowConsumableContext);
+
+  const location = useLocation()
 
   return (
     <div className="flex justify-start gap-2 mt-3">
@@ -33,7 +36,11 @@ const FilterConsumable: React.FC = () => {
           <SelectElement valueType="string" value={year} setValue={setYear} options={Years} />
         </>
       )}
-      <FaPrint onClick={() => window.print()} className="text-blue" style={{ fontSize: "22px" }} />
+      {location.pathname.split("/")[3] !== "purchase-order" && 
+        <FaPrint onClick={() => {
+          window.print()
+        }} className="text-blue" style={{ fontSize: "22px" }} />
+      }
     </div>
   );
 };
