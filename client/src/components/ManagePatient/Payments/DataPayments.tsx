@@ -105,7 +105,7 @@ const DataPayments: React.FC = () => {
                         <th className="py-1 border-r border-gray-950">Status</th>
                         <th className="py-1 border-r border-gray-950">Date</th>
                         <th className="py-1 border-r border-gray-950">Montant</th>
-                        <th className="py-1 border-r border-gray-950">Methode</th>
+                        <th className="py-1 border-r border-gray-950">Mode de paiement</th>
                         <th className="py-1 print:hidden">Actions</th>
                       </tr>
                     </thead>
@@ -142,7 +142,7 @@ const DataPayments: React.FC = () => {
                               {payment.amount}
                             </td>
                             <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                              {payment.method?.name === null ? "CASH" : payment.method?.name}
+                              {payment.method?.name || "CASH"}
                             </td>
                             <td className="bg-white h-full print:hidden border-r border-gray-950">
                               <div className="flex justify-center">

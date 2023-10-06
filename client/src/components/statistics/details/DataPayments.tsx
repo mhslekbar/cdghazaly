@@ -40,7 +40,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                 <th className="px-6 py-4 border-r border-gray-950">Nom</th>
                 <th className="px-6 py-4 border-r border-gray-950">Consultation</th>
                 <th className="px-6 py-4 border-r border-gray-950">{paymentFilter === "payment" ? "Versement" : paymentFilter === "soins" ?  "soins" : ""}</th>
-                <th className="px-6 py-4 border-r border-gray-950">Method</th>
+                <th className="px-6 py-4 border-r border-gray-950">Mode de paiement</th>
               </tr>
             </thead>
             <tbody className='border border-gray-950'>
@@ -75,7 +75,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                         {payment.type === filteredPayment && payment.amount}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
-                        {payment.method?.name}
+                        {payment.method?.name || "cash"}
                       </td>
                     </tr>
                   );

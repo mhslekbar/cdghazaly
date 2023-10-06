@@ -113,7 +113,7 @@ const InputsPayment = () => {
         <InputElement name="Prise en charge" value={supported} setValue={setSupported} />
       :      
       <SelectElement  
-        name='Methode de paiement'
+        name='Mode de paiement'
         valueType="object"
         id="paymentMethod"
         value={paymentMethod}

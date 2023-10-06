@@ -16,9 +16,6 @@ const TeethLeftDown = () => {
       <div className={`tooth ${chooseClass("83")}`} onClick={() => configSelectedTeeth("83")}  id="tooth-83"><b>83</b></div>
       <div className={`tooth ${chooseClass("84")}`} onClick={() => configSelectedTeeth("84")}  id="tooth-84"><b>84</b></div>
       <div className={`tooth ${chooseClass("85")}`} onClick={() => configSelectedTeeth("85")}  id="tooth-85"><b>85</b></div>
-      {/* <div className={`tooth ${chooseClass("86")}`} onClick={() => configSelectedTeeth("86")}  id="tooth-86"><b>86</b></div>
-      <div className={`tooth ${chooseClass("87")}`} onClick={() => configSelectedTeeth("87")}  id="tooth-87"><b>87</b></div>
-      <div className={`tooth ${chooseClass("88")}`} onClick={() => configSelectedTeeth("88")}  id="tooth-88"><b>88</b></div> */}
     </React.Fragment>
   )
 }
