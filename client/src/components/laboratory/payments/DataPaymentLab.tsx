@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { useParams } from "react-router";
@@ -41,6 +41,19 @@ const DataLabPayment: React.FC = () => {
     setShowDeletePLabModal(!showDeletePLabModal);
     setSelectedPaymentLab(payment);
   };
+
+  const [totalPayment, setTotalPayment] = useState<number>(0)
+  
+  useEffect(() => {
+    setTotalPayment(paymentLab
+      .filter(
+        (payment: PaymentLabType) =>
+        payment.doctor._id === doctorId
+      )
+      .sort((a: PaymentLabType, b: PaymentLabType) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .reduce((acc: number, currVal: PaymentLabType) => acc + Number(currVal.amount), 0)
+      )
+  }, [paymentLab, doctorId])
 
   return (
     <div className="">
@@ -99,6 +112,9 @@ const DataLabPayment: React.FC = () => {
                         )
                       })}
                   </tbody>
+                  <tr className="border-b">
+                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{totalPayment}</td>
+                  </tr>
                 </table>
               </div>
             </div>

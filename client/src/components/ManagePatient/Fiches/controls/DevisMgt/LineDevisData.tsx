@@ -21,8 +21,7 @@ const LineDevisData:React.FC<LineDevisDataInterface> = ({ ln, index, devis}) => 
     // teethBoard
     setSelectedTeeth(line.teeth.nums)
     setSelectedSurface(line.teeth.surface)
-    setPrice(ln.price - (ln.price * (devis.reduce / 100)))
-    // setPrice(line.price)    
+    setPrice(ln.price - (ln.price * (devis.reduce / 100)))    
     setTreat(line.treatment._id)
     setSelectedTreat(line.treatment)
     setSelectedDevis(devis)

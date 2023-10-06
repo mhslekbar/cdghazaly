@@ -49,8 +49,8 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
     // teethBoard
     setSelectedTeeth(line.lineInvoice?.teeth?.nums)
     setSelectedSurface(line.lineInvoice?.teeth?.surface)
-    setPrice(line.amount)
-    // setPrice(line.price)    
+    // setPrice(line.amount)
+    setPrice(line.amount / line.lineInvoice?.teeth?.nums.length)
     setTreat(line.lineInvoice?.treatment?._id)
     setSelectedTreat(line.lineInvoice?.treatment)
     setSelectedDevis(line.lineInvoice?.devis)

@@ -2,12 +2,11 @@
   position: relative;
   overflow: hidden;
   border-radius: 50%;
-  width: 280px;
-  height: 400px;
-  margin-left: 30px;
+  width: 240px;
+  height: 320px;
+  margin-left: 10px;
+  margin-top: 10px;
   background-color: #f78fb3;
-  /* #ef5777 */
-  /* #f78fb3 */
 }
 
 .child-mouth .tooth {
@@ -22,86 +21,57 @@
 
 #tooth-61 {
   position: absolute;
-  top: 4px;
-  right: 116px;
+  top: 8px;
+  right: 85px;
 }
 #tooth-62 {
   position: absolute;
-  top: 14px;
-  right: 88px;
+  top: 25px;
+  right: 56px;
 }
 #tooth-63 {
   position: absolute;
-  top: 32px;
-  right: 64px;
+  top: 50px;
+  right: 34px;
 }
 #tooth-64 {
   position: absolute;
-  top: 54px;
-  right: 42px;
+  top: 80px;
+  right: 16px;
 }
 #tooth-65 {
   position: absolute;
-  top: 80px;
-  right: 25px;
-}
-#tooth-66 {
-  position: absolute;
-  top: 110px;
-  right: 14px;
-}
-#tooth-67 {
-  position: absolute;
-  top: 142px;
+  top: 112px;
   right: 8px;
 }
-#tooth-68 {
-  position: absolute;
-  top: 175px;
-  right: 4px;
-}
+
 /* END Tooth Left UP */
 
 /* START Tooth Right UP */
 #tooth-51 {
   position: absolute;
-  top: 4px;
-  left: 108px
+  top: 8px;
+  left: 85px;
 }
 #tooth-52 {
   position: absolute;
-  top: 15px;
-  left: 84px;
+  top: 22px;
+  left: 58px;
 }
 #tooth-53 {
   position: absolute;
-  top: 32px;
-  left: 60px;
+  top: 48px;
+  left: 36px;
 }
 #tooth-54 {
   position: absolute;
-  top: 54px;
-  left: 40px;
+  top: 80px;
+  left: 18px;
 }
 #tooth-55 {
   position: absolute;
-  top: 80px;
-  left: 24px;
-}
-#tooth-56 {
-  position: absolute;
-  top: 110px;
-  left: 13px;
-}
-#tooth-57 {
-  position: absolute;
-  top: 142px;
-  left: 6px;
-}
-#tooth-58 {
-  position: absolute;
-  top: 172px;
-  left: 3px;
+  top: 114px;
+  left: 7px;
 }
 
 /* END Tooth Right UP */
@@ -109,43 +79,28 @@
 /* START Tooth Right DOWN */
 #tooth-81 {
   position: absolute;
-  bottom: 4px;
-  left: 112px;
+  bottom: 5px;
+  left: 92px;
 }
 #tooth-82 {
   position: absolute;
-  bottom: 14px;
-  left: 87px;
+  bottom: 16px;
+  left: 66px;
 }
 #tooth-83 {
   position: absolute;
-  bottom: 30px;
-  left: 64px;
+  bottom: 38px;
+  left: 40px;
 }
 #tooth-84 {
   position: absolute;
-  bottom: 52px;
-  left: 44px;
+  bottom: 68px;
+  left: 22px;
 }
 #tooth-85 {
   position: absolute;
-  bottom: 78px;
-  left: 27px;
-}
-#tooth-86 {
-  position: absolute;
-  bottom: 106px;
-  left: 15px;
-}
-#tooth-87 {
-  position: absolute;
-  bottom: 135px;
-  left: 8px;
-}
-#tooth-88 {
-  position: absolute;
-  bottom: 165px;
-  left: 3px;
+  bottom: 100px;
+  left: 10px;
 }
 
 /* END Tooth Right DOWN */
@@ -155,42 +110,27 @@
 #tooth-71 {
   position: absolute;
   bottom: 4px;
-  right: 116px;
+  right: 88px;
 }
 #tooth-72 {
   position: absolute;
-  bottom: 14px;
-  right: 88px;
+  bottom: 18px;
+  right: 64px;
 }
 #tooth-73 {
   position: absolute;
-  bottom: 32px;
-  right: 64px;
+  bottom: 42px;
+  right: 43px;
 }
 #tooth-74 {
   position: absolute;
-  bottom: 53px;
-  right: 43px;
+  bottom: 70px;
+  right: 25px;
 }
 #tooth-75 {
   position: absolute;
-  bottom: 78px;
-  right: 26px;
-}
-#tooth-76 {
-  position: absolute;
-  bottom: 108px;
-  right: 15px;
-}
-#tooth-77 {
-  position: absolute;
-  bottom: 136px;
-  right: 8px;
-}
-#tooth-78 {
-  position: absolute;
-  bottom: 165px;
-  right: 4px;
+  bottom: 100px;
+  right: 12px;
 }
 
 /* END Tooth Right DOWN */
@@ -201,7 +141,7 @@
   background: #000;
   height: inherit;
   top: 0;
-  right: 142px;
+  right: 118px;
   z-index: 999;
 }
 
@@ -210,7 +150,7 @@
   width: 100%;
   background: #000;
   height: 1px;
-  top: 204px;
+  top: 165px;
   right: 0;
   z-index: 999;
 }

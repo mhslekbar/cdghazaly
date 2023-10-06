@@ -97,7 +97,6 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
   }, [devis, selectedDevis, setLineDevis, TypeModal])
 
   const handleAppendTreatToTable = async (e: any) => {
-
     const TeethBoardErrors = []
     if(selectedTeeth.length === 0) {
       TeethBoardErrors.push("Selectionner les dents !!")
@@ -225,7 +224,8 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
                         <SelectElement showPrice={true} valueType="object" id="laboratory" value={MyLaboratory} setValue={setMyLaboratory} options={filteredLabo.map((option: any) => ({...option, name: option.name}))} />
                       }
                     </div>
-                    <button className="shadow p-2 rounded shadow bg-blue" onClick={() => setShowChildMouth(!showChildMouth)}>Dents Pediatre</button>
+                    <span className="shadow p-2 rounded bg-blue mt-2" onClick={() => setShowChildMouth(!showChildMouth)}>Dents Pediatre</span>
+                    {/* <span >sniper</span> */}
                     {showChildMouth && <ChildMouth />}
                   </section>
                   <section className='text-end'>
