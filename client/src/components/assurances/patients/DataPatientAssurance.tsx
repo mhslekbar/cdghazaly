@@ -31,7 +31,7 @@ const DataPatientAssurance: React.FC = () => {
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
           <div className="overflow-hidden">
-            <table className="min-w-full text-left text-sm font-light text-center">
+            <table className="min-w-full text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
                   <th className="px-6 py-4 border-r">Doss.NO</th>
