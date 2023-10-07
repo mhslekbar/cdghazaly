@@ -36,10 +36,9 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { companyName } from "../requestMethods";
 
 const persistConfig = {
-  key: companyName,
+  key: "cdghazaly",
   version: 1,
   storage,
 };

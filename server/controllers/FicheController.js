@@ -63,8 +63,7 @@ const createNewFiche = async (patient) => {
     // Here i want to check if it's the first fiche 
     // And i am in the first line of this fiche
     if(numFiche === 1 && i === 1) { 
-      LineFiche[0].dateAppointment = new Date()
-      // LineFiche[0].dateAppointment = createdAt
+      LineFiche[0].dateAppointment = createdAt
     }
   }
   return await FicheModel.create({ patient, numFiche, LineFiche }); 

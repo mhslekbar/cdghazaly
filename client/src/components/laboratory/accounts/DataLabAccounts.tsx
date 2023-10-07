@@ -27,7 +27,7 @@ const DataLabAccounts: React.FC = () => {
 
   return (
     <div className="w-1/4">
-      <table className="min-w-full text-sm font-light text-center">
+      <table className="min-w-full text-left text-sm font-light text-center">
         <thead className="border-b font-medium bg-main text-white">
           <tr>
             <th className="px-3 py-2 border-r">Doctor</th>

@@ -1,7 +1,5 @@
 :root {
-  --mainColor: rgb(155, 89, 182, .5);
-  --mainColor: rgba(255, 127, 80, .7);
-  /* --mainColor: #00b894; */
+  --mainColor: #00b894;
   --blueColor: #60a5fa; /* #2563eb  */
   --redColor: #eb3b5a;
   --yellowColor: #f1c40f; 

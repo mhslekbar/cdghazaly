@@ -19,7 +19,7 @@ const ThTable:React.FC<ThTableInterface> = ({ day }) => {
   return (
     <th className={`px-6 py-4 border-r ${dateIsEqualToCurrentDate(day.order + 1, desiredDate) ? "bg-main text-white":"" }`} key={day.order}>
     {day.name}
-    <span className={`${dateIsEqualToCurrentDate(day.order + 1, desiredDate) ? "text-white":"" } block`} >
+    <span className={`${dateIsEqualToCurrentDate(day.order + 1, desiredDate) ? "bg-main text-white":"" } block`} >
       {formatDate(getDateOfSpecificDay(day.order + 1, desiredDate))}
     </span>
   </th>
