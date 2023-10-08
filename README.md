@@ -150,6 +150,8 @@ server {
 ```
 ln -s /etc/nginx/sites-available/cdghazaly /etc/nginx/sites-enabled/cdghazaly
 
+ln -s /etc/nginx/sites-available/cabinetibtissama /etc/nginx/sites-enabled/cabinetibtissama
+
 ```
 
 ##### Write your fist message
@@ -341,6 +343,9 @@ ufw status
 
 ```
 certbot --nginx -d cdghazaly.com -d www.cdghazaly.com
+
+
+certbot --nginx -d api.cabinetibtissama.com -d www.cabinetibtissama.com
 ```
 
 Let’s Encrypt’s certificates are only valid for ninety days. To set a timer to validate automatically:
@@ -376,3 +381,15 @@ restart the server
   - kill -9 <PID>
   - sudo systemctl reload nginx
 ```
+
+
+
+```
+##### START to do this for best one
+rm -rf /var/www/cabinetibtissama/*
+mkdir /var/www/cabinetibtissama/client
+cp -r build/* /var/www/cabinetibtissama/client
+##### END to do this for best one
+```
+
+<!-- http://154.56.57.194:8892/api/user -->

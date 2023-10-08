@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const port = "8891"
+const port = "8892"
 
-// const BASE_URL = `http://154.56.57.194:${port}/api/`
+// const BASE_URL = `https://api.cabinetibtissama.com/api/`
 const BASE_URL = `http://localhost:${port}/api/`
 
 export const publicRequest = axios.create({

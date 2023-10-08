@@ -28,8 +28,8 @@ const ButtonElement: React.FC<ButtonInterface> = ({
       {path ? (
         <Link
           to={path}
-          className={`${location.pathname.split("/")[1] === path?.split("/")[1]  ? "btn-main" : "bg-transparent"} inline-flex w-full px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-[#00b894] `} // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-          // className={`${location.pathname.split("/")[1] === path  ? "btn-main" : "bg-transparent"} inline-flex w-full px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-[#00b894] `} // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+          className={`${location.pathname.split("/")[1] === path?.split("/")[1]  ? "btn-main" : "bg-transparent"} inline-flex w-full px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-main `} // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+          // className={`${location.pathname.split("/")[1] === path  ? "btn-main" : "bg-transparent"} inline-flex w-full px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-main `} // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
         >
           <span style={{fontSize: "22px"}} >
           {icon}
@@ -50,7 +50,7 @@ const ButtonElement: React.FC<ButtonInterface> = ({
          </div>
         : 
         <button
-          className={`${location.pathname.split("/")[1] === pathDropDown ? "btn-main" : "bg-transparent"} inline-flex justify-between w-full px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-[#00b894] `} // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+          className={`${location.pathname.split("/")[1] === pathDropDown ? "btn-main" : "bg-transparent"} inline-flex justify-between w-full px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-main `} // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
           onClick={() => {toggleDropDown(name);}}
           aria-expanded={openDropdown}
           aria-haspopup="true"

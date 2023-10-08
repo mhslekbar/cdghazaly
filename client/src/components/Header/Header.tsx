@@ -5,6 +5,7 @@ import { logoutApi } from "../../redux/login/loginApiCalls";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { State } from "../../redux/store";
+import { companyName } from "../../requestMethods";
 
 interface HeaderInterface {
   toggleOffcanvas: any;
@@ -18,7 +19,7 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
     try {
       await disaptch(logoutApi)
       localStorage.removeItem("timeOut")
-      localStorage.removeItem("persist:dentist")      
+      localStorage.removeItem(`persist:${companyName}`)      
       navigate("/login", { replace: true });
     } catch {}
   }
@@ -31,7 +32,7 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
       <div>
         <button
           className={`bg-[#FFF] text-main 
-              hover:bg-[#00b894] hover:text-[#FFF]
+              hover:bg-main hover:text-[#FFF]
               border-2 border-[#FFF]
               font-bold py-2 px-4 rounded
             `}

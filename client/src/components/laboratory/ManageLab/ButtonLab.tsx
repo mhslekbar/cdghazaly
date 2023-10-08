@@ -28,7 +28,7 @@ const ButtonLab: React.FC<ButtonInterface> = ({
             setOpenDropdown(false)
             navigate(path)
           }}
-          className={`bg-white shadow ${location.pathname === path ? "bg-main" : ""}  text-start px-4 py-2 border-r text-gray-700 hover:bg-[#00b894]`} 
+          className={`bg-white shadow ${location.pathname === path ? "bg-main" : ""}  text-start px-4 py-2 border-r text-gray-700 hover:bg-main`} 
         >
           <span className="ml-2 mt-1">
             {name.toUpperCase()}
@@ -36,7 +36,7 @@ const ButtonLab: React.FC<ButtonInterface> = ({
         </button>
       ) : (
         <button
-          className={`bg-white shadow ${location.pathname.split("/")[3] === pathDropDown ? "bg-main" : ""} inline-flex justify-between w-full px-4 py-2 bg-white text-gray-700 hover:bg-[#00b894]`} 
+          className={`bg-white shadow ${location.pathname.split("/")[3] === pathDropDown ? "bg-main" : ""} inline-flex justify-between w-full px-4 py-2 bg-white text-gray-700 hover:bg-main`} 
           onClick={() => toggleDropDown(name)}
           aria-expanded={openDropdown}
           aria-haspopup="true"

@@ -9,7 +9,7 @@ app.use(cors());
 const dotenv = require("dotenv");
 dotenv.config();
 
-const port = process.env.PORT || 8890;
+const port = process.env.PORT || 8892;
 const expressMongoSanitize = require("express-mongo-sanitize");
 
 // start database connection
