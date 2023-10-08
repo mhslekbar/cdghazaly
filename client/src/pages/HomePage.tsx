@@ -8,6 +8,9 @@ const HomePage:React.FC = () => {
       case "ibtissama": 
         document.documentElement.style.setProperty("--mainColor", `rgba(155, 89, 182, .8)`)
       break;
+      case "cdghazaly": 
+        document.documentElement.style.setProperty("--mainColor", "#00b894")
+      break;
       default: 
         document.documentElement.style.setProperty("--mainColor", "#00b894")
       break;

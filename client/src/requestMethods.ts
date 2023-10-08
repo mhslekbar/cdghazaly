@@ -10,7 +10,7 @@ export const publicRequest = axios.create({
   baseURL: BASE_URL
 })
 
-export const companyName = "ibtissama"
+export const companyName: any = "cdghazaly"
 
 export const UserData = () => {
   let persist = localStorage.getItem(`persist:${companyName}`)
