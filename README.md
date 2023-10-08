@@ -343,6 +343,7 @@ ufw status
 
 ```
 certbot --nginx -d cdghazaly.com -d www.cdghazaly.com
+ <!-- -d api.cdghazaly.com -->
 
 
 certbot --nginx -d api.cabinetibtissama.com -d www.cabinetibtissama.com
