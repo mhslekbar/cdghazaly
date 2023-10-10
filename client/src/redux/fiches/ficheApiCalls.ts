@@ -140,4 +140,11 @@ export const DeleteLineFicheApi = (patientId: string = "", ficheId: string = "",
   }
 }
 
+export const ClearFicheApi = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusFicheStart())
+    dispatch(statusFicheSuccess([]))
+  } catch {
 
+  }
+}

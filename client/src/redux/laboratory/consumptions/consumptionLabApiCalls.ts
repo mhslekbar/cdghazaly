@@ -32,3 +32,13 @@ export const ShowConsumptionLabApi = (findById: any = {}, filter: string = "") =
     }
   }
 }
+
+
+export const ClearConsumptionLabApi = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusConsumptionLabStart())
+    dispatch(statusConsumptionLabSuccess([]))
+  } catch {
+
+  }
+}

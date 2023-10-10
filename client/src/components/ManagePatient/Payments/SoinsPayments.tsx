@@ -46,7 +46,7 @@ const SoinsPayments: React.FC = () => {
               <div className="inline-bloc sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
                   <HeaderInvoice type={`soins`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
-                  <table className="min-w-full text-left text-sm font-light text-center">
+                  <table className="min-w-full text-sm font-light text-center">
                     <thead className="border border-gray-950 font-medium bg-white text-black">
                       <tr>
                         <th className="py-1 border-r border-gray-950">Date</th>

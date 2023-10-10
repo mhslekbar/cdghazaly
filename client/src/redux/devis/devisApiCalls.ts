@@ -162,3 +162,11 @@ export const deleteLineDevisApi = (patientId: string = "", devisId: string = "",
 }
 
 
+export const ClearDevisApi = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusDevisStart())
+    dispatch(statusDevisSuccess([]))
+  } catch {
+
+  }
+}

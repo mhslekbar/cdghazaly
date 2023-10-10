@@ -77,3 +77,11 @@ export const DeleteInvoiceApi = (patientId: string = "", invoiceId: string) => a
   }
 }
 
+export const ClearInvoiceApi = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusInvoiceStart())
+    dispatch(statusInvoiceSuccess([]))
+  } catch {
+
+  }
+}

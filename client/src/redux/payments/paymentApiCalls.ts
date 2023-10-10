@@ -94,3 +94,12 @@ export const DeletePaymentsApi = (paymentId: string) => async (dispatch: Dispatc
     }
   }
 }
+
+export const ClearPaymentsApi = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPaymentStart())
+    dispatch(statusPaymentSuccess([]))
+  } catch {
+
+  }
+}

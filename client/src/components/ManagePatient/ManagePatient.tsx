@@ -11,6 +11,7 @@ import ReturnPatient from "../patients/controls/ReturnPatient";
 import HeaderInfoPatient from './HeaderInfoPatient'
 import LinksPatient from './LinksPatient'
 import { ManagePatientContext } from './types'
+import ClearManagePatient from "./ClearManagePatient";
 
 
 const ManagePatient: React.FC = () => {
@@ -57,6 +58,7 @@ const ManagePatient: React.FC = () => {
     <ManagePatientContext.Provider value={{
       selectedLink, setSelectedLink
     }}>
+      <ClearManagePatient />
       {showSuccessMsg && (
         <SuccessMsg
           modal={showSuccessMsg}
