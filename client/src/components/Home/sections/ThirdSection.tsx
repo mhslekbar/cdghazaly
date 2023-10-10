@@ -7,7 +7,7 @@ import DropdownDoctor from '../../sidebar/DropDownDoctor';
 import { UserData } from '../../../requestMethods';
 import { BsCart4 } from 'react-icons/bs';
 import { PermissionType } from '../../roles/types';
-import { MdOutlineAssuredWorkload } from 'react-icons/md';
+import { MdOutlineAssuredWorkload, MdPayments } from 'react-icons/md';
 
 interface ThirdSectionInterface {
   className: string,
@@ -115,6 +115,16 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
         </div>
       )}
       
+      {permissions.find(
+        (permission: PermissionType) =>
+          permission.name === "AFFICHER" &&
+          permission.collectionName === "MODE_PAIEMENT"
+      ) && (
+        <div className={className} onClick={() => navigate("paymentMode")}>
+          <MdPayments className="mb-3 text-4xl" /> Mode de paiement
+        </div>
+      )}
+
       {userData.dev && <div className={className} onClick={() => navigate("/permissions")}>
         <FaShieldAlt className="mb-3 text-4xl" />
         Permissions

@@ -4,6 +4,7 @@ const port = "8890"
 
 // const BASE_URL = `https://api.cabinetibtissama.com/api/`
 // const BASE_URL = `https://api.cdghazaly.com/api/`
+// const BASE_URL = `http://154.56.57.194:${port}/api/`
 const BASE_URL = `http://localhost:${port}/api/`
 
 export const publicRequest = axios.create({

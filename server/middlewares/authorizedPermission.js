@@ -6,7 +6,6 @@ const authorizedPermission = (permission = [], collectionName) => {
 
     const users = await UserModel.findById(id).populate("roles");
     let hasPermission = false;
-
     for (const role of users.roles || []) {
       const populatedRole = await role.populate("permissions");
       if (

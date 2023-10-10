@@ -12,7 +12,7 @@ import FilterConsumable from '../FilterConsumable';
 import { ShowListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
 import { ShowSuppliersApi } from '../../../redux/suppliers/supplierApiCalls';
 import HistoryPaymentPurchaseOrder from './controls/payments/HistoryPaymentPurchaseOrder';
-import ShowListBC from './controls/ShowListBC';
+// import ShowListBC from './controls/ShowListBC';
 
 const ShowPurchaseOrder:React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false)
@@ -60,9 +60,9 @@ const ShowPurchaseOrder:React.FC = () => {
       <AddPurchaseOrder />
       <FilterConsumable />
       <DataPurchaseOrder />
-      {selectedPurchaseOrder && showPurchaseOrderLine &&
+      {/* {selectedPurchaseOrder && showPurchaseOrderLine &&
         <ShowListBC ActiveShowListBC={selectedPurchaseOrder} modal={showPurchaseOrderLine} toggle={() => setShowPurchaseOrderLine(!showPurchaseOrderLine)}  />
-      }
+      } */}
       {selectedPurchaseOrder && showEditPurchaseOrder &&
         <EditPurchaseOrder PurchaseOrderData={selectedPurchaseOrder} modal={showEditPurchaseOrder} toggle={() => setShowEditPurchaseOrder(!showEditPurchaseOrder)}  />
       }

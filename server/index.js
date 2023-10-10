@@ -43,7 +43,7 @@ app.use("/api/laboratory",  verifyToken, setCacheControl, require("./routes/labo
 app.use("/api/consumableList", verifyToken, setCacheControl, require("./routes/consumableList"))
 app.use("/api/patient",        verifyToken, setCacheControl, require("./routes/patient"))
 app.use("/api/setting",        verifyToken, setCacheControl, require("./routes/setting"))
-app.use("/api/paymentMethod",  verifyToken, setCacheControl, require("./routes/paymentMethod"))
+app.use("/api/paymentMode",  verifyToken, setCacheControl, require("./routes/paymentMode"))
 app.use("/api/payment",        verifyToken, setCacheControl, require("./routes/payment"))
 app.use("/api/devis",          verifyToken, setCacheControl, require("./routes/devis"))
 app.use("/api/fiche",          verifyToken, setCacheControl, require("./routes/fiche"))

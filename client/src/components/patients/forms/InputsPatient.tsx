@@ -6,7 +6,7 @@ import { DefaultUserInterface, UserInterface } from '../../users/types'
 import { useSelector } from 'react-redux'
 import { State } from '../../../redux/store'
 import { useDispatch } from 'react-redux'
-import { ShowPaymentMethodApi } from '../../../redux/paymentMethods/paymentMethodApiCalls'
+import { ShowPaymentModeApi } from '../../../redux/paymentMode/paymentModeApiCalls'
 import { UserData } from '../../../requestMethods'
 import { SelectElement } from '../../../HtmlComponents/SelectElement'
 import InputsAssPatients from './InputsAssPatients'
@@ -30,7 +30,7 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
   const [ArrayOfDoctors, setArrayOfDoctors] = useState<UserInterface[]>([DefaultUserInterface])
   const [hideChooseDr, setHideChooseDr] = useState(false)
   const { users } = useSelector((state: State) => state.users)
-  const { paymentMethods } = useSelector((state: State) => state.paymentMethods)
+  const { paymentModes } = useSelector((state: State) => state.paymentModes)
 
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
   
   useEffect(() => {
     const fetchPaymentMethod = async () => {
-      await dispatch(ShowPaymentMethodApi())
+      await dispatch(ShowPaymentModeApi())
     }
     fetchPaymentMethod();
   }, [dispatch])
@@ -112,7 +112,7 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
               id="paymentMethod"
               value={paymentMethod}
               setValue={setPaymentMethod}
-              options={ paymentMethods
+              options={ paymentModes
                 .map((option: any) => ({_id: option._id, name: option.name}))
               }
               defaultOption={<option>cash</option>} 

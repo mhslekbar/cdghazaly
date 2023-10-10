@@ -10,7 +10,7 @@ import { State } from "../../../redux/store";
 import { DefaultUserInterface, UserInterface } from "../../users/types";
 import { UserData } from "../../../requestMethods";
 import { InputElement } from "../../../HtmlComponents/InputElement";
-import { ShowPaymentMethodApi } from "../../../redux/paymentMethods/paymentMethodApiCalls";
+import { ShowPaymentModeApi } from "../../../redux/paymentMode/paymentModeApiCalls";
 import { useParams } from "react-router";
 
 type ReturnPatientType = {
@@ -30,7 +30,7 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
   const { users } = useSelector((state: State) => state.users)
   const [ArrayOfDoctors, setArrayOfDoctors] = useState<UserInterface[]>([DefaultUserInterface])
   
-  const { paymentMethods } = useSelector((state: State) => state.paymentMethods)
+  const { paymentModes } = useSelector((state: State) => state.paymentModes)
 
   useEffect(() => {
     setArrayOfDoctors(users.filter((user: UserInterface) => user.doctor?.cabinet))
@@ -42,7 +42,7 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
   
   useEffect(() => {
     const fetchPaymentMethod = async () => {
-      await dispatch(ShowPaymentMethodApi())
+      await dispatch(ShowPaymentModeApi())
     }
     fetchPaymentMethod();
   }, [dispatch])
@@ -110,7 +110,7 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
                       id="paymentMethod"
                       value={method}
                       setValue={setMethod}
-                      options={ paymentMethods
+                      options={ paymentModes
                         .map((option: any) => ({_id: option._id, name: option.name}))
                       }
                       defaultOption={<option>cash</option>} 

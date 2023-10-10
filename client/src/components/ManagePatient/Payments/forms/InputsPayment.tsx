@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { ShowUserApi } from '../../../../redux/users/UserApiCalls'
 import { SelectElement } from '../../../../HtmlComponents/SelectElement'
 import { UserData, get } from '../../../../requestMethods'
-import { ShowPaymentMethodApi } from '../../../../redux/paymentMethods/paymentMethodApiCalls'
+import { ShowPaymentModeApi } from '../../../../redux/paymentMode/paymentModeApiCalls'
 import { PatientInterface } from '../../../patients/types'
 import { AssuranceInterface } from '../../../assurances/types'
 
@@ -53,7 +53,7 @@ const InputsPayment = () => {
    const dispatch: any = useDispatch()
    const { users } = useSelector((state: State) => state.users)
    const { patients } = useSelector((state: State) => state.patients)
-   const { paymentMethods } = useSelector((state: State) => state.paymentMethods)
+   const { paymentModes } = useSelector((state: State) => state.paymentModes)
 
    const { doctorId } = useParams()
 
@@ -77,7 +77,7 @@ const InputsPayment = () => {
 
   useEffect(() => {
     const fetchPaymentMethod = async () => {
-      await dispatch(ShowPaymentMethodApi())
+      await dispatch(ShowPaymentModeApi())
     }
     fetchPaymentMethod();
   }, [dispatch])
@@ -118,7 +118,7 @@ const InputsPayment = () => {
         id="paymentMethod"
         value={paymentMethod}
         setValue={setPaymentMethod}
-        options={ paymentMethods
+        options={ paymentModes
           .map((option: any) => ({_id: option._id, name: option.name}))
         }
         defaultOption={<option data-element={JSON.stringify(DefaultPaymentMethodInterface)}>cash</option>

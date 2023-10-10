@@ -11,7 +11,7 @@ import treatmentLabReducer from "./laboratory/treatments/treatmentLabSlice";
 import accountLabReducer from "./laboratory/accounts/accountLabSlice";
 import assuranceReducer from "./assurances/assuranceSlice";
 import patientReducer from "./patients/patientSlice";
-import paymentMethodReducer from "./paymentMethods/paymentMethodSlice";
+import paymentModeReducer from "./paymentMode/paymentModeSlice";
 import devisReducer from "./devis/devisSlice";
 import paymentReducer from "./payments/paymentSlice";
 import ficheReducer from "./fiches/ficheSlice";
@@ -57,7 +57,7 @@ const rootReducer = combineReducers({
   accountLab: accountLabReducer,
   assurances: assuranceReducer,
   patients: patientReducer,
-  paymentMethods: paymentMethodReducer,
+  paymentModes: paymentModeReducer,
   devis: devisReducer,
   payments: paymentReducer,
   fiches: ficheReducer,

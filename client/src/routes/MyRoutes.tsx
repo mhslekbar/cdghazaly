@@ -38,6 +38,7 @@ import Permissions from '../pages/Permissions';
 import ShowSupplier from '../components/consumables/suppliers/ShowSuppliers';
 import AboutSupplier from '../components/consumables/suppliers/abouts/AboutSupplier';
 import StatisticTreatments from '../components/statistics/Treatments/StatisticTreatments';
+import PaymentModes from '../pages/PaymentModes';
 
 const MyRoutes:React.FC = () => {
   return (
@@ -88,6 +89,7 @@ const MyRoutes:React.FC = () => {
           <Route path="suppliers/:supplierId" element={<AboutSupplier />}/>          
         </Route>
 
+        <Route path="/paymentMode" element={<PaymentModes />}/>
         <Route path="/permissions" element={<Permissions />}/>
         
         <Route path="/login" element={<Login />}/>
