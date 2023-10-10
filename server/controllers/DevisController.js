@@ -47,10 +47,13 @@ const appendToDevis = async (request, response) => {
 
     const findIndex  = devisData.LineDevis.findIndex(ln => ln.treatment.equals(treatment._id))
     if(findIndex > -1) {
-      devisData.LineDevis[findIndex].teeth.nums.push(teeth.nums)
+      teeth.nums.map(num => {
+        if(!devisData.LineDevis[findIndex].teeth.nums.includes(num)) {
+          devisData.LineDevis[findIndex].teeth.nums.push(num)        
+        }
+      })
+      devisData.LineDevis[findIndex].teeth.nums.sort((a, b) => a.localeCompare(b))
       devisData.LineDevis[findIndex].teeth.surface += " " + teeth.surface
-      // console.log("LineDevis: ", devisData.LineDevis[findIndex])
-
     } else {
       devisData.LineDevis.push({doctor: doctor._id, treatment: treatment._id, price, teeth})
     }

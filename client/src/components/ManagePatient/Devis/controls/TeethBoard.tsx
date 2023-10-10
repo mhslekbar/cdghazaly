@@ -104,7 +104,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
     if(selectedTreat.type === "conservative" && selectedSurface.length === 0) {
       TeethBoardErrors.push("Donner la surface")
     }
-
+    
     if(TeethBoardErrors.length === 0) {
       e.preventDefault()
       toggle();
@@ -143,6 +143,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
           treatment: selectedTreat,
           price: Number(price),
           teeth: {
+            // nums: Object.assign(Line.teeth, selectedTeeth),
             nums: selectedTeeth ? [...selectedTeeth].sort((a: string, b: string) => a.localeCompare(b)) : [],
             surface: selectedSurface
           }

@@ -6,7 +6,7 @@ const paymentSchema = new mongoose.Schema({
   patient: { type: mongoose.Types.ObjectId, ref: "patient", required: true },
   amount: { type: Number, required: true },
   type: { type: String, required: true },
-  method: { type: mongoose.Types.ObjectId, ref: "paymentMethod" },
+  method: { type: mongoose.Types.ObjectId, ref: "paymentMode" },
   supported: { type: String },
   invoiceAssur: { type: mongoose.Types.ObjectId, ref: "assurance.invoices" },
   createdAt: { type: Date, default: Date.now },
