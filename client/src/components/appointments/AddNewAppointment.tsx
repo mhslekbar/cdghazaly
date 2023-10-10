@@ -87,7 +87,6 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
     const patient = selectedPatientLab?.consumptionLab?.patient
     patient?._id && setPatient({value: patient?._id})
   }, [selectedPatientLab])
-  
 
   return (
     <div>
@@ -116,7 +115,15 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
                         {err}
                       </p>
                     ))}
-                    {!patientId && !selectedPatientLab?.consumptionLab?.patient?._id && <Select styles={customStyles} value={patient} onChange={(e: any) => setPatient(e)} options={listPatient} />}
+                    {!patientId && 
+                      !selectedPatientLab?.consumptionLab?.patient?._id && 
+                      <Select 
+                        styles={customStyles}
+                        value={patient}
+                        onChange={(e: any) => setPatient(e)} 
+                        options={listPatient} 
+                      />
+                    }
                     <p className='rounded shadow px-4 py-2 bg-[#EEE] w-full mt-2'>{formatDate(dateAppointment)}</p>
                     <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
                   </form>

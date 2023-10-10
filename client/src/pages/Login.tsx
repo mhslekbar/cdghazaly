@@ -36,59 +36,60 @@ const Login:React.FC = () => {
   }, [navigate, userData])
 
   return (
-    <div className="grid justify-items-center mt-2">
-      <img
-        style={{
-          width: "500px",
-          height: "300px",
-        }}
-        className="border rounded"
-        src="/assets/images/logo-dentist.jpeg"
-        alt="dentist-logo"
-      />
-      <form onSubmit={submitLogin} className="w-1/2 mt-3" style={{
-          width: "500px",
-        }}>
-        <div className="mb-2">
-          <label
-            htmlFor="username"
-            className="font-bold text-gray-700 block"
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="shadow rounded border focus:outline-none px-3 py-2 w-full"
-            placeholder="username"
-          />
-        </div>
-        <div className="mb-2 ">
-          <label
-            htmlFor="password"
-            className="font-bold text-gray-700 block"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="shadow rounded border focus:outline-none px-3 py-2 w-full"
-            placeholder="password"
-          />
-        </div>
-        <button className="mb-2 font-bold btn-main w-full shadow rounded focus:outline-none px-3 py-2">
-          Connect
-        </button>
-        {errors?.length > 0 && errors?.map((err: string, index: number) => (
-          <div key={index} className="bg-red-400 text-white p-2 rounded" onClick={(e) => hideMsg(e, errors, setErrors)}>{err}</div>
-        ))}
-      </form>
-    </div>
+    <section className="grid grid-cols-3 justify-items-center mt-2">
+      <div className="col-start-1 col-end-4">
+        <img
+          style={{
+            width: "100%",
+            height: "40%",
+          }}
+          className="border rounded"
+          src="/assets/images/ASOFT.png"
+          // src="/assets/images/logo-dentist.jpeg"
+          alt="dentist-logo"
+        />
+        <form onSubmit={submitLogin} className="mt-3">
+          <div className="mb-2">
+            <label
+              htmlFor="username"
+              className="font-bold text-gray-700 block"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="shadow rounded border focus:outline-none px-3 py-2 w-full"
+              placeholder="username"
+            />
+          </div>
+          <div className="mb-2 ">
+            <label
+              htmlFor="password"
+              className="font-bold text-gray-700 block"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="shadow rounded border focus:outline-none px-3 py-2 w-full"
+              placeholder="password"
+            />
+          </div>
+          <button className="mb-2 font-bold btn-main w-full shadow rounded focus:outline-none px-3 py-2">
+            Connect
+          </button>
+          {errors?.length > 0 && errors?.map((err: string, index: number) => (
+            <div key={index} className="bg-red-400 text-white p-2 rounded" onClick={(e) => hideMsg(e, errors, setErrors)}>{err}</div>
+          ))}
+        </form>
+      </div>
+    </section>
   );
 };
 
