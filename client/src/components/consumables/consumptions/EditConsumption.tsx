@@ -23,8 +23,11 @@ const EditConsumption:React.FC<EditConsumptionInterface> = ({ modal, toggle, Con
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
 
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(EditConsumptionsApi(ConsumptionData._id, {amount, note, doctor}))
       if(response === true) {
@@ -36,7 +39,9 @@ const EditConsumption:React.FC<EditConsumptionInterface> = ({ modal, toggle, Con
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -71,7 +76,7 @@ const EditConsumption:React.FC<EditConsumptionInterface> = ({ modal, toggle, Con
                         </p>
                       ))}
                     <InputsConsumptions />
-                    <ButtonsForm typeBtn='Modifier' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Modifier' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

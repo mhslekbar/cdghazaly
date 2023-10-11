@@ -31,6 +31,7 @@ const EditUser: React.FC<EditUserInterface> = ({ modal, toggle, user }) => {
 
   const { setSuccessMsg } = useContext(ShowUserContext);
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -47,6 +48,7 @@ const EditUser: React.FC<EditUserInterface> = ({ modal, toggle, user }) => {
         doctor,
         roles: checkedRoles.map((role: any) => role._id),
       };
+      setLoading(true)
       const boundActions = bindActionCreators({ EditUserApi }, dispatch);
       const response = await boundActions.EditUserApi(user._id, data);
       if (typeof response === "boolean") {
@@ -63,6 +65,8 @@ const EditUser: React.FC<EditUserInterface> = ({ modal, toggle, user }) => {
       }
     } catch(err) {
       console.log("Err: ", err)
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -109,7 +113,7 @@ const EditUser: React.FC<EditUserInterface> = ({ modal, toggle, user }) => {
                     onSubmit={handleSubmit}
                   >
                     <InputsAddUser />
-                    <ButtonsForm toggle={toggle} typeBtn="Modifier" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Modifier" />
                   </form>
                   {/* End Modal Body */}
                 </div>

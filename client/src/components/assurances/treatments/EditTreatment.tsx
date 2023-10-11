@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { DataTreatmentContext, TreatmentType } from "./types";
 import InputsTreatment from "./forms/InputsTreatment";
-import ButtonsTreatment from "./forms/ButtonsTreatment";
 import { Timeout, hideMsg } from "../../../functions/functions";
 import { bindActionCreators } from "redux";
 import { EditTreatmentApi } from "../../../redux/treatments/treatmentApiCalls";
 import { useDispatch } from "react-redux";
 import { ShowTreatmentContext } from "./ShowTreatAssurance";
 import { useParams } from "react-router";
+import ButtonsForm from "../../../HtmlComponents/ButtonsForm";
 
 interface EditTreatmentInterface {
   modal: boolean;
@@ -29,9 +29,11 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
   const dispatch = useDispatch();
 
   const { AssId } = useParams();
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const boundActions = bindActionCreators({ EditTreatmentApi }, dispatch);
       const response = await boundActions.EditTreatmentApi(treatmentData._id, {
@@ -49,7 +51,9 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
       } else if (Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -88,7 +92,7 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
                       ))}
                     {/* My Inputs */}
                     <InputsTreatment />
-                    <ButtonsTreatment toggle={toggle} typeBtn="Modifier" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Modifier" />
                   </form>
                   {/* End Modal Body */}
                 </div>

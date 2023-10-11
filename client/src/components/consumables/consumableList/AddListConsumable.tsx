@@ -12,6 +12,8 @@ import { ShowConsumableContext } from '../types';
 const AddListConsumable:React.FC = () => {
   const [name, setName] = useState("")
   const [errors, setErrors] = useState<string[]>([])
+  
+  const [loading, setLoading] = useState(false)
 
   const [modal, setModal] = useState(false)
   const toggle = () => {
@@ -23,6 +25,7 @@ const AddListConsumable:React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(AddListConsumableApi({name}))
       if(response === true) {
@@ -33,7 +36,9 @@ const AddListConsumable:React.FC = () => {
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+    }
   }
 
   const navigate = useNavigate()
@@ -74,7 +79,7 @@ const AddListConsumable:React.FC = () => {
                         </p>
                     ))}
                     <InputElement name="Note" placeholder='donner une note si vous voulez.' value={name} setValue={setName} />
-                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

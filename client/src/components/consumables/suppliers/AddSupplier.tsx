@@ -21,9 +21,11 @@ const AddSupplier:React.FC = () => {
 
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(AddSuppliersApi({name, phone}))
       if(response === true) {
@@ -35,7 +37,9 @@ const AddSupplier:React.FC = () => {
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+     }
   }
 
   const navigate = useNavigate()
@@ -77,7 +81,7 @@ const AddSupplier:React.FC = () => {
                         </p>
                       ))}
                     <InputsConsumptions />
-                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

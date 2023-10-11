@@ -17,7 +17,7 @@ const EditAssurance:React.FC<EditAssuranceInterface> = ({ modal, toggle, Assuran
   const [cons_price, setConsPrice] = useState(AssuranceData.cons_price)
   const [color, setColor] = useState(AssuranceData.color)
 
-
+  const [loading, setLoading] = useState(false)
 
   const [errors, setErrors] = useState<string[]>([])
 
@@ -26,6 +26,7 @@ const EditAssurance:React.FC<EditAssuranceInterface> = ({ modal, toggle, Assuran
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response: any = await dispatch(EditAssuranceApi(AssuranceData._id, { name, cons_price, color }))
         if(response === true) {
@@ -38,7 +39,9 @@ const EditAssurance:React.FC<EditAssuranceInterface> = ({ modal, toggle, Assuran
         } else {
           setErrors(response)
         }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
 
@@ -76,7 +79,7 @@ const EditAssurance:React.FC<EditAssuranceInterface> = ({ modal, toggle, Assuran
                       </p>
                     ))}
                     <InputsAssurance />
-                    <ButtonsForm toggle={toggle} typeBtn='Modifier' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier' />
                   </form>
                   {/* End Modal Body */}
                 </div>

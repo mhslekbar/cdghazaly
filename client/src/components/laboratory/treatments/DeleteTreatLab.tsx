@@ -4,9 +4,9 @@ import { bindActionCreators } from "redux";
 import { DeleteTreatLabApi } from "../../../redux/laboratory/treatments/labTreatApiCalls";
 import { useParams } from "react-router";
 import {  TreatmentLabInterface } from "./types";
-import ButtonsTreatLab from "./forms/ButtonsTreatLab";
 import { Timeout, hideMsg } from "../../../functions/functions";
 import { ShowLaboratoryContext } from "../ShowLaboratory";
+import ButtonsForm from "../../../HtmlComponents/ButtonsForm";
 
 interface DeleteTreatLabInterface {
   modal: boolean;
@@ -23,12 +23,15 @@ const DeleteTreatLab: React.FC<DeleteTreatLabInterface> = ({
 
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowLaboratoryContext);
+  
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch();
   const boundActions = bindActionCreators({ DeleteTreatLabApi }, dispatch);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await boundActions.DeleteTreatLabApi(
         labId || "",
@@ -41,7 +44,9 @@ const DeleteTreatLab: React.FC<DeleteTreatLabInterface> = ({
       } else if (Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -71,7 +76,7 @@ const DeleteTreatLab: React.FC<DeleteTreatLabInterface> = ({
                           {err}
                         </p>
                       ))}
-                    <ButtonsTreatLab toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

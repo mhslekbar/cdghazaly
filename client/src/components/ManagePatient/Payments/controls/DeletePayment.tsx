@@ -17,9 +17,11 @@ const DeletePayment:React.FC<DeletePaymentInterface> = ({ modal, toggle, payment
 
   const dispatch: any = useDispatch()
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {    
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeletePaymentsApi(paymentData._id)) 
       if(response === true) {
@@ -30,7 +32,9 @@ const DeletePayment:React.FC<DeletePaymentInterface> = ({ modal, toggle, payment
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -60,7 +64,7 @@ const DeletePayment:React.FC<DeletePaymentInterface> = ({ modal, toggle, payment
                         {err}
                       </p>
                     ))}
-                    <ButtonsForm toggle={toggle} typeBtn='Supprimer'/>
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Supprimer'/>
                   </form>
                   {/* End Modal Body */}
                 </div>

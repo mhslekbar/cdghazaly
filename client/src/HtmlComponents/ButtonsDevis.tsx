@@ -3,13 +3,15 @@ import React from "react";
 type ButtonsDevisType = {
   toggle: () => void,
   typeBtn: string;
-  onClick: (e: any) => void
+  onClick: (e: any) => void,
+  loading?: boolean
 };
 
 const ButtonsDevis: React.FC<ButtonsDevisType> = ({
   toggle,
   typeBtn,
-  onClick
+  onClick,
+  loading
 }) => {
   let btnColor;
   switch (typeBtn) {
@@ -37,8 +39,12 @@ const ButtonsDevis: React.FC<ButtonsDevisType> = ({
       <div className="items-center gap-2 mt-3 sm:flex">
         <button
           type="button"
-          className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none`}
           onClick={onClick}
+          // className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none`}
+          className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none ${
+            loading ? 'bg-gray-400 cursor-not-allowed' : ''
+          }`}
+          disabled={loading}
          >
           {typeBtn}
         </button>

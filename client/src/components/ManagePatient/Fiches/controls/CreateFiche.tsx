@@ -16,9 +16,11 @@ const CreateFiche:React.FC = () => {
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
   const { setShowSuccessMsg } = useContext(ShowFichesContext)
+  const [loading, setLoading] = useState(false)
 
   const HandlSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(CreateFicheApi(patientId))
       if(response === true) {
@@ -26,7 +28,9 @@ const CreateFiche:React.FC = () => {
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -49,7 +53,7 @@ const CreateFiche:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={HandlSubmit}
                   >
-                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

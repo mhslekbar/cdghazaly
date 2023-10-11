@@ -24,8 +24,11 @@ const AddConsumption:React.FC = () => {
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
 
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(AddConsumptionsApi({amount, note, doctor}))
       if(response === true) {
@@ -37,7 +40,9 @@ const AddConsumption:React.FC = () => {
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+    }
   }
 
   const navigate = useNavigate()
@@ -80,7 +85,7 @@ const AddConsumption:React.FC = () => {
                         </p>
                       ))}
                     <InputsConsumptions />
-                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

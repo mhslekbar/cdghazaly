@@ -41,6 +41,7 @@ const EditDevis:React.FC<EditDevisType> = ({ modal, toggle, DevisData }) => {
   const { patientId } = useParams()
   const { setShowSuccessMsg , selectedDevis} = useContext(ShowDevisInterfaceContext)
   const dispatch: any = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setArrayDoctor(users.filter((user: UserInterface) => user.doctor?.cabinet))
@@ -48,6 +49,7 @@ const EditDevis:React.FC<EditDevisType> = ({ modal, toggle, DevisData }) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await dispatch(EditDevisApi(patientId, DevisData._id, { user: UserData()._id, reduce }))
       if(response === true) {
@@ -59,7 +61,9 @@ const EditDevis:React.FC<EditDevisType> = ({ modal, toggle, DevisData }) => {
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
 
   }
 
@@ -109,7 +113,7 @@ const EditDevis:React.FC<EditDevisType> = ({ modal, toggle, DevisData }) => {
                     {LineDevis.length > 0 && 
                       <DataLineDevis LineDevis={selectedDevis.LineDevis} setLineDevis={setLineDevis} />
                     }
-                    <ButtonsForm toggle={toggle} typeBtn='Modifier' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier' />
                   </form>
                   {/* End Modal Body */}
                 </div>

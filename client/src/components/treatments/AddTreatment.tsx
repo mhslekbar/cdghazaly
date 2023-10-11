@@ -23,6 +23,7 @@ const AddTreatment:React.FC = () => {
     setTreatmentType(selectedType)
   }, [selectedType])
 
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
   
@@ -33,6 +34,7 @@ const AddTreatment:React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     const data = { name: treatment, price, type: treatmentType.type }
+    setLoading(true)
     try {
       const boundActions = bindActionCreators({ AddTreatmentApi }, dispatch)
       const response = await boundActions.AddTreatmentApi(data)
@@ -47,7 +49,9 @@ const AddTreatment:React.FC = () => {
       } else if(Array.isArray(response)) {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   const navigate = useNavigate()
@@ -91,7 +95,7 @@ const AddTreatment:React.FC = () => {
                     ))}
                     {/* My Inputs */}
                     <InputsTreatment />
-                    <ButtonsForm toggle={toggle} typeBtn="Ajouter" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Ajouter" />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -17,12 +17,14 @@ const EditPaymentMode: React.FC<props> = ({ modal, toggle, paymentModeData }) =>
   const [code, setCode] = useState<number>(paymentModeData.code)
   const [archive, setArchive] = useState<boolean>(paymentModeData.archive)
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const dispatch: any = useDispatch()
   const { setShowSuccessMsg } = useContext(ShowPaymentModeContext)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response: any = await dispatch(EditPaymentModeApi(paymentModeData._id, { name, code }))
       if(response === true) {
@@ -36,7 +38,9 @@ const EditPaymentMode: React.FC<props> = ({ modal, toggle, paymentModeData }) =>
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -71,7 +75,7 @@ const EditPaymentMode: React.FC<props> = ({ modal, toggle, paymentModeData }) =>
                       </p>
                     ))}
                     <InputsPaymentMode />
-                    <ButtonsForm toggle={toggle} typeBtn="Modifier"/>
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Modifier"/>
                   </form>
                   {/* End Modal Body */}
                 </div>

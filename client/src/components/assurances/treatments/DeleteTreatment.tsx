@@ -5,7 +5,7 @@ import { DeleteTreatmentApi } from "../../../redux/treatments/treatmentApiCalls"
 import { useDispatch } from 'react-redux';
 import { ShowTreatmentContext } from './ShowTreatAssurance';
 import { Timeout, hideMsg } from '../../../functions/functions';
-import ButtonsTreatment from './forms/ButtonsTreatment';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 
 interface DeleteTreatmentInterface {
   modal: boolean,
@@ -17,9 +17,11 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
   const dispatch = useDispatch()
   const { setShowSuccessMsg } = useContext(ShowTreatmentContext)
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const boundActions = bindActionCreators({ DeleteTreatmentApi }, dispatch)
       const response:any = await boundActions.DeleteTreatmentApi(treatmentData._id)
@@ -30,7 +32,9 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
   
   
@@ -63,7 +67,7 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
                         </p>
                       ))}
                     <p>Vous etes sur de vouloir supprimer <b className='text-red'>{treatmentData.name}</b> ?</p>
-                    <ButtonsTreatment toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

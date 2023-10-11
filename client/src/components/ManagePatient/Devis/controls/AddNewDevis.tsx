@@ -14,7 +14,6 @@ import { AddDevisApi } from '../../../../redux/devis/devisApiCalls';
 import { useDispatch } from 'react-redux';
 import { Timeout, hideMsg } from '../../../../functions/functions';
 
-
 const AddNewDevis:React.FC = () => {
   const [doctor, setDoctor] = useState<UserInterface>(DefaultUserInterface)
   const [ArrayDoctor, setArrayDoctor] = useState<UserInterface[]>([DefaultUserInterface])
@@ -45,8 +44,12 @@ const AddNewDevis:React.FC = () => {
   }
   const dispatch: any = useDispatch()
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
+
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     if(LineDevis.length > 0) {
       try {
         const response = await dispatch(AddDevisApi(patientId, {
@@ -61,7 +64,9 @@ const AddNewDevis:React.FC = () => {
         } else {
           setErrors(response)
         }
-      } catch {}
+      } finally {
+        setLoading(false)
+      }
     } else {
       setErrors(["Ajouter un traitment pour creer un devis"])
     }
@@ -117,7 +122,7 @@ const AddNewDevis:React.FC = () => {
                     {LineDevis.length > 0 && 
                       <DataLineDevis LineDevis={LineDevis} setLineDevis={setLineDevis} />
                     }
-                    <ButtonsForm toggle={toggle} typeBtn='Ajouter' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter' />
                   </form>
                   {/* End Modal Body */}
                 </div>

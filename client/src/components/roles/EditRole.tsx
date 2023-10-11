@@ -16,11 +16,14 @@ interface EditRoleInterface {
 const EditRole: React.FC<EditRoleInterface> = ({ modal, toggle, roleData }) => {
   const [role, setRole] = useState<string>(roleData.name);
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
+
   const dispatch = useDispatch();
   const { setShowSuccessMsg } = useContext(ShowRoleContext);
 
   const handleEditRole = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const boundApi = bindActionCreators({ editRoleApi }, dispatch);
       const response = await boundApi.editRoleApi(roleData._id, {
@@ -34,7 +37,9 @@ const EditRole: React.FC<EditRoleInterface> = ({ modal, toggle, roleData }) => {
       } else if (Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -83,7 +88,7 @@ const EditRole: React.FC<EditRoleInterface> = ({ modal, toggle, roleData }) => {
                       />
                     </div>
                     {/* START Modal Footer */}
-                    <ButtonsForm typeBtn="Modifier" toggle={toggle} /> 
+                    <ButtonsForm loading={loading} typeBtn="Modifier" toggle={toggle} /> 
                     {/* End Modal Footer */}
                   </form>
                   {/* End Modal Body */}

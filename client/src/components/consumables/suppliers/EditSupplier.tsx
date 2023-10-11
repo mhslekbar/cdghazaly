@@ -20,9 +20,11 @@ const EditSupplier:React.FC<EditSupplierInterface> = ({ modal, toggle, SupplierD
 
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(EditSuppliersApi(SupplierData._id, {name, phone}))
       if(response === true) {
@@ -34,7 +36,9 @@ const EditSupplier:React.FC<EditSupplierInterface> = ({ modal, toggle, SupplierD
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally { 
+      setLoading(false)
+    }
   }
 
   return (
@@ -68,7 +72,7 @@ const EditSupplier:React.FC<EditSupplierInterface> = ({ modal, toggle, SupplierD
                         </p>
                       ))}
                     <InputsConsumptions />
-                    <ButtonsForm typeBtn='Modifier' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Modifier' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

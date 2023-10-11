@@ -17,17 +17,23 @@ const DeleteUser:React.FC<DeleteUserInterface> = ({ modal, toggle, user }) => {
   const { setSuccessMsg } = useContext(ShowUserContext)
   const [errors, setErrors] = useState<string[]>([])
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    const boundActions = bindActionCreators({ DeleteUserApi }, dispatch)
-    const response = await boundActions.DeleteUserApi(user._id)
-    if(typeof response === "boolean") {
-      setSuccessMsg(true)
-      toggle()
-      setTimeout(() => setSuccessMsg(false), Timeout)
-    } else if(Array.isArray(response)) {
-      setErrors(response)
+    setLoading(true)
+    try {
+      const boundActions = bindActionCreators({ DeleteUserApi }, dispatch)
+      const response = await boundActions.DeleteUserApi(user._id)
+      if(typeof response === "boolean") {
+        setSuccessMsg(true)
+        toggle()
+        setTimeout(() => setSuccessMsg(false), Timeout)
+      } else if(Array.isArray(response)) {
+        setErrors(response)
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -61,7 +67,7 @@ const DeleteUser:React.FC<DeleteUserInterface> = ({ modal, toggle, user }) => {
                     {/* My Inputs */}
                     <p>Vous etes sur de vouloir supprimer <b>{user.username}</b>?</p>
                     {/* START Modal Footer */}
-                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                     {/* End Modal Footer */}
                   </form>
                   {/* End Modal Body */}

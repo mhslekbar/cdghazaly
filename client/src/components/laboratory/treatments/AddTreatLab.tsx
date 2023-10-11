@@ -6,9 +6,9 @@ import { AddTreatLabApi } from "../../../redux/laboratory/treatments/labTreatApi
 import { useParams } from 'react-router';
 import { DataTreatLabContext } from './types';
 import InputsTreatLab from './forms/InputsTreatLab';
-import ButtonsTreatLab from './forms/ButtonsTreatLab';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import { ShowLaboratoryContext } from '../ShowLaboratory';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 
 const AddTreatLab:React.FC = () => {
   const { labId } = useParams()
@@ -23,11 +23,14 @@ const AddTreatLab:React.FC = () => {
     setModal(!modal)
   }
 
+  const [loading, setLoading] = useState(false)
+
   const dispatch = useDispatch()
   const boundActions = bindActionCreators({ AddTreatLabApi }, dispatch)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await boundActions.AddTreatLabApi(labId || "", { treatment: treatment.value, price })
       if(typeof response === "boolean") {
@@ -39,7 +42,9 @@ const AddTreatLab:React.FC = () => {
       } else if(Array.isArray(response)) {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -76,7 +81,7 @@ const AddTreatLab:React.FC = () => {
                       </p>
                     ))}
                     <InputsTreatLab />
-                    <ButtonsTreatLab toggle={toggle} typeBtn='Ajouter' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter' />
                   </form>
                   {/* End Modal Body */}
                 </div>

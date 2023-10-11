@@ -37,6 +37,7 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
   const { setShowSuccessMsg } = useContext(ShowPatientsContext)
   const dispatch: any = useDispatch()
 
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchPayment = async () => {
@@ -49,7 +50,7 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
 
 
   const handleSubmit = async (e: FormEvent) => {
-    
+    setLoading(true)
     e.preventDefault()
     const data = {
       user: UserData()._id,
@@ -92,7 +93,9 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -142,7 +145,7 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
                       </p>
                     ))}
                     <InputsPatient typeModal="Edit" />
-                    <ButtonsForm toggle={toggle} typeBtn='Modifier' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier' />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -18,12 +18,14 @@ const AddAssurance:React.FC<AddAssuranceInterface> = ({ modal, toggle }) => {
 
   const [errors, setErrors] = useState<string[]>([])
 
+  const [loading, setLoading] = useState(false)
 
   const { setShowSuccessMsg } = useContext(ShowAssurancesContext)
   const dispatch:any = useDispatch()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response: any = await dispatch(AddAssuranceApi({ name, cons_price, color }))
         if(response === true) {
@@ -37,7 +39,9 @@ const AddAssurance:React.FC<AddAssuranceInterface> = ({ modal, toggle }) => {
         } else {
           setErrors(response)
         }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -74,7 +78,7 @@ const AddAssurance:React.FC<AddAssuranceInterface> = ({ modal, toggle }) => {
                       </p>
                     ))}
                     <InputsAssurance />
-                    <ButtonsForm toggle={toggle} typeBtn='Ajouter' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter' />
                   </form>
                   {/* End Modal Body */}
                 </div>

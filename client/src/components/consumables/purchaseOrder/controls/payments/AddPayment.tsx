@@ -21,7 +21,10 @@ const AddPayment:React.FC<AddPaymentInterface> = ({ purchaseOrder }) => {
   const [success, setSuccess] = useState<string[]>([])
   const [showMsg, setShowMsg] = useState(false)
 
+  const [loading, setLoading] = useState(false)
+
   const handleAddPayment = async () => {
+    setLoading(true)
     try {
       const response = await dispatch(AddPaymentPurchaseOrderApi(doctorId, purchaseOrder._id, {payment, createdAt, supplier: purchaseOrder.supplier._id}))
       if(response === true) {
@@ -38,7 +41,9 @@ const AddPayment:React.FC<AddPaymentInterface> = ({ purchaseOrder }) => {
         setShowMsg(true)
         setTimeout(() => setShowMsg(false), 1000)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -46,7 +51,15 @@ const AddPayment:React.FC<AddPaymentInterface> = ({ purchaseOrder }) => {
     <div className='flex justify-start items-center gap-2'>
       <InputElement type='number' id="Montant" placeholder='Montant' value={payment} setValue={setPayment} />
       <InputElement type='date' value={createdAt} setValue={setCreatedAt} />
-      <FaCheck className='text-main' style={{ fontSize: "22px" }} onClick={handleAddPayment} />
+      <button
+        type="submit"
+        className={`text-white rounded-md outline-none `}
+        disabled={loading}
+      >
+        <FaCheck className={`${
+          loading ? 'text-gray-400 cursor-not-allowed' : 'text-main'
+        }`} style={{ fontSize: "22px" }} onClick={handleAddPayment} />
+      </button>
     </div>
     {showMsg && errors.length > 0 &&
       errors.map((err, index) => (

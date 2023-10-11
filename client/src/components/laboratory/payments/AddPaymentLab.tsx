@@ -1,7 +1,6 @@
 import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import InputsPaymentLab from './forms/InputsPaymentLab';
-import ButtonsPaymentLab from './forms/ButtonsPaymentLab';
 import { DataPaymentLabContext } from './types';
 import { useDispatch } from 'react-redux';
 import { AddPaymentLabApi } from '../../../redux/laboratory/payments/paymentLabApiCalls';
@@ -12,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
 import { DefaultLaboratoryInterface, laboratoryInterface } from '../types';
 import { ShowLaboratoryApi } from '../../../redux/laboratory/laboratoryApiCalls';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 
 const AddPaymentLab:React.FC = () => {
   const [amount, setAmount] = useState("");
@@ -29,9 +29,11 @@ const AddPaymentLab:React.FC = () => {
   const dispatch: any = useDispatch()
 
   const { laboratory } = useSelector((state: State) => state.laboratory);
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response: any = await dispatch(AddPaymentLabApi(labId || "", { amount, comment, doctor: doctorId, createdAt }))
       if(response === true) {
@@ -44,7 +46,9 @@ const AddPaymentLab:React.FC = () => {
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -87,7 +91,7 @@ const AddPaymentLab:React.FC = () => {
                       ))}
                     {/* My Inputs */}
                     <InputsPaymentLab />
-                    <ButtonsPaymentLab toggle={toggle} typeBtn='Ajouter' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter' />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -36,9 +36,11 @@ const AddNewPatient:React.FC<AddNewPatientInterface> = ({ modal, toggle }) => {
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowPatientsContext)
   const dispatch: any = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     const Doctor: any = doctor
     const data = {
       user: UserData()._id,
@@ -82,6 +84,8 @@ const AddNewPatient:React.FC<AddNewPatientInterface> = ({ modal, toggle }) => {
       }
     } catch(err) {
       console.log("ss: ", err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -132,7 +136,7 @@ const AddNewPatient:React.FC<AddNewPatientInterface> = ({ modal, toggle }) => {
                       </p>
                     ))}
                     <InputsPatient typeModal="Ajouter" />
-                    <ButtonsForm toggle={toggle} typeBtn='Ajouter' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter' />
                   </form>
                   {/* End Modal Body */}
                 </div>

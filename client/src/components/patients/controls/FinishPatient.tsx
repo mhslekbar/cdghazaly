@@ -19,9 +19,11 @@ const FinishPatient:React.FC<FinishPatientType> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
+  const [loading, setLoading] = useState(false)
   
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await dispatch(FinishPatientsApi(patientData._id));
       if (response === true) {
@@ -31,7 +33,9 @@ const FinishPatient:React.FC<FinishPatientType> = ({
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -61,7 +65,7 @@ const FinishPatient:React.FC<FinishPatientType> = ({
                         </p>
                       ))}
                     <p className="text-gray-700 text-xl">Terminer <b>{patientData.name} </b>?</p>
-                    <ButtonsForm toggle={toggle} typeBtn="Terminer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Terminer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

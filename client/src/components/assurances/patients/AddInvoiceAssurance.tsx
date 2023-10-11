@@ -8,8 +8,7 @@ import { ShowAssurancesContext } from '../types';
 import { Timeout } from '../../../functions/functions';
 
 
-const AddInvoiceAssurance:React.FC = () => {
-  
+const AddInvoiceAssurance:React.FC = () => {  
   const [modal, setModal] = useState(false)
   const toggle = () => {
     setModal(!modal)
@@ -18,8 +17,12 @@ const AddInvoiceAssurance:React.FC = () => {
   const dispatch: any = useDispatch()
   const { AssId } = useParams()
   const {setShowSuccessMsg } = useContext(ShowAssurancesContext)
+
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(AddInvoiceAssuranceApi(AssId, {}))
       if(response === true) {
@@ -27,7 +30,9 @@ const AddInvoiceAssurance:React.FC = () => {
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -50,7 +55,7 @@ const AddInvoiceAssurance:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    <ButtonsForm toggle={toggle} typeBtn='Ajouter'/>
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter'/>
                   </form>
                   {/* End Modal Body */}
                 </div>

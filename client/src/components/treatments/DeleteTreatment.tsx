@@ -17,9 +17,11 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
   const dispatch = useDispatch()
   const { setShowSuccessMsg } = useContext(ShowTreatmentContext)
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const boundActions = bindActionCreators({ DeleteTreatmentApi }, dispatch)
       const response = await boundActions.DeleteTreatmentApi(treatmentData._id)
@@ -30,7 +32,9 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
       } else if(Array.isArray(response)) {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
   
   
@@ -63,7 +67,7 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
                         </p>
                       ))}
                     <p>Vous etes sur de vouloir supprimer <b className='text-red'>{treatmentData.name}</b> ?</p>
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -14,6 +14,7 @@ interface DeletePurchaseOrderInterface {
 
 const DeletePurchaseOrder:React.FC<DeletePurchaseOrderInterface> = ({ modal, toggle, PurchaseOrderData }) => { 
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const dispatch: any = useDispatch()
   const { doctorId } = useParams()
@@ -21,6 +22,7 @@ const DeletePurchaseOrder:React.FC<DeletePurchaseOrderInterface> = ({ modal, tog
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       // Dies funktioniert nur, wenn keine Fehler vorliegen
       const response = await dispatch(DeletePurchaseOrderApi(doctorId, PurchaseOrderData._id))
@@ -29,7 +31,9 @@ const DeletePurchaseOrder:React.FC<DeletePurchaseOrderInterface> = ({ modal, tog
           setShowSuccessMsg(true)
           setTimeout(() => setShowSuccessMsg(false), Timeout)
         }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,7 +63,7 @@ const DeletePurchaseOrder:React.FC<DeletePurchaseOrderInterface> = ({ modal, tog
                         {err}
                       </p>
                     ))}
-                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

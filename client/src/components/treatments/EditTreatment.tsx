@@ -35,10 +35,12 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
   
   const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     const data = { name: treatment, price, type: treatmentType.type }
+    setLoading(true)
     try {
       const boundActions = bindActionCreators({ EditTreatmentApi }, dispatch)
       const response = await boundActions.EditTreatmentApi(treatmentData._id, data)
@@ -55,7 +57,9 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
       } else if(Array.isArray(response)) {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -93,7 +97,7 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
                       ))}
                     {/* My Inputs */}
                     <InputsTreatment />
-                    <ButtonsForm toggle={toggle} typeBtn="Modifier" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Modifier" />
                   </form>
                   {/* End Modal Body */}
                 </div>

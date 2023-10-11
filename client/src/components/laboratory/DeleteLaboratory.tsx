@@ -1,11 +1,11 @@
 import React, { FormEvent, useContext, useState } from 'react';
-import ButtonsLaboratory from './forms/ButtonsLaboratory';
 import { laboratoryInterface } from './types';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DeleteLaboratoryApi } from "../../redux/laboratory/laboratoryApiCalls"
 import { Timeout, hideMsg } from '../../functions/functions';
 import { ShowLaboratoryContext } from './ShowLaboratory';
+import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 
 interface DeleteLaboratoryInterface {
   modal: boolean, 
@@ -16,11 +16,13 @@ interface DeleteLaboratoryInterface {
 const DeleteLaboratory:React.FC<DeleteLaboratoryInterface> = ({ modal, toggle, laboratory }) => {
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowLaboratoryContext)
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
   const boundAction = bindActionCreators({ DeleteLaboratoryApi }, dispatch)
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await boundAction.DeleteLaboratoryApi(laboratory._id)
       if(typeof response === "boolean") {
@@ -30,7 +32,9 @@ const DeleteLaboratory:React.FC<DeleteLaboratoryInterface> = ({ modal, toggle, l
       } else if(Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
   return (
     <div>
@@ -59,7 +63,7 @@ const DeleteLaboratory:React.FC<DeleteLaboratoryInterface> = ({ modal, toggle, l
                           {err}
                         </p>
                       ))}
-                    <ButtonsLaboratory toggle={toggle} typeBtn='Supprimer' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Supprimer' />
                   </form>
                   {/* End Modal Body */}
                 </div>

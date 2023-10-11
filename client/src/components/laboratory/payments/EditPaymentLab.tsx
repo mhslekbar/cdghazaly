@@ -1,6 +1,5 @@
 import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import InputsPaymentLab from './forms/InputsPaymentLab';
-import ButtonsPaymentLab from './forms/ButtonsPaymentLab';
 import { DataPaymentLabContext, PaymentLabType } from './types';
 import { useDispatch } from 'react-redux';
 import { EditPaymentLabApi } from '../../../redux/laboratory/payments/paymentLabApiCalls';
@@ -11,6 +10,7 @@ import { ShowLaboratoryApi } from '../../../redux/laboratory/laboratoryApiCalls'
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
 import { DefaultLaboratoryInterface, laboratoryInterface } from '../types';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 
 interface EditPaymentLabInterface {
   modal: boolean,
@@ -30,9 +30,11 @@ const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, Payme
   
   const dispatch: any = useDispatch()
   const { laboratory } = useSelector((state: State) => state.laboratory);
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response: any = await dispatch(EditPaymentLabApi(labId || "", PaymentData._id, { amount, comment, doctor: doctorId, createdAt }))
       if(response === true) {
@@ -45,7 +47,9 @@ const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, Payme
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -85,7 +89,7 @@ const EditPaymentLab:React.FC<EditPaymentLabInterface> = ({ modal, toggle, Payme
                       ))}
                     {/* My Inputs */}
                     <InputsPaymentLab />
-                    <ButtonsPaymentLab toggle={toggle} typeBtn='Modifier' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier' />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
 import InputsAddUser from "./forms/InputsAddUser";
 import { AddUserContext, DoctorType } from "./types";
-import { bindActionCreators } from "redux";
 import { AddUserApi } from "../../redux/users/UserApiCalls";
 import { useDispatch } from "react-redux";
 import { Timeout, hideMsg } from "../../functions/functions";
@@ -31,8 +30,9 @@ const AddUser: React.FC = () => {
 
   const { setSuccessMsg } = useContext(ShowUserContext);
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
 
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -46,19 +46,23 @@ const AddUser: React.FC = () => {
       doctor,
       roles: checkedRoles.map((role: any) => role._id),
     };
-    const boundActions = bindActionCreators({ AddUserApi }, dispatch);
-    const response = await boundActions.AddUserApi(data);
-    if (typeof response === "boolean") {
-      setUsername("");
-      setPhone("");
-      setPassword("");
-      setDoctor({});
-      setCheckedRoles([]);
-      setSuccessMsg(true);
-      setTimeout(() => setSuccessMsg(false), Timeout);
-      toggle();
-    } else if (Array.isArray(response)) {
-      setErrors(response);
+    setLoading(true)
+    try {
+      const response = await dispatch(AddUserApi(data))
+      if (typeof response === "boolean") {
+        setUsername("");
+        setPhone("");
+        setPassword("");
+        setDoctor({});
+        setCheckedRoles([]);
+        setSuccessMsg(true);
+        setTimeout(() => setSuccessMsg(false), Timeout);
+        toggle();
+      } else if (Array.isArray(response)) {
+        setErrors(response);
+      }  
+    } finally {
+      setLoading(false)
     }
   };
   
@@ -113,7 +117,7 @@ const AddUser: React.FC = () => {
                     onSubmit={handleSubmit}
                   >
                     <InputsAddUser />
-                    <ButtonsForm toggle={toggle} typeBtn="Ajouter" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Ajouter" />
                   </form>
                   {/* End Modal Body */}
                 </div>

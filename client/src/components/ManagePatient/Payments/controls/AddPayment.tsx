@@ -31,8 +31,10 @@ const AddPayment:React.FC = () => {
   const { patientId } = useParams()
 
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
+    setLoading(true)
     const data = {
       user: UserData()._id,
       doctor: doctor._id,
@@ -57,7 +59,9 @@ const AddPayment:React.FC = () => {
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -98,7 +102,7 @@ const AddPayment:React.FC = () => {
                       </p>
                     ))}
                     <InputsPayment />
-                    <ButtonsForm toggle={toggle} typeBtn='Ajouter'/>
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter'/>
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -1,5 +1,4 @@
 import React, { FormEvent, useContext, useEffect, useState } from 'react';
-import ButtonsPaymentLab from './forms/ButtonsPaymentLab';
 import { PaymentLabType } from './types';
 import { useDispatch } from 'react-redux';
 import { DeletePaymentLabApi } from '../../../redux/laboratory/payments/paymentLabApiCalls';
@@ -10,6 +9,7 @@ import { ShowLaboratoryApi } from '../../../redux/laboratory/laboratoryApiCalls'
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
 import { DefaultLaboratoryInterface, laboratoryInterface } from '../types';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 
 interface DeletePaymentLabInterface {
   modal: boolean,
@@ -25,8 +25,10 @@ const DeletePaymentLab:React.FC<DeletePaymentLabInterface> = ({ modal, toggle, P
   
   const dispatch: any = useDispatch()
   const { laboratory } = useSelector((state: State) => state.laboratory);
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
+    setLoading(true)
     e.preventDefault()
     try {
       const response: any = await dispatch(DeletePaymentLabApi(labId || "", PaymentData._id))
@@ -38,7 +40,9 @@ const DeletePaymentLab:React.FC<DeletePaymentLabInterface> = ({ modal, toggle, P
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -73,7 +77,7 @@ const DeletePaymentLab:React.FC<DeletePaymentLabInterface> = ({ modal, toggle, P
                           {err}
                         </p>
                       ))}
-                    <ButtonsPaymentLab toggle={toggle} typeBtn='Supprimer' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Supprimer' />
                   </form>
                   {/* End Modal Body */}
                 </div>

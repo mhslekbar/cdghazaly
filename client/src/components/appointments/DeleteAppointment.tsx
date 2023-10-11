@@ -20,9 +20,11 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
   const [errors, setErrors] = useState<string[]>([]);
 
   const dispatch: any = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteAppointmentApi(doctorId, AppointmentData._id))
       if(response === true) {
@@ -32,7 +34,9 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally { 
+      setLoading(false)
+    }
   }
 
   return (
@@ -62,7 +66,7 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
                         {err}
                       </p>
                     ))}
-                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

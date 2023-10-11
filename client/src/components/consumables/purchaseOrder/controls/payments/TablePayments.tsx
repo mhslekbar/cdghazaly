@@ -22,7 +22,10 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
   const [success, setSuccess] = useState<string[]>([])
   const [showMsg, setShowMsg] = useState(false)
 
+  const [loading, setLoading] = useState(false)
+
   const handleEditPayment = async (paymentId: string) => {
+    setLoading(true)
     try {
       const payment = (document.querySelector(`#PaymentId${paymentId}`) as HTMLInputElement)?.value;
       const createdAt = (document.querySelector(`#CreatedAtId${paymentId}`) as HTMLInputElement)?.value;
@@ -40,10 +43,13 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
         setShowMsg(true)
         setTimeout(() => setShowMsg(false), 1000)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleDeletePayment = async (paymentId: string) => {
+    setLoading(true)
     try {
       const response = await dispatch(DeletePaymentPurchaseOrderApi(doctorId, purchaseOrder._id, paymentId))
       if(response === true) {
@@ -58,7 +64,9 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
         setShowMsg(true)
         setTimeout(() => setShowMsg(false), 1000)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -87,7 +95,7 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
           <div className="overflow-hidden">
-            <table className="min-w-full text-left text-sm font-light text-center">
+            <table className="min-w-full text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
                   <th className="px-6 py-4 border-r">Payment</th>
@@ -111,8 +119,24 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
                     </td>
                     <td className="bg-white print:hidden">
                       <div className="flex justify-center items-center gap-2">
-                        <FaEdit className="text-blue" style={{ fontSize: "22px" }} onClick={() => handleEditPayment(hp._id)} />
-                        <MdRemoveCircle className="text-red" style={{ fontSize: "22px" }} onClick={() => handleDeletePayment(hp._id)} />
+                        <button
+                          type="submit"
+                          className={`text-white rounded-md outline-none `}
+                          disabled={loading}
+                        >
+                          <FaEdit className={`${
+                            loading ? 'text-gray-400 cursor-not-allowed' : 'text-blue'
+                          }`} style={{ fontSize: "22px" }} onClick={() => handleEditPayment(hp._id)} />
+                        </button>
+                        <button
+                          type="submit"
+                          className={`text-white rounded-md outline-none `}
+                          disabled={loading}
+                        >
+                          <MdRemoveCircle className={`${
+                            loading ? 'text-gray-400 cursor-not-allowed' : 'text-red'
+                          }`} style={{ fontSize: "22px" }} onClick={() => handleDeletePayment(hp._id)} />
+                        </button>
                       </div>
                     </td>
                   </tr>

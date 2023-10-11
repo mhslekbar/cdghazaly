@@ -27,11 +27,13 @@ const DeleteAssurance: React.FC<DeleteAssuranceInterface> = ({
     ShowAssurancesContext
   );
   const dispatch: any = useDispatch();
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response: any = await dispatch(
         DeleteAssuranceApi(AssuranceData._id)
@@ -45,7 +47,9 @@ const DeleteAssurance: React.FC<DeleteAssuranceInterface> = ({
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -75,7 +79,7 @@ const DeleteAssurance: React.FC<DeleteAssuranceInterface> = ({
                           {err}
                         </p>
                       ))}
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

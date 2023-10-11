@@ -19,8 +19,11 @@ const DeleteInvoiceAssurance:React.FC<DeleteInvoiceAssuranceInterface> = ({ moda
   const { AssId } = useParams()
   const [errors, setErrors] = useState<string[]>([])
 
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteInvoiceAssuranceApi(AssId, InvoiceData._id))
       if(response === true) {
@@ -30,7 +33,9 @@ const DeleteInvoiceAssurance:React.FC<DeleteInvoiceAssuranceInterface> = ({ moda
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -60,7 +65,7 @@ const DeleteInvoiceAssurance:React.FC<DeleteInvoiceAssuranceInterface> = ({ moda
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

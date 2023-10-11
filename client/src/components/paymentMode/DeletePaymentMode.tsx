@@ -13,12 +13,14 @@ interface props {
 
 const DeletePaymentMode: React.FC<props> = ({ modal, toggle, paymentModeData }) => {
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const dispatch: any = useDispatch()
   const { setShowSuccessMsg } = useContext(ShowPaymentModeContext)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response: any = await dispatch(DeletePaymentModeApi(paymentModeData._id))
       if(response === true) {
@@ -29,7 +31,9 @@ const DeletePaymentMode: React.FC<props> = ({ modal, toggle, paymentModeData }) 
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,7 +63,7 @@ const DeletePaymentMode: React.FC<props> = ({ modal, toggle, paymentModeData }) 
                         {err}
                       </p>
                     ))}
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer"/>
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer"/>
                   </form>
                   {/* End Modal Body */}
                 </div>

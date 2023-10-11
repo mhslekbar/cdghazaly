@@ -26,12 +26,14 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
   const [supported, setSupported] = useState(paymentData?.supported ?? null)
   const [createdAt, setCreatedAt] = useState(formattedDate(paymentData.createdAt))
 
-
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
   const [errors, setErrors] = useState<string[]>([])
 
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = async (e: any) => {
+    setLoading(true)
     const data = {
       user: UserData()._id,
       doctor: doctor._id,
@@ -56,7 +58,9 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -94,7 +98,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
                       </p>
                     ))}
                     <InputsPayment />
-                    <ButtonsForm toggle={toggle} typeBtn='Modifier'/>
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier'/>
                   </form>
                   {/* End Modal Body */}
                 </div>

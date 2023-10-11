@@ -34,7 +34,8 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
   
   const dispatch: any = useDispatch()
   const { doctorId, patientId } = useParams()
-
+  const [loading, setLoading] = useState(false)
+  
   useEffect(() => {
     if(TypeTeethBoard === EnumTypeTeethBoard.EDIT_NEW_TEETH) {
       setSelectedSurface(TeethBoardData.teeth.surface)
@@ -150,14 +151,24 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
         })
 
         if(TypeModal === EnumTypeModal.EDIT_DEVIS_MODAL) {
-          await dispatch(editLineDevisApi(patientId, selectedDevis._id, Line._id, Line))
+          setLoading(true)
+          try {
+            await dispatch(editLineDevisApi(patientId, selectedDevis._id, Line._id, Line))
+          } finally {
+            setLoading(false)
+          }
         } else {
           LineDevis[findIndex] = Line
           setLineDevis(LineDevis)
         }
       } else if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH) {
         // Add it into data base
-        await dispatch(AppendDevisApi(patientId, selectedDevis._id, data))
+        setLoading(true)
+        try {
+          await dispatch(AppendDevisApi(patientId, selectedDevis._id, data))
+        } finally {
+          setLoading(false)
+        }
       } else if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE || TypeTeethBoard === EnumTypeTeethBoard.EDIT_TEETH_FICHE) { 
         const data = {
           user: UserData()._id,
@@ -174,17 +185,22 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
           lineFicheId: selectedLineFiche._id,
           laboratory: MyLaboratory._id
         }
-        
-        const response = await dispatch(AppendFicheApi(patientId, selectedFiche._id, data))
-        if(response === true) {
-          await dispatch(ShowPatientsApi())
-          await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
-          setIsShowingAllDevis(false)
-          setShowSuccessMsg(true)
-          setTimeout(() => {
-            setShowSuccessMsg(false)
-          }, Timeout)
+        setLoading(true)
+        try {
+          const response = await dispatch(AppendFicheApi(patientId, selectedFiche._id, data))
+          if(response === true) {
+            await dispatch(ShowPatientsApi())
+            await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
+            setIsShowingAllDevis(false)
+            setShowSuccessMsg(true)
+            setTimeout(() => {
+              setShowSuccessMsg(false)
+            }, Timeout)
+          }
+        } finally {
+          setLoading(false)
         }
+
       }
     }
   }
@@ -231,7 +247,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
                   </section>
                   <section className='text-end'>
                     <Mouth />
-                    <ButtonsDevis toggle={toggle} onClick={handleAppendTreatToTable} typeBtn='Ajouter'/>
+                    <ButtonsDevis loading={loading} toggle={toggle} onClick={handleAppendTreatToTable} typeBtn='Ajouter'/>
                   </section>
                 </div>
               </div>

@@ -32,6 +32,8 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
   
   const { paymentModes } = useSelector((state: State) => state.paymentModes)
 
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     setArrayOfDoctors(users.filter((user: UserInterface) => user.doctor?.cabinet))
   }, [users])
@@ -55,6 +57,7 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await dispatch(ReturnPatientsApi({ user: UserData()._id, patient: patientData._id, doctor, method, supported }));
       if (response === true) {
@@ -64,7 +67,9 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -116,7 +121,7 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
                       defaultOption={<option>cash</option>} 
                     />
                     }
-                    <ButtonsForm toggle={toggle} typeBtn="Retourner" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Retourner" />
                   </form>
                   {/* End Modal Body */}
                 </div>

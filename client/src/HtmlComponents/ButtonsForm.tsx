@@ -3,11 +3,13 @@ import React from "react";
 type ButtonsFormType = {
   toggle: () => void;
   typeBtn: string;
+  loading?: boolean
 };
 
 const ButtonsForm: React.FC<ButtonsFormType> = ({
   toggle,
   typeBtn,
+  loading
 }) => {
   let btnColor;
   switch (typeBtn) {
@@ -33,7 +35,11 @@ const ButtonsForm: React.FC<ButtonsFormType> = ({
     <div className="items-center gap-2 mt-3 sm:flex">
       <button
         type="submit"
-        className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none`}
+        // className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none`}
+        className={`w-full mt-2 p-2.5 flex-1 text-white ${btnColor} rounded-md outline-none ${
+          loading ? 'bg-gray-400 cursor-not-allowed' : ''
+        }`}
+        disabled={loading}
       >
         {typeBtn}
       </button>

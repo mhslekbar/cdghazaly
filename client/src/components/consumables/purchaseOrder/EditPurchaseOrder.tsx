@@ -19,7 +19,6 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
   const [errors, setErrors] = useState<string[]>([])
   const [supplier, setSupplier] = useState<SupplierInterface>(PurchaseOrderData.supplier ?? DefaultSupplierInterface)
   
-
   useEffect(() => {
     setListPurchaseOrder(
       PurchaseOrderData.LinePurchaseOrder.map((LinePurchaseOrder) => ({
@@ -33,12 +32,15 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
     );
   }, [PurchaseOrderData])
 
+  const [loading, setLoading] = useState(false)
+
   const dispatch: any = useDispatch()
   const { doctorId } = useParams()
   const { setShowSuccessMsg } = useContext(ShowPurchaseOrderContext)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       let findEmptyPurchase = ListPurchaseOrder.find((purchaseOrder: LinePurchaseOrderInterface) => purchaseOrder.consumable._id?.length === 0)
       let findEmptyQtyPurchase = ListPurchaseOrder.find((purchaseOrder: LinePurchaseOrderInterface) => purchaseOrder.qty === 0 && purchaseOrder.qty.toString().length === 0)
@@ -64,7 +66,9 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
       } else {
         setErrors(formErrors)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -98,7 +102,7 @@ const EditPurchaseOrder:React.FC<EditPurchaseOrderInterface> = ({ modal, toggle,
                       </p>
                     ))}                    
                     <InputsPurchaseOrder />
-                    <ButtonsForm typeBtn='Modifier' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Modifier' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

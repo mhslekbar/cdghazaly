@@ -15,11 +15,14 @@ interface DeleteRoleInterface {
 
 const DeleteRole:React.FC<DeleteRoleInterface> = ({ modal, toggle, roleData }) => {
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
+
   const dispatch = useDispatch();
   const { setShowSuccessMsg } = useContext(ShowRoleContext);
 
   const handleEditRole = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const boundApi = bindActionCreators({ deleteRoleApi }, dispatch);
       const response = await boundApi.deleteRoleApi(roleData._id);
@@ -30,7 +33,9 @@ const DeleteRole:React.FC<DeleteRoleInterface> = ({ modal, toggle, roleData }) =
       } else if (Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -62,7 +67,7 @@ const DeleteRole:React.FC<DeleteRoleInterface> = ({ modal, toggle, roleData }) =
                         </p>
                       ))}
                     {/* START Modal Footer */}
-                    <ButtonsForm typeBtn="Supprimer" toggle={toggle} /> 
+                    <ButtonsForm loading={loading} typeBtn="Supprimer" toggle={toggle} /> 
                     {/* End Modal Footer */}
                   </form>
                   {/* End Modal Body */}

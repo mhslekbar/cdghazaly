@@ -16,9 +16,11 @@ const CreateInvoice:React.FC = () => {
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
   const { setShowSuccessMsg } = useContext(ShowInvoicesContext)
+  const [loading, setLoading] = useState(false)
 
   const HandlSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(CreateInvoiceApi(patientId))
       if(response === true) {
@@ -26,7 +28,9 @@ const CreateInvoice:React.FC = () => {
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -49,7 +53,7 @@ const CreateInvoice:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={HandlSubmit}
                   >
-                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

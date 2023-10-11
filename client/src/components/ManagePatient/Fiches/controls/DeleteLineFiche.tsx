@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DeleteLineFicheApi } from '../../../../redux/fiches/ficheApiCalls';
 import { useParams } from 'react-router';
@@ -18,8 +18,11 @@ const DeleteLineFiche:React.FC<DeleteLineFicheInterface> = ({ modal, toggle, Lin
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
   const { setShowSuccessMsg, selectedFiche } = useContext(ShowFichesContext)
+  const [loading, setLoading] = useState(false)
+
   const HandlSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteLineFicheApi(patientId, selectedFiche._id, LineFicheData._id))
       if(response === true) {
@@ -29,7 +32,9 @@ const DeleteLineFiche:React.FC<DeleteLineFicheInterface> = ({ modal, toggle, Lin
         await dispatch(ShowPatientsApi())
         await dispatch(ShowPaymentsApi(patientId))
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -49,7 +54,7 @@ const DeleteLineFiche:React.FC<DeleteLineFicheInterface> = ({ modal, toggle, Lin
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={HandlSubmit}
                   >
-                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -12,6 +12,7 @@ const AddPaymentMode: React.FC = () => {
   const [code, setCode] = useState<number>(0)
   const [archive, setArchive] = useState<boolean>(false)
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const [modal, setModal] = useState(false)
   const toggle = () => {
@@ -23,6 +24,7 @@ const AddPaymentMode: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response: any = await dispatch(AddPaymentModeApi({ name, code }))
       if(response === true) {
@@ -36,7 +38,9 @@ const AddPaymentMode: React.FC = () => {
       } else {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -74,7 +78,7 @@ const AddPaymentMode: React.FC = () => {
                       </p>
                     ))}
                     <InputsPaymentMode />
-                    <ButtonsForm toggle={toggle} typeBtn="Ajouter"/>
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Ajouter"/>
                   </form>
                   {/* End Modal Body */}
                 </div>

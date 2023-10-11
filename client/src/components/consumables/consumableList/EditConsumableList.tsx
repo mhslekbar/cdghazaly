@@ -16,12 +16,14 @@ export interface EditConsumableListInterface {
 const EditConsumableList:React.FC<EditConsumableListInterface> = ({ modal, toggle, ConsumableListData  }) => {
   const [name, setName] = useState(ConsumableListData.name)
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(EditListConsumableApi(ConsumableListData._id, { name }))
       if(response === true) {
@@ -32,7 +34,9 @@ const EditConsumableList:React.FC<EditConsumableListInterface> = ({ modal, toggl
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally { 
+      setLoading(false)
+    }
   }
 
   return (
@@ -65,7 +69,7 @@ const EditConsumableList:React.FC<EditConsumableListInterface> = ({ modal, toggl
                         </p>
                       ))}
                     <InputElement name="Note" placeholder='donner une note si vous voulez.' value={name} setValue={setName} />
-                    <ButtonsForm typeBtn='Modifier' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Modifier' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

@@ -17,9 +17,12 @@ const DeleteConsumption:React.FC<DeleteConsumptionInterface> = ({ modal, toggle,
 
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
+  
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteConsumptionsApi(ConsumptionData._id))
       if(response === true) {
@@ -29,7 +32,9 @@ const DeleteConsumption:React.FC<DeleteConsumptionInterface> = ({ modal, toggle,
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,7 +64,7 @@ const DeleteConsumption:React.FC<DeleteConsumptionInterface> = ({ modal, toggle,
                           {err}
                         </p>
                       ))}
-                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

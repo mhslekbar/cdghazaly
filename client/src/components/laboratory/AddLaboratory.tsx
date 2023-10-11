@@ -1,12 +1,12 @@
 import React, { FormEvent, useContext, useState } from "react";
 import InputsLaboratory from "./forms/InputsLaboratory";
-import ButtonsLaboratory from "./forms/ButtonsLaboratory";
 import { DataLaboratoryContext } from "./types";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { AddLaboratoryApi } from "../../redux/laboratory/laboratoryApiCalls";
 import { ShowLaboratoryContext } from "./ShowLaboratory";
 import { Timeout, hideMsg } from "../../functions/functions";
+import ButtonsForm from "../../HtmlComponents/ButtonsForm";
 
 interface AddLaboratoryInterface {
   modal: boolean,
@@ -18,6 +18,7 @@ const AddLaboratory:React.FC<AddLaboratoryInterface> = ({ modal, toggle }) => {
   const [phone, setPhone] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
 
+  const [loading, setLoading] = useState(false)
   
   const dispatch = useDispatch();
   const boundActions = bindActionCreators({ AddLaboratoryApi }, dispatch);
@@ -25,6 +26,7 @@ const AddLaboratory:React.FC<AddLaboratoryInterface> = ({ modal, toggle }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await boundActions.AddLaboratoryApi({ name, phone });
       if (typeof response === "boolean") {
@@ -36,7 +38,9 @@ const AddLaboratory:React.FC<AddLaboratoryInterface> = ({ modal, toggle }) => {
       } else if (Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -74,7 +78,7 @@ const AddLaboratory:React.FC<AddLaboratoryInterface> = ({ modal, toggle }) => {
                         </p>
                       ))}
                     <InputsLaboratory />
-                    <ButtonsLaboratory toggle={toggle} typeBtn="Ajouter" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Ajouter" />
                   </form>
                   {/* End Modal Body */}
                 </div>

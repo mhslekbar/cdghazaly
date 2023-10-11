@@ -19,9 +19,11 @@ const PassPatient:React.FC<PassPatientType> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await dispatch(PassPatientsApi(patientData._id));
       if (response === true) {
@@ -31,7 +33,9 @@ const PassPatient:React.FC<PassPatientType> = ({
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -61,7 +65,7 @@ const PassPatient:React.FC<PassPatientType> = ({
                         </p>
                       ))}
                     <p className="text-gray-700 text-xl">Passer <b>{patientData.name} </b>?</p>
-                    <ButtonsForm toggle={toggle} typeBtn="Passer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Passer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

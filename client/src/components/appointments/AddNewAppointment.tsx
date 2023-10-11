@@ -35,6 +35,8 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
   const [listPatient, setListPatient] = useState<any[]>([])
   const [errors, setErrors] = useState<string[]>([]);
 
+  const [loading, setLoading] = useState(false)
+
   const dispatch: any = useDispatch()
 
   const customStyles = {
@@ -63,6 +65,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     Object.assign(selectedTd, { patient: patient?.value, patientLab: selectedPatientLab})
     try {
       const response = await dispatch(AddAppointmentApi(doctorId, selectedTd))
@@ -76,7 +79,9 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -125,7 +130,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
                       />
                     }
                     <p className='rounded shadow px-4 py-2 bg-[#EEE] w-full mt-2'>{formatDate(dateAppointment)}</p>
-                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

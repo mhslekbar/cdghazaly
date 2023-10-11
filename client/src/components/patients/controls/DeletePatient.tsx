@@ -22,9 +22,11 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
   const dispatch: any = useDispatch();
   const location = useLocation()
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await dispatch(DeletePatientsApi(patientData._id));
       if (response === true) {
@@ -37,7 +39,9 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
       } else {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -66,7 +70,7 @@ const DeletePatient: React.FC<DeletePatientInterface> = ({
                           {err}
                         </p>
                       ))}
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

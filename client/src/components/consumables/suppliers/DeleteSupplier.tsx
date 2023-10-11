@@ -17,9 +17,11 @@ const DeleteSupplier:React.FC<DeleteSupplierInterface> = ({ modal, toggle, Suppl
 
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteSuppliersApi(SupplierData._id))
       if(response === true) {
@@ -29,7 +31,9 @@ const DeleteSupplier:React.FC<DeleteSupplierInterface> = ({ modal, toggle, Suppl
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,7 +63,7 @@ const DeleteSupplier:React.FC<DeleteSupplierInterface> = ({ modal, toggle, Suppl
                           {err}
                         </p>
                       ))}
-                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

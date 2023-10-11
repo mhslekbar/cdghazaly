@@ -17,9 +17,11 @@ const DeleteConsumableList:React.FC<DeleteConsumableListInterface> = ({ modal, t
 
   const { setShowSuccessMsg } = useContext(ShowConsumableContext)
   const dispatch: any = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteListConsumableApi(ConsumableListData._id))
       if(response === true) {
@@ -29,7 +31,9 @@ const DeleteConsumableList:React.FC<DeleteConsumableListInterface> = ({ modal, t
       } else {
         setErrors(response)
       }
-    } catch { }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,7 +63,7 @@ const DeleteConsumableList:React.FC<DeleteConsumableListInterface> = ({ modal, t
                           {err}
                         </p>
                       ))}
-                    <ButtonsForm typeBtn='Supprimer' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

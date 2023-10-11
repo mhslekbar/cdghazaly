@@ -15,6 +15,7 @@ const AddPurchaseOrder:React.FC = () => {
   const [ListPurchaseOrder, setListPurchaseOrder] = useState<LinePurchaseOrderInterface[]>([DefaultLinePurchaseOrderInterface])
   const [supplier, setSupplier] = useState<SupplierInterface>(DefaultSupplierInterface)
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
   
   const { suppliers } = useSelector((state: State) => state.suppliers)
 
@@ -32,6 +33,7 @@ const AddPurchaseOrder:React.FC = () => {
   const { setShowSuccessMsg } = useContext(ShowPurchaseOrderContext)
 
   const handleSubmit = async (e: FormEvent) => {
+    setLoading(true)
     e.preventDefault()
     try {
       let findEmptyPurchase = ListPurchaseOrder.find((purchaseOrder: LinePurchaseOrderInterface) => purchaseOrder.consumable._id?.length === 0)
@@ -58,7 +60,9 @@ const AddPurchaseOrder:React.FC = () => {
       } else {
         setErrors(formErrors)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   const navigate = useNavigate()
@@ -100,7 +104,7 @@ const AddPurchaseOrder:React.FC = () => {
                       </p>
                     ))}
                     <InputsPurchaseOrder />
-                    <ButtonsForm typeBtn='Ajouter' toggle={toggle} />
+                    <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
                 </div>

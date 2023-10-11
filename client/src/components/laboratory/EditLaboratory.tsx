@@ -1,12 +1,12 @@
 import React, { FormEvent, useContext, useState } from "react";
 import InputsLaboratory from "./forms/InputsLaboratory";
-import ButtonsLaboratory from "./forms/ButtonsLaboratory";
 import { DataLaboratoryContext, laboratoryInterface } from "./types";
 import { Timeout, hideMsg } from "../../functions/functions";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { EditLaboratoryApi } from "../../redux/laboratory/laboratoryApiCalls";
 import { ShowLaboratoryContext } from "./ShowLaboratory";
+import ButtonsForm from "../../HtmlComponents/ButtonsForm";
 
 interface EditLaboratoryInterface {
   modal: boolean;
@@ -23,12 +23,15 @@ const EditLaboratory: React.FC<EditLaboratoryInterface> = ({
   const [phone, setPhone] = useState<string>(laboratory.phone);
   const [errors, setErrors] = useState<string[]>([]);
 
+  const [loading, setLoading] = useState(false)
+
   const dispatch = useDispatch();
   const boundActions = bindActionCreators({ EditLaboratoryApi }, dispatch);
   const { setShowSuccessMsg } = useContext(ShowLaboratoryContext);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await boundActions.EditLaboratoryApi(laboratory._id, {
         name,
@@ -43,7 +46,9 @@ const EditLaboratory: React.FC<EditLaboratoryInterface> = ({
       } else if (Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -78,7 +83,7 @@ const EditLaboratory: React.FC<EditLaboratoryInterface> = ({
                         </p>
                       ))}
                     <InputsLaboratory />
-                    <ButtonsLaboratory toggle={toggle} typeBtn="Modifier" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Modifier" />
                   </form>
                   {/* End Modal Body */}
                 </div>

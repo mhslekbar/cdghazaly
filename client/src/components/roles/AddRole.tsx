@@ -14,9 +14,11 @@ const AddRole: React.FC = () => {
   const dispatch = useDispatch();
   const { setShowSuccessMsg } = useContext(ShowRoleContext);
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const handleAddNewRole = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const boundedApi = bindActionCreators({ addRoleApi }, dispatch);
       const response = await boundedApi.addRoleApi({ name: role.trim() });
@@ -28,7 +30,9 @@ const AddRole: React.FC = () => {
       } else if (Array.isArray(response)) {
         setErrors(response);
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   };
 
   const toggle = () => {
@@ -88,7 +92,7 @@ const AddRole: React.FC = () => {
                       />
                     </div>
                     {/* START Modal Footer */}
-                    <ButtonsForm typeBtn="Ajouter" toggle={toggle} /> 
+                    <ButtonsForm loading={loading} typeBtn="Ajouter" toggle={toggle} /> 
                     {/* End Modal Footer */}
                   </form>
                   {/* End Modal Body */}

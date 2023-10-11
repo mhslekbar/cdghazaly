@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { DevisInterface, ShowDevisInterfaceContext } from '../types';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
 import { DeleteDevisApi } from '../../../../redux/devis/devisApiCalls';
@@ -17,9 +17,11 @@ const DeleteDevis:React.FC<DeleteDevisInterface> = ({ modal, toggle, DevisData})
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
   const { setShowSuccessMsg } = useContext(ShowDevisInterfaceContext)
+  const [loading, setLoading] = useState(false)
 
   const HandleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteDevisApi(patientId, DevisData._id))
       if(response === true) {
@@ -27,7 +29,9 @@ const DeleteDevis:React.FC<DeleteDevisInterface> = ({ modal, toggle, DevisData})
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
       }
-    } catch {} 
+    } finally {
+      setLoading(false)
+    } 
   }
 
   return (
@@ -48,7 +52,7 @@ const DeleteDevis:React.FC<DeleteDevisInterface> = ({ modal, toggle, DevisData})
                     onSubmit={HandleSubmit}
                   >
                   {/* My Inputs */}
-                  <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                  <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

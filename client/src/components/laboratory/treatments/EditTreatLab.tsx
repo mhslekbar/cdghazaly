@@ -5,9 +5,9 @@ import { EditTreatLabApi } from "../../../redux/laboratory/treatments/labTreatAp
 import { useParams } from 'react-router';
 import { DataTreatLabContext, TreatmentLabInterface } from './types';
 import InputsTreatLab from './forms/InputsTreatLab';
-import ButtonsTreatLab from './forms/ButtonsTreatLab';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import { ShowLaboratoryContext } from '../ShowLaboratory';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 
 interface EditTreatLabInterface {
   modal: boolean,
@@ -23,11 +23,14 @@ const EditTreatLab:React.FC<EditTreatLabInterface> = ({ modal, toggle, Treatment
   const [errors, setErrors] = useState<string[]>([]);
   const { setShowSuccessMsg } = useContext(ShowLaboratoryContext)
   
+  const [loading, setLoading] = useState(false)
+
   const dispatch = useDispatch()
   const boundActions = bindActionCreators({ EditTreatLabApi }, dispatch)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await boundActions.EditTreatLabApi(labId || "", TreatmentData._id, { treatment: treatment.value, price })
       if(typeof response === "boolean") {
@@ -39,7 +42,9 @@ const EditTreatLab:React.FC<EditTreatLabInterface> = ({ modal, toggle, Treatment
       } else if(Array.isArray(response)) {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -73,7 +78,7 @@ const EditTreatLab:React.FC<EditTreatLabInterface> = ({ modal, toggle, Treatment
                       </p>
                     ))}
                     <InputsTreatLab />
-                    <ButtonsTreatLab toggle={toggle} typeBtn='Modifier' />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier' />
                   </form>
                   {/* End Modal Body */}
                 </div>

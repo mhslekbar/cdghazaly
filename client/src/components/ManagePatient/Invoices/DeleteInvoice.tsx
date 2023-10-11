@@ -18,9 +18,11 @@ const DeleteInvoice:React.FC<DeleteInvoiceInterface> = ({ modal, toggle, Invoice
   const { patientId } = useParams()
   const { setShowSuccessMsg } = useContext(ShowInvoicesContext)
   const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
   
   const HandleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await dispatch(DeleteInvoiceApi(patientId, InvoiceData._id))
       if(response === true) {
@@ -30,7 +32,9 @@ const DeleteInvoice:React.FC<DeleteInvoiceInterface> = ({ modal, toggle, Invoice
       } else {
         setErrors(response)
       }
-    } catch { } 
+    } finally { 
+      setLoading(false)
+    } 
   }
 
   return (
@@ -60,7 +64,7 @@ const DeleteInvoice:React.FC<DeleteInvoiceInterface> = ({ modal, toggle, Invoice
                         {err}
                       </p>
                     ))}
-                    <ButtonsForm toggle={toggle} typeBtn="Supprimer" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}
                 </div>

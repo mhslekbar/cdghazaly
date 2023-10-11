@@ -2,13 +2,13 @@ import React, { useContext, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { DataTreatmentContext } from './types';
 import InputsTreatment from './forms/InputsTreatment';
-import ButtonsTreatment from './forms/ButtonsTreatment';
 import { useDispatch } from 'react-redux';
 import { AddTreatmentApi } from '../../../redux/treatments/treatmentApiCalls';
 import { bindActionCreators } from 'redux';
 import { Timeout, hideMsg } from '../../../functions/functions';
 import { ShowTreatmentContext } from './ShowTreatAssurance';
 import { useParams } from 'react-router';
+import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 
 const AddTreatment:React.FC = () => {
   const [treatment, setTreatment] = useState("")
@@ -24,10 +24,13 @@ const AddTreatment:React.FC = () => {
     setModal(!modal)
   }
 
+  const [loading, setLoading] = useState(false)
+
   const { AssId } = useParams()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const boundActions = bindActionCreators({ AddTreatmentApi }, dispatch)
       const response = await boundActions.AddTreatmentApi({ name: treatment, price, type: "soins", assurance: AssId })
@@ -40,7 +43,9 @@ const AddTreatment:React.FC = () => {
       } else if(Array.isArray(response)) {
         setErrors(response)
       }
-    } catch {}
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -78,7 +83,7 @@ const AddTreatment:React.FC = () => {
                     ))}
                     {/* My Inputs */}
                     <InputsTreatment />
-                    <ButtonsTreatment toggle={toggle} typeBtn="Ajouter" />
+                    <ButtonsForm loading={loading} toggle={toggle} typeBtn="Ajouter" />
                   </form>
                   {/* End Modal Body */}
                 </div>
