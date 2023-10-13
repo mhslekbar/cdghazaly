@@ -17,7 +17,7 @@ const login = async (req, res) => {
     });
 
     if (!user) {
-      res.status(300).json({ formErrors: "Username is wrong!!" });
+      res.status(300).json({ formErrors: "Wrong Data !" });
     } else {
       // start get password and decrypt it
       const hashedPassword = CryptoJS.AES.decrypt(
@@ -32,7 +32,7 @@ const login = async (req, res) => {
         const { password, ...others } = user._doc;
         res.status(200).json({ success: { ...others, accessToken } });
       } else {
-        res.status(300).json({ formErrors: "Wrong Password" });
+        res.status(300).json({ formErrors: "Wrong Data !!" });
       }
     }
   } catch (err) {

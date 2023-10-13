@@ -88,7 +88,14 @@ const Login:React.FC = () => {
             {t("Connecter")}
           </button>
           {errors?.length > 0 && errors?.map((err: string, index: number) => (
-            <div key={index} className="bg-red-400 text-white p-2 rounded" onClick={(e) => hideMsg(e, errors, setErrors)}>{err}</div>
+            <div 
+              key={index}
+              className="bg-red-400 text-white p-2 rounded"
+              onClick={(e) => hideMsg(e, errors, setErrors)}
+              data-errorMsg={err}
+            >
+              {t(err)}
+            </div>
           ))}
         </form>
       </div>

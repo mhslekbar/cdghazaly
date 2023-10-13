@@ -4,11 +4,12 @@ import { AddUserContext, DoctorType, UserInterface } from "./types";
 import { bindActionCreators } from "redux";
 import { EditUserApi } from "../../redux/users/UserApiCalls";
 import { useDispatch } from "react-redux";
-import { Timeout, hideMsg } from "../../functions/functions";
+import { Timeout } from "../../functions/functions";
 
 import { ShowUserContext } from "./ShowUsers";
 import { PermissionType } from "../roles/types";
 import ButtonsForm from "../../HtmlComponents/ButtonsForm";
+import ShowErrorMsg from "../../HtmlComponents/ShowErrorMsg";
 
 interface EditUserInterface {
   modal: boolean,
@@ -97,16 +98,7 @@ const EditUser: React.FC<EditUserInterface> = ({ modal, toggle, user }) => {
             <div className="flex items-center min-h-screen px-4 py-8">
               <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                 <div className="mt-3">
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                  <ShowErrorMsg errors={errors} setErrors={setErrors} />
                   {/* Start Modal Body */}
                   <form
                     className="mt-2 sm:ml-4 sm:text-left"

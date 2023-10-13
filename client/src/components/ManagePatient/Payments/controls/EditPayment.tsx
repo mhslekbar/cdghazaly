@@ -3,12 +3,13 @@ import InputsPayment from '../forms/InputsPayment';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
 import { DataPaymentsContext, DefaultPaymentMethodInterface, PaymentInterface, PaymentMethodInterface, ShowPaymentsContext } from '../types';
 import { UserInterface } from '../../../users/types';
-import { Timeout, formattedDate, hideMsg } from '../../../../functions/functions';
+import { Timeout, formattedDate } from '../../../../functions/functions';
 import { EditPaymentsApi } from '../../../../redux/payments/paymentApiCalls';
 import { useDispatch } from 'react-redux';
 import { UserData } from '../../../../requestMethods';
 import { useParams } from 'react-router';
 import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
+import ShowErrorMsg from '../../../../HtmlComponents/ShowErrorMsg';
 
 interface EditPaymentInterface {
   modal: boolean,
@@ -87,16 +88,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsPayment />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier'/>
                   </form>

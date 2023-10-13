@@ -4,12 +4,13 @@ import InputsPayment from '../forms/InputsPayment';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
 import { DataPaymentsContext, DefaultPaymentMethodInterface, EnumTypeModalPayment, PaymentMethodInterface, ShowPaymentsContext } from '../types';
 import { DefaultUserInterface, UserInterface } from '../../../users/types';
-import { Timeout, formattedDate, hideMsg } from '../../../../functions/functions';
+import { Timeout, formattedDate } from '../../../../functions/functions';
 import { AddPaymentsApi } from '../../../../redux/payments/paymentApiCalls';
 import { useDispatch } from 'react-redux';
 import { UserData } from '../../../../requestMethods';
 import { useParams } from 'react-router';
 import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
+import ShowErrorMsg from '../../../../HtmlComponents/ShowErrorMsg';
 
 const AddPayment:React.FC = () => {
   const [amount, setAmount] = useState(0)
@@ -91,16 +92,7 @@ const AddPayment:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   > 
-                    {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsPayment />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter'/>
                   </form>

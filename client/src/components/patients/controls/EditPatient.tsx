@@ -4,9 +4,10 @@ import { DefaultDataInputsPatientContext, PatientInterface, ShowPatientsContext 
 import InputsPatient from '../forms/InputsPatient';
 import { UserData, get } from '../../../requestMethods';
 import { useDispatch } from 'react-redux';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import { EditPatientsApi } from '../../../redux/patients/patientApiCalls';
 import { UserInterface } from '../../users/types';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 interface EditPatientInterface {
   patientData: PatientInterface,
@@ -134,16 +135,7 @@ const EditPatient:React.FC<EditPatientInterface> = ({ patientData, modal, toggle
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                                        {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsPatient typeModal="Edit" />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn='Modifier' />
                   </form>

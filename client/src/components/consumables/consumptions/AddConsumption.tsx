@@ -7,8 +7,9 @@ import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
 import { AddConsumptionsApi } from '../../../redux/consumptions/consumptionApiCalls';
 import { ShowConsumableContext } from '../types';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import { useNavigate } from 'react-router';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 const AddConsumption:React.FC = () => {
   const [amount, setAmount] = useState(0)
@@ -74,16 +75,7 @@ const AddConsumption:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsConsumptions />
                     <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>

@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { UserInterface } from './types';
 import { ShowUserContext } from './ShowUsers';
-import { Timeout, hideMsg } from '../../functions/functions';
+import { Timeout } from '../../functions/functions';
 import { DeleteUserApi } from '../../redux/users/UserApiCalls';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
+import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
 
 interface DeleteUserInterface {
   modal: boolean,
@@ -54,16 +55,7 @@ const DeleteUser:React.FC<DeleteUserInterface> = ({ modal, toggle, user }) => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     {/* My Inputs */}
                     <p>Vous etes sur de vouloir supprimer <b>{user.username}</b>?</p>
                     {/* START Modal Footer */}

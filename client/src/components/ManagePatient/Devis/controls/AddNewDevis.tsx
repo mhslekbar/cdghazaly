@@ -12,8 +12,9 @@ import { useParams } from 'react-router';
 import { UserData } from '../../../../requestMethods';
 import { AddDevisApi } from '../../../../redux/devis/devisApiCalls';
 import { useDispatch } from 'react-redux';
-import { Timeout, hideMsg } from '../../../../functions/functions';
+import { Timeout } from '../../../../functions/functions';
 import { useTranslation } from 'react-i18next';
+import ShowErrorMsg from '../../../../HtmlComponents/ShowErrorMsg';
 
 const AddNewDevis:React.FC = () => {
   const [doctor, setDoctor] = useState<UserInterface>(DefaultUserInterface)
@@ -110,16 +111,7 @@ const AddNewDevis:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsDevis />
                     {LineDevis.length > 0 && 
                       <DataLineDevis LineDevis={LineDevis} setLineDevis={setLineDevis} />

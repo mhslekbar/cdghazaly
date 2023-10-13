@@ -4,7 +4,8 @@ import { PurchaseOrderInterface, ShowPurchaseOrderContext } from './types';
 import { useDispatch } from 'react-redux';
 import { DeletePurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls';
 import { useParams } from 'react-router';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 interface DeletePurchaseOrderInterface {
   modal: boolean,
@@ -53,16 +54,7 @@ const DeletePurchaseOrder:React.FC<DeletePurchaseOrderInterface> = ({ modal, tog
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}

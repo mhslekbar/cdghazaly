@@ -10,8 +10,9 @@ import { State } from '../../../../redux/store';
 import { useParams } from 'react-router';
 import { EditDevisApi } from '../../../../redux/devis/devisApiCalls';
 import { useDispatch } from 'react-redux';
-import { Timeout, hideMsg } from '../../../../functions/functions';
+import { Timeout } from '../../../../functions/functions';
 import { UserData } from '../../../../requestMethods';
+import ShowErrorMsg from '../../../../HtmlComponents/ShowErrorMsg';
 
 type EditDevisType = {
   modal: boolean, 
@@ -99,16 +100,7 @@ const EditDevis:React.FC<EditDevisType> = ({ modal, toggle, DevisData }) => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsDevis />
                     {LineDevis.length > 0 && 
                       <DataLineDevis LineDevis={selectedDevis.LineDevis} setLineDevis={setLineDevis} />

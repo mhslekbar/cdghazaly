@@ -4,8 +4,9 @@ import { bindActionCreators } from 'redux';
 import { DeleteTreatmentApi } from "../../../redux/treatments/treatmentApiCalls"
 import { useDispatch } from 'react-redux';
 import { ShowTreatmentContext } from './ShowTreatAssurance';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 interface DeleteTreatmentInterface {
   modal: boolean,
@@ -55,17 +56,7 @@ const DeleteTreatment:React.FC<DeleteTreatmentInterface> = ({ modal, toggle, tre
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <p>Vous etes sur de vouloir supprimer <b className='text-red'>{treatmentData.name}</b> ?</p>
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>

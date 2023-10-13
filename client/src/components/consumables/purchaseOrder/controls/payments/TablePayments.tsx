@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { historyPaymentInterface } from "../../../suppliers/types";
-import { hideMsg } from "../../../../../functions/functions";
 import { MdRemoveCircle } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import InputEditPayment from "./InputEditPayment";
@@ -9,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { ShowSuppliersApi } from "../../../../../redux/suppliers/supplierApiCalls";
 import { PurchaseOrderInterface } from "../../types";
+import ShowErrorMsg from "../../../../../HtmlComponents/ShowErrorMsg";
+import { useTranslation } from "react-i18next";
 
 interface TablePaymentsInterface {
   historyPayment: historyPaymentInterface[],
@@ -69,28 +70,12 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <>
-    {showMsg && errors.length > 0 &&
-      errors.map((err, index) => (
-        <p
-          className="p-3 my-2 rounded bg-red text-white msg"
-          key={index}
-          onClick={(e) => hideMsg(e, errors, setErrors)}
-        >
-          {err}
-        </p>
-    ))}
-    {showMsg && success.length > 0 &&
-      success.map((err, index) => (
-        <p
-          className="p-2 rounded bg-blue text-white msg"
-          key={index}
-          onClick={(e) => hideMsg(e, success, setSuccess)}
-        >
-          {err}
-        </p>
-    ))}
+    {showMsg && <ShowErrorMsg errors={errors} setErrors={setErrors} />}
+    {showMsg && <ShowErrorMsg customClass="bg-blue" errors={success} setErrors={setSuccess} />}
     <div className="flex flex-col border mt-2">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
@@ -98,9 +83,9 @@ const TablePayments: React.FC<TablePaymentsInterface> = ({ historyPayment, purch
             <table className="min-w-full text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
-                  <th className="px-6 py-4 border-r">Payment</th>
-                  <th className="px-6 py-4 border-r">Date</th>
-                  <th className="px-6 py-4">Actions</th>
+                  <th className="px-6 py-4 border-r">{t("Montant")}</th>
+                  <th className="px-6 py-4 border-r">{t("Date")}</th>
+                  <th className="px-6 py-4">{t("Actions")}</th>
                 </tr>
               </thead>
               <tbody>

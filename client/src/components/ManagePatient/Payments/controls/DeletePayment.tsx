@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import ButtonsForm from '../../../../HtmlComponents/ButtonsForm';
 import { PaymentInterface, ShowPaymentsContext } from '../types';
-import { Timeout, hideMsg } from '../../../../functions/functions';
+import { Timeout } from '../../../../functions/functions';
 import { DeletePaymentsApi } from '../../../../redux/payments/paymentApiCalls';
 import { useDispatch } from 'react-redux';
 import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
+import ShowErrorMsg from '../../../../HtmlComponents/ShowErrorMsg';
 
 interface DeletePaymentInterface {
   modal: boolean,
@@ -54,16 +55,7 @@ const DeletePayment:React.FC<DeletePaymentInterface> = ({ modal, toggle, payment
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn='Supprimer'/>
                   </form>
                   {/* End Modal Body */}

@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { InputElement } from '../../../../../HtmlComponents/InputElement'
 import { FaCheck } from 'react-icons/fa'
-import { formattedDate, hideMsg } from '../../../../../functions/functions'
+import { formattedDate } from '../../../../../functions/functions'
 import { useDispatch } from 'react-redux'
 import { AddPaymentPurchaseOrderApi } from '../../../../../redux/purchaseOrder/purchaseOrderApiCalls'
 import { useParams } from 'react-router'
 import { ShowSuppliersApi } from '../../../../../redux/suppliers/supplierApiCalls'
 import { PurchaseOrderInterface } from '../../types'
+import ShowErrorMsg from '../../../../../HtmlComponents/ShowErrorMsg'
+import { useTranslation } from 'react-i18next'
 
 interface AddPaymentInterface {
   purchaseOrder: PurchaseOrderInterface
@@ -45,11 +47,11 @@ const AddPayment:React.FC<AddPaymentInterface> = ({ purchaseOrder }) => {
       setLoading(false)
     }
   }
-
+  const { t } = useTranslation()
   return (
     <>
     <div className='flex justify-start items-center gap-2'>
-      <InputElement type='number' id="Montant" placeholder='Montant' value={payment} setValue={setPayment} />
+      <InputElement type='number' id="Montant" placeholder={t('Montant')} value={payment} setValue={setPayment} />
       <InputElement type='date' value={createdAt} setValue={setCreatedAt} />
       <button
         type="submit"
@@ -61,26 +63,8 @@ const AddPayment:React.FC<AddPaymentInterface> = ({ purchaseOrder }) => {
         }`} style={{ fontSize: "22px" }} onClick={handleAddPayment} />
       </button>
     </div>
-    {showMsg && errors.length > 0 &&
-      errors.map((err, index) => (
-        <p
-          className="p-3 my-2 rounded bg-red text-white msg"
-          key={index}
-          onClick={(e) => hideMsg(e, errors, setErrors)}
-        >
-          {err}
-        </p>
-    ))}
-    {showMsg && success.length > 0 &&
-      success.map((err, index) => (
-        <p
-          className="p-2 rounded bg-blue text-white msg"
-          key={index}
-          onClick={(e) => hideMsg(e, success, setSuccess)}
-        >
-          {err}
-        </p>
-    ))}
+    {showMsg && <ShowErrorMsg errors={errors} setErrors={setErrors} />}
+    {showMsg && <ShowErrorMsg customClass="bg-blue" errors={success} setErrors={setSuccess} />}
     </>
   )
 }

@@ -1,12 +1,13 @@
 import React, { FormEvent, useContext, useState } from "react";
 import InputsLaboratory from "./forms/InputsLaboratory";
 import { DataLaboratoryContext, laboratoryInterface } from "./types";
-import { Timeout, hideMsg } from "../../functions/functions";
+import { Timeout } from "../../functions/functions";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { EditLaboratoryApi } from "../../redux/laboratory/laboratoryApiCalls";
 import { ShowLaboratoryContext } from "./ShowLaboratory";
 import ButtonsForm from "../../HtmlComponents/ButtonsForm";
+import ShowErrorMsg from "../../HtmlComponents/ShowErrorMsg";
 
 interface EditLaboratoryInterface {
   modal: boolean;
@@ -72,16 +73,7 @@ const EditLaboratory: React.FC<EditLaboratoryInterface> = ({
                 <div className="mt-3">
                   {/* Start Modal Body */}
                   <form className="mt-2 sm:ml-4 sm:text-left" onSubmit={handleSubmit}>
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsLaboratory />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn="Modifier" />
                   </form>

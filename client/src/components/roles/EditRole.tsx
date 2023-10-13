@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Timeout, hideMsg } from "../../functions/functions";
+import { Timeout } from "../../functions/functions";
 import { RoleType } from "./types";
 import { editRoleApi } from "../../redux/roles/roleApiCalls";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
 import { ShowRoleContext } from "./ShowRoles";
 import ButtonsForm from "../../HtmlComponents/ButtonsForm";
+import ShowErrorMsg from "../../HtmlComponents/ShowErrorMsg";
 
 interface EditRoleInterface {
   modal: boolean;
@@ -59,17 +60,7 @@ const EditRole: React.FC<EditRoleInterface> = ({ modal, toggle, roleData }) => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleEditRole}
                   >
-                    {/* My Inputs */}
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red-400 text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     {/* My Inputs */}
                     <div className="mb-2">
                       <label

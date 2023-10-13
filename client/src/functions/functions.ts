@@ -1,7 +1,8 @@
 export const Timeout = 1500
 
 export const hideMsg = (e: any, error: string[], setError: any) => {
-  const theMsg = e.target.innerText;
+  // const theMsg = e.target.innerText;
+  const theMsg = e.target.getAttribute("data-errorMsg")
   setError(error.filter((err) => err?.toUpperCase()?.trim() !== theMsg?.toUpperCase()?.trim())); 
 };
 

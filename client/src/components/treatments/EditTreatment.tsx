@@ -5,12 +5,13 @@ import {
   careTypeInterface
 } from "./types";
 import InputsTreatment from "./forms/InputsTreatment";
-import { Timeout, hideMsg } from "../../functions/functions";
+import { Timeout } from "../../functions/functions";
 import { bindActionCreators } from "redux";
 import { EditTreatmentApi } from "../../redux/treatments/treatmentApiCalls"
 import { useDispatch } from "react-redux";
 import { ShowTreatmentContext } from "./ShowTreatments";
 import ButtonsForm from "../../HtmlComponents/ButtonsForm";
+import ShowErrorMsg from "../../HtmlComponents/ShowErrorMsg";
 
 interface EditTreatmentInterface {
   modal: boolean;
@@ -85,16 +86,7 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
                 <div className="mt-3">
                   {/* Start Modal Body */}
                   <form className="mt-2 sm:ml-4 sm:text-left" onSubmit={handleSubmit}>
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     {/* My Inputs */}
                     <InputsTreatment />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn="Modifier" />

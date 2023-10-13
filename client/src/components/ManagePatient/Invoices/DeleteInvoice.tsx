@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { InvoicesInterface, ShowInvoicesContext } from './types';
 import { DeleteInvoiceApi } from '../../../redux/invoices/invoiceApiCalls';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 
 interface DeleteInvoiceInterface {
@@ -54,16 +55,7 @@ const DeleteInvoice:React.FC<DeleteInvoiceInterface> = ({ modal, toggle, Invoice
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={HandleSubmit}
                   >
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn="Supprimer" />
                   </form>
                   {/* End Modal Body */}

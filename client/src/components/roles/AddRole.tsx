@@ -4,10 +4,11 @@ import { addRoleApi } from "../../redux/roles/roleApiCalls";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
 import { ShowRoleContext } from "./ShowRoles";
-import { Timeout, hideMsg } from "../../functions/functions";
+import { Timeout } from "../../functions/functions";
 import { useNavigate } from "react-router";
 import ButtonsForm from "../../HtmlComponents/ButtonsForm";
 import { useTranslation } from "react-i18next";
+import ShowErrorMsg from "../../HtmlComponents/ShowErrorMsg";
 
 const AddRole: React.FC = () => {
   const [role, setRole] = useState<string>("");
@@ -67,16 +68,7 @@ const AddRole: React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleAddNewRole}
                   >
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     {/* My Inputs */}
                     <div className="mb-2">
                       <label

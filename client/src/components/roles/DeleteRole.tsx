@@ -4,8 +4,9 @@ import { ShowRoleContext } from './ShowRoles';
 import { bindActionCreators } from 'redux';
 import { RoleType } from "./types";
 import { deleteRoleApi } from "../../redux/roles/roleApiCalls";
-import { Timeout, hideMsg } from '../../functions/functions';
+import { Timeout } from '../../functions/functions';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
+import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
 
 interface DeleteRoleInterface {
  modal: boolean,
@@ -56,16 +57,7 @@ const DeleteRole:React.FC<DeleteRoleInterface> = ({ modal, toggle, roleData }) =
                     onSubmit={handleEditRole}
                   >
                     {/* My Inputs */}
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red-400 text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     {/* START Modal Footer */}
                     <ButtonsForm loading={loading} typeBtn="Supprimer" toggle={toggle} /> 
                     {/* End Modal Footer */}

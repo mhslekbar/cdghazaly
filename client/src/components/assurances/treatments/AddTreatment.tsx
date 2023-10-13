@@ -5,10 +5,11 @@ import InputsTreatment from './forms/InputsTreatment';
 import { useDispatch } from 'react-redux';
 import { AddTreatmentApi } from '../../../redux/treatments/treatmentApiCalls';
 import { bindActionCreators } from 'redux';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import { ShowTreatmentContext } from './ShowTreatAssurance';
 import { useParams } from 'react-router';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 const AddTreatment:React.FC = () => {
   const [treatment, setTreatment] = useState("")
@@ -71,16 +72,7 @@ const AddTreatment:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     {/* My Inputs */}
                     <InputsTreatment />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn="Ajouter" />

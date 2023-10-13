@@ -3,7 +3,8 @@ import { PermissionInterface, ShowPermissionContext } from './types';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
 import { DeletePermissionApi } from '../../redux/permissions/permissionApiCalls';
-import { Timeout, hideMsg } from '../../functions/functions';
+import { Timeout } from '../../functions/functions';
+import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
 
 interface DeletePermissionInterface {
   modal: boolean,
@@ -46,16 +47,7 @@ const DeletePermission:React.FC<DeletePermissionInterface> = ({ modal, toggle, P
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   > 
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <ButtonsForm typeBtn='Supprimer' toggle={toggle}  />
                   </form>
                   {/* End Modal Body */}

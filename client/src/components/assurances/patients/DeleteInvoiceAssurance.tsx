@@ -3,8 +3,9 @@ import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { useDispatch } from 'react-redux';
 import { DeleteInvoiceAssuranceApi } from '../../../redux/assurances/invoiceAssApiCalls';
 import { InvoicesAssuranceInterface, ShowAssurancesContext } from '../types';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import { useParams } from 'react-router';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 interface DeleteInvoiceAssuranceInterface {
   modal: boolean,
@@ -50,16 +51,7 @@ const DeleteInvoiceAssurance:React.FC<DeleteInvoiceAssuranceInterface> = ({ moda
             <div className="flex items-center min-h-screen px-4 py-8">
               <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                 <div className="mt-3">
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                  <ShowErrorMsg errors={errors} setErrors={setErrors} />
                   {/* Start Modal Body */}
                   <form
                     className="mt-2 sm:ml-4 sm:text-left"

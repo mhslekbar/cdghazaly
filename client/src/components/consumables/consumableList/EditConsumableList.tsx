@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DataConsumableListContext, ListConsumableInterface } from './types';
 import { EditListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { InputElement } from '../../../HtmlComponents/InputElement';
 import { ShowConsumableContext } from '../types';
 import { useTranslation } from 'react-i18next';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 export interface EditConsumableListInterface {
   modal: boolean,
@@ -61,16 +62,7 @@ const EditConsumableList:React.FC<EditConsumableListInterface> = ({ modal, toggl
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                      ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputElement name={t("Note")} placeholder={t("Donner une note si vous voulez")} value={name} setValue={setName} />
                     <ButtonsForm loading={loading} typeBtn='Modifier' toggle={toggle} />
                   </form>

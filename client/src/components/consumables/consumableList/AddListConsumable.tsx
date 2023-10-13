@@ -3,12 +3,13 @@ import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { AddListConsumableApi } from '../../../redux/listConsumable/listConsumableApiCalls';
 import { DataConsumableListContext } from './types';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { InputElement } from '../../../HtmlComponents/InputElement';
 import { useNavigate } from 'react-router';
 import { ShowConsumableContext } from '../types';
 import { useTranslation } from 'react-i18next';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 const AddListConsumable:React.FC = () => {
   const [name, setName] = useState("")
@@ -71,16 +72,7 @@ const AddListConsumable:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                      errors.map((err, index) => (
-                        <p
-                          className="p-3 my-2 rounded bg-red text-white msg"
-                          key={index}
-                          onClick={(e) => hideMsg(e, errors, setErrors)}
-                        >
-                          {err}
-                        </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputElement name={t("Note")} placeholder={t("Donner une note si vous voulez")} value={name} setValue={setName} />
                     <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>

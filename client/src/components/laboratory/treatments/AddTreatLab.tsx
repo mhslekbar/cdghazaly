@@ -6,9 +6,10 @@ import { AddTreatLabApi } from "../../../redux/laboratory/treatments/labTreatApi
 import { useParams } from 'react-router';
 import { DataTreatLabContext } from './types';
 import InputsTreatLab from './forms/InputsTreatLab';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import { ShowLaboratoryContext } from '../ShowLaboratory';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 const AddTreatLab:React.FC = () => {
   const { labId } = useParams()
@@ -70,16 +71,7 @@ const AddTreatLab:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsTreatLab />
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn='Ajouter' />
                   </form>

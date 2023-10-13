@@ -115,6 +115,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
                       <p
                         className="p-3 my-2 rounded bg-red text-white msg"
                         key={index}
+                        data-errorMsg={err}
                         onClick={(e) => hideMsg(e, errors, setErrors)}
                       >
                         {err}

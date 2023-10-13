@@ -6,10 +6,11 @@ import InputsPurchaseOrder from './forms/InputsPurchaseOrder';
 import { useDispatch } from 'react-redux';
 import { AddPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls';
 import { useNavigate, useParams } from 'react-router';
-import { Timeout, hideMsg } from '../../../functions/functions';
+import { Timeout } from '../../../functions/functions';
 import { DefaultSupplierInterface, SupplierInterface } from '../suppliers/types';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
+import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 const AddPurchaseOrder:React.FC = () => { 
   const [ListPurchaseOrder, setListPurchaseOrder] = useState<LinePurchaseOrderInterface[]>([DefaultLinePurchaseOrderInterface])
@@ -93,16 +94,7 @@ const AddPurchaseOrder:React.FC = () => {
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                    {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors} />
                     <InputsPurchaseOrder />
                     <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
