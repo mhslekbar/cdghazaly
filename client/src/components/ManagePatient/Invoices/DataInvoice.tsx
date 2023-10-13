@@ -12,6 +12,7 @@ import { useParams } from "react-router";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import TotalFacture from "./TotalFacture";
 import HeaderInvoice from "../HeaderInvoice";
+import { useTranslation } from "react-i18next";
 
 const DataInvoice: React.FC = () => {
   const { invoices } = useSelector((state: State) => state.invoices);
@@ -33,6 +34,8 @@ const DataInvoice: React.FC = () => {
   useEffect(() => {
     setPatientInfo(patients.find((patient: PatientInterface) => patient._id === patientId) || DefaultPatientInterface)
   }, [patients, patientId])
+  
+  const { t } = useTranslation()
 
   return (
     <>
@@ -43,15 +46,15 @@ const DataInvoice: React.FC = () => {
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <div className="overflow-hidden">
                 <HeaderInvoice type={`Facture N-${selectedInvoice.numInvoice}`} PatientInfo={patientInfo}/>            
-                <table className="min-w-full text-left text-sm font-light text-center">
+                <table className="min-w-full text-sm font-light text-center">
                   <thead className="border font-medium bg-white text-black border-gray-950">
                     <tr>
-                      <th className="px-3 py-2 border-r border-gray-950">Traitment</th>
-                      <th className="px-3 py-2 border-r border-gray-950">Dents</th>
-                      <th className="px-3 py-2 border-r border-gray-950">Surface</th>
-                      <th className="px-3 py-2 border-r border-gray-950">NBS</th>
-                      <th className="px-3 py-2 border-r border-gray-950">Prix.U</th>
-                      <th className="px-3 py-2 border-r border-gray-950">total</th>
+                      <th className="px-3 py-2 border-r border-gray-950">{t("Traitement")}</th>
+                      <th className="px-3 py-2 border-r border-gray-950">{t("Dents")}</th>
+                      <th className="px-3 py-2 border-r border-gray-950">{t("Surface")}</th>
+                      <th className="px-3 py-2 border-r border-gray-950">{t("NBS")}</th>
+                      <th className="px-3 py-2 border-r border-gray-950">{t("Prix.U")}</th>
+                      <th className="px-3 py-2 border-r border-gray-950">{t("Total")}</th>
                     </tr>
                   </thead>
                   <tbody>

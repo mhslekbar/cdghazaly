@@ -9,6 +9,7 @@ import { DataDevisContext, DefaultLineDevisType, EnumTypeModal, LineDevisType, S
 import DeleteLineFiche from "./controls/DeleteLineFiche";
 import { DefaultUserInterface, UserInterface } from "../../users/types";
 import { DefaultTreatmentType, TreatmentType } from "../../treatments/types";
+import { useTranslation } from "react-i18next";
 
 const DataFiches: React.FC = () => {
 
@@ -47,6 +48,8 @@ const DataFiches: React.FC = () => {
     fetchFiches();
   }, [dispatch, patientId]);
 
+  const { t } = useTranslation()
+
   return (
     <DataDevisContext.Provider
       value={{
@@ -81,15 +84,15 @@ const DataFiches: React.FC = () => {
                   <thead className="border-b border-[#95a5a6] font-medium bg-white text-center">
                     <tr>
                       <th className="px-6 py-4 border-r border-[#95a5a6]">
-                        Date
+                        {t("Date")}
                       </th>
                       <th className="px-6 py-4 border-r border-[#95a5a6]">
-                        Actes
+                        {t("Actes")}
                       </th>
                       <th className="px-6 py-4 border-r border-[#95a5a6]">
-                        Montant
+                        {t("Montant")}
                       </th>
-                      <th className="px-6 py-4 print:hidden">Facture</th>
+                      <th className="px-6 py-4 print:hidden">{t("Facture")}</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -8,6 +8,7 @@ import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { InputElement } from '../../../HtmlComponents/InputElement';
 import { useNavigate } from 'react-router';
 import { ShowConsumableContext } from '../types';
+import { useTranslation } from 'react-i18next';
 
 const AddListConsumable:React.FC = () => {
   const [name, setName] = useState("")
@@ -42,6 +43,8 @@ const AddListConsumable:React.FC = () => {
   }
 
   const navigate = useNavigate()
+
+  const { t } = useTranslation()
 
   return (
     <DataConsumableListContext.Provider value={{
@@ -78,7 +81,7 @@ const AddListConsumable:React.FC = () => {
                           {err}
                         </p>
                     ))}
-                    <InputElement name="Note" placeholder='donner une note si vous voulez.' value={name} setValue={setName} />
+                    <InputElement name={t("Note")} placeholder={t("Donner une note si vous voulez")} value={name} setValue={setName} />
                     <ButtonsForm loading={loading} typeBtn='Ajouter' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}

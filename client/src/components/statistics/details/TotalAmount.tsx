@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { ShowStatisticContext } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface TotalAmountInterface {
   sumPayment: number;
@@ -14,6 +15,7 @@ const TotalAmount: React.FC<TotalAmountInterface> = ({
   useEffect(() => {
     setSumTotalAmount(sumPayment + +sumCons)
   }, [sumPayment, sumCons, setSumTotalAmount])
+  const { t } = useTranslation()
   return (
     <>
       <tr >
@@ -23,7 +25,7 @@ const TotalAmount: React.FC<TotalAmountInterface> = ({
       </tr>
       <tr >
         <td colSpan={2}></td>
-        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950 bg-main">Total</td>
+        <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950 bg-main">{t("Total")}</td>
         <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950 bg-main">{sumPayment + +sumCons}</td>
       </tr>
     </>

@@ -1,0 +1,17 @@
+export const homePageAr =  {
+  "Rendez-Vous": "المواعيد",
+  "Statistiques Financiéres": "الإحصاءات المالية",
+  "Nom ou numero du patient": "اسم المريض أو رقمه",
+  "Nom": "الاسم",
+  "Matricule": "رقم التسجيل",
+  "Telephone": "الهاتف",
+  "Assurances": "التأمين",
+  "Laboratoires": "المختبرات",
+  "Utilisateurs": "المستخدمين",
+  "Consommables": "المستهلكات",
+  "Traitements": "العلاجات",
+  "Roles": "الأدوار",
+  "Mode de paiements": "طريقة الدفع",
+  "Permissions": "الصلاحيات",
+  "Atlas Softwares": "برامج الاطلس",
+}

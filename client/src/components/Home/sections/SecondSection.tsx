@@ -7,6 +7,7 @@ import DropdownDoctor from '../../sidebar/DropDownDoctor';
 import { UserData } from '../../../requestMethods';
 import SearchPatient from '../SearchPatient';
 import { PermissionType } from '../../roles/types';
+import { useTranslation } from 'react-i18next';
 
 interface SecondSectionInterface {
   className: string,
@@ -20,6 +21,7 @@ interface SecondSectionInterface {
 const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdown, setOpenDropdown, selectedDropDown, setSelectedDropDown, listDoctors }) => {
   const { permissions } = useSelector((state: State) => state.permissions);
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <section className="grid grid-cols-3 gap-2 mt-3">
@@ -33,7 +35,7 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
           linkList={listDoctors}
           openDropdown={openDropdown}
           selectedDropDown={selectedDropDown}
-          name="Rendez-Vous"
+          name={t("Rendez-Vous")}
           toggleDropDown={() => {
             setOpenDropdown(!openDropdown);
             setSelectedDropDown("Rendez-Vous");
@@ -50,7 +52,7 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
         )) &&
         <div className={className} onClick={() => navigate(`/appointments/${UserData()?._id}`)}>
           <FaCalendarCheck className="mb-3 text-4xl" />
-          Rendez-Vous
+          {t("Rendez-Vous")}
         </div>
       )}
 
@@ -65,7 +67,7 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
           linkList={listDoctors}
           openDropdown={openDropdown}
           selectedDropDown={selectedDropDown}
-          name="Statistiques Financiéres"
+          name={t("Statistiques Financiéres")}
           toggleDropDown={() => {
             setOpenDropdown(!openDropdown);
             setSelectedDropDown("Statistiques Financiéres");
@@ -82,7 +84,7 @@ const SecondSection:React.FC<SecondSectionInterface> = ({ className, openDropdow
         ) &&
         <div className={className} onClick={() => navigate(`/statistics/${UserData()?._id}/payments`)}>
           <FaCalendarCheck className="mb-3 text-4xl" />
-          Statistiques Financiéres
+          {t("Statistiques Financiéres")}
         </div>
       }
     </section>

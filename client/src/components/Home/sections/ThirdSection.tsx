@@ -8,6 +8,7 @@ import { UserData } from '../../../requestMethods';
 import { BsCart4 } from 'react-icons/bs';
 import { PermissionType } from '../../roles/types';
 import { MdOutlineAssuredWorkload, MdPayments } from 'react-icons/md';
+import { useTranslation } from 'react-i18next';
 
 interface ThirdSectionInterface {
   className: string,
@@ -23,6 +24,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
   const navigate = useNavigate()
 
   const { userData } = useSelector((state: State) => state.login)
+  const { t } = useTranslation()
 
   return (
     <section className="grid grid-cols-3 gap-2 mt-3">
@@ -34,7 +36,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
       ) && (
         <div className={className} onClick={() => navigate("/assurance")}>
           <MdOutlineAssuredWorkload className="mb-3 text-4xl" />
-          Assurance
+          {t("Assurances")}
         </div>
       )}
       {/* END One */}
@@ -48,7 +50,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
       ) && (
         <div className={className} onClick={() => navigate("/laboratory")}>
           <FaTooth className="mb-3 text-4xl" />
-          Laboratoires
+          {t("Laboratoires")}
         </div>
       )}
       {/* End Two */}
@@ -60,7 +62,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
       ) && (
         <div className={className} onClick={() => navigate("/user")}>
           <FaUsers className="mb-3 text-4xl" />
-          Utilisateurs
+          {t("Utilisateurs")}
         </div>
       )}
       {((
@@ -73,7 +75,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           linkList={listDoctors}
           openDropdown={openDropdown}
           selectedDropDown={selectedDropDown}
-          name="Consommables"
+          name={t("Consommables")}
           toggleDropDown={() => {
             setOpenDropdown(!openDropdown);
             setSelectedDropDown("Consommables");
@@ -90,7 +92,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
         ) &&
         <div className={className} onClick={() => navigate(`/Consumables/${UserData()._id}/consumptions`)}>
           <BsCart4 className="mb-3 text-4xl" />
-          Consommables
+          {t("Consommables")}
         </div>
       )}
 
@@ -101,7 +103,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
       ) && (
         <div className={className} onClick={() => navigate("/treatment")}>
           <FaBriefcaseMedical className="mb-3 text-4xl" />
-          Traitements
+          {t("Traitements")}
         </div>
       )}
       
@@ -111,7 +113,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           permission.collectionName === "ROLES"
       ) && (
         <div className={className} onClick={() => navigate("role")}>
-          <FaUsersCog className="mb-3 text-4xl" /> Roles
+          <FaUsersCog className="mb-3 text-4xl" /> {t("Roles")}
         </div>
       )}
       
@@ -121,13 +123,13 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           permission.collectionName === "MODE_PAIEMENT"
       ) && (
         <div className={className} onClick={() => navigate("paymentMode")}>
-          <MdPayments className="mb-3 text-4xl" /> Mode de paiement
+          <MdPayments className="mb-3 text-4xl" /> {t("Mode de paiements")}
         </div>
       )}
 
       {userData.dev && <div className={className} onClick={() => navigate("/permissions")}>
         <FaShieldAlt className="mb-3 text-4xl" />
-        Permissions
+        {t("Permissions")}
       </div>}
 
     </section>

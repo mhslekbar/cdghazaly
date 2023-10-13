@@ -9,6 +9,7 @@ import { DataDevisContext, DefaultLineDevisType, EnumTypeTeethBoard, LineDevisTy
 import { UserInterface } from '../../users/types';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
+import { useTranslation } from 'react-i18next';
 
 
 interface DataLineFicheInterface {
@@ -56,7 +57,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
     setSelectedDevis(line.lineInvoice?.devis)
     setDoctor(line.doctor)
   }
-
+  const { t } = useTranslation()
   return (
     <>
       {showTeethBoard && selectedLineDevis && (
@@ -79,7 +80,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
           {dateModal ? 
             <>
               <BiChevronDown onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 text-white' style={{ fontSize: "22px" }} />
-              <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full' onClick={() => setShowAppointmentModal(true)}>RDV</button>
+              <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full' onClick={() => setShowAppointmentModal(true)}>{t("RDV")}</button>
             </>
             : 
             <>

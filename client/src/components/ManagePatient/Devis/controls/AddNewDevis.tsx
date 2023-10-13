@@ -13,6 +13,7 @@ import { UserData } from '../../../../requestMethods';
 import { AddDevisApi } from '../../../../redux/devis/devisApiCalls';
 import { useDispatch } from 'react-redux';
 import { Timeout, hideMsg } from '../../../../functions/functions';
+import { useTranslation } from 'react-i18next';
 
 const AddNewDevis:React.FC = () => {
   const [doctor, setDoctor] = useState<UserInterface>(DefaultUserInterface)
@@ -46,6 +47,7 @@ const AddNewDevis:React.FC = () => {
   const [errors, setErrors] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
 
+  const { t } = useTranslation()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -68,7 +70,7 @@ const AddNewDevis:React.FC = () => {
         setLoading(false)
       }
     } else {
-      setErrors(["Ajouter un traitment pour creer un devis"])
+      setErrors([t("Ajouter un traitment pour creer un devis")])
     }
 
   }

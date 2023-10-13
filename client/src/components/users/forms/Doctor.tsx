@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AddUserContext } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface DoctorInterface {
   showDoctor: boolean;
@@ -23,7 +24,7 @@ const Doctor: React.FC<DoctorInterface> = ({ setShowDoctor, showDoctor }) => {
     }
     setDoctor({ cabinet: cab, percentage: perc })
   }
-
+  const { t } = useTranslation()
   return (
     <div>
       <div className="mb-2">
@@ -34,7 +35,7 @@ const Doctor: React.FC<DoctorInterface> = ({ setShowDoctor, showDoctor }) => {
           onChange={(e) => setShowDoctor(e.target.checked)}
         />{" "}
         <label htmlFor="showDoctor" className="text-gray-700 font-bold">
-          docteur ?
+          {t("Docteur")} ?
         </label>
       </div>
 
@@ -42,13 +43,13 @@ const Doctor: React.FC<DoctorInterface> = ({ setShowDoctor, showDoctor }) => {
         <>
           <div className="mb-2">
             <label htmlFor="cabinet" className="block text-gray-700 font-bold">
-              Cabinet
+              {t("Cabinet")}
             </label>
             <input
               type="text"
               id="cabinet"
               className="w-full shadow rounded border px-4 py-2 text-gray-700 focus:outline-none"
-              placeholder="Cabinet"
+              placeholder={t("Cabinet")}
               value={cabinet}
               data-doctor="cabinet"
               onChange={(e) => handleDoctor(e)}
@@ -59,13 +60,13 @@ const Doctor: React.FC<DoctorInterface> = ({ setShowDoctor, showDoctor }) => {
               htmlFor="percentage"
               className="block text-gray-700 font-bold"
             >
-              Pourcentage
+              {t("Pourcentage")}
             </label>
             <input
               type="number"
               id="percentage"
               className="w-full shadow rounded border px-4 py-2 text-gray-700 focus:outline-none"
-              placeholder="Pourcentage"
+              placeholder={t("Pourcentage")}
               value={percentage}
               data-doctor="percentage"
               onChange={(e) => handleDoctor(e)}

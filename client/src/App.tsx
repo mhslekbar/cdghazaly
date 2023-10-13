@@ -27,6 +27,20 @@ const App:React.FC = () => {
   }, [])
 
 
+  useEffect(() => {
+    localStorage.setItem("lang", localStorage.getItem("lang") ?? "fr")
+    switch(localStorage.getItem("lang")) {
+      case "ar": 
+        document.body.dir = "rtl";
+        localStorage.setItem("dir", "rtl")
+      break;
+      default:
+        document.body.dir = "ltr";
+        localStorage.setItem("dir", "ltr")  
+    }
+  }, [])
+
+
 
   if(userData._id) {
     return <Router>

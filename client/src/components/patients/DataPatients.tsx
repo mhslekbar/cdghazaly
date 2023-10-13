@@ -16,6 +16,7 @@ import { switchPathPatient, switchTypePatient } from "./functions";
 import { PatientInfo } from "./PatientInfo";
 import { PatientTypePath } from "../sidebar/types";
 import { UserInterface } from "../users/types";
+import { useTranslation } from "react-i18next";
 
 const DataPatients: React.FC = () => {
   const { ptType, doctorId } = useParams();
@@ -72,7 +73,9 @@ const DataPatients: React.FC = () => {
   };
 
   const navigate = useNavigate()
-  const location = useLocation() 
+  const location = useLocation()
+  const { t } = useTranslation()
+
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
       {patients.length > 0 &&
@@ -113,32 +116,32 @@ const DataPatients: React.FC = () => {
               {patient.RegNo && (
                 <PatientInfo
                   icon={<BsFillPersonFill />}
-                  title="DOSS.NO"
+                  title={t("Matricule")}
                   value={RegNo(patient.RegNo).toString()}
                 />
               )}
               <PatientInfo
                 icon={<BsFillPersonFill />}
-                title="Nom"
+                title={t("Nom")}
                 value={patient.name}
               />
               <PatientInfo
                 icon={<BsFillTelephoneFill />}
-                title="Telephone"
+                title={t("Telephone")}
                 value={patient?.contact?.phone}
               />
               {patient?.contact?.whatsApp &&
                 patient?.contact?.whatsApp !== "+222" && (
                   <PatientInfo
                     icon={<RiWhatsappFill />}
-                    title="WhatsApp"
+                    title={t("WhatsApp")}
                     value={patient?.contact?.whatsApp}
                   />
                 )}
               {ptType !== PatientTypePath.CONSULTATION && (
                 <PatientInfo
                   icon={<FaRegMoneyBillAlt />}
-                  title="Balance"
+                  title={t("Balance")}
                   className={`${patient.balance < 0 ? "text-red" : ""}`}
                   value={patient.balance.toString()}
                 />

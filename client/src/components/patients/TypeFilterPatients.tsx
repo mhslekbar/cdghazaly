@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { PatientTypePath } from '../sidebar/types'
 import { useParams } from 'react-router'
 import { ShowPatientsContext } from './types'
+import { useTranslation } from 'react-i18next'
 
 const TypeFilterPatients:React.FC = () => {
   const { ptType } = useParams()
   const [TypeFilter, setTypeFilter] = useState<any[]>([]) 
   const { selectedFilter, setSelectedFilter } = useContext(ShowPatientsContext)
+  const { t } = useTranslation()
 
   useEffect(() => {
     switch(ptType) {
@@ -37,7 +39,7 @@ const TypeFilterPatients:React.FC = () => {
         onClick={() => setSelectedFilter(filter)}
         key={index}
       >
-        {filter.title}
+        {t(filter.title)}
       </div>)}
     </section>
   )

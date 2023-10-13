@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { DataDevisContext } from "../components/ManagePatient/Devis/types";
+import { useTranslation } from "react-i18next";
 
 interface SelectElementInterface {
   name?: string;
@@ -25,6 +26,7 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
   divClass = ""
 }) => {
   const { selectedTreat } = useContext(DataDevisContext)
+  const { t } = useTranslation()
   return (
     <div className={`mb-2 ${divClass}`}>
       {name && 
@@ -47,7 +49,7 @@ export const SelectElement: React.FC<SelectElementInterface> = ({
       >
         {defaultOption}
         {options.map((option: any) => {
-          return <option value={option._id} data-element={JSON.stringify(option)} key={option._id}>{option.name} {showPrice && " - " + option.treatments?.find((treat: any) => treat.treatment._id === selectedTreat?._id)?.price}</option>
+          return <option value={option._id} data-element={JSON.stringify(option)} key={option._id}>{t(option.name)} {showPrice && " - " + option.treatments?.find((treat: any) => treat.treatment._id === selectedTreat?._id)?.price}</option>
         })}
       </select>
     </div>

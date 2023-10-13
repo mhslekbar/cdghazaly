@@ -12,6 +12,7 @@ import InputsTotalPurchase from "./controls/InputsTotalPurchase";
 import { useDispatch } from "react-redux";
 import { setTotalPurchaseOrderApi } from "../../../redux/purchaseOrder/purchaseOrderApiCalls";
 import ShowListBC from "./controls/ShowListBC";
+import { useTranslation } from "react-i18next";
 
 const DataPurchaseOrder:React.FC = () => {
   const { purchaseOrders } = useSelector((state: State) => state.purchaseOrder);
@@ -37,6 +38,8 @@ const DataPurchaseOrder:React.FC = () => {
     } catch {}
   }
   
+  const { t } = useTranslation()
+
   return (
     <>
     <div className="grid grid-cols-1">
@@ -48,11 +51,11 @@ const DataPurchaseOrder:React.FC = () => {
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
                   <th className="px-6 py-4 border-r">#</th>
-                  <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">Total BC</th>
-                  <th className="px-6 py-4 border-r">Total Payé</th>
-                  <th className="px-6 py-4 border-r">Reste</th>
-                  <th className="px-6 py-4 border-r print:hidden">Actions</th>
+                  <th className="px-6 py-4 border-r">{t("Nom")}</th>
+                  <th className="px-6 py-4 border-r">{t("Total BC")}</th>
+                  <th className="px-6 py-4 border-r">{t("Total Payé")}</th>
+                  <th className="px-6 py-4 border-r">{t("Reste")}</th>
+                  <th className="px-6 py-4 border-r print:hidden">{t("Actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,7 +76,7 @@ const DataPurchaseOrder:React.FC = () => {
                       setSelectedPurchaseOrder(purchaseOrder)
                       setShowPurchaseOrderLine(!showPurchaseOrderLine)
                     }}>
-                      BC-{purchaseOrder.num}{"-" + (new Date(purchaseOrder.createdAt).getMonth() + 1)}
+                      {t("BC")}-{purchaseOrder.num}{"-" + (new Date(purchaseOrder.createdAt).getMonth() + 1)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium w-36">
                       <div className="flex justify-between gap-1">
@@ -131,46 +134,3 @@ const DataPurchaseOrder:React.FC = () => {
 };
 
 export default DataPurchaseOrder;
-
-
-/**
- * 
- *     <div className="grid grid-cols-4 gap-2 mt-3">
-      {
-      filterSpecificDate(
-        purchaseOrders, day, month, showSwitchDate, startDate, endDate, selectedDate
-      )
-      .filter((purchaseOrder: PurchaseOrderInterface) => purchaseOrder.doctor._id === doctorId)
-      .map((purchaseOrder: PurchaseOrderInterface, index) => (
-        <section className="bg-white border shadow rounded-lg px-6 py-3" key={index}>
-          <p className="">
-            Nom:{purchaseOrder.num}{"-" + (new Date(purchaseOrder.createdAt).getMonth() + 1)}
-          </p>
-          <p className="">
-            Reference: {purchaseOrder.reference}
-          </p>
-          <p className="">
-            Total: {purchaseOrder.total}
-          </p>
-          {purchaseOrder.paymentDate && 
-            <p className="">
-              Date de paiement: {formatDate(purchaseOrder.paymentDate.toString())}
-            </p>
-          }
-          <div className="flex justify-center items-center">
-            <FaEdit className="text-blue" style={{ fontSize: "22px" }} onClick={() => { 
-              setSelectedPurchaseOrder(purchaseOrder)
-              setShowEditPurchaseOrder(!showEditPurchaseOrder)
-            }}/>
-            <MdRemoveCircle className="text-red" style={{ fontSize: "22px" }} onClick={() => { 
-              setSelectedPurchaseOrder(purchaseOrder)
-              setShowDeletePurchaseOrder(!showDeletePurchaseOrder)
-            }}/>
-          </div>
-        </section>
-      ))}
-    </div>
- 
-
-
-*/

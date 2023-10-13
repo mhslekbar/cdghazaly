@@ -1,6 +1,7 @@
 import React from 'react'
 import { PatientInterface } from '../patients/types'
 import { RegNo } from '../../functions/functions'
+import { useTranslation } from 'react-i18next'
 
 interface HeaderInvoiceInterface {
   PatientInfo: PatientInterface,
@@ -8,11 +9,13 @@ interface HeaderInvoiceInterface {
 } 
 
 const HeaderInvoice:React.FC<HeaderInvoiceInterface> = ({ PatientInfo, type }) => {
+  const { t } = useTranslation()
+  
   return (
     <div className='py-4 bg-white hidden print:block'>
       <h1 className='text-2xl font-bold'>{type}</h1>
-      <p>Doss.No: {RegNo(PatientInfo.RegNo)}</p>
-      <p>Nom:  {PatientInfo.name}</p>
+      <p>{t("Doss.No")}: {RegNo(PatientInfo.RegNo)}</p>
+      <p>{t("Nom")}:  {PatientInfo.name}</p>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { DataTreatmentContext } from "../types";
+import { useTranslation } from "react-i18next";
 
 const InputsTreatment = () => {
   let {
@@ -17,30 +18,29 @@ const InputsTreatment = () => {
     {val: "bouche",   name: "Soins de bouche"},
     {val: "conservative", name: "Soins conservateur"},
   ]
-
+  const { t } = useTranslation()
   return (
     <React.Fragment>
       <div className="mb-2">
         <label htmlFor="treatment" className="block text-gray-700 font-bold">
-          Traitement
+          {t("Traitement")}
         </label>
         <input
           type="text"
           id="treatment"
           className="w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none"
-          placeholder="Traitement"
+          placeholder={t("Traitement")}
           value={treatment}
           onChange={(e) => setTreatment(e.target.value)}
         />
       </div>
       <div className="mb-2">
         <label htmlFor="treatmentType" className="block text-gray-700 font-bold">
-          Type
+          {t("Type")}
         </label>
         <select 
           id="treatmentType"
           className="w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none uppercase"
-          placeholder="Prix"
           value={treatmentType.type}
           onChange={(e) => {
             const selectedIndex = e.target.selectedIndex;
@@ -50,19 +50,19 @@ const InputsTreatment = () => {
           }}
         >
           {ArrayTypeCare.map((care: any) => (
-            <option key={care.val} value={care.val} data-name={care.name} >{care.name}</option>
+            <option key={care.val} value={care.val} data-name={care.name} >{t(care.name)}</option>
           ))}
         </select>
       </div>
       <div className="mb-2">
         <label htmlFor="price" className="block text-gray-700 font-bold">
-          Prix
+          {t("Prix")}
         </label>
         <input
           type="number"
           id="price"
           className="w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none"
-          placeholder="Prix"
+          placeholder={t("Prix")}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />

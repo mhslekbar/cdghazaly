@@ -5,6 +5,7 @@ import { MdRemoveCircle } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { deleteLineDevisApi } from "../../../../redux/devis/devisApiCalls";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 interface DataLineDevisInterface {
   LineDevis: LineDevisType[],
@@ -32,6 +33,8 @@ const DataLineDevis: React.FC<DataLineDevisInterface> = ({ LineDevis, setLineDev
     setTypeTeethBoard(EnumTypeTeethBoard.EDIT_NEW_TEETH)
   }
 
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col border col-start-2 col-span-4">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -40,13 +43,13 @@ const DataLineDevis: React.FC<DataLineDevisInterface> = ({ LineDevis, setLineDev
             <table className="min-w-full text-left text-sm font-light">
               <thead className="border-b font-medium bg-main text-white text-center">
                 <tr>
-                  <th className="px-3 py-2 border-r">Traitment</th>
-                  <th className="px-3 py-2 border-r">Dents</th>
-                  <th className="px-3 py-2 border-r">Surface</th>
-                  <th className="px-3 py-2 border-r">NBS</th>
-                  <th className="px-3 py-2 border-r">Price</th>
-                  <th className="px-3 py-2 border-r">total</th>
-                  <th className="px-3 py-2 border-r">Actions</th>
+                  <th className="px-3 py-2 border-r">{t("Traitement")}</th>
+                  <th className="px-3 py-2 border-r">{t("Dents")}</th>
+                  <th className="px-3 py-2 border-r">{t("Surface")}</th>
+                  <th className="px-3 py-2 border-r">{t("NBS")}</th>
+                  <th className="px-3 py-2 border-r">{t("Prix.U")}</th>
+                  <th className="px-3 py-2 border-r">{t("Total")}</th>
+                  <th className="px-3 py-2 border-r">{t("Actions")}</th>
                 </tr>
               </thead>
               <tbody>

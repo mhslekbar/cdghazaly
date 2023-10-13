@@ -7,6 +7,7 @@ import { DefaultSetAppointmentInterface, SetAppointmentInterface } from "../Conf
 import { DayInfo } from "../ConfigAppointment/DayOfWork/types";
 import { AppointmentTableContext } from "./types";
 import DataAppointment from "./DataAppointment";
+import { useTranslation } from "react-i18next";
 
 const AppointmentsTable: React.FC = () => {
   const { setAppointment } = useSelector((state: State) => state.setAppointment)
@@ -24,6 +25,8 @@ const AppointmentsTable: React.FC = () => {
     setDays(daysOfWork.dayOfWork)
   }, [daysOfWork])
 
+  const { t } = useTranslation()
+
   return (
     <AppointmentTableContext.Provider value={{
       Days, setDays,
@@ -36,11 +39,11 @@ const AppointmentsTable: React.FC = () => {
             <table className="min-w-full text-left text-sm font-light">
               <GetDaysOfWork />
               <tbody>
-                <DataAppointment partOfTime="matin" setAppoint={setAppoint}/>
+                <DataAppointment partOfTime={"matin"} setAppoint={setAppoint}/>
                 <tr className="bg-blue-400 text-center w-full">
-                  <td colSpan={Days.length} className="p-6 text-2xl font-bold text-white">Pause</td>
+                  <td colSpan={Days.length} className="p-6 text-2xl font-bold text-white">{t("Pause")}</td>
                 </tr>
-                <DataAppointment partOfTime="soir" setAppoint={setAppoint}/>
+                <DataAppointment partOfTime={"soir"} setAppoint={setAppoint}/>
               </tbody>
             </table>
           </div>

@@ -13,6 +13,7 @@ import PercentageCabinet from './PercentageCabinet'
 import PurchaseOrderStats from './PurchaseOrderStats'
 import ConsumptionStats from './ConsumptionsStats'
 import TotalRemainStats from './TotalRemainStats'
+import { useTranslation } from 'react-i18next'
 
 interface DataPaymentInterface {
   paymentFilter: string
@@ -27,20 +28,20 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
   const location = useLocation()
 
   const filteredPayment = paymentFilter === "payment" ? EnumTypePayment.PAYMENT : EnumTypePayment.SOINS
-  
+  const { t } = useTranslation()
   return (
     <div className="col-span-2 flex flex-col border">
     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
         <div className="overflow-hidden">
-          <table className="min-w-full text-left text-sm font-light text-center">
+          <table className="min-w-full text-sm font-light text-center">
             <thead className="border border-gray-950 font-medium bg-main text-white">
               <tr>
-                <th className="px-6 py-4 border-r border-gray-950">Doss.No</th>
-                <th className="px-6 py-4 border-r border-gray-950">Nom</th>
-                <th className="px-6 py-4 border-r border-gray-950">Consultation</th>
-                <th className="px-6 py-4 border-r border-gray-950">{paymentFilter === "payment" ? "Versement" : paymentFilter === "soins" ?  "soins" : ""}</th>
-                <th className="px-6 py-4 border-r border-gray-950">Mode de paiement</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("DOSS.No")}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("Nom")}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("Consultation")}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{paymentFilter === "payment" ? t("Versement") : paymentFilter === "soins" ?  t("soins") : ""}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("Mode de paiement")}</th>
               </tr>
             </thead>
             <tbody className='border border-gray-950'>

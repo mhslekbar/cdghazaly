@@ -5,6 +5,7 @@ import RowPurchaseOrder from '../controls/RowPurchaseOrder'
 import { SelectElement } from '../../../../HtmlComponents/SelectElement'
 import { useSelector } from 'react-redux'
 import { State } from '../../../../redux/store'
+import { useTranslation } from 'react-i18next'
 
 const InputsPurchaseOrder:React.FC = () => {
   const { ListPurchaseOrder, setListPurchaseOrder, supplier, setSupplier } = useContext(DataPurchaseOrderContext)
@@ -14,7 +15,8 @@ const InputsPurchaseOrder:React.FC = () => {
   }
 
   const { suppliers } = useSelector((state: State) => state.suppliers)
-  
+  const { t } = useTranslation()
+
   return (
     <React.Fragment>
       <div className='mt-2'>
@@ -32,7 +34,7 @@ const InputsPurchaseOrder:React.FC = () => {
         <FaPlus />
       </div>
       {/* defaultOption={<option>Choisir un fournisseur</option>}  */}
-      <SelectElement name="Fournisseur" id="Fournisseur" value={supplier} setValue={setSupplier} options={suppliers} valueType={"object"} />
+      <SelectElement name={t("Fournisseur")} id="Fournisseur" value={supplier} setValue={setSupplier} options={suppliers} valueType={"object"} />
     </React.Fragment>
   )
 }

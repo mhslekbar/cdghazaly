@@ -9,6 +9,7 @@ import { ShowInvoicesApi } from "../../../../../redux/invoices/invoiceApiCalls";
 import { useParams } from "react-router";
 import { get } from "../../../../../requestMethods";
 import LineDevisData from "./LineDevisData";
+import { useTranslation } from "react-i18next";
 
 const DevisData = () => {
   const dispatch: any = useDispatch();
@@ -39,6 +40,8 @@ const DevisData = () => {
     getAllDevis();
   }, [patientId]);
 
+  const { t } = useTranslation()
+
   return (
     <>
       {DevisData.length === 0 && <p className="mb-4 text-center font-bold">Créer un nouveau devis !!</p>}
@@ -59,13 +62,13 @@ const DevisData = () => {
                         <table className="min-w-full text-left text-sm font-light">
                           <thead className="border-b font-medium text-center">
                             <tr>
-                              <th className="px-3 py-2 border-r">Traitement</th>
-                              <th className="px-3 py-2 border-r">Dents</th>
-                              <th className="px-3 py-2 border-r">Surface</th>
-                              <th className="px-3 py-2 border-r">NBS.SN</th>
-                              <th className="px-3 py-2 border-r">Prix.u</th>
-                              <th className="px-3 py-2 border-r">Total</th>
-                              <th className="px-3 py-2">Actions</th>
+                              <th className="px-3 py-2 border-r">{t("Traitement")}</th>
+                              <th className="px-3 py-2 border-r">{t("Dents")}</th>
+                              <th className="px-3 py-2 border-r">{t("Surface")}</th>
+                              <th className="px-3 py-2 border-r">{t("NBS")}</th>
+                              <th className="px-3 py-2 border-r">{t("Prix.U")}</th>
+                              <th className="px-3 py-2 border-r">{t("Total")}</th>
+                              <th className="px-3 py-2">{t("Actions")}</th>
                             </tr>
                           </thead>
                           <tbody>

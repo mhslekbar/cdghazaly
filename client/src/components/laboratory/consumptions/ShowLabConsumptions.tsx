@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { ShowConsumptionLabApi } from "../../../redux/laboratory/consumptions/consumptionLabApiCalls";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
+import { useTranslation } from "react-i18next";
 
 const ShowLabConsumptions:React.FC = () => {
   const { selectedDoctorLab } = useContext(ShowLaboratoryContext);
@@ -34,6 +35,7 @@ const ShowLabConsumptions:React.FC = () => {
 
     )   
   }, [consumptionLab, doctorId])
+  const { t } = useTranslation()
 
   return (
     <div>
@@ -44,14 +46,14 @@ const ShowLabConsumptions:React.FC = () => {
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full sm:px-6 lg:px-8">
             <div className="overflow-hidden">
-              <table className="min-w-full text-left text-sm font-light text-center">
+              <table className="min-w-full text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>
-                    <th className="px-3 py-2 border-r">Patient</th>
-                    <th className="px-3 py-2 border-r">Traitement</th>
-                    <th className="px-3 py-2 border-r">Dents</th>
-                    <th className="px-3 py-2 border-r">Prix du lab</th>
-                    <th className="px-3 py-2">Total</th>
+                    <th className="px-3 py-2 border-r">{t("Patient")}</th>
+                    <th className="px-3 py-2 border-r">{t("Traitement")}</th>
+                    <th className="px-3 py-2 border-r">{t("Dents")}</th>
+                    <th className="px-3 py-2 border-r">{t("Prix du lab")}</th>
+                    <th className="px-3 py-2">{t("Total")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -85,7 +87,7 @@ const ShowLabConsumptions:React.FC = () => {
                 </tbody>
                 <tr className="border-b">
                   <td colSpan={3}></td>
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">Total</td>
+                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{t("Total")}</td>
                   <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{totalConsumption}</td>
                 </tr>
               </table>

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AboutSupplierContext } from './types';
 import { LinePurchaseOrderInterface } from '../../purchaseOrder/types';
 import { FaPrint } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 interface ModalPurchaseOrderInterface {
   modal: boolean,
@@ -10,7 +11,7 @@ interface ModalPurchaseOrderInterface {
 
 const ModalPurchaseOrder:React.FC<ModalPurchaseOrderInterface> = ({ modal, toggle }) => {
   const { selectedModalPurchaseOrder } = useContext(AboutSupplierContext)
-
+  const { t } = useTranslation()
   return (
     <div>
       {modal && (
@@ -30,10 +31,10 @@ const ModalPurchaseOrder:React.FC<ModalPurchaseOrderInterface> = ({ modal, toggl
                     <table className="min-w-full text-left text-sm font-light">
                       <thead className="border-b font-medium bg-main text-white">
                         <tr>
-                          <th className="px-3 py-3 border-r">Nom</th>
-                          <th className="px-3 py-3 border-r">Quantite</th>
-                          <th className="px-3 py-3 border-r">prix</th>
-                          <th className="px-3 py-3">Total</th>
+                          <th className="px-3 py-3 border-r">{t("Nom")}</th>
+                          <th className="px-3 py-3 border-r">{t("Quantité")}</th>
+                          <th className="px-3 py-3 border-r">{t("Prix")}</th>
+                          <th className="px-3 py-3">{t("Total")}</th>
                         </tr>
                       </thead>
                       <tbody>

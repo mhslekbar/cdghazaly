@@ -4,6 +4,7 @@ import { PatientInterface, ShowPatientsContext } from "../types";
 import { useDispatch } from "react-redux";
 import { Timeout, hideMsg } from "../../../functions/functions";
 import { FinishPatientsApi } from "../../../redux/patients/patientApiCalls";
+import { useTranslation } from "react-i18next";
 
 type FinishPatientType = {
   patientData: PatientInterface;
@@ -38,6 +39,8 @@ const FinishPatient:React.FC<FinishPatientType> = ({
     }
   };
 
+  const { t } = useTranslation()
+
   return (
     <div>
       {modal && (
@@ -64,7 +67,7 @@ const FinishPatient:React.FC<FinishPatientType> = ({
                           {err}
                         </p>
                       ))}
-                    <p className="text-gray-700 text-xl">Terminer <b>{patientData.name} </b>?</p>
+                    <p className="text-gray-700 text-xl">{t("Terminer")} <b>{patientData.name} </b>?</p>
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn="Terminer" />
                   </form>
                   {/* End Modal Body */}

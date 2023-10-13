@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { DataDayOfWorkContext, DayInfo } from "../types";
+import { useTranslation } from "react-i18next";
 
 const InputsDayOfWork: React.FC = () => {
   const { selectedDay, setSelectedDay, DayArray } = useContext(DataDayOfWorkContext);
@@ -11,7 +12,7 @@ const InputsDayOfWork: React.FC = () => {
       setSelectedDay([...selectedDay, arr].sort((a: DayInfo, b: DayInfo) => a.order - b.order));
     }
   };
-
+  const { t } = useTranslation()
   return (
     <>
       {DayArray.map((arr: any) => (
@@ -27,7 +28,7 @@ const InputsDayOfWork: React.FC = () => {
             htmlFor={`day-${arr.order}`}
             className={`text-gray-700 font-bold w-fit ml-1`}
           >
-            {arr.name}
+            {t(arr.name)}
           </label>
         </div>
       ))}

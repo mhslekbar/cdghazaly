@@ -109,23 +109,3 @@ const ManagePatient: React.FC = () => {
 };
 
 export default ManagePatient;
-
-
-// import React, { useState } from 'react'
-// import HeaderInfoPatient from './HeaderInfoPatient'
-// import LinksPatient from './LinksPatient'
-// import { ManagePatientContext } from './types'
-
-// const ManagePatient:React.FC = () => {
-//   const [selectedLink, setSelectedLink] = useState("")
-//   return (
-//     <ManagePatientContext.Provider value={{
-//       selectedLink, setSelectedLink
-//     }}>
-//       <HeaderInfoPatient />
-//       <LinksPatient />
-//     </ManagePatientContext.Provider>
-//   )
-// }
-
-// export default ManagePatient

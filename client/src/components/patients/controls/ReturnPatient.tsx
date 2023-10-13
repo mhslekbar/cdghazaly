@@ -12,6 +12,7 @@ import { UserData } from "../../../requestMethods";
 import { InputElement } from "../../../HtmlComponents/InputElement";
 import { ShowPaymentModeApi } from "../../../redux/paymentMode/paymentModeApiCalls";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 type ReturnPatientType = {
   patientData: PatientInterface;
@@ -72,6 +73,8 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
     }
   };
 
+  const { t } = useTranslation()
+
   return (
     <div>
       {modal && (
@@ -98,13 +101,13 @@ const ReturnPatient:React.FC<ReturnPatientType> = ({
                           {err}
                         </p>
                       ))}
-                    <p className="text-gray-700 text-xl">Retourner <b>{patientData.name} </b>?</p>
+                    <p className="text-gray-700 text-xl">{t("Retourner")} <b>{patientData.name} </b>?</p>
                     <SelectElement valueType="object" id="doctor" value={doctor} setValue={setDoctor} options={ArrayOfDoctors.map((option: any) => ({...option, name: option.username}))} />
                     
                     {patientData?.assurance?.society.length > 0 ? 
                       <InputElement
                         type="number"
-                        placeholder="Prise en charge"
+                        placeholder={t("Prise en charge")}
                         id="Prise en charge"
                         value={supported}
                         setValue={setSupported}

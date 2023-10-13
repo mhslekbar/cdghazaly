@@ -6,6 +6,7 @@ import {
   FicheInterface,
   ShowFichesContext,
 } from "./types";
+import { useTranslation } from "react-i18next";
 
 const SelectFiche: React.FC = () => {
   const { fiches } = useSelector((state: State) => state.fiches);
@@ -18,6 +19,8 @@ const SelectFiche: React.FC = () => {
     setSelectedFiche(SFiche.numFiche ? SFiche : fiches[0]);
     // eslint-disable-next-line
   }, [fiches, setSelectedFiche]);
+  
+  const { t } = useTranslation()
 
   return (
     <div className="flex my-2">
@@ -31,7 +34,7 @@ const SelectFiche: React.FC = () => {
             setSelectedFiche(fiche)
           }}
         >
-          Fiche-{fiche.numFiche}
+          {t("Fiche")  + "-" + fiche.numFiche}
         </button>
       ))}
     </div>

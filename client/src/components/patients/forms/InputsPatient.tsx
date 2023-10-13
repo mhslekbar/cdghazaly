@@ -12,6 +12,7 @@ import { SelectElement } from '../../../HtmlComponents/SelectElement'
 import InputsAssPatients from './InputsAssPatients'
 import { formattedDate } from '../../../functions/functions'
 import { useParams } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
   const { 
@@ -62,29 +63,31 @@ const InputsPatient = ({ typeModal }: { typeModal?:string }) => {
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <React.Fragment>
       <div className="grid grid-cols-2 gap-2">
-        <InputElement name="Nom" id="name" placeholder="Nom du patient ..." value={name} setValue={setName} />
-        <InputElement name="Telephone" id="phone" placeholder="Numero de telephone" value={phone} setValue={setPhone} />
+        <InputElement name={t("Nom")} id="name" placeholder={t("Nom du patient")} value={name} setValue={setName} />
+        <InputElement name={t("Telephone")} id="phone" placeholder={t("Numero de telephone")} value={phone} setValue={setPhone} />
       </div>
       <div className="grid grid-cols-2 gap-2">
-        <InputElement name="Address" id="address" placeholder="Address du patient" value={address} setValue={setAddress} />
-        <InputElement name="WhatsApp" id="whatsApp" placeholder="Whatsapp" value={whatsApp} setValue={setWhatsApp} />
+        <InputElement name={t("Address")} id="address" placeholder={t("Address du patient")} value={address} setValue={setAddress} />
+        <InputElement name={t("WhatsApp")} id="whatsApp" placeholder={t("Whatsapp")} value={whatsApp} setValue={setWhatsApp} />
       </div>
       <div className="grid grid-cols-2 gap-2">
         {typeModal === "Ajouter" ? 
-          <InputElement name="Année de naissance" id="yearOfBirth" placeholder="Année de naissance" value={yearOfBirth} setValue={setYearOfBirth} />
+          <InputElement name={t("Année de naissance")} id="yearOfBirth" placeholder={t("Année de naissance")} value={(yearOfBirth)} setValue={setYearOfBirth} />
           :
           <>
-            <InputElement name="Etat de Santé" id="healthyCondition" placeholder="Etat de santé" value={healthyCondition} setValue={setHealthyCondition} />
-            <InputElement type="date" name="Année de naissance" id="DateOfBith" placeholder="Date Of Bith" value={formattedDate(yearOfBirth)} setValue={setYearOfBirth} />
+            <InputElement name={t("Etat de Santé")} id="healthyCondition" placeholder={t("Etat de santé")} value={healthyCondition} setValue={setHealthyCondition} />
+            <InputElement type="date" name={t("Année de naissance")} id="DateOfBith" placeholder={t("Année de naissance")} value={formattedDate(yearOfBirth)} setValue={setYearOfBirth} />
           </>
         }
       </div>
       <div className="grid grid-cols-2 gap-2">
         {typeModal === "Ajouter" ? 
-          <InputCheckbox name="Consultation" id="cons" value={consultation} setValue={setConsultation} />
+          <InputCheckbox name={t("Consultation")} id="cons" value={consultation} setValue={setConsultation} />
           :
           <div className="mt-2 flex justify-start gap-1">
           {ArrayOfDoctors.map((doctor: UserInterface) => 

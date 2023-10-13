@@ -6,6 +6,7 @@ import { ShowTreatmentContext } from "./ShowTreatAssurance";
 import { TreatmentType } from "./types";
 import { State } from "../../../redux/store";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const TreatmentTable:React.FC = () => {
   const { treatments } = useSelector((state: State) => state.treatments);
@@ -22,6 +23,8 @@ const TreatmentTable:React.FC = () => {
 
   const { AssId } = useParams()
 
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col border mt-2">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -30,9 +33,9 @@ const TreatmentTable:React.FC = () => {
             <table className="min-w-full text-left text-sm font-light">
               <thead className="border-b font-medium bg-main text-white text-center">
                 <tr>
-                  <th className="px-6 py-3 border-r">Nom</th>
-                  <th className="px-6 py-3 border-r">Price</th>
-                  <th className="px-6 py-3 border-r">Actions</th>
+                  <th className="px-6 py-3 border-r">{t("Nom")}</th>
+                  <th className="px-6 py-3 border-r">{t("Prix")}</th>
+                  <th className="px-6 py-3 border-r">{t("Actions")}</th>
                 </tr>
               </thead>
               <tbody>

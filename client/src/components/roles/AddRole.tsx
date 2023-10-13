@@ -7,6 +7,7 @@ import { ShowRoleContext } from "./ShowRoles";
 import { Timeout, hideMsg } from "../../functions/functions";
 import { useNavigate } from "react-router";
 import ButtonsForm from "../../HtmlComponents/ButtonsForm";
+import { useTranslation } from "react-i18next";
 
 const AddRole: React.FC = () => {
   const [role, setRole] = useState<string>("");
@@ -40,6 +41,8 @@ const AddRole: React.FC = () => {
   };
 
   const navigate = useNavigate()
+
+  const { t } = useTranslation()
 
   return (
     <div>
@@ -80,13 +83,13 @@ const AddRole: React.FC = () => {
                         htmlFor="role"
                         className="block font-bold text-gray-700"
                       >
-                        Role
+                        {t("Role")}
                       </label>
                       <input
                         type="text"
                         id="role"
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Nom du role"
+                        placeholder={t("Nom du role")}
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                       />

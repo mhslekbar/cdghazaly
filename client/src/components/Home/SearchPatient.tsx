@@ -9,6 +9,7 @@ import { PatientInterface } from '../patients/types'
 import { FaPlus } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import AddNewPatient from '../patients/controls/AddNewPatient'
+import { useTranslation } from 'react-i18next'
 
 const listTypePatient = [
   { _id: "name", name: "Nom" },
@@ -52,10 +53,12 @@ const SearchPatient:React.FC = () => {
 
   const navigate = useNavigate()
   const [showAddPatient, setShowAddPatient] = useState(false)
+  
+  const { t } = useTranslation()
 
   return (
     <section className='mt-4 relative col-start-2'>
-        <InputElement divClass='w-full' placeholder="Nom ou numero du patient" value={patient} setValue={setPatient} />
+        <InputElement divClass='w-full' placeholder={t("Nom ou numero du patient")} value={patient} setValue={setPatient} />
         <SelectElement
           divClass='w-full'
           value={typePatient}
@@ -70,7 +73,7 @@ const SearchPatient:React.FC = () => {
                 navigate(`/patient/${pat.doctor[0]._id}/${pat._id}/Manage/devis`)
                 localStorage.setItem("patientMgtPrevLink", "/")
               }}
-            >{pat.name}</p>))}
+            >{t(pat.name)}</p>))}
           </div>
         }
         <div className='flex justify-center'>

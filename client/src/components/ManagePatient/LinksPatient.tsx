@@ -4,6 +4,7 @@ import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 import { State } from '../../redux/store'
 import { DefaultPatientInterface, PatientInterface } from '../patients/types'
+import { useTranslation } from 'react-i18next'
 
 type dataLinksType = {
   path: string, 
@@ -16,7 +17,7 @@ const dataLinks: dataLinksType[] = [
   { path: "labo", title: "Labo" },
   // { path: "compte", title: "Compte" },
   { path: "payments", title: "Paiements" },
-  { path: "paymentsAssurance", title: "pay Assuré" },
+  { path: "paymentsAssurance", title: "Pay Assuré" },
   { path: "soins", title: "Soins" },
   { path: "consultations", title: "Consultations" },
   { path: "fiches", title: "Fiches" },
@@ -46,6 +47,8 @@ const LinksPatient:React.FC = () => {
   useEffect(() => {
     setNumOfGrid(activePatient.assurance?.society ? "lg:grid-cols-8" : "lg:grid-cols-7")
   }, [activePatient])
+  
+  const { t } = useTranslation()
 
   return (
     <>
@@ -61,7 +64,7 @@ const LinksPatient:React.FC = () => {
             className={`${link.path === location.pathname.split("/")[5] ? "bg-main" : ""} border-r hover:bg-main px-6 py-3`}
             onClick={() => changeLink(link.path)}
           >
-            {link.title}
+            {t(link.title)}
           </div>
         )
       })}

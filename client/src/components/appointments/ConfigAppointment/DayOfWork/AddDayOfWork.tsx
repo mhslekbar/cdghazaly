@@ -7,6 +7,7 @@ import { Timeout } from '../../../../functions/functions';
 import { ConfigAppointmentContext } from '../ConfigAppointment';
 import { useDispatch } from 'react-redux';
 import { UpdateDayOfWorkApi } from '../../../../redux/dayOfWork/dayOfWorkApiCalls';
+import { useTranslation } from 'react-i18next';
 
 interface AddDayOfWorkInterface {
   modal: boolean,
@@ -35,6 +36,8 @@ const AddDayOfWork:React.FC<AddDayOfWorkInterface> = ({ modal, toggle }) => {
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <>
       {modal && (
@@ -48,10 +51,10 @@ const AddDayOfWork:React.FC<AddDayOfWorkInterface> = ({ modal, toggle }) => {
               <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                 {/* Start Modal Body */}
                 <form
-                  className="mt-2 sm:ml-4 sm:text-left mt-3"
+                  className="sm:ml-4 sm:text-left mt-3"
                   onSubmit={handleSubmit}
                 >
-                  <h3 className='text-center text-xl font-bold text-gray-700'>Jour du travail.</h3>
+                  <h3 className='text-center text-xl font-bold text-gray-700'>{t("Jour du travail")}</h3>
                   <InputsDayOfWork />
                   <ButtonsForm typeBtn="Ajouter" toggle={toggle}/>
                 </form>

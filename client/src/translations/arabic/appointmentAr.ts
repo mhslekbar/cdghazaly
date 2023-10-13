@@ -1,0 +1,21 @@
+export const appointmentAr = {
+  "Matin": "الصباح",
+  "Soir": "المساء",
+  "Lundi": "الاثنين",
+  "Mardi": "الثلاثاء",
+  "Mercredi": "الأربعاء",
+  "Jeudi": "الخميس",
+  "Vendredi": "الجمعة",
+  "Samedi": "السبت",
+  "Dimanche": "الأحد",
+  "Rendez-vous DR.": "مواعيد د.",
+
+  "Montée": "بداية الدوام",
+  "Descente": "نهاية الدوام",
+  "Temps": "الوقت",
+  "NBS.SN": "عدد الجلسات",
+  "Nombre de seance": "عدد الجلسات",
+  "Jour du travail": "أيام العمل",
+  "Pause": "استراحة",
+  "Filter": "تغيير",
+}

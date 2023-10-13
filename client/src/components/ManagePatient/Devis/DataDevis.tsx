@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import { DefaultDevisInterface, DevisInterface, LineDevisType, ShowDevisInterfaceContext } from "./types";
 import HeaderInvoice from "../HeaderInvoice";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
+import { useTranslation } from "react-i18next";
 
 const DataDevis: React.FC = () => {
   const { devis } = useSelector((state: State) => state.devis);
@@ -36,6 +37,7 @@ const DataDevis: React.FC = () => {
       .reduce((acc: any, currVal: LineDevisType) => (currVal.price * currVal.teeth.nums.length) + acc, 0))
   }, [selectedDevis])
 
+  const { t } = useTranslation()
 
   return (
     <>
@@ -45,15 +47,15 @@ const DataDevis: React.FC = () => {
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
           <div className="overflow-hidden invoice">
             <HeaderInvoice type={`Devis N-${selectedDevis.numDevis}`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
-            <table className="min-w-full text-left text-sm font-light text-center">
+            <table className="min-w-full text-sm font-light text-center">
               <thead className="border font-medium bg-white text-black border-gray-950">
                 <tr>
-                  <th className="px-3 py-2 border-r border-gray-950">Traitment</th>
-                  <th className="px-3 py-2 border-r border-gray-950">Dents</th>
-                  <th className="px-3 py-2 border-r border-gray-950">Surface</th>
-                  <th className="px-3 py-2 border-r border-gray-950">NBS</th>
-                  <th className="px-3 py-2 border-r border-gray-950">Prix.U</th>
-                  <th className="px-3 py-2 border-r border-gray-950">total</th>
+                  <th className="px-3 py-2 border-r border-gray-950">{t("Traitement")}</th>
+                  <th className="px-3 py-2 border-r border-gray-950">{t("Dents")}</th>
+                  <th className="px-3 py-2 border-r border-gray-950">{t("Surface")}</th>
+                  <th className="px-3 py-2 border-r border-gray-950">{t("NBS")}</th>
+                  <th className="px-3 py-2 border-r border-gray-950">{t("Prix.U")}</th>
+                  <th className="px-3 py-2 border-r border-gray-950">{t("Total")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +85,7 @@ const DataDevis: React.FC = () => {
               <tfoot>
                 <tr className="text-end">
                   <td colSpan={4}></td>
-                  <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">Total: </td>
+                  <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Total")}: </td>
                   <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
                     {totalDevis}
                   </td>
@@ -92,14 +94,14 @@ const DataDevis: React.FC = () => {
                 <>
                   <tr className="text-end">
                     <td colSpan={4}></td>
-                    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">reduction: </td>
+                    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Reduction")}: </td>
                     <td className="whitespace-nowrap px-3 py-2 bg-white font-bold border border-gray-950">
                       {selectedDevis.reduce}%
                     </td>
                   </tr>
                   <tr className="text-end">
                     <td colSpan={4}></td>
-                    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">Reste: </td>
+                    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Reste")}: </td>
                     <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
                       {totalDevis - (totalDevis * (selectedDevis.reduce / 100))}
                     </td>

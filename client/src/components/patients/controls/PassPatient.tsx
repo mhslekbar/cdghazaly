@@ -4,6 +4,7 @@ import { PatientInterface, ShowPatientsContext } from "../types";
 import { useDispatch } from "react-redux";
 import { Timeout, hideMsg } from "../../../functions/functions";
 import { PassPatientsApi } from "../../../redux/patients/patientApiCalls";
+import { useTranslation } from "react-i18next";
 
 type PassPatientType = {
   patientData: PatientInterface;
@@ -38,6 +39,8 @@ const PassPatient:React.FC<PassPatientType> = ({
     }
   };
 
+  const { t } = useTranslation()
+
   return (
     <div>
       {modal && (
@@ -64,7 +67,7 @@ const PassPatient:React.FC<PassPatientType> = ({
                           {err}
                         </p>
                       ))}
-                    <p className="text-gray-700 text-xl">Passer <b>{patientData.name} </b>?</p>
+                    <p className="text-gray-700 text-xl">{t("Passer")} <b>{patientData.name} </b>?</p>
                     <ButtonsForm loading={loading} toggle={toggle} typeBtn="Passer" />
                   </form>
                   {/* End Modal Body */}

@@ -6,6 +6,7 @@ import { Timeout, hideMsg } from '../../../functions/functions';
 import ButtonsForm from '../../../HtmlComponents/ButtonsForm';
 import { InputElement } from '../../../HtmlComponents/InputElement';
 import { ShowConsumableContext } from '../types';
+import { useTranslation } from 'react-i18next';
 
 export interface EditConsumableListInterface {
   modal: boolean,
@@ -39,6 +40,8 @@ const EditConsumableList:React.FC<EditConsumableListInterface> = ({ modal, toggl
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <DataConsumableListContext.Provider value={{
       name, setName
@@ -68,7 +71,7 @@ const EditConsumableList:React.FC<EditConsumableListInterface> = ({ modal, toggl
                           {err}
                         </p>
                       ))}
-                    <InputElement name="Note" placeholder='donner une note si vous voulez.' value={name} setValue={setName} />
+                    <InputElement name={t("Note")} placeholder={t("Donner une note si vous voulez")} value={name} setValue={setName} />
                     <ButtonsForm loading={loading} typeBtn='Modifier' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}

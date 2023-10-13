@@ -7,6 +7,7 @@ import { Days, Months, Years } from "../statistics/types";
 import { ShowConsumableContext } from "./types";
 import { FaPrint } from "react-icons/fa";
 import { useLocation } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const FilterConsumable: React.FC = () => {
   const {
@@ -19,20 +20,21 @@ const FilterConsumable: React.FC = () => {
   } = useContext(ShowConsumableContext);
 
   const location = useLocation()
+  const { t } = useTranslation()
 
   return (
     <div className="flex justify-start gap-2 mt-3">
       {showSwitchDate ? (
         <>
           <BiChevronUpCircle className="text-main" style={{ fontSize: "22px" }} onClick={() => setShowSwitchDate(!showSwitchDate)} />
-          <InputElement divClass="flex justify-center items-center gap-1" type="date" name="Debut" value={formattedDate(startDate.toString())} setValue={setStartDate} />
-          <InputElement divClass="flex justify-center items-center gap-1" type="date" name="Fin" value={formattedDate(endDate.toString())} setValue={setEndDate} />
+          <InputElement divClass="flex justify-center items-center gap-1" type="date" name={t("Debut")} value={formattedDate(startDate.toString())} setValue={setStartDate} />
+          <InputElement divClass="flex justify-center items-center gap-1" type="date" name={t("Fin")} value={formattedDate(endDate.toString())} setValue={setEndDate} />
         </>
       ) : (
         <>
           <BiChevronDownCircle className="text-main" style={{ fontSize: "22px" }} onClick={() => setShowSwitchDate(!showSwitchDate)} />
-          <SelectElement valueType="string" value={day} setValue={setDay} defaultOption={<option>jour</option>} options={Days} />
-          <SelectElement valueType="string" value={month} setValue={setMonth} defaultOption={<option>mois</option>} options={Months} />
+          <SelectElement valueType="string" value={day} setValue={setDay} defaultOption={<option>{t("Jour")}</option>} options={Days} />
+          <SelectElement valueType="string" value={month} setValue={setMonth} defaultOption={<option>{t("Mois")}</option>} options={Months} />
           <SelectElement valueType="string" value={year} setValue={setYear} options={Years} />
         </>
       )}

@@ -8,7 +8,6 @@ import { DefaultPaymentInterface, EnumTypeModalPayment, PaymentInterface, ShowPa
 import SuccessMsg from '../../../Messages/SuccessMsg'
 import EditPayment from './controls/EditPayment'
 import DeletePayment from './controls/DeletePayment'
-import PaymentsAssurance from './PaymentsAssurance'
 
 const ShowPayments:React.FC = () => {
   const dispatch: any = useDispatch()
@@ -38,7 +37,7 @@ const ShowPayments:React.FC = () => {
     }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <AddPayment />
-      {location.pathname?.split("/")[5] === "payments" ? <DataPayments /> : <PaymentsAssurance />} 
+      {location.pathname?.split("/")[5] === "payments" ? <DataPayments typeData="payment" /> : <DataPayments typeData="paymentAss" />} 
       { 
         showEditPayment && 
         selectedPayment && 

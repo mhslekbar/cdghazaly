@@ -9,6 +9,7 @@ import { AssuranceInterface, ShowAssurancesContext } from "./types";
 import { useNavigate, useParams } from "react-router";
 import { UserData } from "../../requestMethods";
 import { DefaultUserInterface, UserInterface } from "../users/types";
+import { useTranslation } from "react-i18next";
 
 const DataAssurances: React.FC = () => {
   const { assurances } = useSelector((state: State) => state.assurances);
@@ -49,6 +50,8 @@ const DataAssurances: React.FC = () => {
     setDoctor(UserData().doctor?.cabinet ? UserData() : users.find((user: UserInterface) => user.doctor?.cabinet))
   }, [users])
 
+  const { t } = useTranslation()
+
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-2 mt-4">
       {assurances.map((assurance: AssuranceInterface, index) => (
@@ -59,11 +62,11 @@ const DataAssurances: React.FC = () => {
             setSelectedAssurance(assurance)
             navigte(`/assurance/${assurance._id}/patients/${doctor._id}`)
           }}>
-            <span className="flex justify-between block">
-              Societé : <b>{assurance.name}</b>
+            <span className="flex justify-between">
+              {t("Societé")} : <b>{assurance.name}</b>
             </span>
-            <span className="flex justify-between block">
-              Consultation : <b>{assurance.cons_price}</b>
+            <span className="flex justify-between">
+              {t("Consultation")} : <b>{assurance.cons_price}</b>
             </span>
           </div>
           <div className="flex justify-center">

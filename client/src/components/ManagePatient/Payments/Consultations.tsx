@@ -14,6 +14,7 @@ import { formatDate } from "../../../functions/functions";
 import HeaderInvoice from "../HeaderInvoice";
 import { useParams } from "react-router";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
+import { useTranslation } from "react-i18next";
 
 const Consultations: React.FC = () => {
   const { payments } = useSelector((state: State) => state.payments);
@@ -60,6 +61,7 @@ const Consultations: React.FC = () => {
 
   const { patients } = useSelector((state: State) => state.patients)
   const { patientId } = useParams()
+  const { t } = useTranslation()
 
   return (
     <>
@@ -71,13 +73,13 @@ const Consultations: React.FC = () => {
               <div className="inline-bloc sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
                   <HeaderInvoice type={`consultation`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
-                  <table className="min-w-full text-left text-sm font-light text-center">
+                  <table className="min-w-full text-sm font-light text-center">
                     <thead className="border border-gray-950 font-medium bg-white text-black">
                       <tr>
-                        <th className="py-1 border-r border-gray-950">Date</th>
-                        <th className="py-1 border-r border-gray-950">Montant</th>
-                        <th className="py-1 border-r border-gray-950">Mode de paiement</th>
-                        <th className="py-1 print:hidden border-r border-gray-950">Actions</th>
+                        <th className="py-1 border-r border-gray-950">{t("Date")}</th>
+                        <th className="py-1 border-r border-gray-950">{t("Montant")}</th>
+                        <th className="py-1 border-r border-gray-950">{t("Mode de paiement")}</th>
+                        <th className="py-1 print:hidden border-r border-gray-950">{t("Actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -117,7 +119,7 @@ const Consultations: React.FC = () => {
                     <tfoot>
                       <tr className="font-bold">
                         <td className="text-end px-2 border print:border-gray-950">
-                          Total:
+                          {t("Total")}:
                         </td>
                         <td className="border print:border-gray-950">{totalPayments}</td>
                       </tr>

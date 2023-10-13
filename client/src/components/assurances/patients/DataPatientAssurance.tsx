@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { ShowPaymentsApi } from "../../../redux/payments/paymentApiCalls";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
+import { useTranslation } from "react-i18next";
 
 const DataPatientAssurance: React.FC = () => {
   const { selectedInvoice, factureGlobal } = useContext(ShowPatientsAssuranceContext);
@@ -25,21 +26,22 @@ const DataPatientAssurance: React.FC = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col border mt-3">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
           <div className="overflow-hidden">
-            <table className="min-w-full text-left text-sm font-light text-center">
+            <table className="min-w-full text-sm font-light text-center">
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
-                  <th className="px-6 py-4 border-r">Doss.NO</th>
-                  <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">Prise en charge</th>
-                  <th className="px-6 py-4 border-r">Type</th>
-                  <th className="px-6 py-4 border-r">Montant</th>
-                  <th className="px-6 py-4 border-r">Doctor</th>
+                  <th className="px-6 py-4 border-r">{t("DOSS.NO")}</th>
+                  <th className="px-6 py-4 border-r">{t("Nom")}</th>
+                  <th className="px-6 py-4 border-r">{t("Prise en charge")}</th>
+                  <th className="px-6 py-4 border-r">{t("Type")}</th>
+                  <th className="px-6 py-4 border-r">{t("Montant")}</th>
+                  <th className="px-6 py-4 border-r">{t("Docteur")}</th>
                 </tr>
               </thead>
               <tbody>

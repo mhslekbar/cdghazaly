@@ -7,6 +7,7 @@ import { State } from '../redux/store'
 import { ShowUserApi } from '../redux/users/UserApiCalls'
 import { useDispatch } from 'react-redux'
 import { FaChevronCircleLeft } from 'react-icons/fa'
+import { useTranslation } from 'react-i18next'
 
 const Appointments:React.FC = () => {
   const { doctorId } = useParams()
@@ -26,12 +27,12 @@ const Appointments:React.FC = () => {
   }, [doctorId, users])
 
   const navigate = useNavigate()
-
+  const { t } = useTranslation()
   return (
     <div>
       <div className='flex justify-between'>
         <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
-        <h1 className='text-center text-3xl text-gray-700'>Rendez-vous DR. {doctor.username}</h1>
+        <h1 className='text-center text-3xl text-gray-700'>{t("Rendez-vous DR.")} {doctor.username}</h1>
         <span></span>
       </div>
       <ShowAppointments />

@@ -12,6 +12,7 @@ import { InputCheckbox } from "../../../HtmlComponents/InputCheckbox";
 import { MdAttachMoney, MdRemoveCircleOutline } from "react-icons/md";
 import { FaPrint } from "react-icons/fa";
 import { PermissionType } from "../../roles/types";
+import { useTranslation } from "react-i18next";
 
 const InvoicesAssurance: React.FC = () => {
   const { AssId, doctorId } = useParams();
@@ -61,12 +62,14 @@ const InvoicesAssurance: React.FC = () => {
 
   const { permissions } = useSelector((state: State) => state.permissions)
 
+  const { t } = useTranslation()
+
   return (
     <div className="mt-2">
       <div className="flex justify-start gap-2">
         <InputCheckbox
           id="archiver"
-          name="Afficher les Archives"
+          name={t("Afficher les Archives")}
           value={archiveInvoice}
           setValue={setArchiveInvoice}
         />
@@ -76,7 +79,7 @@ const InvoicesAssurance: React.FC = () => {
             permission.collectionName === "PATIENTS_ASSURANCE"
         ) && <InputCheckbox
           id="FGlobal"
-          name="Facture Global"
+          name={t("Facture Global")}
           value={factureGlobal}
           setValue={setFactureGlobal}
         />}        
@@ -99,7 +102,7 @@ const InvoicesAssurance: React.FC = () => {
                 key={invoice._id}
               >
                 <span className="flex justify-center items-center gap-1 xs:text-xs md:text-md">                 
-                  Facture-{invoice.numInvoice}
+                  {t("Facture")}-{invoice.numInvoice}
                 </span>
                 {(!invoice.finish) && 
                   <MdRemoveCircleOutline

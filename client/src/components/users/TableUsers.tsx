@@ -4,6 +4,7 @@ import { PermissionType } from "../roles/types";
 import { FaEdit } from "react-icons/fa";
 import { MdRemoveCircle } from "react-icons/md";
 import { ShowUserContext } from "./ShowUsers";
+import { useTranslation } from "react-i18next";
 
 interface TableUsersInterface {
   users: UserInterface[];
@@ -21,6 +22,8 @@ const TableUsers: React.FC<TableUsersInterface> = ({ users }) => {
     setShowDeleteModal(!showEditModal)
     setSelectedUser(user)
   }
+  
+  const { t } = useTranslation()
 
   return (
     <div className="flex flex-col border mt-2 shadow">
@@ -30,12 +33,12 @@ const TableUsers: React.FC<TableUsersInterface> = ({ users }) => {
             <table className="min-w-full text-left text-sm font-light">
               <thead className="border-b border-white font-medium bg-main text-white text-center">
                 <tr>
-                  <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">phone</th>
-                  <th className="px-6 py-4 border-r">roles</th>
-                  <th className="px-6 py-4 border-r">cabinet</th>
-                  <th className="px-6 py-4 border-r">pourcentage</th>
-                  <th className="px-6 py-4 border-r">Actions</th>
+                  <th className="px-6 py-4 border-r">{t("Nom")}</th>
+                  <th className="px-6 py-4 border-r">{t("Telephone")}</th>
+                  <th className="px-6 py-4 border-r">{t("Roles")}</th>
+                  <th className="px-6 py-4 border-r">{t("Cabinet")}</th>
+                  <th className="px-6 py-4 border-r">{t("Pourcentage")}</th>
+                  <th className="px-6 py-4 border-r">{t("Actions")}</th>
                 </tr>
               </thead>
               <tbody>

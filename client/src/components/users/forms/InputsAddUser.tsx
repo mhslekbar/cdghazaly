@@ -3,6 +3,7 @@ import { get } from "../../../requestMethods";
 import { AddUserContext } from "../types";
 import Doctor from "./Doctor";
 import { PermissionType } from "../../roles/types";
+import { useTranslation } from "react-i18next";
 
 const InputsAddUser: React.FC = () => {
   const {
@@ -52,18 +53,20 @@ const InputsAddUser: React.FC = () => {
       setCheckedRoles([...checkedRoles, role]);
     }
   };
+  
+  const { t } = useTranslation()
 
   return (
     <React.Fragment>
       <div className="mb-2">
         <label htmlFor="Nom" className="block text-gray-700 font-bold">
-          Nom
+          {t("Nom")}
         </label>
         <input
           type="text"
           id="Nom"
           className="w-full shadow rounded border px-4 py-2 text-gray-700 focus:outline-none"
-          placeholder="Nom"
+          placeholder={t("Nom")}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -71,13 +74,13 @@ const InputsAddUser: React.FC = () => {
 
       <div className="mb-2">
         <label htmlFor="Phone" className="block text-gray-700 font-bold">
-          Telephone
+          {t("Telephone")}
         </label>
         <input
           type="text"
           id="Phone"
           className="w-full shadow rounded border px-4 py-2 text-gray-700 focus:outline-none"
-          placeholder="Telephone"
+          placeholder={t("Telephone")}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
@@ -85,13 +88,13 @@ const InputsAddUser: React.FC = () => {
 
       <div className="mb-2">
         <label htmlFor="password" className="block text-gray-700 font-bold">
-          Mot de passe
+          {t("Mot de passe")}
         </label>
         <input
           type="password"
           id="password"
           className="w-full shadow rounded border px-4 py-2 text-gray-700 focus:outline-none"
-          placeholder="Mot de passe"
+          placeholder={t("Mot de passe")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

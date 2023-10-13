@@ -7,6 +7,7 @@ import { historyPaymentInterface } from '../types'
 import { AboutSupplierContext } from './types'
 import ModalPurchaseOrder from './ModalPurchaseOrder'
 import { PurchaseOrderInterface } from '../../purchaseOrder/types'
+import { useTranslation } from 'react-i18next'
 
 const PurchaseOrderSupplier:React.FC = () => {
   const { purchaseOrders } = useSelector((state: State) => state.purchaseOrder)
@@ -17,6 +18,8 @@ const PurchaseOrderSupplier:React.FC = () => {
     setSelectedModalPurchaseOrder(purchaseOrder)
     setShowModalPurchaseOrder(true)
   }
+
+  const { t } = useTranslation()
 
   return (
     <>
@@ -30,12 +33,12 @@ const PurchaseOrderSupplier:React.FC = () => {
               <thead className="border-b font-medium bg-main text-white">
                 <tr>
                   <th className="px-6 py-4 border-r">#</th>
-                  <th className="px-6 py-4 border-r">Nom</th>
-                  <th className="px-6 py-4 border-r">Reference</th>
-                  <th className="px-6 py-4 border-r">Total BC</th>
-                  <th className="px-6 py-4 border-r">Total Payé</th>
-                  <th className="px-6 py-4 border-r">Reste</th>
-                  <th className="px-6 py-4 border-r">Date</th>
+                  <th className="px-6 py-4 border-r">{t("Nom")}</th>
+                  <th className="px-6 py-4 border-r">{t("Reference")}</th>
+                  <th className="px-6 py-4 border-r">{t("Total BC")}</th>
+                  <th className="px-6 py-4 border-r">{t("Total Payé")}</th>
+                  <th className="px-6 py-4 border-r">{t("Reste")}</th>
+                  <th className="px-6 py-4 border-r">{t("Date")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -100,24 +103,3 @@ const PurchaseOrderSupplier:React.FC = () => {
 
 export default PurchaseOrderSupplier
 
-
-/*
-<div className='bg-white p-6 rounded-xl border shadow mt-3 max-h-96 min-h-min overflow-scroll'>
-  <h1 className='text-gray-700'>Bons De commande</h1>
-  <section className='grid lg:grid-cols-4 gap-2 mt-3'>
-  {purchaseOrders
-  .filter((purchase: PurchaseOrderInterface) => purchase.supplier._id === supplierId)
-  .map((purchase: PurchaseOrderInterface) =>{
-    const totalPayer = purchase.supplier?.historyPayment.filter((hp: historyPaymentInterface) => hp.purchaseOrderId === purchase._id).reduce((acc, currVal: historyPaymentInterface) => acc + currVal.payment, 0) ?? 0                    
-    return (<div className='bg-[#dfe6e9] rounded-md shadow-md p-3' key={purchase._id} onClick={() => handleShowModalPurchaseOrder(purchase)}>
-      <p className='text-center font-bold'>BC-{purchase.num}{"-" + (new Date(purchase.createdAt).getMonth() + 1)}</p>
-      <div className='flex justify-between'><p>Reference:</p> {purchase.reference}</div>
-      <div className='flex justify-between'><p>Date:</p> {formatDate(purchase.paymentDate?.toString())}</div>
-      <div className='flex justify-between'><p>Total BC:</p> {purchase.total}</div>
-      <div className='flex justify-between'><p>Total Payer:</p> {totalPayer}</div>
-      <div className='flex justify-between'><p>Reste:</p> {Number(purchase.total ?? 0) - totalPayer}</div>
-    </div>)
-  })}
-  </section>
-</div> 
-*/

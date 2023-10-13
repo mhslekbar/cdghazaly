@@ -1,0 +1,17 @@
+export const homePageEn =  {
+  "Rendez-Vous": "Appointments",
+  "Statistiques Financiéres": "Financial Statistics",
+  "Nom ou numero du patient": "Patient name or number",
+  "Nom": "Name",
+  "Matricule": "Reg.No",
+  "Telephone": "Phone",
+  "Assurances": "Insurances",
+  "Laboratoires": "Laboratories",
+  "Utilisateurs": "Users",
+  "Consommables": "Consumables",
+  "Traitements": "Treatments",
+  "Roles": "Roles",
+  "Mode de paiements": "Payment method",
+  "Permissions": "Permissions",
+  "Atlas Softwares": "Atlas Softwares",
+}

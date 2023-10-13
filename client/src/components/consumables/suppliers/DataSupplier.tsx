@@ -5,6 +5,7 @@ import { ShowSuppliersContext, SupplierInterface, accountSupplierInterface } fro
 import { FaEdit } from "react-icons/fa";
 import { MdRemoveCircle } from "react-icons/md";
 import { useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const DataSuppliers: React.FC = () => {
   const { suppliers } = useSelector((state: State) => state.suppliers);
@@ -25,6 +26,7 @@ const DataSuppliers: React.FC = () => {
   }
 
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <div className="grid grid-cols-3">
@@ -35,10 +37,10 @@ const DataSuppliers: React.FC = () => {
               <table className="min-w-full text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>
-                    <th className="px-6 py-4 border-r">Nom</th>
-                    <th className="px-6 py-4 border-r">Telephone</th>
-                    <th className="px-6 py-4 border-r">Balance</th>
-                    <th className="px-6 py-4 border-r print:hidden">Actions</th>
+                    <th className="px-6 py-4 border-r">{t("Nom")}</th>
+                    <th className="px-6 py-4 border-r">{t("Telephone")}</th>
+                    <th className="px-6 py-4 border-r">{t("Balance")}</th>
+                    <th className="px-6 py-4 border-r print:hidden">{t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody>

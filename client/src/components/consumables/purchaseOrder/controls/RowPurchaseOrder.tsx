@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { State } from "../../../../redux/store";
 import { ListConsumableInterface } from "../../consumableList/types";
 import { MdRemoveCircle } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 interface RowPurchaseOrderInterface {
   list?: LinePurchaseOrderInterface,
@@ -62,12 +63,12 @@ const RowPurchaseOrder:React.FC<RowPurchaseOrderInterface> = ({ list, selectedIn
       .filter((purchaseOrder: LinePurchaseOrderInterface, indx) => indx !== selectedIndex)
     )
   }
-
+  const { t } = useTranslation()
   return (
     <section className="grid grid-cols-3 gap-1">
       <div className="mb-2 col-span-2">
         <label htmlFor="consumable" className="block text-gray-700 font-bold">
-          Consommable
+          {t("Consommable")}
         </label>
         <Select
           id="consumable"
@@ -85,13 +86,13 @@ const RowPurchaseOrder:React.FC<RowPurchaseOrderInterface> = ({ list, selectedIn
 
       <div className={`mb-2 `}>
         <label htmlFor="Quantite" className={`block text-gray-700 font-bold w-fit`}>
-        Quantite
+          {t("Quantité")}
         </label>      
         <input
           type="number"
           id="Quantite"
           className="uppercase w-full shadow rounded border px-3 py-2 text-gray-700 focus:outline-none"
-          placeholder="Quantite"
+          placeholder={t("Quantité")}
           value={qty}
           autoComplete="off"
           onChange={(e: any) => {

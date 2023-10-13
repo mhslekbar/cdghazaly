@@ -7,6 +7,7 @@ import { MdRemoveCircle } from "react-icons/md";
 import { useParams } from "react-router";
 import { ShowConsumableContext } from "../types";
 import { filterSpecificDate } from "../../../functions/functions";
+import { useTranslation } from "react-i18next";
 
 const DataConsumptions: React.FC = () => {
   const { consumptions } = useSelector((state: State) => state.consumptions);
@@ -29,18 +30,20 @@ const DataConsumptions: React.FC = () => {
 
   const { showSwitchDate, startDate, endDate, selectedDate, month, day } = useContext(ShowConsumableContext)
 
+  const { t } = useTranslation()
+
   return (
     <div className="grid grid-cols-3">
       <div className="col-span-2 flex flex-col border mt-3">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
             <div className={`overflow-hidden invoice`}>
-              <table className="min-w-full text-left text-sm font-light text-center">
+              <table className="min-w-full text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>
-                    <th className="px-6 py-4 border-r">Note</th>
-                    <th className="px-6 py-4 border-r">Montant</th>
-                    <th className="px-6 py-4 border-r print:hidden">Actions</th>
+                    <th className="px-6 py-4 border-r">{t("Note")}</th>
+                    <th className="px-6 py-4 border-r">{t("Montant")}</th>
+                    <th className="px-6 py-4 border-r print:hidden">{t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -89,32 +92,3 @@ const DataConsumptions: React.FC = () => {
 };
 
 export default DataConsumptions;
-
-
-// .filter((consumption: MyConsumptionsInterface) => {
-//   const consumptionDate = new Date(consumption.createdAt);
-//   if(showSwitchDate) {
-//     return consumptionDate >= startDate && consumptionDate <= endDate;
-//   } else {
-//     if (day.toString() === "jour" && month.toString() !== "mois") {
-//       const startDate = new Date(selectedDate);
-//       startDate.setDate(1);
-//       const endDate = new Date(selectedDate);
-//       endDate.setDate(31);
-//       return consumptionDate >= startDate && consumptionDate <= endDate;
-//     }
-//     if (month.toString() === "mois") {
-//       const startDate = new Date(selectedDate);
-//       startDate.setDate(1);
-//       startDate.setMonth(0);
-//       const endDate = new Date(selectedDate);
-//       endDate.setDate(31);
-//       endDate.setMonth(11);          
-//       return consumptionDate >= startDate && consumptionDate <= endDate;
-//     }
-//     const selectedDateFormatted = formatDate(selectedDate.toString());
-//     const consumptionDateFormatted = formatDate(consumptionDate.toString());
-
-//     return consumptionDateFormatted === selectedDateFormatted;
-//   }
-// })

@@ -13,6 +13,7 @@ import { ShowUserApi } from "../../../redux/users/UserApiCalls";
 import { UserInterface } from "../../users/types";
 import { UserData } from "../../../requestMethods";
 import { PermissionType } from "../../roles/types";
+import { useTranslation } from "react-i18next";
 
 const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -42,6 +43,8 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const { AssId } = useParams();
   const { permissions } = useSelector((state: State) => state.permissions);
 
+  const { t } = useTranslation()
+
   return (
     <ManageAssuranceContext.Provider
       value={{
@@ -57,7 +60,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
                 permission.name === "AFFICHER" &&
                 permission.collectionName === "TRAITEMENTS"
             ) && <ButtonAssurance
-            name="Traitements"
+            name={t("Traitements")}
             path={`/assurance/${AssId}/treatments`}
           />}
 
@@ -68,7 +71,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
           ) ?
           <DropdownAssurance
             openDropdown={openDropdown}
-            name="Patients"
+            name={t("Patients")}
             pathDropDown={`patients`}
             linkList={doctors}
             selectedDropDown={selectedDropDown}
@@ -80,7 +83,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
               permission.collectionName === "PATIENTS_ASSURANCE"
           ) &&
           <ButtonAssurance
-            name="Patients"
+            name={t("Patients")}
             path={`/assurance/${AssId}/patients/${UserData()._id}`}
           />}
 

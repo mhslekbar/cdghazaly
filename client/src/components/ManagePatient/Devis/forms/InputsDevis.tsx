@@ -10,6 +10,7 @@ import { DefaultPatientInterface, PatientInterface } from "../../../patients/typ
 import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { ShowTreatmentApi } from "../../../../redux/treatments/treatmentApiCalls";
+import { useTranslation } from "react-i18next";
 
 const InputsDevis: React.FC = () => {
   const { treat, setTreat, reduce, setReduce, setSelectedTeeth, setSelectedTreat, setSelectedSurface, setTypeTeethBoard, TypeModal } = useContext(DataDevisContext);
@@ -70,6 +71,8 @@ const InputsDevis: React.FC = () => {
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <div className="relative">
       <TeethBoard modal={showTeethBoard} toggle={() => setShowTeethBoard(!showTeethBoard)}  />
@@ -83,12 +86,12 @@ const InputsDevis: React.FC = () => {
         <input 
           type="text" 
           className="w-full uppercase rounded border shadow px-4 py-2 focus:outline-none focus:shadow-outline"
-          placeholder="Nom du traitement..."
+          placeholder={t("Nom du traitement")}
           value={treat}
           onChange={searchTreat}  
         />
         {selectedPatient.assurance && 
-          <InputCheckbox name="Choisir les traitments du cabinet" id="Choose From Cabinet" value={useCabinetTreat} setValue={setUserCabinetTreat}/>
+          <InputCheckbox name={t("Choisir les traitments du cabinet")} id="Choose From Cabinet" value={useCabinetTreat} setValue={setUserCabinetTreat}/>
         }
       </div>
       <div className="absolute w-full">
@@ -122,7 +125,7 @@ const InputsDevis: React.FC = () => {
         type="number"
         name="Reduction"
         id="reduce"
-        placeholder="Donner la reduction en pourcent ..."
+        placeholder={t("Donner la reduction en pourcent")}
         value={reduce}
         setValue={setReduce}
       />

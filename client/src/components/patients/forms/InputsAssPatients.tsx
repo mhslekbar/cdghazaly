@@ -8,6 +8,7 @@ import { ShowAssuranceApi } from "../../../redux/assurances/assuranceApiCalls";
 import { AssuranceInterface } from "../../assurances/types";
 import { InputRadio } from "../../../HtmlComponents/InputRadio";
 import { InputElement } from "../../../HtmlComponents/InputElement";
+import { useTranslation } from "react-i18next";
 
 const InputsAssPatients = () => {
   const { assurances } = useSelector((state: State) => state.assurances);
@@ -33,10 +34,12 @@ const InputsAssPatients = () => {
     setPercentage,
   } = useContext(DefaultDataInputsPatientContext);
   
+  const { t } = useTranslation()
+
   return (
     <div>
       <InputCheckbox
-        name="Assuré"
+        name={t("Assuré")}
         id="Assurance"
         value={showAssurance}
         setValue={setShowAssurance}
@@ -60,21 +63,21 @@ const InputsAssPatients = () => {
           </div>
           <div className="grid grid-cols-3 gap-1">
             <InputElement
-              placeholder="Matricule Professionel"
+              placeholder={t("Matricule Professionel")}
               id="Matricule Professionel"
               value={RegNoProfessional}
               setValue={setRegNoProfessional}
             />
             <InputElement
               type="number"
-              placeholder="Prise en charge"
+              placeholder={t("Prise en charge")}
               id="Prise en charge"
               value={supported}
               setValue={setSupported}
             />
             <InputElement
               type="number"
-              placeholder="Pourcentage couvré par la societé"
+              placeholder={t("Pourcentage couvré par la societé")}
               id="Pourcentage"
               value={percentage}
               setValue={setPercentage}

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { State } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { hideMsg } from "../functions/functions";
+import { useTranslation } from "react-i18next";
 
 const Login:React.FC = () => {
   const { userData } = useSelector((state: State) => state.login)  
@@ -35,6 +36,8 @@ const Login:React.FC = () => {
     }
   }, [navigate, userData])
 
+  const { t } = useTranslation()
+
   return (
     <section className="grid grid-cols-3 justify-items-center mt-2">
       <div className="col-start-1 col-end-4">
@@ -54,7 +57,7 @@ const Login:React.FC = () => {
               htmlFor="username"
               className="font-bold text-gray-700 block"
             >
-              Username
+              {t("Username")}
             </label>
             <input
               type="text"
@@ -62,7 +65,7 @@ const Login:React.FC = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="shadow rounded border focus:outline-none px-3 py-2 w-full"
-              placeholder="username"
+              placeholder={t("Username")}
             />
           </div>
           <div className="mb-2 ">
@@ -70,7 +73,7 @@ const Login:React.FC = () => {
               htmlFor="password"
               className="font-bold text-gray-700 block"
             >
-              Password
+              {t("Password")}
             </label>
             <input
               type="password"
@@ -78,11 +81,11 @@ const Login:React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="shadow rounded border focus:outline-none px-3 py-2 w-full"
-              placeholder="password"
+              placeholder={t("Password")}
             />
           </div>
           <button className="mb-2 font-bold btn-main w-full shadow rounded focus:outline-none px-3 py-2">
-            Connect
+            {t("Connecter")}
           </button>
           {errors?.length > 0 && errors?.map((err: string, index: number) => (
             <div key={index} className="bg-red-400 text-white p-2 rounded" onClick={(e) => hideMsg(e, errors, setErrors)}>{err}</div>

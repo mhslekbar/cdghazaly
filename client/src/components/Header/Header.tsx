@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { State } from "../../redux/store";
 import { companyName } from "../../requestMethods";
+import { useTranslation } from "react-i18next";
 
 interface HeaderInterface {
   toggleOffcanvas: any;
@@ -25,7 +26,7 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
   }
 
   const { userData } = useSelector((state: State) => state.login)
-
+  const { t } = useTranslation()
   return (
     <header className="bg-main p-4 mx-auto flex justify-between items-center">
       {/* Left section */}
@@ -45,7 +46,7 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
 
       {/* Middle section */}
       <h1 className="text-white lg:text-2xl font-bold col-span-2 col-start-2 text-center uppercase">
-        Atlas Software
+        {t("Atlas Softwares")}
       </h1>
 
       {/* Right section */}

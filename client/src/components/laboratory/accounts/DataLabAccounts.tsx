@@ -6,6 +6,7 @@ import { ShowAccountLabApi } from "../../../redux/laboratory/accounts/labAccount
 import { useNavigate, useParams } from "react-router";
 import { AccountsInterface } from "./types";
 import { ShowLaboratoryContext } from "../ShowLaboratory";
+import { useTranslation } from "react-i18next";
 
 const DataLabAccounts: React.FC = () => {
   const { accountLab } = useSelector((state: State) => state.accountLab);
@@ -24,14 +25,15 @@ const DataLabAccounts: React.FC = () => {
   }, [dispatch, labId]);
 
   const navigate = useNavigate();
+  const { t } = useTranslation()
 
   return (
     <div className="w-1/4">
-      <table className="min-w-full text-left text-sm font-light text-center">
+      <table className="min-w-full text-sm font-light text-center">
         <thead className="border-b font-medium bg-main text-white">
           <tr>
-            <th className="px-3 py-2 border-r">Doctor</th>
-            <th className="px-3 py-2">Balance</th>
+            <th className="px-3 py-2 border-r">{t("Docteur")}</th>
+            <th className="px-3 py-2">{t("Balance")}</th>
           </tr>
         </thead>
         <tbody>

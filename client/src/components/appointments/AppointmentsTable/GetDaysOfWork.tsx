@@ -29,12 +29,3 @@ const GetDaysOfWork: React.FC = () => {
 };
 
 export default GetDaysOfWork;
-
-// const currentDate = new Date();
-// let currentDayOfWeek = currentDate.getDay();
-// let difference = desiredDayOfWeek - currentDayOfWeek;
-// if (difference < 0) {
-//   difference += 7;
-// }
-// const millisecondsToAdd = difference * 24 * 60 * 60 * 1000;
-// return new Date(currentDate.getTime() + millisecondsToAdd).toString();

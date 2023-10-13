@@ -8,6 +8,7 @@ import { PaymentLabType, ShowLabPaymentsContext } from "./types";
 import { formatDate } from "../../../functions/functions";
 import { useDispatch } from "react-redux";
 import { ShowPaymentLabApi } from "../../../redux/laboratory/payments/paymentLabApiCalls";
+import { useTranslation } from "react-i18next";
 
 const DataLabPayment: React.FC = () => {
   const { paymentLab } = useSelector((state: State) => state.paymentLab);
@@ -55,6 +56,8 @@ const DataLabPayment: React.FC = () => {
       )
   }, [paymentLab, doctorId])
 
+  const { t } = useTranslation()
+
   return (
     <div className="">
       {paymentLab.length > 0 && (
@@ -62,13 +65,13 @@ const DataLabPayment: React.FC = () => {
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <div className="overflow-hidden">
-                <table className="min-w-full text-left text-sm font-light text-center">
+                <table className="min-w-full text-sm font-light text-center">
                   <thead className="border-b font-medium bg-main text-white">
                     <tr>
-                      <th className="px-3 py-2 border-r">Montant</th>
-                      <th className="px-3 py-2 border-r">Comment</th>
-                      <th className="px-3 py-2 border-r">Date</th>
-                      <th className="px-3 py-2 border-r">Actions</th>
+                      <th className="px-3 py-2 border-r">{t("Montant")}</th>
+                      <th className="px-3 py-2 border-r">{t("Comment")}</th>
+                      <th className="px-3 py-2 border-r">{t("Date")}</th>
+                      <th className="px-3 py-2 border-r">{t("Actions")}</th>
                     </tr>
                   </thead>
                   <tbody>

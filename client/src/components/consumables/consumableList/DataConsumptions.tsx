@@ -4,6 +4,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdRemoveCircle } from "react-icons/md";
 import { ListConsumableInterface, ShowConsumableListContext } from "./types";
 import { State } from "../../../redux/store";
+import { useTranslation } from "react-i18next";
 
 
 const DataConsumableList: React.FC = () => {
@@ -24,6 +25,7 @@ const DataConsumableList: React.FC = () => {
     setSelectedListConsumable(ConsumableList)
   }
 
+  const { t } = useTranslation()
 
   return (
     <div className="grid grid-cols-3">
@@ -31,11 +33,11 @@ const DataConsumableList: React.FC = () => {
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full sm:px-6 lg:px-8">
             <div className={`overflow-hidden invoice`}>
-              <table className="min-w-full text-left text-sm font-light text-center">
+              <table className="min-w-full text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>
-                    <th className="px-6 py-4 border-r">Name</th>
-                    <th className="px-6 py-4 border-r">Actions</th>
+                    <th className="px-6 py-4 border-r">{t("Nom")}</th>
+                    <th className="px-6 py-4 border-r">{t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody>

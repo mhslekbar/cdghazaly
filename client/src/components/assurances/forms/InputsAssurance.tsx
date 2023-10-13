@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { DataAssuranceContext } from "../types";
 import { InputElement } from "../../../HtmlComponents/InputElement";
+import { useTranslation } from "react-i18next";
 
 const InputsAssurance: React.FC = () => {
   const {
@@ -11,12 +12,13 @@ const InputsAssurance: React.FC = () => {
     color,
     setColor
   } = useContext(DataAssuranceContext);
+  const { t } = useTranslation()
 
   return (
     <div>
       <InputElement
         type="text"
-        name="Nom"
+        name={t("Nom")}
         placeholder="Nom de la societe"
         id="Name"
         value={name}
@@ -24,14 +26,14 @@ const InputsAssurance: React.FC = () => {
       />
       <InputElement
         type="number"
-        name="consultation"
+        name={t("Consultation")}
         id="price"
         value={cons_price}
         setValue={setConsPrice}
       />
       <InputElement
         type="color"
-        name="couleur"
+        name={t("Couleur")}
         id="color"
         value={color}
         setValue={setColor}

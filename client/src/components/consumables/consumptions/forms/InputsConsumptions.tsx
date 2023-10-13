@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { State } from '../../../../redux/store'
 import { DefaultUserInterface, UserInterface } from '../../../users/types'
 import { useParams } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 const InputsConsumptions:React.FC = () => {
   const { 
@@ -26,13 +27,14 @@ const InputsConsumptions:React.FC = () => {
   }, [users])
 
   const hide = true
+  const { t } = useTranslation()
 
   return (
     <>
-      <InputElement name="Montant" value={amount} setValue={setAmount} />
-      <InputElement name="Note" placeholder='donner une note si vous voulez.' value={note} setValue={setNote} />
+      <InputElement name={t("Montant")} value={amount} setValue={setAmount} />
+      <InputElement name={t("Note")} placeholder={t("Donner une note si vous voulez")} value={note} setValue={setNote} />
       {hide && 
-        <SelectElement name="Doctor" id="doctor" value={doctor} setValue={setDoctorId} defaultOption={<option data-element={JSON.stringify(DefaultUserInterface)} value={DefaultUserInterface._id}>Cabinet Centrale</option>} options={doctors} valueType={"object"} />
+        <SelectElement name={t("Docteur")} id="doctor" value={doctor} setValue={setDoctorId} defaultOption={<option data-element={JSON.stringify(DefaultUserInterface)} value={DefaultUserInterface._id}>Cabinet Centrale</option>} options={doctors} valueType={"object"} />
       }
     </>
   )

@@ -6,6 +6,7 @@ import { InputElement } from '../../HtmlComponents/InputElement'
 import { ShowAppointmentContext } from './types'
 import { FaPrint } from 'react-icons/fa'
 import { PatientLab } from '../laboratory/patients/types'
+import { useTranslation } from 'react-i18next'
 
 interface HeaderAppointmentInterface {
   selectedPatientLab?: PatientLab
@@ -15,6 +16,7 @@ const HeaderAppointment:React.FC<HeaderAppointmentInterface> = ({ selectedPatien
   const navigate = useNavigate()
   const { filterByDate, setFilterByDate } = useContext(ShowAppointmentContext)
   const { patientId } = useParams()
+  const { t } = useTranslation()
   return (
     <div className='mt-2 flex justify-between'>
       {!patientId && !selectedPatientLab?.consumptionLab?.patient?._id ? 
@@ -24,7 +26,7 @@ const HeaderAppointment:React.FC<HeaderAppointmentInterface> = ({ selectedPatien
         : <span></span> // because my div is set to flex and i want keep space between each button
       }
       <div className='flex items-center justify-center gap-2'>
-        <span>Filter</span>
+        <span>{t("Filter")}</span>
         <InputElement type="date" value={formattedDate(filterByDate.toString())} setValue={setFilterByDate}/>
       </div>
       {!patientId && !selectedPatientLab?.consumptionLab?.patient?._id ?

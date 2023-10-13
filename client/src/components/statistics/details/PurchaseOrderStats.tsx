@@ -7,6 +7,7 @@ import { useParams } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { ShowPurchaseOrderApi } from '../../../redux/purchaseOrder/purchaseOrderApiCalls'
 import { PurchaseOrderInterface } from '../../consumables/purchaseOrder/types'
+import { useTranslation } from 'react-i18next'
 
 const PurchaseOrderStats:React.FC = () => {
   const { selectedDate, day, month, showSwitchDate, startDate, endDate, sumPurchaseOrders, setSumPurchaseOrders } = useContext(ShowStatisticContext)
@@ -32,10 +33,12 @@ const PurchaseOrderStats:React.FC = () => {
     )
   }, [sumPurchaseOrders, setSumPurchaseOrders, doctorId, purchaseOrders, day, month, showSwitchDate, startDate, endDate, selectedDate])
 
+  const { t } = useTranslation()
+
   return (
   <tr className=''>
     <td colSpan={2}></td>
-    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">Bon de commande</td>
+    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">{t("Bon de commande")}</td>
     <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">
       {sumPurchaseOrders}
     </td>

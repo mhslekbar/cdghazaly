@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { InputElement } from '../../../../HtmlComponents/InputElement'
 import { DataSuppliersContext } from '../types'
+import { useTranslation } from 'react-i18next'
 
 const InputsSuppliers:React.FC = () => {
   const { 
@@ -8,10 +9,12 @@ const InputsSuppliers:React.FC = () => {
     phone, setPhone,
   } = useContext(DataSuppliersContext)
 
+  const { t } = useTranslation()
+
   return (
     <>
-      <InputElement name="Nom" value={name} setValue={setName} />
-      <InputElement name="Telephone" value={phone} setValue={setPhone} />
+      <InputElement name={t("Nom")} value={name} setValue={setName} />
+      <InputElement name={t("Telephone")} value={phone} setValue={setPhone} />
     </>
   )
 }

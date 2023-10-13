@@ -19,8 +19,13 @@ import { formatDate } from "../../../functions/functions";
 import HeaderInvoice from "../HeaderInvoice";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
-const DataPayments: React.FC = () => {
+interface props {
+  typeData: string
+}
+
+const DataPayments: React.FC<props> = ({ typeData }) => {
   const { payments } = useSelector((state: State) => state.payments);
   const { devis } = useSelector((state: State) => state.devis);
   const [totalDevis, setTotalDevis] = useState(0);
@@ -83,13 +88,15 @@ const DataPayments: React.FC = () => {
   const { patientId } = useParams()
   const { patients } = useSelector((state: State) => state.patients)
 
+  const { t } = useTranslation()
+
   return (
     <>
       {payments
       .filter(
         (payment: PaymentInterface) =>
           payment.type === EnumTypePayment.PAYMENT
-          && !payment.supported
+          && typeData === "payment" ? !payment.supported : payment.supported 
       )
       .length > 0 && (
         <div className="grid grid-cols-12">
@@ -99,14 +106,14 @@ const DataPayments: React.FC = () => {
               <div className="inline-bloc sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
                   <HeaderInvoice type={`versement`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
-                  <table className="min-w-full text-left text-sm font-light text-center">
+                  <table className="min-w-full text-sm font-light text-center">
                     <thead className="border border-gray-950 font-medium bg-white text-black">
                       <tr>
-                        <th className="py-1 border-r border-gray-950">Status</th>
-                        <th className="py-1 border-r border-gray-950">Date</th>
-                        <th className="py-1 border-r border-gray-950">Montant</th>
-                        <th className="py-1 border-r border-gray-950">Mode de paiement</th>
-                        <th className="py-1 print:hidden">Actions</th>
+                        <th className="py-1 border-r border-gray-950">{t("Status")}</th>
+                        <th className="py-1 border-r border-gray-950">{t("Date")}</th>
+                        <th className="py-1 border-r border-gray-950">{t("Montant")}</th>
+                        <th className="py-1 border-r border-gray-950">{t("Mode de paiement")}</th>
+                        <th className="py-1 print:hidden">{t("Actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -114,7 +121,8 @@ const DataPayments: React.FC = () => {
                         .filter(
                           (payment: PaymentInterface) =>
                             payment.type === EnumTypePayment.PAYMENT
-                            && !payment.supported
+                            && typeData === "payment" ? !payment.supported : payment.supported 
+                            // && !payment.supported
                         )
                         .map((payment: PaymentInterface, index) => (
                           <tr className="border-b border-l border-gray-950" key={index}>
@@ -166,7 +174,7 @@ const DataPayments: React.FC = () => {
                         ))}
                       <tr className="font-bold">
                         <td></td>
-                        <td className="text-end px-2">Reste Devis:</td>
+                        <td className="text-end px-2">{t("Reste du devis")}:</td>
                         <td>{totalDevis - totalPayments}</td>
                       </tr>
                     </tbody>

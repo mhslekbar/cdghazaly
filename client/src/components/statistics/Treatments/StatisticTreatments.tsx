@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { State } from '../../../redux/store'
 import { InvoicesInterface, LineInvoiceInterface } from '../../ManagePatient/Invoices/types'
 import { useParams } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 const StatisticTreatments:React.FC = () => {
   const dispatch: any = useDispatch()
@@ -48,6 +49,8 @@ const StatisticTreatments:React.FC = () => {
     setSumTotalNbrs(ArrayGrp.reduce((acc, currVal) => acc + currVal, 0))
   }, [groupedData])
 
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col border mt-3">
     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -56,9 +59,9 @@ const StatisticTreatments:React.FC = () => {
           <table className="min-w-full text-left text-sm font-light">
             <thead className="border border-gray-950 font-medium bg-main text-white text-center">
               <tr>
-                <th className="px-6 py-4 border-r border-gray-950">Traitement</th>
-                <th className="px-6 py-4 border-r border-gray-950">Nbrs</th>
-                <th className="px-6 py-4">Pourcentage</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("Traitement")}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("NBS")}</th>
+                <th className="px-6 py-4">{t("Pourcentage")}</th>
               </tr>
             </thead>
             <tbody>

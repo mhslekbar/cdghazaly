@@ -3,11 +3,14 @@ import { useSelector } from 'react-redux'
 import { useNavigate, Outlet, useLocation } from 'react-router'
 import { State } from '../../redux/store'
 import { PermissionType } from '../roles/types'
+import { useTranslation } from 'react-i18next'
 
 const TypeConsumable:React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { permissions } =useSelector((state: State) => state.permissions)
+  
+  const { t } = useTranslation()
 
   return (
     <>
@@ -18,7 +21,7 @@ const TypeConsumable:React.FC = () => {
           permission.collectionName === "BON_COMMANDE"
       ) && (
         <div className={`${location.pathname.split("/")[3] === "purchase-order" ? "bg-main" : ""} px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("purchase-order")} >
-          Bon de commande
+          {t("Bon de commande")}
         </div>
       )}
       {permissions.find(
@@ -27,7 +30,7 @@ const TypeConsumable:React.FC = () => {
           permission.collectionName === "CONSOMMATIONS"
       ) && (
         <div className={`${location.pathname.split("/")[3] === "consumptions" ? "bg-main" : ""} px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("consumptions")} >
-          Consommations
+          {t("Consommations")}
         </div>
       )}
       {permissions.find(
@@ -36,7 +39,7 @@ const TypeConsumable:React.FC = () => {
           permission.collectionName === "LIST_CONSOMMABLE"
       ) && (
         <div className={`${location.pathname.split("/")[3] === "consumable_list" ? "bg-main" : ""} px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("consumable_list")} >
-          List Consommable
+          {t("List Consommable")}
         </div>
       )}
       {permissions.find(
@@ -45,7 +48,7 @@ const TypeConsumable:React.FC = () => {
           permission.collectionName === "FOURNISSEURS"
       ) && (
         <div className={`${location.pathname.split("/")[3] === "suppliers" ? "bg-main" : ""} px-6 py-4 bg-white rounded-4 shadow border hover:bg-main flex justify-center items-center h-24`} onClick={() => navigate("suppliers")} >
-          Fournisseurs
+          {t("Fournisseurs")}
         </div>
       )}
     </section>

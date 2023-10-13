@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { State } from "../../../../redux/store";
 import { useDispatch } from "react-redux";
 import { ShowSetAppointApi } from "../../../../redux/setAppoint/setAppointApiCalls";
+import { useTranslation } from "react-i18next";
 
 const ShowSetAppointment: React.FC = () => {
   const { setAppointment } = useSelector((state: State) => state.setAppointment);
@@ -25,6 +26,8 @@ const ShowSetAppointment: React.FC = () => {
     fetchSetAppointment();
   }, [dispatch, doctorId]);
 
+  const { t } = useTranslation()
+
   return (
     <>
     {showEditSetAppoint && selectedSetAppoint && 
@@ -34,15 +37,15 @@ const ShowSetAppointment: React.FC = () => {
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full sm:px-6 lg:px-8">
             <div className="overflow-hidden">
-              <table className="min-w-full text-left text-sm font-light text-center">
+              <table className="min-w-full text-sm font-light text-center">
                 <thead className="border-b font-medium bg-main text-white">
                   <tr>
-                    <th className="px-6 py-4 border-r">montée</th>
-                    <th className="px-6 py-4 border-r">Descente</th>
-                    <th className="px-6 py-4 border-r">Temps</th>
-                    <th className="px-6 py-4 border-r">NBS.SN</th>
-                    <th className="px-6 py-4 border-r">Type</th>
-                    <th className="px-6 py-4 border-r">Control</th>
+                    <th className="px-6 py-4 border-r">{t("Montée")}</th>
+                    <th className="px-6 py-4 border-r">{t("Descente")}</th>
+                    <th className="px-6 py-4 border-r">{t("Temps")}</th>
+                    <th className="px-6 py-4 border-r">{t("NBS.SN")}</th>
+                    <th className="px-6 py-4 border-r">{t("Type")}</th>
+                    <th className="px-6 py-4 border-r">{t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody>

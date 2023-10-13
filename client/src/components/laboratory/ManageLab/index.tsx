@@ -12,6 +12,7 @@ import { ShowUserApi } from "../../../redux/users/UserApiCalls";
 import DropdownLab from "./DropDownLab";
 import { UserData } from "../../../requestMethods";
 import { PermissionType } from "../../roles/types";
+import { useTranslation } from "react-i18next";
 
 interface ManageLabInterface {
   laboratory: laboratoryInterface;
@@ -44,7 +45,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
     setSelectedDropDown(type);
   };
   const { permissions } = useSelector((state: State) => state.permissions);
-
+  const { t } = useTranslation()
   return (
     <ManageLabContext.Provider
       value={{
@@ -60,7 +61,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
               permission.name === "AFFICHER_GLOBAL" &&
               permission.collectionName === "COMPTES_LABORATOIRE"
           ) && <ButtonLab
-            name="Comptes"
+            name={t("Comptes")}
             path={`/laboratory/${laboratory._id}/accounts`}
           />}
 
@@ -69,7 +70,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
               permission.name === "AFFICHER" &&
               permission.collectionName === "TRAITEMENTS_LABORATOIRES"
           ) && <ButtonLab
-            name="Traitements"
+            name={t("Traitements")}
             path={`/laboratory/${laboratory._id}/treatments`}
           />}
           
@@ -80,7 +81,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           ) ?
           <DropdownLab
             openDropdown={openDropdown}
-            name="Consommations"
+            name={t("Consommations")}
             pathDropDown="consumptions"
             linkList={doctors}
             selectedDropDown={selectedDropDown}
@@ -92,7 +93,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
               permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
           ) &&
           <ButtonLab
-            name="Consommations"
+            name={t("Consommations")}
             path={`/laboratory/${laboratory._id}/consumptions/${UserData()._id}`}
           />}
 
@@ -103,7 +104,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           ) ?
           <DropdownLab
             openDropdown={openDropdown}
-            name="Patients"
+            name={t("Patients")}
             pathDropDown="patients"
             linkList={doctors}
             selectedDropDown={selectedDropDown}
@@ -115,7 +116,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
               permission.collectionName === "PATIENTS_LABORATOIRE"
           ) &&
           <ButtonLab
-            name="Patients"
+            name={t("Patients")}
             path={`/laboratory/${laboratory._id}/patients/${UserData()._id}`}
           />}
 
@@ -126,7 +127,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           ) ?
           <DropdownLab
             openDropdown={openDropdown}
-            name="Paiements"
+            name={t("Paiements")}
             pathDropDown="payments"
             linkList={doctors}
             selectedDropDown={selectedDropDown}
@@ -138,7 +139,7 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
               permission.collectionName === "PAIEMENTS_LABORATOIRES"
           ) &&
           <ButtonLab
-            name="Paiements"
+            name={t("Paiements")}
             path={`/laboratory/${laboratory._id}/payments/${UserData()._id}`}
           />}
 
@@ -151,36 +152,3 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
 };
 
 export default ManageLab;
-
-
-
-// {
-//   linskLaboratory.map((link: LinksInterface, index) => (
-//     <React.Fragment key={index}>
-//       {link.type === "button" ? (
-//         <ButtonLab
-//           name={link.title}
-//           path={`/laboratory/${laboratory._id}/${link.path}`}
-//         />
-//       ) : (
-//         permissions.find(
-//           (permission: PermissionType) =>
-//             permission.name === "AFFICHER_GLOBAL" &&
-//             permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
-//         ) ? 
-//         <DropdownLab
-//           openDropdown={openDropdown}
-//           name={link.title}
-//           pathDropDown={link.pathDrop || ""}
-//           linkList={doctors}
-//           selectedDropDown={selectedDropDown}
-//           toggleDropDown={toggleDropDown}
-//         /> : 
-//         <ButtonLab
-//           name={link.title}
-//           path={`/laboratory/${laboratory._id}/${link.path}/${UserData()?._id}`}
-//         />
-//       )}
-//     </React.Fragment>
-//   ))
-// }

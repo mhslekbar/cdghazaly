@@ -10,6 +10,7 @@ import { AboutSupplierContext } from './types'
 import HistoryPaymentSupplier from './HistoryPaymentSupplier'
 import { DefaultPurchaseOrderInterface, PurchaseOrderInterface } from '../../purchaseOrder/types'
 import { SupplierInterface, DefaultSupplierInterface} from '../types'
+import { useTranslation } from 'react-i18next'
 
 const AboutSupplier:React.FC = () => {
   const { suppliers } = useSelector((state: State) => state.suppliers)
@@ -37,6 +38,8 @@ const AboutSupplier:React.FC = () => {
   const [selectedModalPurchaseOrder, setSelectedModalPurchaseOrder] = useState<PurchaseOrderInterface>(DefaultPurchaseOrderInterface)
   const [showHistoryPayment, setShowHistoryPayment] = useState<boolean>(true) // must set to true to show it by default
 
+  const { t } = useTranslation()
+
   return (
     <AboutSupplierContext.Provider value={{
       selectedSupplier, setSelectedSupplier,
@@ -57,7 +60,7 @@ const AboutSupplier:React.FC = () => {
           :
           <FaEye className='text-blue' style={{ fontSize: "22px" }} /> 
         }
-        {showPurchaseOrders ? "Cacher" : "Afficher" } les bons de commandes
+        {showPurchaseOrders ? t("Cacher") : t("Afficher") } {t("Les bons de commandes")}
       </p>
       <PurchaseOrderSupplier />
       <p className='flex gap-2 mt-3' onClick={() => setShowHistoryPayment(!showHistoryPayment)}>
@@ -66,7 +69,7 @@ const AboutSupplier:React.FC = () => {
           :
           <FaEye className='text-blue' style={{ fontSize: "22px" }} /> 
         }
-          {showHistoryPayment ? "Cacher" : "Afficher" }  Historique de paiements
+          {showHistoryPayment ? t("Cacher") : t("Afficher") }  {t("Historique de paiements")}
       </p>
       <HistoryPaymentSupplier />
     </div>

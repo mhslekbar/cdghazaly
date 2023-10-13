@@ -6,6 +6,7 @@ import { PermissionType } from '../../roles/types';
 import DropdownDoctor from '../../sidebar/DropDownDoctor';
 import { UserData } from '../../../requestMethods';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 interface FirstSectionInterface {
   className: string,
@@ -19,6 +20,7 @@ interface FirstSectionInterface {
 const FirstSection:React.FC<FirstSectionInterface> = ({ className, openDropdown, setOpenDropdown, selectedDropDown, setSelectedDropDown, listDoctors }) => {
   const { permissions } = useSelector((state: State) => state.permissions);
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <section className="grid grid-cols-3 gap-2 mt-3">
@@ -31,7 +33,7 @@ const FirstSection:React.FC<FirstSectionInterface> = ({ className, openDropdown,
         linkList={listDoctors}
         openDropdown={openDropdown}
         selectedDropDown={selectedDropDown}
-        name="Consultations"
+        name={t("Consultations")}
         toggleDropDown={() => {
           setOpenDropdown(!openDropdown);
           setSelectedDropDown("Consultations");
@@ -47,7 +49,7 @@ const FirstSection:React.FC<FirstSectionInterface> = ({ className, openDropdown,
       ) &&  
       <div className={className} onClick={() => navigate(`/patient/consultation/${UserData()?._id}`)}>
         <FaUserNurse className="mb-3 text-4xl" />
-        Consultations
+        {t("Consultations")}
       </div>}
       {/* End One */}
 
@@ -60,7 +62,7 @@ const FirstSection:React.FC<FirstSectionInterface> = ({ className, openDropdown,
         linkList={listDoctors}
         openDropdown={openDropdown}
         selectedDropDown={selectedDropDown}
-        name="Patients Terminé"
+        name={t("Patients Terminé")}
         toggleDropDown={() => {
           setOpenDropdown(!openDropdown);
           setSelectedDropDown("Patients Terminé");
@@ -76,7 +78,7 @@ const FirstSection:React.FC<FirstSectionInterface> = ({ className, openDropdown,
       ) &&  
       <div className={className} onClick={() => navigate(`/patient/finish/${UserData()?._id}`)}>
         <FaUser className="mb-3 text-4xl" />
-        Patients Terminé
+        {t("Patients Terminé")}
       </div>}
       {/* END Two */}
 
@@ -89,10 +91,10 @@ const FirstSection:React.FC<FirstSectionInterface> = ({ className, openDropdown,
         linkList={listDoctors}
         openDropdown={openDropdown}
         selectedDropDown={selectedDropDown}
-        name="Patients en cours"
+        name={t("Patients En cours")}
         toggleDropDown={() => {
           setOpenDropdown(!openDropdown);
-          setSelectedDropDown("Patients en cours");
+          setSelectedDropDown("Patients En cours");
         }}
         pathDropDown="patient/current"
         icon={<FaUsers className="mb-3 text-4xl" />}
@@ -105,7 +107,7 @@ const FirstSection:React.FC<FirstSectionInterface> = ({ className, openDropdown,
       ) &&  
       <div className={className} onClick={() => navigate(`/patient/current/${UserData()?._id}`)}>
         <FaUsers className="mb-3 text-4xl" />
-        Patients en cours
+        {t("Patients En cours")}
       </div>}
       {/* END Three */}
     </section>

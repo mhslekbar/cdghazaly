@@ -7,6 +7,7 @@ import { filterSpecificDate } from "../../../functions/functions";
 import { useParams } from "react-router";
 import { LabConsumptionInterface } from "../../laboratory/consumptions/types";
 import { ShowStatisticContext } from "../types";
+import { useTranslation } from "react-i18next";
 
 const ConsoLab: React.FC = () => {
   const { consumptionLab } = useSelector(
@@ -41,12 +42,12 @@ const ConsoLab: React.FC = () => {
         0
       ))
     }, [day, month, selectedDate, showSwitchDate, startDate, endDate, setSumConsoLab, sumConsoLab, doctorId, consumptionLab])
-
+  const { t } = useTranslation()
   return (
     <tr>
       <td colSpan={2}></td>
       <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">
-        Lab
+        {t("Labo")}
       </td>
       <td className="whitespace-nowrap px-4 py-2 bg-white font-medium border border-gray-950">
         {sumConsoLab}

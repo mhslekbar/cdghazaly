@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { editRoleApi } from "../../redux/roles/roleApiCalls"
 import { ShowRoleContext } from './ShowRoles'
 import { Timeout } from '../../functions/functions'
+import { useTranslation } from 'react-i18next'
 
 interface SavePermissionsInterface {
   role: RoleType
@@ -29,12 +30,13 @@ const SavePermissions:React.FC<SavePermissionsInterface> = ({ role }) => {
         setTimeout(() => setShowSuccessMsg(false), Timeout)
       }
     } catch {}
-  
   }
+
+  const { t } = useTranslation()
   
   return (
     <div className='text-end'>
-      <button className='btn-main rounded py-2 px-4 mt-2 focus:outline-none' onClick={handleSavePermission}>Enrgistrer</button>
+      <button className='btn-main rounded py-2 px-4 mt-2 focus:outline-none' onClick={handleSavePermission}>{t("Enregistrer")}</button>
     </div>
   )
 }

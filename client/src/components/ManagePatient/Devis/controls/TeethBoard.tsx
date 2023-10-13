@@ -18,6 +18,7 @@ import { DefaultLaboratoryInterface, laboratoryInterface } from '../../../labora
 import { State } from '../../../../redux/store';
 import { useSelector } from 'react-redux';
 import { ShowLaboratoryApi } from '../../../../redux/laboratory/laboratoryApiCalls';
+import { useTranslation } from 'react-i18next';
 
 interface TeethBoardInterface {
   modal: boolean,
@@ -207,6 +208,8 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
 
   const [showChildMouth, setShowChildMouth] = useState(false)
   
+  const { t } = useTranslation()
+
   return (
     <div>
       {modal && (
@@ -226,13 +229,13 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
                     <div className='w-1/2'>
                       <InputElement type='number' name="Prix" value={price} setValue={setPrice} /> 
                     </div>
-                    <p>Dents: {selectedTeeth.map((tooth: any, index) => tooth + (index < selectedTeeth.length - 1 ? ", " : ""))}</p>
+                    <p>{t("Dents")}: {selectedTeeth.map((tooth: any, index) => tooth + (index < selectedTeeth.length - 1 ? ", " : ""))}</p>
                     {selectedTreat.type === "conservative" && 
                       <div className='w-1/2'>
                         <InputElement type='text' name="surface" value={selectedSurface} setValue={setSelectedSurface} /> 
                       </div>
                     }
-                    <p>Qty: {selectedTeeth.length}</p>
+                    <p>{t("Qty")}: {selectedTeeth.length}</p>
                     <div className='w-1/2'>
                       <SelectElement valueType="object" id="doctor" value={doctor} setValue={setDoctor} options={ArrayDoctor.map((option: any) => ({...option, name: option.username}))} />
                       {
@@ -241,7 +244,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
                         <SelectElement showPrice={true} valueType="object" id="laboratory" value={MyLaboratory} setValue={setMyLaboratory} options={filteredLabo.map((option: any) => ({...option, name: option.name}))} />
                       }
                     </div>
-                    <span className="shadow p-2 rounded bg-blue mt-2" onClick={() => setShowChildMouth(!showChildMouth)}>Dents Pediatre</span>
+                    <span className="shadow p-2 rounded bg-blue mt-2" onClick={() => setShowChildMouth(!showChildMouth)}>{t("Dents Pediatre")}</span>
                     {/* <span >sniper</span> */}
                     {showChildMouth && <ChildMouth />}
                   </section>

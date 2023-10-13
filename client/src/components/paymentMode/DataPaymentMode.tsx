@@ -4,6 +4,7 @@ import { State } from '../../redux/store'
 import { FaEdit } from 'react-icons/fa'
 import { MdRemoveCircle } from 'react-icons/md'
 import { PaymentModeInterface, ShowPaymentModeContext } from './types'
+import { useTranslation } from 'react-i18next'
 
 const DataPaymentMode = () => {
   const { paymentModes } = useSelector((state: State) => state.paymentModes)
@@ -24,6 +25,7 @@ const DataPaymentMode = () => {
     setSelectedPaymentMode(paymentMode)
   }
 
+  const { t } = useTranslation()
 
   return (
     <div className="grid grid-cols-2 mt-3">
@@ -33,9 +35,9 @@ const DataPaymentMode = () => {
           <table className="min-w-full text-sm font-light text-center">
             <thead className="border-b font-medium bg-main text-white">
               <tr>
-                <th className="px-6 py-4 border-r">Nom</th>
-                <th className="px-6 py-4 border-r">Code</th>
-                <th className="px-6 py-4 border-r">Actions</th>
+                <th className="px-6 py-4 border-r">{t("Nom")}</th>
+                <th className="px-6 py-4 border-r">{t("Code")}</th>
+                <th className="px-6 py-4 border-r">{t("Actions")}</th>
               </tr>
             </thead>
             <tbody>
