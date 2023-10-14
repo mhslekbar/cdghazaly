@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaChevronCircleLeft, FaPlus } from 'react-icons/fa';
 import { DataPaymentModeContext, ShowPaymentModeContext } from './types';
 import InputsPaymentMode from './forms/InputsPaymentMode';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { AddPaymentModeApi } from '../../redux/paymentMode/paymentModeApiCalls';
 import { Timeout } from '../../functions/functions';
 import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
+import { useNavigate } from 'react-router';
 
 const AddPaymentMode: React.FC = () => {
   const [name, setName] = useState<string>("")
@@ -43,6 +44,8 @@ const AddPaymentMode: React.FC = () => {
       setLoading(false)
     }
   }
+  
+  const navigate = useNavigate()
 
   return (
     <DataPaymentModeContext.Provider value={{
@@ -50,6 +53,7 @@ const AddPaymentMode: React.FC = () => {
       code, setCode,
       archive, setArchive
     }}>
+        <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate(-1)}/>
         <button className="p-2 rounded bg-main text-white" onClick={toggle}>
           <FaPlus />
         </button>
