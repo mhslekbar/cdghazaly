@@ -28,7 +28,7 @@ const createSettingAppoint = async (request, response) => {
       formErrors.push(`Choisir un temps partiel`)
     }
     if(start.length === 0 && partOfTime.length > 1) {
-      formErrors.push(`Donner la date du debut du :${partOfTime}`)
+      formErrors.push(`Donner la date du debut du : ${partOfTime}`)
     }
     if(end.length === 0 && partOfTime.length > 1) {
       formErrors.push(`Donner la date du descente du :${partOfTime}`)

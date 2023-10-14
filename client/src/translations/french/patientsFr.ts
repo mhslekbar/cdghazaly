@@ -99,5 +99,25 @@ export const patientsFr = {
   
   /** END Bar navigation of manage patient **/
 
+  // Server Side 
+  "Donner une reduction valide": "Donner une reduction valide",
+  "Le traitement a ete fait vous ne pouvez plus le supprimer.": "Le traitement a ete fait vous ne pouvez plus le supprimer.",
+  "la dernière facture n'est pas encore clôturé": "la dernière facture n'est pas encore clôturé",
+  "La facture ne peut pas être supprimée car elle est déjà remplie": "La facture ne peut pas être supprimée car elle est déjà remplie",
+
+  "Le doctor est obligatoire.": "Le doctor est obligatoire.",
+  "Le nom du patient est obligatoire.": "Le nom du patient est obligatoire.",
+  "Le telephone du patient est obligatoire.": "Le telephone du patient est obligatoire.",
+  "Année de naissance du patient est obligatoire.": "Année de naissance du patient est obligatoire.",
+  "Choisir societe d'assurance.": "Choisir societe d'assurance.",
+  "Donner le matricule.": "Donner le matricule.",
+  "Donner la prise en charge.": "Donner la prise en charge.",
+  "Donner le pourcentage.": "Donner le pourcentage.",
+
+  "Donner le montant": "Donner le montant",
+  "Le patient est assuré par une societe que vous n'avez pas encore creer sa facture": "Le patient est assuré par une societe que vous n'avez pas encore creer sa facture",
+  "Veuillez creer une facture pour cette societe d'assurance": "Veuillez creer une facture pour cette societe d'assurance",
+  
+
 }
 

@@ -21,13 +21,13 @@ const createSupplier = async (req, res) => {
     const formErrors = []
     const checkSupplier = await SupplierModel.findOne({ name, phone })
     if(checkSupplier) {
-      formErrors.push("Fournisseur Existe deja")
+      formErrors.push("Le Fournisseur deja existe")
     }
     if(name.length === 0) {
-      formErrors.push("Nom est obligatoire")
+      formErrors.push("Le nom du fournisseur est obligatoire")
     }
     if(phone.length === 0) {
-      formErrors.push("Telephone est obligatoire")
+      formErrors.push("Le Telephone du fournisseur est obligatoire")
     }
     if(formErrors.length === 0) {
       const users = await UserModel.find()
@@ -55,7 +55,7 @@ const updateSupplier = async (req, res) => {
     const formErrors = []
     const checkSupplier = await SupplierModel.findOne({ _id: {$ne: id},  name, phone })
     if(checkSupplier) {
-      formErrors.push("Fournisseur Existe deja")
+      formErrors.push("Le Fournisseur Existe deja")
     }
     if(name.length === 0) {
       name = supplierData.name

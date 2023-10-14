@@ -47,7 +47,7 @@ const deleteInvoiceAssurance = async (request, response) => {
     const formErrors = []
     if(findIndex > -1) {
       if(assurance.invoices[findIndex].payed) {
-        formErrors.push("Impossible de supprimer la facture !!");
+        formErrors.push("Impossible de supprimer la facture");
       }
     }
 

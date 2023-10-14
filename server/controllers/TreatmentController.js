@@ -38,7 +38,7 @@ const createTreatment = async (req, res) => {
           formErrors.push("Traitement deja assuré")          
         }
       } else {
-        formErrors.push("Traitement deja existe")
+        formErrors.push("Le traitement deja existe")
       }
     }
     
@@ -78,7 +78,7 @@ const updateTreatment = async (req, res) => {
           formErrors.push("Traitement deja assuré")          
         }
       } else {
-        formErrors.push("Traitement deja existe")
+        formErrors.push("Le traitement deja existe")
       }
     }
 

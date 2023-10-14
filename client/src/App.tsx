@@ -15,7 +15,8 @@ const App:React.FC = () => {
   useEffect(() => {
     switch(companyName) {
       case "ibtissama": 
-        document.documentElement.style.setProperty("--mainColor", `rgba(155, 89, 182, .8)`)
+        document.documentElement.style.setProperty("--mainColor", `rgba(34, 166, 179,1.0)`)
+        // document.documentElement.style.setProperty("--mainColor", `rgba(155, 89, 182, .8)`)
       break;
       case "cdghazaly": 
         document.documentElement.style.setProperty("--mainColor", "#00b894")

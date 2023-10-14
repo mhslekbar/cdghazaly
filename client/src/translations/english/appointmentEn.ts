@@ -19,4 +19,19 @@ export const appointmentEn = {
   "Pause": "Break",
   "Filter": "Filter",
 
+  // Server side 
+
+  "Le rendez-vous existe deja": "The appointment already exists",
+  "Le patient est obligatoire": "The patient is obligatory",
+  "Date de rendez-vous est obligatoire": "Appointment date is mandatory",
+  "Heure de rendez-vous est obligatoire": "Appointment time is required",
+  "Vous etes obligé de choisir un jour.": "You have to choose a day.",
+  "deja existe": "already exists",
+  "le nom est obligatoire": "Name is required",
+  "Choisir un temps partiel": "Choose part-time",
+  "Donner la date du debut du : matin": "Give the start date of: morning",
+  "Donner la date du debut du : soir": "Give the start date of: evening",
+  "Donner la date du descente du : matin": "Give the date of descent: morning",
+  "Donner la date du descente du : soir": "Give the date of the descent: evening",
+
 }

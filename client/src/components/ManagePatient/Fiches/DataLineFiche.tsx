@@ -67,31 +67,31 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
         />
       )}
 
-    <tr className="border-b border-[#95a5a6]">
+    <tr className="border border-black">
       <td className='hidden'>
         <InputFiche type="hidden" Line={Line} kind="lineFicheId" />
       </td>
-      <td className="whitespace-nowrap border-r border-[#95a5a6] bg-white font-medium w-6 relative">
+      <td className="whitespace-nowrap border-r border-black bg-white font-medium w-6 relative print:static">
         {firstEmptyDateIndex > myIndex &&  (
-          <InputFiche type="date" Line={Line} kind="date" />
+          <InputFiche disabled={Line.appointment ? true : false} type="date" Line={Line} kind="date" />
         )
         }
         {firstEmptyDateIndex === myIndex && !Line.appointment &&  (<>
           {dateModal ? 
             <>
               <BiChevronDown onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 text-white' style={{ fontSize: "22px" }} />
-              <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full' onClick={() => setShowAppointmentModal(true)}>{t("RDV")}</button>
+              <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full print:hidden ' onClick={() => setShowAppointmentModal(true)}>{t("RDV")}</button>
             </>
             : 
             <>
               <BiChevronUp onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 bg-blue' style={{ borderRadius: "50%", fontSize: "22px" }} />
-              <InputFiche type="date" Line={Line} kind="date" />
+              <InputFiche disabled={Line.appointment ? true : false} type="date" Line={Line} kind="date" />
             </>
           }
         </>)
         }
       </td>
-      <td className="whitespace-nowrap border-r border-[#95a5a6] bg-white font-medium relative">
+      <td className="whitespace-nowrap border-r border-black bg-white font-medium relative print:static">
         <InputFiche
           className="disabled:bg-white pr-9"
           disabled={Line.finish === 1 && true}
@@ -100,7 +100,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
         />
         {((firstEmptyDateIndex === myIndex && Line.dateAppointment) || (firstEmptyDateIndex > myIndex && !Line.acte)) ? (
           <FaEye
-            className="hover:text-main"
+            className="hover:text-main print:hidden"
             style={{
               fontSize: "22px",
               position: "absolute",
@@ -116,7 +116,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
         Line?.lineInvoice?.treatment.name &&
         firstEmptyDateIndex > myIndex && <>
           <FaEdit
-            className="text-blue hover:text-main"
+            className="text-blue hover:text-main print:hidden"
             style={{
               fontSize: "22px",
               position: "absolute",
@@ -129,7 +129,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
             }}
           />
           <FaEye
-            className="text-main"
+            className="text-main print:hidden"
             style={{
               fontSize: "22px",
               position: "absolute",
@@ -144,7 +144,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
             }}
           />
           <MdRemoveCircle
-            className="text-red hover:text-main"
+            className="text-red hover:text-main print:hidden"
             style={{
               fontSize: "22px",
               position: "absolute",
@@ -158,10 +158,10 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
           />
         </>} 
       </td>
-      <td className={`whitespace-nowrap border-r border-[#95a5a6] bg-white w-9 font-medium`}>
+      <td className={`whitespace-nowrap border-r border-black bg-white w-9 font-medium`}>
         <InputFiche
           disabled={Line.finish === 1 && true}
-          className={`${Line.finish === 1 ? "bg-main text-white" : ""} text-center font-bold`}
+          className={`${Line.finish === 1 ? "bg-main text-white print:bg-white print:text-black" : ""} text-center font-bold`}
           Line={Line}
           kind="amount"
         />

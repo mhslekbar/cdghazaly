@@ -81,7 +81,7 @@ const DataFiches: React.FC = () => {
             <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
               <div className="overflow-hidden">
                 <table className="min-w-full text-left text-sm font-light">
-                  <thead className="border-b border-[#95a5a6] font-medium bg-white text-center">
+                  <thead className="border border-[#95a5a6] font-medium bg-white text-center">
                     <tr>
                       <th className="px-6 py-4 border-r border-[#95a5a6]">
                         {t("Date")}

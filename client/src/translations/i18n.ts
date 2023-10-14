@@ -33,16 +33,19 @@ import { treatmentAr } from "./arabic/treatmentAr";
 import { loginAr } from "./arabic/loginAr";
 import { loginEn } from "./english/loginEn";
 import { loginFr } from "./french/loginFr";
+import { userAr } from "./arabic/userAr";
+import { userEn } from "./english/userEn";
+import { userFr } from "./french/userFr";
 
 const resources = {
   ar: {
-    translation: Object.assign(loginAr, appointmentAr, assuranceAr, consumableAr, homePageAr, laboratoryAr, patientsAr, paymentModeAr, roleAr, statisticsAr, treatmentAr)
+    translation: Object.assign(userAr, loginAr, appointmentAr, assuranceAr, consumableAr, homePageAr, laboratoryAr, patientsAr, paymentModeAr, roleAr, statisticsAr, treatmentAr)
   },
   en: {
-    translation: Object.assign(loginEn, appointmentEn, assuranceEn, consumableEn, homePageEn, laboratoryEn, patientsEn, paymentModeEn, roleEn, statisticsEn, treatmentEn)
+    translation: Object.assign(userEn, loginEn, appointmentEn, assuranceEn, consumableEn, homePageEn, laboratoryEn, patientsEn, paymentModeEn, roleEn, statisticsEn, treatmentEn)
   },
   fr: {
-    translation: Object.assign(loginFr, appointmentFr, assuranceFr, consumableFr, homePageFr, laboratoryFr, patientsFr, paymentModeFr, roleFr, statisticsFr, treatmentFr)
+    translation: Object.assign(userFr, loginFr, appointmentFr, assuranceFr, consumableFr, homePageFr, laboratoryFr, patientsFr, paymentModeFr, roleFr, statisticsFr, treatmentFr)
   }
 };
 

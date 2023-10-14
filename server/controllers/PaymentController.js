@@ -59,7 +59,7 @@ const createPayment = async (request, response) => {
     
     const formErrors = []
     if(amount.length === 0) {
-      formErrors.push("donner le montant")
+      formErrors.push("Donner le montant")
     }
 
     let invoiceAssur = null

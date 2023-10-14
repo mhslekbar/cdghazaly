@@ -21,10 +21,10 @@ const createTreatmentLab = async (request, response) => {
     const formErrors = []
 
     if(laboratory.treatments.find(treat => treat.treatment.equals(treatment))) {
-      formErrors.push("le treatment deja exite")
+      formErrors.push("le traitement deja existe")
     }
     if(treatment.length === 0) {
-      formErrors.push("Donner le traitment")
+      formErrors.push("Donner le traitement")
     }
     if(price.length === 0) {
       formErrors.push("Donner le prix")

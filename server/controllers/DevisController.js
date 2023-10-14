@@ -120,7 +120,7 @@ const deleteLineDevis = async (request, response) => {
     const checkInvoice = await InvoiceModel.findOne({ "LineFacture.devis": lineDevisId })
     const formErrors = []
     if(checkInvoice) {
-      formErrors.push("Le treatment a ete fait vous ne pouvez plus le supprimer.")
+      formErrors.push("Le traitement a ete fait vous ne pouvez plus le supprimer.")
     }
     if(formErrors.length === 0) {
       const devisInfo = await DevisModel.findOne({ _id: devisId })

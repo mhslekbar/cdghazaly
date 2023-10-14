@@ -36,16 +36,16 @@ const createUser = async (req, res) => {
       formErrors.push("Nom d'utilisateur Deja existe");
     }
     if(username.length === 0) {
-      formErrors.push("Nom d'utilisateur est obligatoire !");
+      formErrors.push("Nom d'utilisateur est obligatoire");
     }
     if(password.length === 0) {
-      formErrors.push("Mot de passe est obligatoire !");
+      formErrors.push("Mot de passe est obligatoire");
     }
     if(phone.length === 0) {
-      formErrors.push("Numero de telephone est obligatoire !");
+      formErrors.push("Numero de telephone est obligatoire");
     }
     if(roles.length === 0) {
-      formErrors.push("Donner au moins un role !");
+      formErrors.push("Donner au moins un role");
     }
     
     const encryptedPassword = CryptoJS.AES.encrypt(password, process.env.PASS_SEC).toString()

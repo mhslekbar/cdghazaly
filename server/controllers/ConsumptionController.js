@@ -26,7 +26,7 @@ const createConsumption = async (request, response) => {
     const { doctor, note, amount } = request.body
     const formErrors = []
     if(amount.length === 0 || amount === 0) {
-      formErrors.push("Le montant est obligatoire ")
+      formErrors.push("Le montant est obligatoire")
     }
 
     if(formErrors.length === 0) {
@@ -46,7 +46,7 @@ const updateConsumption = async (request, response) => {
     const { doctor, note, amount } = request.body
     const formErrors = []
     if(amount.length === 0 || amount === 0) {
-      formErrors.push("Le montant est obligatoire ")
+      formErrors.push("Le montant est obligatoire")
     }
     if(formErrors.length === 0) {
       let updateData = doctor ? { doctor, note, amount } : { $unset: { doctor: 1 }, note, amount }

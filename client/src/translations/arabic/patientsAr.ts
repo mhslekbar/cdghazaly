@@ -99,5 +99,26 @@ export const patientsAr = {
   
   /** END Bar navigation of manage patient **/
 
+
+  // Server Side 
+  "Donner une reduction valide": "إعط خصم صالح",
+  "Le traitement a ete fait vous ne pouvez plus le supprimer.": "تم بالفعل العمل بهذا العلاج، ولم يعد بإمكانك حذفها.",
+  "la dernière facture n'est pas encore clôturé": "الفاتورة الأخيرة لم تغلق بعد",
+  "La facture ne peut pas être supprimée car elle est déjà remplie": "لا يمكن حذف الفاتورة لأنها مملوءة بالفعل",
+
+  "Le doctor est obligatoire.": "اختيار الطبيب إلزامي",
+  "Le nom du patient est obligatoire.": "اسم المريض مطلوب.",
+  "Le telephone du patient est obligatoire.": "مطلوب رقم هاتف المريض.",
+  "Année de naissance du patient est obligatoire.": "مطلوب سنة ميلاد المريض.",
+  "Choisir societe d'assurance.": "اختر شركة التأمين.",
+  "Donner le matricule.": "إعطاء رقم التسجيل.",
+  "Donner la prise en charge.": "اعطي دعم الرعاية",
+  "Donner le pourcentage.": "أعط النسبة.",
+
+  "Donner le montant": "أعط المبلغ",
+  "Le patient est assuré par une societe que vous n'avez pas encore creer sa facture": "يتم التأمين على المريض من قبل شركة لم تقم بإنشاء فاتورتها بعد",
+  "Veuillez creer une facture pour cette societe d'assurance": "يرجى إنشاء فاتورة لشركة التأمين هذه",
+
+
 }
 

@@ -35,7 +35,7 @@ const createPurchaseOrder = async (request, response) => {
     }
     const formErrors = []
     if(supplier.length === 0) {
-      formErrors.push("Le fournisseurs est obligatoire")
+      formErrors.push("Le fournisseur est obligatoire")
     }
     if(formErrors.length === 0) {
       await PurchaseOrderModel.create({ doctor, supplier, num, LinePurchaseOrder })
@@ -55,7 +55,7 @@ const updatePurchaseOrder = async (request, response) => {
     const formErrors = []
     const pushaseOrderData = await PurchaseOrderModel.findOne({ _id: id })
     if(LinePurchaseOrder.length === 0) {
-      formErrors.push("Le donneés du bon de commande sont obligatoire.")
+      formErrors.push("Les donneés du bon de commande sont obligatoire.")
     }
     if(supplier.length === 0) {
       formErrors.push("Le fournisseurs est obligatoire")

@@ -15,7 +15,7 @@ const createPaymentMode = async (request, response) => {
     const formErrors = []
     const checkPaymentMode = await PaymentModeModel.findOne({name})
     if(checkPaymentMode) {
-      formErrors.push("la methode deja existe.")
+      formErrors.push("La methode deja existe.")
     }
     if(name.length === 0) {
       formErrors.push("le nom est obligatoire.")
