@@ -53,10 +53,12 @@ const AddPaymentMode: React.FC = () => {
       code, setCode,
       archive, setArchive
     }}>
+      <div className="flex justify-start gap-2">
         <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate(-1)}/>
-        <button className="p-2 rounded bg-main text-white" onClick={toggle}>
+        <button className="p-2 rounded btn-main" onClick={toggle}>
           <FaPlus />
         </button>
+      </div>
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

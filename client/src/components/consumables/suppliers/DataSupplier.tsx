@@ -56,7 +56,7 @@ const DataSuppliers: React.FC = () => {
                           {supplier.phone}
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                          {supplier.accounts.find((comp: accountSupplierInterface) => comp.doctor._id === doctorId)?.balance}
+                          {supplier.accounts?.find((comp: accountSupplierInterface) => comp?.doctor?._id === doctorId)?.balance}
                         </td>
                         <td className="bg-white print:hidden">
                           <div className="flex justify-center items-center">
