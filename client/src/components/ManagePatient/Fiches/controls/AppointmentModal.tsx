@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { ShowAppointmentApi } from '../../../../redux/appointments/appointmentApiCalls';
@@ -11,6 +11,7 @@ import AddNewAppointment from '../../../appointments/AddNewAppointment';
 import DeleteAppointment from '../../../appointments/DeleteAppointment';
 import AppointmentsTable from '../../../appointments/AppointmentsTable/TableAppointments';
 import { PatientLab } from '../../../laboratory/patients/types';
+import { ShowFichesContext } from '../types';
 
 interface AppointmentModalInterface {
   selectedPatientLab?: PatientLab,
@@ -25,6 +26,8 @@ const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, s
   const [selectedTd, setSelectedTd] = useState<any>()
   const [selectedAppointment, setSelectedAppointment] = useState<any>();
   const [filterByDate, setFilterByDate] = useState<Date>(new Date())
+
+  const { showDeleteAppointmentModal, setShowDeleteAppointmentModal, selectedLineFiche } = useContext(ShowFichesContext)
 
   const dispatch: any = useDispatch()
   const { doctorId } = useParams()
@@ -42,7 +45,7 @@ const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, s
     };
     fetchSetAppointment();
   }, [dispatch, doctorId]);
-
+    
   return (
     <ShowAppointmentContext.Provider
       value={{
@@ -56,6 +59,7 @@ const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, s
         filterByDate, setFilterByDate
       }}
     >
+      <DeleteAppointment AppointmentData={selectedLineFiche.appointment} modal={showDeleteAppointmentModal} toggle={() => setShowDeleteAppointmentModal(!showDeleteAppointmentModal)} />
       {modal && (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">

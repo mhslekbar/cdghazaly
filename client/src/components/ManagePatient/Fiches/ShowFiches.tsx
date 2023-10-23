@@ -40,6 +40,7 @@ const ShowFiches: React.FC = () => {
   const [showDeleteDevis, setShowDeleteDevis] = useState(false);
   
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
+  const [showDeleteAppointmentModal, setShowDeleteAppointmentModal] = useState(false);
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [selectedLineDevis, setSelectedLineDevis] = useState<LineDevisType>(DefaultLineDevisType)
   const [selectedLineFiche, setSelectedLineFiche] = useState<LineFicheInterface>(DefaultLineFicheInterface)
@@ -75,7 +76,6 @@ const ShowFiches: React.FC = () => {
       acte: Actes,
       amount: Amounts
     }
-    console.log("LineFicheData: ", LineFicheData)
     const response = await dispatch(EditFicheApi(patientId, selectedFiche._id, { LineFiche: LineFicheData }))
     if(response === true) {
       setShowSuccessMsg(true)
@@ -107,7 +107,8 @@ const ShowFiches: React.FC = () => {
           selectedLineDevis, setSelectedLineDevis,
           selectedLineFiche, setSelectedLineFiche,
           showDeleteLineFiche, setShowDeleteLineFiche,
-          showAppointmentModal, setShowAppointmentModal
+          showAppointmentModal, setShowAppointmentModal,
+          showDeleteAppointmentModal, setShowDeleteAppointmentModal
         }}
       >
         {showSuccessMsg && (
@@ -150,7 +151,8 @@ const ShowFiches: React.FC = () => {
             toggle={() => setShowDeleteFiche(!showDeleteFiche)}
           />
         )}
-        {showAppointmentModal && selectedLineFiche && 
+        {/* showAppointmentModal &&  */}
+        {selectedLineFiche && 
           <AppointmentModal modal={showAppointmentModal} toggle={() => setShowAppointmentModal(!showAppointmentModal)}/>
         }
       </ShowFichesContext.Provider>

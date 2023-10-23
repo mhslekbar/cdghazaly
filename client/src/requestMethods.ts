@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const port = "8892"
+const port = "8890"
+export const companyName: any = "cdghazaly"
 
 // const BASE_URL = `https://api.cabinetibtissama.com/api/`
 // const BASE_URL = `https://api.cdghazaly.com/api/`
@@ -10,8 +11,6 @@ const BASE_URL = `http://localhost:${port}/api/`
 export const publicRequest = axios.create({
   baseURL: BASE_URL
 })
-
-export const companyName: any = "ibtissama"
 
 export const UserData = () => {
   let persist = localStorage.getItem(`persist:${companyName}`)

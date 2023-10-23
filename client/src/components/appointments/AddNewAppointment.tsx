@@ -9,10 +9,11 @@ import { useSelector } from 'react-redux';
 import { State } from '../../redux/store';
 import { PatientInterface } from '../patients/types';
 import { AddAppointmentApi } from '../../redux/appointments/appointmentApiCalls';
-import { Timeout, formatDate, hideMsg } from '../../functions/functions';
+import { Timeout, formatDate } from '../../functions/functions';
 import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
 import { PatientLab } from '../laboratory/patients/types';
 import { ShowPatientLabApi } from '../../redux/laboratory/patients/patientLabApiCalls';
+import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
 
 interface AddNewAppointmentInterface {
   selectedPatientLab?: PatientLab,
@@ -110,17 +111,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        data-errorMsg={err}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <ShowErrorMsg errors={errors} setErrors={setErrors}/>
                     {!patientId && 
                       !selectedPatientLab?.consumptionLab?.patient?._id && 
                       <Select 

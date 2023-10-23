@@ -24,8 +24,10 @@ const Links: React.FC = () => {
     const filterDoctors = async () => {
       await dispatch(ShowUserApi());
     };
-    filterDoctors();
-  }, [dispatch]);
+    users.length === 0 && setTimeout(() => {
+      filterDoctors();
+    }, 1000)
+  }, [dispatch, users]);
 
   useEffect(() => {
     setListDoctors(
@@ -42,7 +44,8 @@ const Links: React.FC = () => {
     const fetchPermission = async () => {
       await dispatch(ShowPermissionApi(`?userId=${UserData()._id}`));
     };
-    !localStorage.getItem("timeOut") && setTimeout(() => {
+    // !localStorage.getItem("timeOut") && 
+    setTimeout(() => {
       fetchPermission();
       localStorage.setItem("timeOut", "true")
     }, 100)

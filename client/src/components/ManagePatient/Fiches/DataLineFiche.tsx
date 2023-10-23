@@ -10,6 +10,7 @@ import { UserInterface } from '../../users/types';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux/store';
 import { useTranslation } from 'react-i18next';
+import { CiCircleRemove } from 'react-icons/ci';
 
 
 interface DataLineFicheInterface {
@@ -20,7 +21,7 @@ interface DataLineFicheInterface {
 }
 
 const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex }) => {
-  const { setSelectedLineDevis, setSelectedLineFiche, selectedLineDevis, selectedFiche, showDeleteLineFiche, setShowDeleteLineFiche, setShowAppointmentModal } = useContext(ShowFichesContext);
+  const { setSelectedLineDevis, setSelectedLineFiche, selectedLineDevis, selectedFiche, showDeleteLineFiche, setShowDeleteLineFiche, setShowAppointmentModal, showDeleteAppointmentModal, setShowDeleteAppointmentModal } = useContext(ShowFichesContext);
   const [firstEmptyDateIndex, setFirstEmptyDateIndex] = useState(-1);
 
   
@@ -60,6 +61,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
   const { t } = useTranslation()
   return (
     <>
+    
       {showTeethBoard && selectedLineDevis && (
         <TeethBoard
           modal={showTeethBoard}
@@ -73,10 +75,16 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
       </td>
       <td className="whitespace-nowrap border-r border-black bg-white font-medium w-6 relative print:static">
         {firstEmptyDateIndex > myIndex &&  (
-          <InputFiche disabled={Line.appointment ? true : false} type="date" Line={Line} kind="date" />
+          <>
+            <InputFiche disabled={Line.appointment ? true : false} type="date" Line={Line} kind="date" />
+            {Line.appointment && <CiCircleRemove onClick={() => {
+              setShowDeleteAppointmentModal(!showDeleteAppointmentModal)
+              setSelectedLineFiche(Line)
+            }} className='absolute top-3 right-2 text-red hidden' style={{ fontSize: "22px" }} /> }
+          </>
         )
         }
-        {firstEmptyDateIndex === myIndex && !Line.appointment &&  (<>
+        {(firstEmptyDateIndex === myIndex || !Line.appointment) &&  (<>
           {dateModal ? 
             <>
               <BiChevronDown onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 text-white' style={{ fontSize: "22px" }} />

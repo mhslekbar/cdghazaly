@@ -10,7 +10,7 @@ interface props {
 const ShowErrorMsg: React.FC<props> = ({ errors, setErrors, customClass }) => {
   
   const hideMsg = (e: any, error: string[], setError: any) => {
-    const theMsg = e.target.getAttribute("data-errorMsg");
+    const theMsg = e.target.getAttribute("data-errormsg");
     setError(
       error.filter(
         (err) => err?.toUpperCase()?.trim() !== theMsg?.toUpperCase()?.trim()
@@ -25,7 +25,7 @@ const ShowErrorMsg: React.FC<props> = ({ errors, setErrors, customClass }) => {
           <p
             className={`${customClass ?? "bg-red"} p-3 my-2 rounded text-white msg`}
             key={index}
-            data-errorMsg={err}
+            data-errormsg={err}
             onClick={(e) => hideMsg(e, errors, setErrors)}
           >
             {t(err)}

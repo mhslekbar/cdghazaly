@@ -63,7 +63,6 @@ export interface ShowDevisInterface {
   setShowSuccessMsg: (showSuccessMsg: boolean) => void,
   isShowingAllDevis: boolean,
   setIsShowingAllDevis: (isShowingAllDevis: boolean) => void,
-
 }
 
 export const DefaultShowDevisInterface: ShowDevisInterface = {

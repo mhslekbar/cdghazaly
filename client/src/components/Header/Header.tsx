@@ -30,13 +30,11 @@ const Header: React.FC<HeaderInterface> = ({ toggleOffcanvas }) => {
   return (
     <header className="bg-main p-4 mx-auto flex justify-between items-center">
       {/* Left section */}
-      <div>
+      <div className="flex justify-between bg-[#FFF] text-main 
+            hover:bg-main hover:text-[#FFF]
+            border-2 border-[#FFF]">
         <button
-          className={`bg-[#FFF] text-main 
-              hover:bg-main hover:text-[#FFF]
-              border-2 border-[#FFF]
-              font-bold py-2 px-4 rounded
-            `}
+          className={`font-bold py-2 px-4 rounded`}
           onClick={() => navigate("/")}
           // onClick={toggleOffcanvas}
         >

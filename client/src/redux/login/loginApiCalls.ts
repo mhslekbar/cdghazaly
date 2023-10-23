@@ -7,6 +7,7 @@ export const loginApi = (data: object) => async (dispatch: Dispatch<any>) => {
     dispatch(statusLoginStart())
     const response = await publicRequest.post("auth/login", data)
     const resData = response.data.success
+
     if(resData) {
       dispatch(statusLoginSuccess(resData))
       return true

@@ -4,8 +4,8 @@ import { loginApi } from "../redux/login/loginApiCalls";
 import { useSelector } from "react-redux";
 import { State } from "../redux/store";
 import { useNavigate } from "react-router-dom";
-import { hideMsg } from "../functions/functions";
 import { useTranslation } from "react-i18next";
+import ShowErrorMsg from "../HtmlComponents/ShowErrorMsg";
 
 const Login:React.FC = () => {
   const { userData } = useSelector((state: State) => state.login)  
@@ -87,16 +87,7 @@ const Login:React.FC = () => {
           <button className="mb-2 font-bold btn-main w-full shadow rounded focus:outline-none px-3 py-2">
             {t("Connecter")}
           </button>
-          {errors?.length > 0 && errors?.map((err: string, index: number) => (
-            <div 
-              key={index}
-              className="bg-red-400 text-white p-2 rounded"
-              onClick={(e) => hideMsg(e, errors, setErrors)}
-              data-errorMsg={err}
-            >
-              {t(err)}
-            </div>
-          ))}
+          <ShowErrorMsg errors={errors} setErrors={setErrors} />
         </form>
       </div>
     </section>

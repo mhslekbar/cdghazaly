@@ -24,7 +24,7 @@ export interface LineFicheInterface {
   payment: PaymentInterface,
   consumptionLab: LabConsumptionInterface,
   lineInvoice: LineInvoiceInterface,
-  appointment: string,
+  appointment: any,
   createdAt: Date,
   updatedAt: Date
 }
@@ -65,6 +65,8 @@ export interface ShowFichesInterface {
   setShowDeleteLineFiche: (showDeleteLineFiche: boolean) => void,
   showAppointmentModal: boolean,
   setShowAppointmentModal: (showAppointmentModal: boolean) => void,
+  showDeleteAppointmentModal: boolean,
+  setShowDeleteAppointmentModal: (showDeleteAppointmentModal: boolean) => void,
 }
 
 export const DefaultShowFichesInterface: ShowFichesInterface = {
@@ -80,6 +82,8 @@ export const DefaultShowFichesInterface: ShowFichesInterface = {
   setShowDeleteLineFiche: () => {},
   showAppointmentModal: false,
   setShowAppointmentModal: () => {},
+  showDeleteAppointmentModal: false,
+  setShowDeleteAppointmentModal: () => {},
 }
 
 export const ShowFichesContext = createContext(DefaultShowFichesInterface)
