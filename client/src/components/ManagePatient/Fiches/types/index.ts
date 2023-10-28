@@ -87,3 +87,23 @@ export const DefaultShowFichesInterface: ShowFichesInterface = {
 }
 
 export const ShowFichesContext = createContext(DefaultShowFichesInterface)
+
+
+export const compareByDateAppointment = (a: LineFicheInterface, b: LineFicheInterface) => {
+  if (a.dateAppointment === null && b.dateAppointment === null) {
+    return 0; // Both dates are null, they are considered equal.
+  } else if (a.dateAppointment === null) {
+    return 1; // Sort null dateAppointment after non-null dates.
+  } else if (b.dateAppointment === null) {
+    return -1; // Sort non-null dates before null dateAppointment.
+  } else {
+    // Parse the date strings into Date objects for comparison.
+    const dateA = new Date(a.dateAppointment);
+    const dateB = new Date(b.dateAppointment);
+    
+    // Compare the Date objects.
+    if (dateA < dateB) return -1;
+    if (dateA > dateB) return 1;
+    return 0;
+  }
+}

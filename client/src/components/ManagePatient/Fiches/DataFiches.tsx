@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ShowFicheApi } from "../../../redux/fiches/ficheApiCalls";
 import { useDispatch } from "react-redux";
-import { LineFicheInterface, ShowFichesContext } from "./types";
+import { LineFicheInterface, ShowFichesContext, compareByDateAppointment } from "./types";
 import ShowAllDevis from "./controls/DevisMgt/ShowAllDevis";
 import DataLineFiche from "./DataLineFiche";
 import { DataDevisContext, DefaultLineDevisType, EnumTypeModal, LineDevisType, ShowDevisInterfaceContext } from "../Devis/types";
@@ -76,10 +76,11 @@ const DataFiches: React.FC = () => {
         <DeleteLineFiche LineFicheData={selectedLineFiche} modal={showDeleteLineFiche} toggle={() => setShowDeleteLineFiche(!showDeleteLineFiche)} />
       }
       {selectedFiche && 
-        <div className={`flex flex-col border border-[#95a5a6] shadow-lg ${selectedFiche ? "data-line-fiche" : ""}`}>
+      <div className="grid grid-cols-2">
+        <div className={`flex flex-col col-span-2 border border-[#95a5a6] shadow-lg ${selectedFiche ? "data-line-fiche" : ""}`}>
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
-              <div className="overflow-hidden">
+            <div className="inline-block min-w-full sm:px-6 lg:px-8">
+              <div className="overflow-hidden invoice">
                 <table className="min-w-full text-left text-sm font-light">
                   <thead className="border border-[#95a5a6] font-medium bg-white text-center">
                     <tr>
@@ -98,7 +99,7 @@ const DataFiches: React.FC = () => {
                   <tbody>
                     {selectedFiche?.LineFiche
                     ?.slice()
-                    ?.sort((a:LineFicheInterface, b: LineFicheInterface) => new Date(a.dateAppointment || "").getTime() - new Date(b.dateAppointment || "").getTime())
+                    ?.sort(compareByDateAppointment)
                     ?.map(
                       (Line: LineFicheInterface, index: number) => 
                       <React.Fragment key={index}>
@@ -110,6 +111,7 @@ const DataFiches: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       }
     </DataDevisContext.Provider>

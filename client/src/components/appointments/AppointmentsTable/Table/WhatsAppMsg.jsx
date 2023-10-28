@@ -10,8 +10,8 @@ const WhatsAppMsg = ({ phone, time, date }) => {
     // eslint-disable-next-line default-case
     switch(companyName) {
       case "ibtissama": 
-        setCabinetAr("عيادة الابتسامه لطب وتجميل الأسنان")
-        setCabinetFr("Cabinet dentaire El ibtissama")
+        setCabinetAr(`عيادة الابتسامه لجراحة الفم والاسنان`)
+        setCabinetFr("Cabinet dentaire El ibtissama pour la chirurgie buccale et dentaire")
       break;
       case "cdghazaly": 
         setCabinetAr("عيادة الغزالي لطب وتجميل الأسنان")

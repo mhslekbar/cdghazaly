@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { LineFicheInterface, ShowFichesContext } from './types';
+import { LineFicheInterface, ShowFichesContext, compareByDateAppointment } from './types';
 import { InputFiche } from './controls/InputFiche';
 import { FaEdit, FaEye } from 'react-icons/fa';
 import { MdRemoveCircle } from 'react-icons/md';
@@ -26,7 +26,7 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
 
   
   useEffect(() => {
-    const emptyDateIndex = selectedFiche.LineFiche.findIndex((line) => !line.dateAppointment);
+    const emptyDateIndex = selectedFiche.LineFiche?.slice()?.sort(compareByDateAppointment)?.findIndex((line) => !line.dateAppointment);
     setFirstEmptyDateIndex(emptyDateIndex);
   }, [selectedFiche]);
 
@@ -76,7 +76,8 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
       <td className="whitespace-nowrap border-r border-black bg-white font-medium w-6 relative print:static">
         {firstEmptyDateIndex > myIndex &&  (
           <>
-            <InputFiche disabled={Line.appointment ? true : false} type="date" Line={Line} kind="date" />
+            {/* disabled={Line.appointment ? true : false} */}
+            <InputFiche type="date" Line={Line} kind="date" />
             {Line.appointment && <CiCircleRemove onClick={() => {
               setShowDeleteAppointmentModal(!showDeleteAppointmentModal)
               setSelectedLineFiche(Line)
@@ -84,7 +85,8 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
           </>
         )
         }
-        {(firstEmptyDateIndex === myIndex || !Line.appointment) &&  (<>
+        {/* && !Line.appointment */}
+        {(firstEmptyDateIndex === myIndex ) && (<>
           {dateModal ? 
             <>
               <BiChevronDown onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 text-white' style={{ fontSize: "22px" }} />
@@ -92,8 +94,9 @@ const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex
             </>
             : 
             <>
-              <BiChevronUp onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 bg-blue' style={{ borderRadius: "50%", fontSize: "22px" }} />
-              <InputFiche disabled={Line.appointment ? true : false} type="date" Line={Line} kind="date" />
+              <BiChevronUp onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 bg-blue z-10' style={{ borderRadius: "50%", fontSize: "22px" }} />
+              {/* disabled={Line.appointment ? true : false} */}
+              <InputFiche type="date" Line={Line} kind="date" />
             </>
           }
         </>)

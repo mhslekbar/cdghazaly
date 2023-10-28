@@ -93,39 +93,6 @@ const createPayment = async (request, response) => {
 
       let prevMatricule = latestPatient?.RegNo ?? 0
       
-      if(!patientInfo.RegNo) { // start Check RegNo
-        // Start Create RegNo
-        let newMatricule  = prevMatricule + 1
-        patientInfo.RegNo = newMatricule
-        await patientInfo.save()
-        // END Create RegNo
-
-        // START Create Invoice
-        const latestInvoice = await InvoiceModel.findOne({ patient }).sort({ createdAt: -1 })
-        let numInvoice = latestInvoice?.numInvoice ?? 0
-        if(latestInvoice?.numInvoice) {
-          latestInvoice.finish = true
-          await latestInvoice.save()
-        }
-        numInvoice++
-        await InvoiceModel.create({ patient, numInvoice, LineInvoice: [] })
-        // END Create Invoice
-
-        // Start Create Fiche
-        let LineFiche = []
-        for(let i=1; i<=15; i++) {
-          LineFiche.push({ })
-          if(i === 1) {
-            LineFiche[0].dateAppointment = createdAt
-          }
-        }
-        const latestFiche = await FicheModel.findOne({ patient }).sort({ createdAt: -1 })
-        let numFiche = latestFiche?.numInvoice ?? 0
-        numFiche++
-        await FicheModel.create({ doctor, patient, numFiche, LineFiche })
-        // END Create Fiche
-      } // finish check RegNo
-
       if(method?._id?.length === 0) {
         method = null
       }
@@ -133,7 +100,42 @@ const createPayment = async (request, response) => {
       await PaymentModel.create({ user, doctor, type, patient, amount, method, supported, createdAt, invoiceAssur })      
       
       if(type === "payment") {
-        const patientInfo = await PatientModel.findOne({ _id: patient })
+        
+        if(!patientInfo.RegNo) { // start Check RegNo
+          // Start Create RegNo
+          let newMatricule  = prevMatricule + 1
+          patientInfo.RegNo = newMatricule
+          await patientInfo.save()
+          // END Create RegNo
+
+          // START Create Invoice
+          const latestInvoice = await InvoiceModel.findOne({ patient }).sort({ createdAt: -1 })
+          let numInvoice = latestInvoice?.numInvoice ?? 0
+          if(latestInvoice?.numInvoice) {
+            latestInvoice.finish = true
+            await latestInvoice.save()
+          }
+          numInvoice++
+          await InvoiceModel.create({ patient, numInvoice, LineInvoice: [] })
+          // END Create Invoice
+
+          // Start Create Fiche
+          let LineFiche = []
+          for(let i=1; i<=15; i++) {
+            LineFiche.push({ })
+            if(i === 1) {
+              LineFiche[0].dateAppointment = createdAt
+            }
+          }
+          const latestFiche = await FicheModel.findOne({ patient }).sort({ createdAt: -1 })
+          let numFiche = latestFiche?.numInvoice ?? 0
+          numFiche++
+          await FicheModel.create({ doctor, patient, numFiche, LineFiche })
+          // END Create Fiche
+        } // finish check RegNo
+
+        
+        // const patientInfo = await PatientModel.findOne({ _id: patient })
         const prevBalance = patientInfo.balance
         const newBalance = Number(prevBalance) + Number(amount)
         patientInfo.balance = newBalance
