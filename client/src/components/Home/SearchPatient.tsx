@@ -35,7 +35,7 @@ const SearchPatient:React.FC = () => {
     if(patient.length > 0) {
       switch(typePatient._id) {
         case "name": 
-          setListPatient(patients.filter((pat: PatientInterface) => pat.name.toUpperCase().startsWith(patient.toUpperCase())))
+          setListPatient(patients.filter((pat: PatientInterface) => pat.name.toUpperCase().includes(patient.toUpperCase())))
         break;
         case "RegNo": 
           setListPatient(patients.filter((pat: PatientInterface) => pat?.RegNo?.toString()?.startsWith(patient)))
@@ -44,7 +44,7 @@ const SearchPatient:React.FC = () => {
           setListPatient(patients.filter((pat: PatientInterface) => pat.contact.phone.startsWith(patient) || pat.contact.whatsApp.startsWith(patient)))
         break;
         default:
-          setListPatient(patients.filter((pat: PatientInterface) => pat.name.toUpperCase().startsWith(patient.toUpperCase())))
+          setListPatient(patients.filter((pat: PatientInterface) => pat.name.toUpperCase().includes(patient.toUpperCase())))
       }
     } else {
       setListPatient([])

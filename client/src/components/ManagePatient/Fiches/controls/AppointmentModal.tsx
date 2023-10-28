@@ -12,6 +12,7 @@ import DeleteAppointment from '../../../appointments/DeleteAppointment';
 import AppointmentsTable from '../../../appointments/AppointmentsTable/TableAppointments';
 import { PatientLab } from '../../../laboratory/patients/types';
 import { ShowFichesContext } from '../types';
+import { ShowDayOfWorkApi } from '../../../../redux/dayOfWork/dayOfWorkApiCalls';
 
 interface AppointmentModalInterface {
   selectedPatientLab?: PatientLab,
@@ -46,6 +47,14 @@ const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, s
     fetchSetAppointment();
   }, [dispatch, doctorId]);
     
+  useEffect(() => {
+    const fetchDays = async () => {
+      await dispatch(ShowDayOfWorkApi(doctorId))
+    }
+    fetchDays()
+  }, [dispatch, doctorId])
+
+
   return (
     <ShowAppointmentContext.Provider
       value={{

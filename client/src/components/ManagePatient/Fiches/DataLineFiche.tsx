@@ -12,7 +12,6 @@ import { State } from '../../../redux/store';
 import { useTranslation } from 'react-i18next';
 import { CiCircleRemove } from 'react-icons/ci';
 
-
 interface DataLineFicheInterface {
   Line: LineFicheInterface;
   modal: boolean;
