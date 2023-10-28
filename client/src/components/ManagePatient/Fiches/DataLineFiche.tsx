@@ -12,14 +12,14 @@ import { State } from '../../../redux/store';
 import { useTranslation } from 'react-i18next';
 import { CiCircleRemove } from 'react-icons/ci';
 
-interface DataLineFicheInterface {
+interface props {
   Line: LineFicheInterface;
   modal: boolean;
   toggle: () => void;
   myIndex: number
 }
 
-const DataLineFiche: React.FC<DataLineFicheInterface> = ({ Line, toggle, myIndex }) => {
+const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
   const { setSelectedLineDevis, setSelectedLineFiche, selectedLineDevis, selectedFiche, showDeleteLineFiche, setShowDeleteLineFiche, setShowAppointmentModal, showDeleteAppointmentModal, setShowDeleteAppointmentModal } = useContext(ShowFichesContext);
   const [firstEmptyDateIndex, setFirstEmptyDateIndex] = useState(-1);
 
