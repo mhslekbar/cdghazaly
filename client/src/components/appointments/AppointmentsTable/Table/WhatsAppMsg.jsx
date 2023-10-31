@@ -9,7 +9,7 @@ const WhatsAppMsg = ({ phone, time, date }) => {
   useEffect(() => {
     // eslint-disable-next-line default-case
     switch(companyName) {
-      case "ibtissama": 
+      case "cabinetibtissama": 
         setCabinetAr(`عيادة الابتسامه لجراحة الفم والاسنان`)
         setCabinetFr("Cabinet dentaire El ibtissama pour la chirurgie buccale et dentaire")
       break;
@@ -24,14 +24,23 @@ const WhatsAppMsg = ({ phone, time, date }) => {
   موعدكم غدا في حدود  الساعة ${time}
   ${date}
   --------------
-  ${cabinetAr}`
+  ${cabinetAr}
+  اوقات الدوام في العيادة
+   09:00-13:00
+   16:00-21:00 
+  كل يوم عدا الجمعه صباحا والاحد
+  `
 
   let frMsg = `
-    Bonjour ..
+    Salam ..
     Votre rendez-vous est demain à ${time}
     ${date}
     --------------
     ${cabinetFr}
+    Horaires d'ouverture de la clinique : 
+     09h00-13h00 
+     16h00-21h00 
+    tous les jours sauf vendredi matin et dimanche
   `
   const message = arMsg + frMsg;
 

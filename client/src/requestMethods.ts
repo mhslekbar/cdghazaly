@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const port = "8890"
-export const companyName: any = "cdghazaly"
+export const companyName: any = "cdgh"
 
 // const BASE_URL = `https://api.cabinetibtissama.com/api/`
 // const BASE_URL = `https://api.cdghazaly.com/api/`
