@@ -26,8 +26,8 @@ const HeaderAppointment:React.FC<HeaderAppointmentInterface> = ({ selectedPatien
         : <span></span> // because my div is set to flex and i want keep space between each button
       }
       <div className='flex items-center justify-center gap-2'>
-        {/* <span>{t("Filter")}</span> */}
-        <InputElement type="date" value={formattedDate(filterByDate.toString())} setValue={() => ""}/> {/* setValue={setFilterByDate} */}
+        <span>{t("Filter")}</span>
+        <InputElement type="date" value={formattedDate(filterByDate.toString())} setValue={setFilterByDate}/>
       </div>
       {!patientId && !selectedPatientLab?.consumptionLab?.patient?._id ?
         <button className='shadow rounded bg-blue focus:outline-none px-2 py-2' onClick={() => navigate(`config`)}>
