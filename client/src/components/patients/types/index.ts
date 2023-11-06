@@ -152,6 +152,8 @@ export interface ShowPatientsInterface {
   setFilterPatient: (filterPatient: filterPatientType) => void,
   showAddPatient: boolean,
   setShowAddPatient: (showAddPatient: boolean) => void,
+  showWhatsAppPatient: boolean,
+  setShowWhatsAppPatient: (showWhatsAppPatient: boolean) => void,
 }
 
 export const DefaultShowPatientsInterface: ShowPatientsInterface = {
@@ -175,6 +177,8 @@ export const DefaultShowPatientsInterface: ShowPatientsInterface = {
   setFilterPatient: () => {}, 
   showAddPatient: false,
   setShowAddPatient: () => {},
+  showWhatsAppPatient: false,
+  setShowWhatsAppPatient: () => {},
 }
 
 export const ShowPatientsContext = createContext(DefaultShowPatientsInterface)

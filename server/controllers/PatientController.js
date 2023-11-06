@@ -30,11 +30,13 @@ const createPatient = async (request, response) => {
 
     const checkPatient = await PatientModel.findOne({ name });
 
+    const formErrors = [];
+
     if (checkPatient?.contact?.phone === contact.phone) {
-      return response.status(200).json({ existPatient: true });
+      formErrors.push("Le patient exist");
+      // return response.status(200).json({ existPatient: true });
     }
 
-    const formErrors = [];
     if (doctor.length === 0) {
       formErrors.push("Le doctor est obligatoire.");
     }

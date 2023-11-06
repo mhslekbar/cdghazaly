@@ -3,15 +3,25 @@ import { FaWhatsapp } from 'react-icons/fa';
 import { companyName } from '../../../../requestMethods';
 
 const WhatsAppMsg = ({ phone, time, date }) => {
-  const [cabinetAr, setCabinetAr] = useState()
-  const [cabinetFr, setCabinetFr] = useState()
-  
+  const [cabinetAr, setCabinetAr] = useState("")
+  const [cabinetFr, setCabinetFr] = useState("")
+  const [dateRdvTextAr, setDateRdvTextAr] = useState("")
+  const [dateRdvTextFr, setDateRdvTextFr] = useState("")
+
   useEffect(() => {
     // eslint-disable-next-line default-case
     switch(companyName) {
       case "cabinetibtissama": 
         setCabinetAr(`عيادة الابتسامه لجراحة الفم والاسنان`)
         setCabinetFr("Cabinet dentaire El ibtissama pour la chirurgie buccale et dentaire")
+        setDateRdvTextAr(`اوقات الدوام في العيادة
+          09:00-13:00
+          16:00-21:00 
+        كل يوم عدا الجمعه صباحا والاحد`)
+        setDateRdvTextFr(`Horaires d'ouverture de la clinique : 
+          09h00-13h00 
+          16h00-21h00 
+        tous les jours sauf vendredi matin et dimanche`)
       break;
       case "cdghazaly": 
         setCabinetAr("عيادة الغزالي لطب وتجميل الأسنان")
@@ -25,10 +35,7 @@ const WhatsAppMsg = ({ phone, time, date }) => {
   ${date}
   --------------
   ${cabinetAr}
-  اوقات الدوام في العيادة
-   09:00-13:00
-   16:00-21:00 
-  كل يوم عدا الجمعه صباحا والاحد
+  ${dateRdvTextAr}
   `
 
   let frMsg = `
@@ -37,10 +44,7 @@ const WhatsAppMsg = ({ phone, time, date }) => {
     ${date}
     --------------
     ${cabinetFr}
-    Horaires d'ouverture de la clinique : 
-     09h00-13h00 
-     16h00-21h00 
-    tous les jours sauf vendredi matin et dimanche
+    ${dateRdvTextFr}
   `
   const message = arMsg + frMsg;
 

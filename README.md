@@ -318,7 +318,7 @@ server {
 
 server {
   listen 8890;
-
+  server_name api.cdghazaly.com;
   location /api {
     proxy_pass http://154.56.57.194:8890;
     proxy_http_version 1.1;

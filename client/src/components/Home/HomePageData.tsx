@@ -16,6 +16,7 @@ const HomePageData: React.FC = () => {
   const [showPassPatient, setShowPassPatient] = useState(false);
   const [showFinishPatient, setShowFinishPatient] = useState(false);
   const [showReturnPatient, setShowReturnPatient] = useState(false);
+  const [showWhatsAppPatient, setShowWhatsAppPatient] = useState(false);
   const [showAddPatient, setShowAddPatient] = useState(false);
   
   const [filterPatient, setFilterPatient] = useState<filterPatientType>(DefaultFilterPatientType);
@@ -23,24 +24,17 @@ const HomePageData: React.FC = () => {
   return (
     <ShowPatientsContext.Provider
       value={{
-        selectedFilter,
-        setSelectedFilter,
+        selectedFilter, setSelectedFilter,
         showSuccessMsg, setShowSuccessMsg,
-        showEditPatient,
-        setShowEditPatient,
-        showDeletePatient,
-        setShowDeletePatient,
-        selectedPatient,
-        setSelectedPatient,
-        showPassPatient,
-        setShowPassPatient,
-        showFinishPatient,
-        setShowFinishPatient,
-        showReturnPatient, 
-        setShowReturnPatient,
-        filterPatient,
-        setFilterPatient,
-        showAddPatient, setShowAddPatient
+        showEditPatient, setShowEditPatient,
+        showDeletePatient, setShowDeletePatient,
+        selectedPatient, setSelectedPatient,
+        showPassPatient, setShowPassPatient,
+        showFinishPatient, setShowFinishPatient,
+        showReturnPatient, setShowReturnPatient,
+        showWhatsAppPatient, setShowWhatsAppPatient,
+        filterPatient, setFilterPatient,
+        showAddPatient, setShowAddPatient,
       }}
     >
 

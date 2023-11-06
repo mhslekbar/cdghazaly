@@ -12,6 +12,7 @@ import HeaderInfoPatient from './HeaderInfoPatient'
 import LinksPatient from './LinksPatient'
 import { ManagePatientContext } from './types'
 import ClearManagePatient from "./ClearManagePatient";
+import SendWhatsAppPatient from "../patients/controls/SendWhatsAppPatient";
 
 
 const ManagePatient: React.FC = () => {
@@ -26,6 +27,7 @@ const ManagePatient: React.FC = () => {
   const [showPassPatient, setShowPassPatient] = useState(false);
   const [showFinishPatient, setShowFinishPatient] = useState(false);
   const [showReturnPatient, setShowReturnPatient] = useState(false);
+  const [showWhatsAppPatient, setShowWhatsAppPatient] = useState(false);
   const [showAddPatient, setShowAddPatient] = useState(false);
   
   const [filterPatient, setFilterPatient] = useState<filterPatientType>(DefaultFilterPatientType);
@@ -35,24 +37,17 @@ const ManagePatient: React.FC = () => {
   return (
     <ShowPatientsContext.Provider
       value={{
-        selectedFilter,
-        setSelectedFilter,
+        selectedFilter, setSelectedFilter,
         showSuccessMsg, setShowSuccessMsg,
-        showEditPatient,
-        setShowEditPatient,
-        showDeletePatient,
-        setShowDeletePatient,
-        selectedPatient,
-        setSelectedPatient,
-        showPassPatient,
-        setShowPassPatient,
-        showFinishPatient,
-        setShowFinishPatient,
-        showReturnPatient, 
-        setShowReturnPatient,
-        filterPatient,
-        setFilterPatient,
-        showAddPatient, setShowAddPatient
+        showEditPatient, setShowEditPatient,
+        showDeletePatient, setShowDeletePatient,
+        selectedPatient, setSelectedPatient,
+        showPassPatient, setShowPassPatient,
+        showFinishPatient, setShowFinishPatient,
+        showReturnPatient, setShowReturnPatient,
+        showWhatsAppPatient, setShowWhatsAppPatient,
+        filterPatient, setFilterPatient,
+        showAddPatient, setShowAddPatient,
       }}
     >
     <ManagePatientContext.Provider value={{
@@ -102,7 +97,13 @@ const ManagePatient: React.FC = () => {
           patientData={selectedPatient}
         />
       )}
-
+      {showWhatsAppPatient && selectedPatient && (
+        <SendWhatsAppPatient
+          modal={showWhatsAppPatient}
+          toggle={() => setShowWhatsAppPatient(!showWhatsAppPatient)}
+          patientData={selectedPatient}
+        />
+      )}
       </ManagePatientContext.Provider>
     </ShowPatientsContext.Provider>
   );

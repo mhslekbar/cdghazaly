@@ -7,6 +7,7 @@ import { LineFicheInterface, ShowFichesContext } from '../types';
 import { Timeout } from '../../../../functions/functions';
 import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
 import { ShowPaymentsApi } from '../../../../redux/payments/paymentApiCalls';
+import { useTranslation } from 'react-i18next';
 
 interface DeleteLineFicheInterface {
   modal: boolean,
@@ -30,12 +31,14 @@ const DeleteLineFiche:React.FC<DeleteLineFicheInterface> = ({ modal, toggle, Lin
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         await dispatch(ShowPatientsApi())
-        await dispatch(ShowPaymentsApi(patientId))
+        await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
       }
     } finally {
       setLoading(false)
     }
   }
+
+  const { t } = useTranslation()
 
   return (
     <div>
@@ -54,6 +57,7 @@ const DeleteLineFiche:React.FC<DeleteLineFicheInterface> = ({ modal, toggle, Lin
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={HandlSubmit}
                   >
+                    <h3 className='text-center text-xl text-black font-bold'>{t("Supprimer l'acte")}</h3>
                     <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}

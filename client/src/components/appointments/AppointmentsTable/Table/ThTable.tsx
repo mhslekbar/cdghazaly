@@ -16,7 +16,9 @@ const ThTable:React.FC<ThTableInterface> = ({ day }) => {
   useEffect(() => {
     setDesiredDate(filterByDate)
   }, [filterByDate])
+  
   const { t } = useTranslation()
+
   return (
     <th className={`px-6 py-4 border-r ${dateIsEqualToCurrentDate(day.order + 1, desiredDate) ? "bg-main text-white":"" }`} key={day.order}>
     {t(day.name)}

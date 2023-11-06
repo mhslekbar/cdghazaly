@@ -31,6 +31,7 @@ export const patientsFr = {
   "Passer": "Passer",
   "Retourner": "Retourner",
   "Terminer": "Terminer",
+  "Envoyer": "Envoyer",
   "Fermer": "Fermer",
   "Prise en charge": "Prise en charge",
 

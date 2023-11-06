@@ -76,11 +76,19 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
         {firstEmptyDateIndex > myIndex &&  (
           <>
             {/* disabled={Line.appointment ? true : false} */}
-            <InputFiche type="date" Line={Line} kind="date" />
-            {Line.appointment && <CiCircleRemove onClick={() => {
+            <InputFiche disabled={Line.appointment || Line.finish === 1 ? true : false} type="date" Line={Line} kind="date" />
+            {Line.finish === 1 && !Line.appointment &&  <MdRemoveCircle
+              className="absolute top-3 right-2 text-red hover:text-main print:hidden"
+              style={{ fontSize: "22px" }}
+              onClick={() => {
+                setShowDeleteLineFiche(!showDeleteLineFiche)
+                setSelectedLineFiche(Line);
+              }}
+            />}
+            {Line.appointment && Line.finish === 0 && <CiCircleRemove onClick={() => {
               setShowDeleteAppointmentModal(!showDeleteAppointmentModal)
               setSelectedLineFiche(Line)
-            }} className='absolute top-3 right-2 text-red hidden' style={{ fontSize: "22px" }} /> }
+            }} className='absolute top-3 right-2 text-red print:hidden' style={{ fontSize: "22px" }} /> }
           </>
         )
         }

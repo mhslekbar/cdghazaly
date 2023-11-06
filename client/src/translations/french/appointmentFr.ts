@@ -18,6 +18,8 @@ export const appointmentFr = {
   "Jour du travail": "Jours du travail",
   "Pause": "Pause",
   "Filter": "Filtrer",
+  "Supprimer le rendez-vous": "Supprimer le rendez-vous",
+  "Supprimer l'acte": "Supprimer l'acte",
 
   // Server side 
 

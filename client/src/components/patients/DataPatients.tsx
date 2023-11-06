@@ -6,7 +6,7 @@ import { State } from "../../redux/store";
 import { RegNo } from "../../functions/functions";
 import { BsFillPersonFill, BsFillTelephoneFill } from "react-icons/bs";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaEdit } from "react-icons/fa";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineWhatsApp } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -24,18 +24,13 @@ const DataPatients: React.FC = () => {
     (state: State) => state.patients
   );
   const {
-    selectedFilter,
-    setSelectedPatient,
-    showEditPatient,
-    setShowEditPatient,
-    showDeletePatient,
-    setShowDeletePatient,
-    showPassPatient,
-    setShowPassPatient,
-    showFinishPatient,
-    setShowFinishPatient,
-    showReturnPatient,
-    setShowReturnPatient,
+    selectedFilter, setSelectedPatient,
+    showEditPatient, setShowEditPatient,
+    showDeletePatient, setShowDeletePatient,
+    showPassPatient, setShowPassPatient,
+    showFinishPatient, setShowFinishPatient,
+    showReturnPatient, setShowReturnPatient,
+    setShowWhatsAppPatient, showWhatsAppPatient,
     filterPatient
   } = useContext(ShowPatientsContext);
   const dispatch: any = useDispatch();
@@ -70,6 +65,11 @@ const DataPatients: React.FC = () => {
   const handleShowReturnPatient = (patient: PatientInterface) => {
     setSelectedPatient(patient);
     setShowReturnPatient(!showReturnPatient);
+  };
+
+  const handleShowWhatsAppPatient = (patient: PatientInterface) => {
+    setSelectedPatient(patient);
+    setShowWhatsAppPatient(!showWhatsAppPatient);
   };
 
   const navigate = useNavigate()
@@ -147,7 +147,7 @@ const DataPatients: React.FC = () => {
                 />
               )}
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center gap-2">
                 <FaEdit
                   className="text-blue"
                   style={{
@@ -191,6 +191,16 @@ const DataPatients: React.FC = () => {
                     onClick={() => handleShowReturnPatient(patient)}
                   />
                 )}
+                {ptType === PatientTypePath.FINISH && (
+                  <AiOutlineWhatsApp
+                    className="text-main"
+                    style={{
+                      fontSize: "22px",
+                    }}
+                    onClick={() => handleShowWhatsAppPatient(patient)}
+                  />
+                )}
+                
               </div>
             </section>
           ))}

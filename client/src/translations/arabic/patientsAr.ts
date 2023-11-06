@@ -31,6 +31,7 @@ export const patientsAr = {
   "Passer": "تخطى",
   "Retourner": "اعادة",
   "Terminer": "انهاء",
+  "Envoyer": "ارسال",
   "Fermer": "اغلاق",
   "Prise en charge": "الرعاية الطبية",
 

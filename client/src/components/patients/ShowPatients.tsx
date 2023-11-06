@@ -18,6 +18,7 @@ import ReturnPatient from "./controls/ReturnPatient";
 import SearchPatients from "./SearchPatients";
 import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import SendWhatsAppPatient from "./controls/SendWhatsAppPatient";
 
 const ShowPatients: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -31,8 +32,9 @@ const ShowPatients: React.FC = () => {
   const [showPassPatient, setShowPassPatient] = useState(false);
   const [showFinishPatient, setShowFinishPatient] = useState(false);
   const [showReturnPatient, setShowReturnPatient] = useState(false);
-  const [showAddPatient, setShowAddPatient] = useState(false);
-  
+  const [showAddPatient, setShowAddPatient] = useState(false);  
+  const [showWhatsAppPatient, setShowWhatsAppPatient] = useState(false);
+
   const [filterPatient, setFilterPatient] = useState<filterPatientType>(DefaultFilterPatientType);
      
   const navigate = useNavigate()
@@ -40,24 +42,17 @@ const ShowPatients: React.FC = () => {
   return (
     <ShowPatientsContext.Provider
       value={{
-        selectedFilter,
-        setSelectedFilter,
+        selectedFilter, setSelectedFilter,
         showSuccessMsg, setShowSuccessMsg,
-        showEditPatient,
-        setShowEditPatient,
-        showDeletePatient,
-        setShowDeletePatient,
-        selectedPatient,
-        setSelectedPatient,
-        showPassPatient,
-        setShowPassPatient,
-        showFinishPatient,
-        setShowFinishPatient,
-        showReturnPatient, 
-        setShowReturnPatient,
-        filterPatient,
-        setFilterPatient,
-        showAddPatient, setShowAddPatient
+        showEditPatient, setShowEditPatient,
+        showDeletePatient, setShowDeletePatient,
+        selectedPatient, setSelectedPatient,
+        showPassPatient, setShowPassPatient,
+        showFinishPatient, setShowFinishPatient,
+        showReturnPatient, setShowReturnPatient,
+        showWhatsAppPatient, setShowWhatsAppPatient,
+        filterPatient, setFilterPatient,
+        showAddPatient, setShowAddPatient,
       }}
     >
       <div className="flex justify-start gap-2 mb-2">
@@ -113,6 +108,14 @@ const ShowPatients: React.FC = () => {
           patientData={selectedPatient}
         />
       )}
+      {showWhatsAppPatient && selectedPatient && (
+        <SendWhatsAppPatient
+          modal={showWhatsAppPatient}
+          toggle={() => setShowWhatsAppPatient(!showWhatsAppPatient)}
+          patientData={selectedPatient}
+        />
+      )}
+
     </ShowPatientsContext.Provider>
   );
 };

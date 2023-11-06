@@ -4,8 +4,11 @@ import { ShowAppointmentContext } from './types';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { DeleteAppointmentApi } from '../../redux/appointments/appointmentApiCalls';
-import { Timeout, hideMsg } from '../../functions/functions';
+import { Timeout } from '../../functions/functions';
 import { AppointmentInterface } from './AppointmentsTable/types';
+import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
+import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
+import { useTranslation } from 'react-i18next';
 
 interface DeleteAppointmentInterface {
   modal: boolean,
@@ -14,7 +17,7 @@ interface DeleteAppointmentInterface {
 }
 
 const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle, AppointmentData}) => {
-  const { doctorId } = useParams()
+  const { doctorId, patientId } = useParams()
   const { setShowSuccessMsg } = useContext(ShowAppointmentContext)
 
   const [errors, setErrors] = useState<string[]>([]);
@@ -31,6 +34,8 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
         toggle()
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
+        patientId && await dispatch(ShowFicheApi(patientId));
+
       } else {
         setErrors(response)
       }
@@ -38,6 +43,8 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
       setLoading(false)
     }
   }
+
+  const { t } = useTranslation()
 
   return (
     <div>
@@ -56,17 +63,8 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
                     className="mt-2 sm:ml-4 sm:text-left"
                     onSubmit={handleSubmit}
                   >
-                  {errors.length > 0 &&
-                    errors.map((err, index) => (
-                      <p
-                        className="p-3 my-2 rounded bg-red text-white msg"
-                        key={index}
-                        data-errorMsg={err}
-                        onClick={(e) => hideMsg(e, errors, setErrors)}
-                      >
-                        {err}
-                      </p>
-                    ))}
+                    <h3 className='text-center text-xl text-black font-bold'>{t("Supprimer le rendez-vous")}</h3>
+                    <ShowErrorMsg errors={errors} setErrors={setErrors}/>
                     <ButtonsForm loading={loading} typeBtn='Supprimer' toggle={toggle} />
                   </form>
                   {/* End Modal Body */}
