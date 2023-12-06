@@ -40,9 +40,10 @@ const TdCheckedAppoint:React.FC<TdCheckedAppointInterface> = ({ day, findDate, t
         className="text-red absolute top-2 right-2"
         style={{ fontSize: "22px" }}
       />
-      {(new Date().getDay().toString() === "0" ? 7 : new Date().getDay()) - (new Date(findDate.date).getDay().toString() === "0" ? 7 : new Date(findDate.date).getDay()) === -1 && 
+      {
+        // new Date().getDate() - new Date(findDate.date).getDate() === -1 &&
         <WhatsAppMsg date={formatDate(findDate.date.toString())} time={tdTime} phone={findDate.patient.contact?.whatsApp}/> 
-      } 
+      }
       <span
         className="block"
         onClick={() => {

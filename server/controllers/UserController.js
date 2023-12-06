@@ -71,7 +71,6 @@ const createUser = async (req, res) => {
       res.status(300).json({ formErrors})
     }
   } catch (err) {
-    console.log("err: ", err)
     res.status(500).json({ err: err.message })
   }
 } 

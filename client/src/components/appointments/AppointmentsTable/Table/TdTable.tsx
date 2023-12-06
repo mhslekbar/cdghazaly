@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { State } from "../../../../redux/store";
 import { useParams } from "react-router";
 import { AddPlayTime, MultiplyTime,  getDateOfSpecificDay } from "../../functions";
-import { AppointmentInterface, DefaultAppointmentInterface } from "../types";
+import { AppointmentInterface } from "../types";
 import { formatDate } from "../../../../functions/functions";
 import { DayInfo } from "../../ConfigAppointment/DayOfWork/types";
 import TdCheckedAppoint from "./TdCheckedAppoint";
@@ -29,15 +29,27 @@ const TdTable: React.FC<TdTableInterface> = ({ Start, time, index, day, partOfTi
     setDesiredDate(filterByDate)
   }, [filterByDate])
 
-  const tdTime = AddPlayTime(Start, MultiplyTime(time, index));
-  const findDate: AppointmentInterface = useMemo(() => {
-    return appointments.find((appoint: AppointmentInterface) => appoint.doctor._id === doctorId && formatDate(appoint.date.toString()) === formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) && appoint.partOfTime === partOfTime && appoint.numSeance === (index + 1)) || DefaultAppointmentInterface
-  }, [appointments, doctorId, day, desiredDate, partOfTime, index])
+  const tdTime = useMemo(() => AddPlayTime(Start, MultiplyTime(time, index)), [Start, time, index]);
 
-  return findDate._id ? 
-      <TdCheckedAppoint day={day} findDate={findDate} tdTime={tdTime} />
-    : 
-      <TdNewAppoint day={day} tdTime={tdTime} index={index} partOfTime={partOfTime} />
+  const cellContent = useMemo(() => {
+    const findDate = appointments.find(
+      (appoint: AppointmentInterface) =>
+        appoint.doctor._id === doctorId &&
+        formatDate(appoint.date.toString()) ===
+          formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) &&
+        appoint.partOfTime === partOfTime &&
+        appoint.numSeance === index + 1
+    );
+
+    if (findDate && findDate._id) {
+      return <TdCheckedAppoint day={day} findDate={findDate} tdTime={tdTime} />
+    } else {
+      return <TdNewAppoint day={day} tdTime={tdTime} index={index} partOfTime={partOfTime} />
+    }
+  }, [appointments, doctorId, day, desiredDate, partOfTime, index, tdTime]);
+
+  return <>{cellContent}</>;
+
 };
 
 export default TdTable;

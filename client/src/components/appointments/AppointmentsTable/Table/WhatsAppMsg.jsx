@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { companyName } from '../../../../requestMethods';
+import { calculateRelativeDay } from '../../../../functions/functions';
 
 const WhatsAppMsg = ({ phone, time, date }) => {
   const [cabinetAr, setCabinetAr] = useState("")
   const [cabinetFr, setCabinetFr] = useState("")
   const [dateRdvTextAr, setDateRdvTextAr] = useState("")
   const [dateRdvTextFr, setDateRdvTextFr] = useState("")
-
+  
   useEffect(() => {
     // eslint-disable-next-line default-case
     switch(companyName) {
@@ -30,25 +31,26 @@ const WhatsAppMsg = ({ phone, time, date }) => {
     }
   }, [])
   
-  let arMsg = `السلام عليكم ..
-  موعدكم غدا في حدود  الساعة ${time}
-  ${date}
-  --------------
-  ${cabinetAr}
-  ${dateRdvTextAr}
-  `
-
-  let frMsg = `
-    Salam ..
-    Votre rendez-vous est demain à ${time}
+  
+  const handleSendMessage = async () => {
+    let arMsg = `السلام عليكم ..
+    موعدكم ${calculateRelativeDay(date, "ar")} في حدود  الساعة ${time}
     ${date}
     --------------
-    ${cabinetFr}
-    ${dateRdvTextFr}
-  `
-  const message = arMsg + frMsg;
+    ${cabinetAr}
+    ${dateRdvTextAr}
+    `
+  
+    let frMsg = `
+      Salam ..
+      Votre rendez-vous est ${calculateRelativeDay(date, "fr")} à ${time}
+      ${date}
+      --------------
+      ${cabinetFr}
+      ${dateRdvTextFr}
+    `
+    const message = arMsg + frMsg;
 
-  const handleSendMessage = async () => {
     window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`);
   };
 

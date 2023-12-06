@@ -37,4 +37,13 @@ export const appointmentEn = {
   "Donner la date du descente du : matin": "Give the date of descent: morning",
   "Donner la date du descente du : soir": "Give the date of the descent: evening",
 
+  "Démain": "Tomorrow",
+  "Aprés Démain": "After Tomorrow",
+  "Hier": "Yesterday",
+  "Avant-hier": "Before yesterday",
+  "Aprés": "After",
+  "jours": "days",
+  "Avant": "Before",
+  
+
 }

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Links from './Links'
 import SuccessMsg from "../../Messages/SuccessMsg";
 
 import { DefaultFilterPatientType, DefaultPatientInterface, PatientInterface, ShowPatientsContext, filterPatientType } from "../patients/types";
+import { useDispatch } from "react-redux";
+import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
 
 const HomePageData: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -20,7 +22,15 @@ const HomePageData: React.FC = () => {
   const [showAddPatient, setShowAddPatient] = useState(false);
   
   const [filterPatient, setFilterPatient] = useState<filterPatientType>(DefaultFilterPatientType);
-     
+  const dispatch: any = useDispatch()
+
+  useEffect(() => {
+    const fetchPatient = async () => {
+      await dispatch(ShowPatientsApi());
+    };
+    fetchPatient();
+  }, [dispatch])
+
   return (
     <ShowPatientsContext.Provider
       value={{
@@ -37,7 +47,6 @@ const HomePageData: React.FC = () => {
         showAddPatient, setShowAddPatient,
       }}
     >
-
       {showSuccessMsg && (
         <SuccessMsg
           modal={showSuccessMsg}

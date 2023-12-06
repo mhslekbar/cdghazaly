@@ -37,4 +37,13 @@ export const appointmentAr = {
   "Donner la date du descente du : matin": "أعط تاريخ النزول: صباحا",
   "Donner la date du descente du : soir": "أعط تاريخ النزول: مساءاً",
 
+  "Démain": "غداً",
+  "Aprés Démain": "بعد غد",
+  "Hier": "أمس",
+  "Avant-hier": "قبل الأمس",
+  "Aprés": "بعد",
+  "Avant": "قبل",
+  "jours": "أيام",
+  
+
 }

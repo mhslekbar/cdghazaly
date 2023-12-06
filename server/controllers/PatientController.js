@@ -67,7 +67,7 @@ const createPatient = async (request, response) => {
       }
 
       if (
-        assurance.percentCovered.length === 0 ||
+        !assurance.percentCovered ||
         assurance.percentCovered === 0
       ) {
         formErrors.push("Donner le pourcentage.");
@@ -94,7 +94,7 @@ const createPatient = async (request, response) => {
       supported = null;
     }
 
-    if (method.length === 0) {
+    if (method?.length === 0) {
       method = null;
     }
 
@@ -107,6 +107,7 @@ const createPatient = async (request, response) => {
       response.status(300).json({ formErrors });
     }
   } catch (err) {
+    console.log("err: ", err)
     response.status(500).json({ err: err.message });
   }
 };
@@ -129,7 +130,7 @@ const updatePatient = async (request, response) => {
     if (name.length === 0) {
       name = patientInfo.name;
     }
-    if (contact.phone.length === 0) {
+    if (contact.phone?.length === 0) {
       contact = {
         phone: patientInfo.phone,
         whatsApp: patientInfo.whatsApp,
@@ -156,7 +157,7 @@ const updatePatient = async (request, response) => {
         formErrors.push("Donner la prise en charge.");
       }
       if (
-        assurance.percentCovered.length === 0 ||
+        !assurance.percentCovered ||
         assurance.percentCovered === 0
       ) {
         formErrors.push("Donner le pourcentage.");

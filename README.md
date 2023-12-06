@@ -370,9 +370,7 @@ systemctl status certbot.timer
 
 ```
 ##### START to do this for best one
-rm -rf /var/www/cdghazaly/*
-mkdir /var/www/cdghazaly/client
-cp -r build/* /var/www/cdghazaly/client
+rm -rf /var/www/cdghazaly/* && mkdir /var/www/cdghazaly/client && cp -r build/* /var/www/cdghazaly/client
 ##### END to do this for best one
 ```
 
@@ -397,5 +395,3 @@ cp -r build/* /var/www/cabinetibtissama/client
 
 ##### END to do this for best one
 ```
-
-<!-- http://154.56.57.194:8892/api/user -->

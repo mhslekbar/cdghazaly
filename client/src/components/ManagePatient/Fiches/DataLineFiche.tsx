@@ -67,7 +67,6 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
           toggle={() => setShowTeethBoard(!showTeethBoard)}
         />
       )}
-
     <tr className="border border-black">
       <td className='hidden'>
         <InputFiche type="hidden" Line={Line} kind="lineFicheId" />
@@ -77,14 +76,22 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
           <>
             {/* disabled={Line.appointment ? true : false} */}
             <InputFiche disabled={Line.appointment || Line.finish === 1 ? true : false} type="date" Line={Line} kind="date" />
-            {Line.finish === 1 && !Line.appointment &&  <MdRemoveCircle
+            {/* {Line.finish === 1 && !Line.appointment &&  <MdRemoveCircle
               className="absolute top-3 right-2 text-red hover:text-main print:hidden"
               style={{ fontSize: "22px" }}
               onClick={() => {
                 setShowDeleteLineFiche(!showDeleteLineFiche)
                 setSelectedLineFiche(Line);
               }}
-            />}
+            />} */}
+            {/* {Line.appointment && <MdRemoveCircle
+              className="absolute top-3 right-2 text-red hover:text-main print:hidden"
+              style={{ fontSize: "22px" }}
+              onClick={() => {
+                setShowDeleteLineFiche(!showDeleteLineFiche)
+                setSelectedLineFiche(Line);
+              }}
+            />} */}
             {Line.appointment && Line.finish === 0 && <CiCircleRemove onClick={() => {
               setShowDeleteAppointmentModal(!showDeleteAppointmentModal)
               setSelectedLineFiche(Line)

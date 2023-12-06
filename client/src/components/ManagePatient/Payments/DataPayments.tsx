@@ -95,8 +95,10 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
       {payments
       .filter(
         (payment: PaymentInterface) =>
-          payment.type === EnumTypePayment.PAYMENT
-          && typeData === "payment" ? !payment.supported : payment.supported 
+          payment.type === EnumTypePayment.PAYMENT 
+          && (typeData === "payment" ? !payment.supported : payment.supported) 
+          // && typeData === "payment" ? !payment.supported : payment.supported 
+          // && !payment.supported && (typeData === "payment" || "paymentAss")
       )
       .length > 0 && (
         <div className="grid grid-cols-12">
@@ -120,8 +122,9 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
                       {payments
                         .filter(
                           (payment: PaymentInterface) =>
-                            payment.type === EnumTypePayment.PAYMENT
-                            && typeData === "payment" ? !payment.supported : payment.supported 
+                            payment.type === EnumTypePayment.PAYMENT 
+                            && (typeData === "payment" ? !payment.supported : payment.supported) 
+                            // && payment.supported && (typeData === "payment" || "paymentAss")
                             // && !payment.supported
                         )
                         .map((payment: PaymentInterface, index) => (

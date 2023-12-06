@@ -124,6 +124,37 @@ export const getRemainingDays = (dateString: string) => {
   }
 }
 
+const parseDate = (dateString: string) => {
+  const parts = dateString.split('/');
+  // Assuming the format is DD/MM/YYYY
+  const formattedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+  return formattedDate;
+};
+
+export const calculateRelativeDay = (desiredDate: string, translate : any) => {
+  const selectedDate: any = parseDate(desiredDate);
+  const currentDate: any = new Date();
+
+  const differenceInDays = Math.floor(
+    (selectedDate - currentDate) / (24 * 60 * 60 * 1000)
+  );
+
+  if (differenceInDays === 1) { // After Tomorrow
+    return translate === "fr" ? "Aprés Démain" : "بعد غد"
+  } else if (differenceInDays === 0) { // Tomorrow
+    return translate === "fr" ? "Démain" : "غداً"
+  } else if (differenceInDays === -1) { // Today
+    return translate === "fr" ? "Aujourd'hui" : "اليوم"
+  } else if (differenceInDays === -2) { // Yesterday
+    return translate === "fr" ? "Hier" : "أمس"
+  } else if (differenceInDays === -3) { // Before yesterday
+    return translate === "fr" ? "Avant-hier" : "قبل الأمس"
+  } else {
+    console.log(differenceInDays > 0 ? (translate === "fr" ? "Aprés" : "بعد") : (translate === "fr" ? "Avant" : "قبل") + ` ${Math.abs(differenceInDays) } `  + (translate === "fr" ? "jours" : "أيام"))
+    return (differenceInDays > 0 ? (translate === "fr" ? "Aprés" : "بعد") : (translate === "fr" ? "Avant" : "قبل")) + ` ${Math.abs(differenceInDays) } ` + (translate === "fr" ? "jours" : "أيام")
+  }
+};
+
 export const COLORS = [
   "#f9ca24",
   "#ff4757",

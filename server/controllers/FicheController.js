@@ -288,8 +288,8 @@ const deleteLineFiche = async (request, response) => {
       payment: undefined,
       lineInvoice: undefined,
       consumptionLab: undefined,
-      appointment: undefined,
-      finish: false,
+      appointment: ficheInfo?.LineFiche[indexLineFiche]?.appointment,
+      finish: 0,
     })
 
     await ficheInfo.save();
