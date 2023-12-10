@@ -18,6 +18,8 @@ const DataConsumptions: React.FC = () => {
     setSelectedConsumption,
     showDeleteConsumption, setShowDeleteConsumption } = useContext(ShowMyConsumptionContext)
 
+    const { contentToPrint } = useContext(ShowConsumableContext)
+
   const handleShowEditConsumption = (consumption: MyConsumptionsInterface) => {
     setShowEditConsumption(!showEditConsumption)
     setSelectedConsumption(consumption)
@@ -37,13 +39,13 @@ const DataConsumptions: React.FC = () => {
       <div className="col-span-2 flex flex-col border mt-3">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
-            <div className={`overflow-hidden invoice`}>
-              <table className="min-w-full text-sm font-light text-center">
-                <thead className="border-b font-medium bg-main text-white">
+            <div className={`overflow-hidden invoice`} ref={contentToPrint}>
+              <table className="min-w-full text-sm font-light text-center border border-gray-950">
+                <thead className="border-b font-medium bg-main text-white border-gray-950">
                   <tr>
-                    <th className="px-6 py-4 border-r">{t("Note")}</th>
-                    <th className="px-6 py-4 border-r">{t("Montant")}</th>
-                    <th className="px-6 py-4 border-r print:hidden">{t("Actions")}</th>
+                    <th className="px-6 py-4 border-r border-gray-950">{t("Note")}</th>
+                    <th className="px-6 py-4 border-r border-gray-950">{t("Montant")}</th>
+                    <th className="px-6 py-4 border-r border-gray-950 print:hidden">{t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -54,14 +56,14 @@ const DataConsumptions: React.FC = () => {
                   .filter((consumption: MyConsumptionsInterface) => consumption.doctor._id === doctorId)
                   .map(
                     (consumption: MyConsumptionsInterface, index) => (
-                      <tr className="border-b" key={index}>
-                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                      <tr className="border-b border-gray-950" key={index}>
+                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
                           {consumption.note}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
                           {consumption.amount}
                         </td>
-                        <td className="bg-white print:hidden">
+                        <td className="bg-white border-gray-950 print:hidden">
                           <div className="flex justify-center items-center">
                             <FaEdit className="text-blue" style={{ fontSize: "22px" }} onClick={() => handleShowEditConsumption(consumption)} />
                             <MdRemoveCircle className="text-red" style={{ fontSize: "22px" }} onClick={() => handleShowDeleteConsumption(consumption)} />
@@ -71,8 +73,8 @@ const DataConsumptions: React.FC = () => {
                     )
                   )}
                   <tr>
-                    <td></td>
-                    <td className="whitespace-nowrap px-4 py-2 bg-white font-medium">
+                    <td className="whitespace-nowrap px-4 py-2 bg-white border-r border-gray-950 font-medium"></td>
+                    <td className="whitespace-nowrap px-4 py-2 bg-white border-r border-gray-950 font-medium">
                       {filterSpecificDate(
                         consumptions, day, month, showSwitchDate, startDate, endDate, selectedDate
                       )
@@ -80,6 +82,7 @@ const DataConsumptions: React.FC = () => {
                       .reduce((acc, currVal) => acc + (Number(currVal.amount) ?? 0), 0)
                       }
                     </td>
+                    <td className="print:hidden whitespace-nowrap px-4 py-2 bg-white border-gray-950 font-medium"></td>
                   </tr>
                 </tbody>
               </table>

@@ -22,7 +22,8 @@ const ShowStatistics:React.FC = () => {
   const [day, setDay] = useState(new Date().getDate())  
   const [month, setMonth] = useState(new Date().getMonth() + 1)  
   const [year, setYears] = useState(new Date().getFullYear())  
-
+  const [partOfDay, setPartOfDay] = useState<string>("")  
+  
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [userData, setUserData] = useState<UserInterface>(DefaultUserInterface)
   
@@ -64,7 +65,8 @@ const ShowStatistics:React.FC = () => {
       userData, setUserData,
       sumPurchaseOrders, setSumPurchaseOrders,
       sumConsumptions, setSumConsumptions,
-      percentCabinet, setPercentCabinet
+      percentCabinet, setPercentCabinet,
+      partOfDay, setPartOfDay,
     }}>
       <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
       <TypeStatistics />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TypeConsumable from './TypeConsumable'
 import { ShowConsumableContext } from './types'
 import SuccessMsg from '../../Messages/SuccessMsg'
@@ -23,6 +23,8 @@ const ShowConsumables:React.FC = () => {
     setSelectedDate(createDate)
   }, [day, month, year])
 
+  const contentToPrint = useRef(null)
+
   return (
     <ShowConsumableContext.Provider value={{ 
       showSuccessMsg, setShowSuccessMsg,
@@ -33,6 +35,7 @@ const ShowConsumables:React.FC = () => {
       year, setYear,
       showSwitchDate, setShowSwitchDate,
       selectedDate, setSelectedDate,
+      contentToPrint
      }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <TypeConsumable />

@@ -16,6 +16,7 @@ export interface ShowConsumableInterface {
   setEndDate: (endDate: Date) => void,
   selectedDate: Date,
   setSelectedDate: (selectedDate: Date) => void,
+  contentToPrint: any,
 }
 
 export const DefaultShowConsumableInterface:ShowConsumableInterface = {
@@ -35,6 +36,7 @@ export const DefaultShowConsumableInterface:ShowConsumableInterface = {
   setEndDate: () => {}, 
   selectedDate: new Date(),
   setSelectedDate: () => {},
+  contentToPrint: null
 }
 
 export const ShowConsumableContext = createContext(DefaultShowConsumableInterface)

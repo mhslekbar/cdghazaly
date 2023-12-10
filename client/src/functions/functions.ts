@@ -6,21 +6,73 @@ export const hideMsg = (e: any, error: string[], setError: any) => {
   setError(error.filter((err) => err?.toUpperCase()?.trim() !== theMsg?.toUpperCase()?.trim())); 
 };
 
+export const setHourTimeOfDay = (date: string, startDate: Date, endDate: Date, partOfDay: string) => {
+  const selectedDate = new Date(date);
+
+  if (partOfDay === "matin") {
+    startDate.setHours(0);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+
+    endDate.setHours(14);
+    endDate.setMinutes(59);
+    endDate.setSeconds(59);
+    
+  } else if (partOfDay === "soir") {
+    startDate.setHours(15);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+    
+    startDate.setHours(23);
+    startDate.setMinutes(59);
+    startDate.setSeconds(59);
+  } else {
+    startDate.setHours(0);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+
+    endDate.setHours(23);
+    endDate.setMinutes(59);
+    endDate.setSeconds(59);
+  }
+  console.log("startDate: ", startDate)
+  console.log("endDate: ", endDate)
+  // return startDate;
+  return selectedDate >= new Date(startDate) && selectedDate <= new Date(endDate);
+
+};
 
 export const filterSpecificDate = (MyArray: any[], day: number, month: number, showSwitchDate: boolean, startDate: Date, endDate: Date, selectedDate: Date): any [] => {
   return MyArray?.filter((consumption: any) => {
     const consumptionDate = new Date(consumption.createdAt);
     if(showSwitchDate) {
-      return consumptionDate >= startDate && consumptionDate <= endDate;
+      // return consumptionDate >= startDate && consumptionDate <= endDate;
+      return consumptionDate >= new Date(startDate) && consumptionDate <= new Date(endDate);
     } else {
-      if (day.toString() === "jour" && month.toString() !== "mois") {
+      if(day === 0) {
         const startDate = new Date(selectedDate);
         startDate.setDate(1);
         // I did this to prevent any errors with time
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
-        
+
+        const endDate = new Date(selectedDate);
+        endDate.setDate(31);
+        // I did this to prevent any errors with time
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(0);
+        return consumptionDate >= startDate && consumptionDate <= endDate;
+      }
+      if (day.toString() === "jour" && month.toString() !== "mois") {        
+        const startDate = new Date(selectedDate);
+        startDate.setDate(1);
+        // I did this to prevent any errors with time
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+
         const endDate = new Date(selectedDate);
         endDate.setDate(31);
         // I did this to prevent any errors with time
@@ -30,6 +82,7 @@ export const filterSpecificDate = (MyArray: any[], day: number, month: number, s
         return consumptionDate >= startDate && consumptionDate <= endDate;
       }
       if (month.toString() === "mois") {
+
         const startDate = new Date(selectedDate);
         startDate.setDate(1);
         startDate.setMonth(0);
@@ -54,7 +107,6 @@ export const filterSpecificDate = (MyArray: any[], day: number, month: number, s
     }
   })
 }
-
 
 export const formatDate = (dateString: string): string => {
   let result = ""

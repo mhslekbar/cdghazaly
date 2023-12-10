@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { EnumTypePayment, PaymentInterface } from '../../ManagePatient/Payments/types'
 import { useLocation, useParams } from 'react-router'
-import { RegNo, filterSpecificDate } from '../../../functions/functions'
+import { RegNo, filterSpecificDate, formatDate } from '../../../functions/functions'
 import { useSelector } from 'react-redux'
 import { State } from '../../../redux/store'
 import { ShowStatisticContext } from '../types'
@@ -42,6 +42,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                 <th className="px-6 py-4 border-r border-gray-950">{t("Consultation")}</th>
                 <th className="px-6 py-4 border-r border-gray-950">{paymentFilter === "payment" ? t("Versement") : paymentFilter === "soins" ?  t("soins") : ""}</th>
                 <th className="px-6 py-4 border-r border-gray-950">{t("Mode de paiement")}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("Date")}</th>
               </tr>
             </thead>
             <tbody className='border border-gray-950'>
@@ -55,6 +56,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                   && (payment.type === paymentFilter || payment.type === "consultations")
                   && (payment.invoiceAssur ? payment.invoiceAssur?.payed : payment)
                 )
+                // ?.filter((payment: PaymentInterface) => setHourTimeOfDay(payment.createdAt, startDate, endDate, partOfDay))
                 ?.sort((a: PaymentInterface, b: PaymentInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                 ?.map((payment: PaymentInterface, index) => {
                   sumCons += payment.type === EnumTypePayment.CONSULTATION ? payment.amount : 0
@@ -78,6 +80,9 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
                         {payment.method?.name || "cash"}
                       </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                        {formatDate(payment.createdAt)}
+                      </td>
                     </tr>
                   );
                 })}
@@ -87,7 +92,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
               <TotalAmount sumPayment={sumPayment} sumCons={sumCons} />
               <ConsoLab />
               <RemainAmount />
-              {location.pathname.split("/")[3] === "payments" && day.toString() === "jour" && month.toString() !== "mois" &&
+              {location.pathname.split("/")[3] === "payments" && ((day.toString() === "jour" && month.toString() !== "mois") || day === 0) &&
                 <>
                   <PercentageDoctor />
                   <PercentageCabinet />

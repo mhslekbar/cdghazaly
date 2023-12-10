@@ -6,6 +6,7 @@ import { InputElement } from "../../HtmlComponents/InputElement";
 import { formattedDate } from "../../functions/functions";
 import { FaPrint } from "react-icons/fa";
 import { useLocation } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const FilterStatistics: React.FC = () => {
   const {
@@ -21,30 +22,48 @@ const FilterStatistics: React.FC = () => {
     setStartDate,
     endDate,
     setEndDate,
+    // partOfDay, setPartOfDay,
   } = useContext(ShowStatisticContext);
   const location = useLocation()
+  const { t } = useTranslation()
   return (
-    <div className="flex justify-start gap-2 mt-3">
-      {location.pathname.split("/")[3] !== "treatments"
-      
-      }
-      
-      {showSwitchDate && location.pathname.split("/")[3] !== "treatments" ? (
-        <>
+    <>
+      {location.pathname.split("/")[3] !== "treatments" && <div> 
+      {showSwitchDate ? (
+        <div className="xs:grid xs:grid-cols-3 md:flex md:justify-start gap-2 mt-3">
           <BiChevronUpCircle className="text-main" style={{ fontSize: "22px" }} onClick={() => setShowSwitchDate(!showSwitchDate)} />
-          <InputElement divClass="flex justify-center items-center gap-1" type="date" name="Debut" value={formattedDate(startDate.toString())} setValue={setStartDate} />
-          <InputElement divClass="flex justify-center items-center gap-1" type="date" name="Fin" value={formattedDate(endDate.toString())} setValue={setEndDate} />
-        </>
-      ) : location.pathname.split("/")[3] !== "treatments"  && (
+          <InputElement divClass="flex justify-center items-center gap-1" type="date" name={t("Debut")} value={formattedDate(startDate.toString())} setValue={setStartDate} />
+          <InputElement divClass="flex justify-center items-center gap-1" type="date" name={t("Fin")} value={formattedDate(endDate.toString())} setValue={setEndDate} />
+        </div>
+      ) : (
         <>
-          <BiChevronDownCircle className="text-main" style={{ fontSize: "22px" }} onClick={() => setShowSwitchDate(!showSwitchDate)} />
-          <SelectElement valueType="string" value={day} setValue={setDay} defaultOption={<option>jour</option>} options={Days} />
-          <SelectElement valueType="string" value={month} setValue={setMonth} defaultOption={<option>mois</option>} options={Months} />
+        <div className="xs:grid xs:grid-cols-5 md:flex md:justify-start gap-2 mt-3">
+          <BiChevronDownCircle className="text-main xs:mb-1 md:mb-0" style={{ fontSize: "22px" }} onClick={() => setShowSwitchDate(!showSwitchDate)} />
+          <span className="my-4 px-1 pt-1 bg-main rounded mr-2" onClick={() => {
+            setDay(new Date().getDate())
+            setMonth(new Date().getMonth() + 1)
+            setYears(new Date().getFullYear())
+          }}>{t("Aujourd'hui")}</span>
+          <span className="my-4 px-1 pt-1 bg-main rounded" onClick={() => {
+            setDay(0)
+            setMonth(new Date().getMonth() + 1)
+            setYears(new Date().getFullYear())
+          }}>{t("Ce mois")}</span>
+          <SelectElement valueType="string" value={day} setValue={setDay} defaultOption={<option value={"jour"}>{t("jour")}</option>} options={Days} />
+          <SelectElement valueType="string" value={month} setValue={setMonth} defaultOption={<option value={"mois"}>{t("mois")}</option>} options={Months} />
           <SelectElement valueType="string" value={year} setValue={setYears} options={Years} />
-        </>
+        </div>
+        {/* <span className={`my-4 px-1 pt-1 ${partOfDay === "matin" ? "bg-main" : ""} rounded mr-2`} onClick={() => {
+          setPartOfDay("matin")
+        }}>{t("Matin")}</span>
+        <span className={`my-4 px-1 pt-1 ${partOfDay === "soir" ? "bg-main" : ""} rounded`} onClick={() => {
+          setPartOfDay("soir")
+        }}>{t("Soir")}</span> */}
+      </>
       )}
-      <FaPrint onClick={() => window.print()} className="text-blue" style={{ fontSize: "22px" }} />
-    </div>
+    </div>}
+    <FaPrint onClick={() => window.print()} className="text-blue" style={{ fontSize: "22px" }} />
+    </>
   );
 };
 

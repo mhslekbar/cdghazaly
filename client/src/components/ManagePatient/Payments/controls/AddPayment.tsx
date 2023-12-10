@@ -46,6 +46,7 @@ const AddPayment:React.FC = () => {
       supported,
       createdAt
     }
+    console.log("createdAt: ", createdAt)
     e.preventDefault()
     try {
       const response = await dispatch(AddPaymentsApi(data)) 

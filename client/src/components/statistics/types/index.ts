@@ -30,6 +30,7 @@ export interface ShowStatisticInterface {
   setSumConsumptions: (sumConsumptions: number) => void,
   percentCabinet: number,
   setPercentCabinet: (percentCabinet: number) => void,
+  partOfDay: string, setPartOfDay: (partOfDay: string) => void,
 }
 
 export const DefaultShowStatisticInterface: ShowStatisticInterface = {
@@ -61,6 +62,7 @@ export const DefaultShowStatisticInterface: ShowStatisticInterface = {
   setSumConsumptions: () => {},
   percentCabinet: 0,
   setPercentCabinet: () => {},
+  partOfDay: "", setPartOfDay: () => {},
 }
 
 export const ShowStatisticContext = createContext(DefaultShowStatisticInterface)
