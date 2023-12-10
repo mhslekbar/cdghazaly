@@ -11,6 +11,7 @@ import DeleteAppointment from "./DeleteAppointment";
 import ToggleTableAppointment from "./ToggleTableAppointment";
 import { ShowSetAppointApi } from "../../redux/setAppoint/setAppointApiCalls";
 import { ShowDayOfWorkApi } from "../../redux/dayOfWork/dayOfWorkApiCalls";
+import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
 
 const ShowAppointments: React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
@@ -43,6 +44,14 @@ const ShowAppointments: React.FC = () => {
     }
     fetchDays()
   }, [dispatch, doctorId])
+
+  useEffect(() => {
+    const fetchPatient = async () => {
+      await dispatch(ShowPatientsApi());
+    };
+    fetchPatient();
+  }, [dispatch]);
+
 
   return (
     <ShowAppointmentContext.Provider

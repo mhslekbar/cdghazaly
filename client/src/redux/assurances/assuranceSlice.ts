@@ -1,12 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AssuranceInterface } from "../../components/assurances/types";
+
+interface props {
+  isFetching: boolean,
+  assurances: AssuranceInterface[],
+  error: string[],
+}
+
+const initialState: props = {
+  isFetching: false,
+  assurances: [],
+  error: [],
+}
 
 const assuranceSlice = createSlice({
   name: "assurance",
-  initialState: {
-    isFetching: false,
-    assurances: [],
-    error: [],
-  },
+  initialState,
   reducers: {
     statusAssuranceStart: (state) => {
       state.isFetching = true

@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router";
 import { UserData } from "../../requestMethods";
 import { DefaultUserInterface, UserInterface } from "../users/types";
 import { useTranslation } from "react-i18next";
+import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
 
 const DataAssurances: React.FC = () => {
   const { assurances } = useSelector((state: State) => state.assurances);
@@ -18,6 +19,7 @@ const DataAssurances: React.FC = () => {
   useEffect(() => {
     const fetchAss = async () => {
       await dispatch(ShowAssuranceApi());
+      await dispatch(ShowPatientsApi());
     };
     fetchAss();
   }, [dispatch]);

@@ -43,6 +43,7 @@ const AddNewPatient:React.FC<AddNewPatientInterface> = ({ modal, toggle }) => {
     e.preventDefault()
     setLoading(true)
     const Doctor: any = doctor
+    console.log("doctor: ", doctor)
     const data = {
       user: UserData()._id,
       doctor: Doctor._id,

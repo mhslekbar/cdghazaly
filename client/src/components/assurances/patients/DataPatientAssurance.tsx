@@ -33,15 +33,18 @@ const DataPatientAssurance: React.FC = () => {
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
           <div className="overflow-hidden">
-            <table className="min-w-full text-sm font-light text-center">
-              <thead className="border-b font-medium bg-main text-white">
+            <table className="min-w-full text-sm font-light text-center border border-gray-950">
+              <thead className="border-b font-medium bg-main text-white border-gray-950">
                 <tr>
-                  <th className="px-6 py-4 border-r">{t("DOSS.NO")}</th>
-                  <th className="px-6 py-4 border-r">{t("Nom")}</th>
-                  <th className="px-6 py-4 border-r">{t("Prise en charge")}</th>
-                  <th className="px-6 py-4 border-r">{t("Type")}</th>
-                  <th className="px-6 py-4 border-r">{t("Montant")}</th>
-                  <th className="px-6 py-4 border-r">{t("Docteur")}</th>
+                  <th className="px-6 py-4 border-r border-gray-950">{t("DOSS.NO")}</th>
+                  <th className="px-6 py-4 border-r border-gray-950">{t("Nom")}</th>
+                  <th className="px-6 py-4 border-r border-gray-950">{t("Prise en charge")}</th>
+                  <th className="px-6 py-4 border-r border-gray-950">{t("Type")}</th>
+                  <th className="px-6 py-4 border-r border-gray-950">{t("Montant")}</th>
+                  <th className="px-6 py-4 border-r border-gray-950">{t("Montant Couvré")}</th>
+                  {factureGlobal && 
+                    <th className="px-6 py-4 border-r border-gray-950">{t("Docteur")}</th>
+                  }
                 </tr>
               </thead>
               <tbody>
@@ -53,8 +56,8 @@ const DataPatientAssurance: React.FC = () => {
                 )
                 .sort((a: PaymentInterface, b: PaymentInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                 .map((payment: PaymentInterface, index) => (
-                  <tr className="border-b" key={index}>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium hover:bg-gray-300" 
+                  <tr className="border-b border-gray-950" key={index}>
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium hover:bg-gray-300" 
                       onClick={() => {
                         localStorage.setItem("patientMgtPrevLink", location.pathname)
                         navigate(`/patient/${doctorId}/${payment.patient._id}/Manage/devis`)
@@ -62,7 +65,7 @@ const DataPatientAssurance: React.FC = () => {
                     >
                       {payment.patient?.assurance?.professionalId?.toString()}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium hover:bg-gray-300" 
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium hover:bg-gray-300" 
                       onClick={() => {
                         localStorage.setItem("patientMgtPrevLink", location.pathname)
                         navigate(`/patient/${doctorId}/${payment.patient._id}/Manage/devis`)
@@ -70,20 +73,56 @@ const DataPatientAssurance: React.FC = () => {
                     >
                       {payment.patient.name}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
                       {payment.supported}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
                       {payment.type === EnumTypePayment.PAYMENT ? "versement" : payment.type === EnumTypePayment.CONSULTATION && "cons"}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
                       {payment.amount}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {payment.doctor.username}
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                      {(payment.amount * Number(payment.patient?.assurance?.percentCovered) / 100)}
                     </td>
+                    {factureGlobal && 
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                        {payment.doctor.username}
+                      </td>
+                    }
                   </tr>
                 ))}
+                <tr className="border-b border-gray-950">
+                  <td colSpan={4} className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                    {payments
+                      ?.filter((payment: PaymentInterface) => 
+                        (payment.supported 
+                        && payment.invoiceAssur?._id === selectedInvoice?._id )
+                        && (factureGlobal || payment.doctor._id === doctorId)
+                      )
+                      ?.reduce((acc: number, currVal: PaymentInterface) => acc + Number(currVal.amount), 0)
+                    }
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                    {payments
+                      ?.filter((payment: PaymentInterface) => 
+                        (payment.supported 
+                        && payment.invoiceAssur?._id === selectedInvoice?._id )
+                        && (factureGlobal || payment.doctor._id === doctorId)
+                      )
+                      ?.reduce((acc: number, currVal: PaymentInterface) => 
+                        acc + (Number(currVal.amount) * Number(currVal.patient?.assurance?.percentCovered) / 100)
+                      , 0)
+                    }
+                  </td>
+                  {
+                    factureGlobal && 
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                    </td>
+                  }
+                </tr>
               </tbody>
             </table>
           </div>

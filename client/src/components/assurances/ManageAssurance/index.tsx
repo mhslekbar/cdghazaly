@@ -14,6 +14,7 @@ import { UserInterface } from "../../users/types";
 import { UserData } from "../../../requestMethods";
 import { PermissionType } from "../../roles/types";
 import { useTranslation } from "react-i18next";
+import { AssuranceInterface } from "../types";
 
 const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -21,6 +22,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
   const [doctors, setDoctors] = useState([])
 
   const { users } = useSelector((state: State) => state.users);
+  const { assurances } = useSelector((state: State) => state.assurances);
 
   const dispatch: any = useDispatch();
 
@@ -52,6 +54,7 @@ const ManageAssurance: React.FC<ManageAssuranceInterface> = ({ Assurance }) => {
         setOpenDropdown,
       }}
     >
+      <h1 className="text-center font-bold md:text-3xl">{assurances?.find((assurance: AssuranceInterface) => assurance._id === AssId)?.name}</h1>
       <div className="grid lg:grid-cols-2 sm:grid-cols-1 rounded border mt-2 font-bold text-center">
         {AssId && <>
           

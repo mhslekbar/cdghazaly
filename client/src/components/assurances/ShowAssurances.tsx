@@ -50,8 +50,8 @@ const ShowAssurances:React.FC = () => {
         setSelectedAssurance(DefaultAssuranceInterface)
       }} /> : <DataAssurances />} 
       
-      {showEditModal && selectedAssurance._id && <EditAssurance AssuranceData={selectedAssurance} modal={showEditModal}  toggle={() => setShowEditModal(!showEditModal)} />}
-      {showDeleteModal && selectedAssurance._id && <DeleteAssurance AssuranceData={selectedAssurance} modal={showDeleteModal}  toggle={() => setShowDeleteModal(!showDeleteModal)} />}
+      {showEditModal && selectedAssurance?._id && <EditAssurance AssuranceData={selectedAssurance} modal={showEditModal}  toggle={() => setShowEditModal(!showEditModal)} />}
+      {showDeleteModal && selectedAssurance?._id && <DeleteAssurance AssuranceData={selectedAssurance} modal={showDeleteModal}  toggle={() => setShowDeleteModal(!showDeleteModal)} />}
       {/* {selectedAssurance.name.length > 0 && <ManageAssurance Assurance={selectedAssurance} /> } */}
       
       {AssId && <ManageAssurance Assurance={selectedAssurance} />}
