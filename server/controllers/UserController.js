@@ -127,15 +127,18 @@ const deleteUser = async (req, res) => {
       await DevisModel.deleteMany({ "LineDevis.doctor": id })
       await FicheModel.deleteMany({ "LineFiche.doctor": id })
       await InvoiceModel.deleteMany({ "LineInvoice.doctor": id })
-      
-      const labo = await LaboratoryModel.findOne({ "accounts.doctor": id })
-      if(labo) {
-        LaboratoryModel.accounts = LaboratoryModel.accounts.filter(acc => !acc.doctor.equals(id))
-        LaboratoryModel.payments = LaboratoryModel.payments.filter(payment => !payment.doctor.equals(id))
-        LaboratoryModel.consumptions = LaboratoryModel.consumptions.filter(consumption => !consumption.doctor.equals(id))
-        LaboratoryModel.patients = LaboratoryModel.patients.filter(patient => !patient.doctor.equals(id))
-        await LaboratoryModel.save()
+
+      const labos = await LaboratoryModel.find({ "accounts.doctor": id })
+      if(labos.length > 0) {
+        for(const lab of labos) {
+          lab.accounts = lab.accounts.filter(acc => !acc.doctor?.equals(id))
+          lab.payments = lab.payments.filter(payment => !payment.doctor?.equals(id))
+          lab.consumptions = lab.consumptions.filter(consumption => !consumption.doctor?.equals(id))
+          lab.patients = lab.patients.filter(patient => !patient.doctor?.equals(id))
+          await lab.save()
+        }
       }
+
       await PatientModel.deleteMany({ doctor: id })
       await PurchaseOrderModel.deleteMany({ doctor: id })
       
@@ -145,6 +148,7 @@ const deleteUser = async (req, res) => {
       res.status(300).json({ formErrors })
     }
   } catch (err) {
+    console.log("err: ", err)
     res.status(500).json({ err: err.message })
   }
 }
@@ -172,3 +176,12 @@ var createSetAppointment = async (doctor, start, end, countSeance, partOfTime) =
 }
 
 module.exports = { getUsers, createUser, updateUser, deleteUser }
+
+  // const labo = await LaboratoryModel.findOne({ "accounts.doctor": id })
+  // if(labo) {
+  //   labo.accounts = labo.accounts.filter(acc => !acc.doctor.equals(id))
+  //   labo.payments = labo.payments.filter(payment => !payment.doctor.equals(id))
+  //   labo.consumptions = labo.consumptions.filter(consumption => !consumption.doctor.equals(id))
+  //   labo.patients = labo.patients.filter(patient => !patient.doctor.equals(id))
+  //   await labo.save()
+  // }

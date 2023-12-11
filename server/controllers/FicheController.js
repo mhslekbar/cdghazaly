@@ -360,7 +360,6 @@ var clearDataPrevLineFiche = async (patient, ficheId, lineFicheId) => {
     ficheInfo.LineFiche[indexLineFiche]?.consumptionLab;
 
   // const prevPatientLab = ficheInfo.LineFiche[indexLineFiche]?.patientLab
-
   if (prevConsumptionLab) {
     const laboratoryInfo = await LaboratoryModel.findOne({
       "consumptions._id": prevConsumptionLab,
@@ -373,15 +372,13 @@ var clearDataPrevLineFiche = async (patient, ficheId, lineFicheId) => {
 
     const priceOfLab = labTreatInfo.price;
     const amountLab = Number(priceOfLab) * Number(teeth.nums.length);
-
     // START Update balance of lab
-    let doctorAccountLabo = laboratoryInfo.accounts.filter((acc) =>
+    let doctorAccountLabo = laboratoryInfo.accounts.find((acc) =>
       acc.doctor.equals(doctor)
     );
     const prevBalanceLab = doctorAccountLabo.balance || 0;
     const newBalanceLab = Number(prevBalanceLab) + Number(amountLab);
     doctorAccountLabo.balance = newBalanceLab;
-
     await laboratoryInfo.save();
     // END Update balance of lab
 
