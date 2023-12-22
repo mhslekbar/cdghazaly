@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import {  DefaultInvoicesAssuranceInterface, InvoicesAssuranceInterface } from "../../types"
+import {  DefaultInvoicesAssuranceInterface, InvoicesAssuranceInterface } from "../../types";
 
 export interface ShowPatientsAssuranceInterface {
   selectedInvoice: InvoicesAssuranceInterface,
@@ -10,6 +10,10 @@ export interface ShowPatientsAssuranceInterface {
   setFactureGlobal: (factureGlobal: boolean) => void,
   showPayInvoice: boolean,
   setShowPayInvoice: (showPayInvoice: boolean) => void,
+  showPrintModal: boolean, setShowPrintModal: (showPrintModal: boolean) => void,
+  selectedPatient: any, setSelectedPatient: (selectedPatient: any) => void,
+  invoiceType: string, setInvoiceType: (invoiceType: string) => void,
+  patientAssRef: any,
 }
 
 export const  DefaultShowPatientsAssuranceInterface: ShowPatientsAssuranceInterface = {
@@ -21,6 +25,10 @@ export const  DefaultShowPatientsAssuranceInterface: ShowPatientsAssuranceInterf
   setFactureGlobal: () => {},
   showPayInvoice: false,
   setShowPayInvoice: () => {},
+  showPrintModal: false, setShowPrintModal: () => {},
+  selectedPatient: null, setSelectedPatient: () => {},
+  invoiceType: "", setInvoiceType: () => {},
+  patientAssRef: null
 }
 
 export const ShowPatientsAssuranceContext = createContext(DefaultShowPatientsAssuranceInterface)

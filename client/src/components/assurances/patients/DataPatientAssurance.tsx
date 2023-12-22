@@ -7,10 +7,18 @@ import { ShowPaymentsApi } from "../../../redux/payments/paymentApiCalls";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { useTranslation } from "react-i18next";
+import { FaEye } from "react-icons/fa";
+import { PatientInterface } from "../../patients/types";
 
 const DataPatientAssurance: React.FC = () => {
-  const { selectedInvoice, factureGlobal } = useContext(ShowPatientsAssuranceContext);
+  const { selectedInvoice,  factureGlobal, showPrintModal, setShowPrintModal, setSelectedPatient, setInvoiceType, patientAssRef } = useContext(ShowPatientsAssuranceContext);
   const { payments } = useSelector((state: State) => state.payments)
+
+  const togglePrintModal = (patient: PatientInterface, type: string) => {
+    setShowPrintModal(!showPrintModal)
+    setSelectedPatient(patient?._id)
+    setInvoiceType(type)
+  }
 
   const { doctorId } = useParams() 
   const dispatch: any = useDispatch()
@@ -31,20 +39,21 @@ const DataPatientAssurance: React.FC = () => {
   return (
     <div className="flex flex-col border mt-3">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
-          <div className="overflow-hidden">
-            <table className="min-w-full text-sm font-light text-center border border-gray-950">
-              <thead className="border-b font-medium bg-main text-white border-gray-950">
+        <div className="inline-block min-w-full sm:px-4 lg:px-8">
+          <div className={`overflow-hidden ${!showPrintModal ? "invoice" : ""}`} ref={!showPrintModal ? patientAssRef : null}>
+            <table className="min-w-full text-sm font-light text-center">
+              <thead className="border font-medium bg-main text-white border-gray-950">
                 <tr>
-                  <th className="px-6 py-4 border-r border-gray-950">{t("DOSS.NO")}</th>
-                  <th className="px-6 py-4 border-r border-gray-950">{t("Nom")}</th>
-                  <th className="px-6 py-4 border-r border-gray-950">{t("Prise en charge")}</th>
-                  <th className="px-6 py-4 border-r border-gray-950">{t("Type")}</th>
-                  <th className="px-6 py-4 border-r border-gray-950">{t("Montant")}</th>
-                  <th className="px-6 py-4 border-r border-gray-950">{t("Montant Couvré")}</th>
+                  <th className="px-4 py-4 border-r border-gray-950">{t("DOSS.NO")}</th>
+                  <th className="px-4 py-4 border-r border-gray-950">{t("Nom")}</th>
+                  <th className="px-4 py-4 border-r border-gray-950">{t("Prise en charge")}</th>
+                  <th className="px-4 py-4 border-r border-gray-950">{t("Type")}</th>
+                  <th className="px-4 py-4 border-r border-gray-950">{t("Montant")}</th>
+                  <th className="px-4 py-4 border-r border-gray-950">{t("Montant Couvré")}</th>
                   {factureGlobal && 
-                    <th className="px-6 py-4 border-r border-gray-950">{t("Docteur")}</th>
+                    <th className="px-4 py-4 border-r border-gray-950">{t("Docteur")}</th>
                   }
+                  <th className="px-4 py-4 border-r border-gray-950 print:hidden">{t("Actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -56,7 +65,7 @@ const DataPatientAssurance: React.FC = () => {
                 )
                 .sort((a: PaymentInterface, b: PaymentInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                 .map((payment: PaymentInterface, index) => (
-                  <tr className="border-b border-gray-950" key={index}>
+                  <tr className="border-b border-l border-gray-950" key={index}>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium hover:bg-gray-300" 
                       onClick={() => {
                         localStorage.setItem("patientMgtPrevLink", location.pathname)
@@ -90,12 +99,19 @@ const DataPatientAssurance: React.FC = () => {
                         {payment.doctor.username}
                       </td>
                     }
+                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium print:hidden">
+                      <div className="flex justify-center">
+                        <p onClick={() => togglePrintModal(payment.patient, payment.type === EnumTypePayment.PAYMENT ? "invoice" : payment.type === EnumTypePayment.CONSULTATION ? "cons" : "")}><FaEye className="text-xl text-main" /></p>
+                      </div>
+                    </td>
                   </tr>
                 ))}
-                <tr className="border-b border-gray-950">
-                  <td colSpan={4} className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+              </tbody>
+              <tfoot>
+                <tr className="text-3xl">
+                  <td colSpan={4} className="whitespace-nowrap px-4 py-2 border-r border-gray-950 font-medium">
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                  <td className="whitespace-nowrap px-4 py-2 border-r border-b bg-white border-gray-950 font-bold">
                     {payments
                       ?.filter((payment: PaymentInterface) => 
                         (payment.supported 
@@ -105,7 +121,7 @@ const DataPatientAssurance: React.FC = () => {
                       ?.reduce((acc: number, currVal: PaymentInterface) => acc + Number(currVal.amount), 0)
                     }
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                  <td className="whitespace-nowrap px-4 py-2 border-r border-b bg-white border-gray-950 font-bold">
                     {payments
                       ?.filter((payment: PaymentInterface) => 
                         (payment.supported 
@@ -119,11 +135,13 @@ const DataPatientAssurance: React.FC = () => {
                   </td>
                   {
                     factureGlobal && 
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
+                    <td className="whitespace-nowrap px-4 py-2 border-gray-950 font-medium">
                     </td>
                   }
                 </tr>
-              </tbody>
+
+              </tfoot>
+
             </table>
           </div>
         </div>

@@ -20,7 +20,7 @@ export const laboratoryFr = {
   "le traitement deja existe": "le traitement deja existe",
   "Donner le traitement": "Donner le traitement",
   "Donner le prix": "Donner le prix",
-  
+  "Paiements Labo" : "Paiements Labo", 
 
 
 }

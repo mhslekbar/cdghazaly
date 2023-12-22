@@ -2,8 +2,6 @@ import React, { useContext } from 'react'
 import { ShowInvoicesContext } from './types'
 import { useTranslation } from 'react-i18next'
 
-
-
 const FilterTypeInvoice:React.FC = () => {
   const { typeInvoice, setTypeInvoice } = useContext(ShowInvoicesContext)
   const { t } = useTranslation()

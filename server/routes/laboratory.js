@@ -35,10 +35,10 @@ router.delete("/:labId/treatments/:treatmentId", authorizedPermission(["SUPPRIME
 // END Treatments
 
 // Start Payments
-router.get("/:labId/payments", authorizedPermission(["AFFICHER", "AFFICHER_GLOBAL"], "PAIEMENTS_LABORATOIRES"),  getPaymentsLab)
-router.post("/:labId/payments", authorizedPermission(["AJOUTER"], "PAIEMENTS_LABORATOIRES"),  createPaymentLab)
-router.put("/:labId/payments/:paymentId", authorizedPermission(["MODIFIER"], "PAIEMENTS_LABORATOIRES"),  updatePaymentLab)
-router.delete("/:labId/payments/:paymentId", authorizedPermission(["SUPPRIMER"], "PAIEMENTS_LABORATOIRES"),  deletePaymentLab)
+router.get("/payments", authorizedPermission(["AFFICHER", "AFFICHER_GLOBAL", "AFFICHER_STATISTIQUES"], "PAIEMENTS_LABORATOIRES"),  getPaymentsLab)
+router.post("/payments", authorizedPermission(["AJOUTER"], "PAIEMENTS_LABORATOIRES"),  createPaymentLab)
+router.put("/payments/:paymentId", authorizedPermission(["MODIFIER"], "PAIEMENTS_LABORATOIRES"),  updatePaymentLab)
+router.delete("/payments/:paymentId", authorizedPermission(["SUPPRIMER"], "PAIEMENTS_LABORATOIRES"),  deletePaymentLab)
 // END Payments
 
 

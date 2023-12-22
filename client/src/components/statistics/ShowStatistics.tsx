@@ -12,6 +12,7 @@ const ShowStatistics:React.FC = () => {
   
   const [sumTotalAmount, setSumTotalAmount] = useState<number>(0)
   const [sumConsoLab, setSumConsoLab] = useState<number>(0)
+  const [sumPaymentLab, setSumPaymentLab] = useState<number>(0)
   const [sumPurchaseOrders, setSumPurchaseOrders] = useState<number>(0)
   const [sumConsumptions, setSumConsumptions] = useState<number>(0)
   const [percentCabinet, setPercentCabinet] = useState<number>(0)
@@ -62,6 +63,7 @@ const ShowStatistics:React.FC = () => {
       endDate, setEndDate,
       sumTotalAmount, setSumTotalAmount,
       sumConsoLab, setSumConsoLab,
+      sumPaymentLab, setSumPaymentLab,
       userData, setUserData,
       sumPurchaseOrders, setSumPurchaseOrders,
       sumConsumptions, setSumConsumptions,

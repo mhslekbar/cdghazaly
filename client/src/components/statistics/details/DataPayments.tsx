@@ -5,7 +5,7 @@ import { RegNo, filterSpecificDate, formatDate } from '../../../functions/functi
 import { useSelector } from 'react-redux'
 import { State } from '../../../redux/store'
 import { ShowStatisticContext } from '../types'
-import ConsoLab from './ConsoLab'
+import PaymentLab from './PaymentLab'
 import TotalAmount from './TotalAmount'
 import RemainAmount from './RemainAmount'
 import PercentageDoctor from './PercentageDoctor'
@@ -90,7 +90,8 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
             <tfoot>
             {<>
               <TotalAmount sumPayment={sumPayment} sumCons={sumCons} />
-              <ConsoLab />
+              {/* <ConsoLab /> */}
+              <PaymentLab />
               <RemainAmount />
               {location.pathname.split("/")[3] === "payments" && ((day.toString() === "jour" && month.toString() !== "mois") || day === 0) &&
                 <>

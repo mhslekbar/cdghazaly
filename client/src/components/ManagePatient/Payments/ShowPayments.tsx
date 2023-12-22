@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DataPayments from './DataPayments'
 import { useDispatch } from 'react-redux'
 import { ShowPaymentsApi } from '../../../redux/payments/paymentApiCalls'
-import { useLocation, useParams } from 'react-router'
+import { useLocation } from 'react-router'
 import AddPayment from './controls/AddPayment'
 import { DefaultPaymentInterface, EnumTypeModalPayment, PaymentInterface, ShowPaymentsContext } from './types'
 import SuccessMsg from '../../../Messages/SuccessMsg'
@@ -11,19 +11,20 @@ import DeletePayment from './controls/DeletePayment'
 
 const ShowPayments:React.FC = () => {
   const dispatch: any = useDispatch()
-  const { patientId } = useParams()
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [ModalType, setModalType] = useState(EnumTypeModalPayment.ADD_MODAL);
   const [showEditPayment, setShowEditPayment] = useState(false);
   const [showDeletePayment, setShowDeletePayment] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<PaymentInterface>(DefaultPaymentInterface);
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
   useEffect(() => {
     const fetchPayments = async () => {
-      await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
+      await dispatch(ShowPaymentsApi())
+      // await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
     }
     fetchPayments()
-  }, [dispatch, patientId])
+  }, [dispatch])
 
   const location = useLocation()
 
@@ -34,6 +35,7 @@ const ShowPayments:React.FC = () => {
       selectedPayment, setSelectedPayment,
       showDeletePayment, setShowDeletePayment,
       ModalType, setModalType,
+      selectedPatient, setSelectedPatient
     }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <AddPayment />

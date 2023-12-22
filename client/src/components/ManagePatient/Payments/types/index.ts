@@ -100,6 +100,7 @@ export interface ShowPaymentsInterface {
   setModalType: (ModalType: EnumTypeModalPayment) => void,
   showDeletePayment: boolean,
   setShowDeletePayment: (showDeletePayment: boolean) => void,
+  selectedPatient: any, setSelectedPatient: (selectedPatient: any) => void,
 }
 
 export const DefaultShowPaymentsInterface: ShowPaymentsInterface = {
@@ -113,6 +114,7 @@ export const DefaultShowPaymentsInterface: ShowPaymentsInterface = {
   setModalType: () => {},
   showDeletePayment: false,
   setShowDeletePayment: () => {},
+  selectedPatient: null, setSelectedPatient: () => {},
 }
 
 export const ShowPaymentsContext = createContext(DefaultShowPaymentsInterface)

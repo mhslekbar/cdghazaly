@@ -8,7 +8,6 @@ import {
   ShowInvoicesContext,
 } from "./types";
 import FilterTypeInvoice from "./FilterTypeInvoice";
-import { useParams } from "react-router";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import TotalFacture from "./TotalFacture";
 import HeaderInvoice from "../HeaderInvoice";
@@ -17,23 +16,24 @@ import { useTranslation } from "react-i18next";
 const DataInvoice: React.FC = () => {
   const { invoices } = useSelector((state: State) => state.invoices);
 
-  const { selectedInvoice, setSelectedInvoice, typeInvoice } =
+  const { selectedInvoice, setSelectedInvoice, typeInvoice, selectedPatient, invoiceRef } =
     useContext(ShowInvoicesContext);
 
   useEffect(() => {
     const SInvoice: InvoicesInterface =
-      invoices.find((dv: any) => dv._id === selectedInvoice?._id) ||
-      DefaultInvoicesInterface;
+      invoices
+      .find((inv: InvoicesInterface) => inv.patient?._id === selectedPatient) || DefaultInvoicesInterface
+      // .filter((inv: InvoicesInterface) => inv.patient?._id === selectedPatient)
+      // .find((inv: any) => inv._id === selectedInvoice?._id) || DefaultInvoicesInterface;
     setSelectedInvoice(SInvoice.numInvoice ? SInvoice : invoices[0]);
-  }, [invoices, setSelectedInvoice, selectedInvoice]);
+  }, [invoices, setSelectedInvoice, selectedPatient]);
 
   const [patientInfo, setPatientInfo] = useState<PatientInterface>(DefaultPatientInterface)
-  const { patientId } = useParams()
   const { patients } = useSelector((state: State) => state.patients)
 
   useEffect(() => {
-    setPatientInfo(patients.find((patient: PatientInterface) => patient._id === patientId) || DefaultPatientInterface)
-  }, [patients, patientId])
+    setPatientInfo(patients.find((patient: PatientInterface) => patient._id === selectedPatient) || DefaultPatientInterface)
+  }, [patients, selectedPatient])
   
   const { t } = useTranslation()
 
@@ -41,20 +41,20 @@ const DataInvoice: React.FC = () => {
     <>
       {selectedInvoice && <>
         {patientInfo?.assurance?.society && <FilterTypeInvoice />}
-        <div className="flex flex-col col-start-2 col-span-4 invoice print:w-full">
+        <div className="flex flex-col col-start-2 col-span-4 print:w-full">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
+              <div className="overflow-hidden invoice" ref={invoiceRef}>
                 <HeaderInvoice type={`Facture N-${selectedInvoice.numInvoice}`} PatientInfo={patientInfo}/>            
                 <table className="min-w-full text-sm font-light text-center">
                   <thead className="border font-medium bg-white text-black border-gray-950">
                     <tr>
-                      <th className="px-3 py-2 border-r border-gray-950">{t("Traitement")}</th>
-                      <th className="px-3 py-2 border-r border-gray-950">{t("Dents")}</th>
-                      <th className="px-3 py-2 border-r border-gray-950">{t("Surface")}</th>
-                      <th className="px-3 py-2 border-r border-gray-950">{t("NBS")}</th>
-                      <th className="px-3 py-2 border-r border-gray-950">{t("Prix.U")}</th>
-                      <th className="px-3 py-2 border-r border-gray-950">{t("Total")}</th>
+                      <th className="px-2 py-2 border-r border-gray-950">{t("Traitement")}</th>
+                      <th className="px-2 py-2 border-r border-gray-950">{t("Dents")}</th>
+                      <th className="px-2 py-2 border-r border-gray-950">{t("Surface")}</th>
+                      <th className="px-2 py-2 border-r border-gray-950">{t("NBS")}</th>
+                      <th className="px-2 py-2 border-r border-gray-950">{t("Prix.U")}</th>
+                      <th className="px-2 py-2 border-r border-gray-950">{t("Total")}</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -12,7 +12,6 @@ import {
 } from "./types";
 import { formatDate } from "../../../functions/functions";
 import HeaderInvoice from "../HeaderInvoice";
-import { useParams } from "react-router";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import { useTranslation } from "react-i18next";
 
@@ -21,13 +20,22 @@ const Consultations: React.FC = () => {
   const [totalPayments, setTotalPayments] = useState(0);
   const [filteredCons, setFilteredCons] = useState<PaymentInterface[]>([DefaultPaymentInterface])
   
+  const {
+    showEditPayment,
+    setShowEditPayment,
+    showDeletePayment,
+    setShowDeletePayment,
+    setSelectedPayment,
+    setModalType,
+    selectedPatient,
+  } = useContext(ShowPaymentsContext);
+
   useEffect(() => {
     setFilteredCons(payments
       .filter(
-        (payment: PaymentInterface) => payment.type === EnumTypePayment.CONSULTATION
+        (payment: PaymentInterface) =>  payment.patient?._id === selectedPatient && payment.type === EnumTypePayment.CONSULTATION
       ))
-  }, [payments])
-
+  }, [payments, selectedPatient])
 
   useEffect(() => {
     setTotalPayments(
@@ -38,15 +46,6 @@ const Consultations: React.FC = () => {
         )
     );
   }, [filteredCons]);
-
-  const {
-    showEditPayment,
-    setShowEditPayment,
-    showDeletePayment,
-    setShowDeletePayment,
-    setSelectedPayment,
-    setModalType,
-  } = useContext(ShowPaymentsContext);
 
   const toggleEditPayment = (payment: PaymentInterface) => {
     setShowEditPayment(!showEditPayment);
@@ -60,7 +59,6 @@ const Consultations: React.FC = () => {
   };
 
   const { patients } = useSelector((state: State) => state.patients)
-  const { patientId } = useParams()
   const { t } = useTranslation()
 
   return (
@@ -72,7 +70,7 @@ const Consultations: React.FC = () => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-bloc sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
-                  <HeaderInvoice type={`consultation`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
+                  <HeaderInvoice type={`consultation`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === selectedPatient?._id) ?? DefaultPatientInterface}/>            
                   <table className="min-w-full text-sm font-light text-center">
                     <thead className="border border-gray-950 font-medium bg-white text-black">
                       <tr>

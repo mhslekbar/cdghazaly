@@ -2,10 +2,18 @@ const LaboratoryModel = require("../../models/LaboratoryModel");
 
 const getPaymentsLab = async (request, response) => {
   try {
-    const { labId } = request.params
-    let labo = await LaboratoryModel
-    .findOne({ _id: labId }, {_id: 1, name: 1, phone: 1, createdAt: 1, payments: 1})
-    .populate("payments.doctor")
+    const { labId } = request.query
+    let labo
+    if(labId) {
+      labo = await LaboratoryModel
+      .findOne({ _id: labId }, {_id: 1, name: 1, phone: 1, createdAt: 1, payments: 1})
+      .populate("payments.doctor")      
+    }else {
+      labo = await LaboratoryModel
+      .find({ }, {_id: 1, name: 1, phone: 1, createdAt: 1, payments: 1})
+      .populate("payments.doctor")
+    }
+    
     response.status(200).json({ success: labo.payments })
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -14,7 +22,7 @@ const getPaymentsLab = async (request, response) => {
 
 const createPaymentLab = async (request, response) => {
   try {
-    const { labId } = request.params
+    const { labId } = request.query
     const { doctor, comment, amount, createdAt } = request.body
     const laboratory = await LaboratoryModel.findOne({ _id: labId })
 
@@ -51,7 +59,8 @@ const createPaymentLab = async (request, response) => {
 
 const updatePaymentLab = async (request, response) => {
   try {
-    const { labId, paymentId } = request.params
+    const { labId } = request.query
+    const { paymentId } = request.params
     const { doctor, comment, amount, createdAt } = request.body
     const laboratory = await LaboratoryModel.findOne({ _id: labId })
 
@@ -106,7 +115,8 @@ const updatePaymentLab = async (request, response) => {
 
 const deletePaymentLab = async (request, response) => {
   try {
-    const { labId, paymentId } = request.params
+    const { labId } = request.query
+    const { paymentId } = request.params
     const laboratory = await LaboratoryModel.findOne({ _id: labId })
 
     const findIndex = laboratory.payments.findIndex(p => p._id.equals(paymentId))

@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DataInvoice from './DataInvoice'
 import { FaPrint } from 'react-icons/fa'
 import { MdRemoveCircle } from 'react-icons/md'
 import SuccessMsg from '../../../Messages/SuccessMsg'
-import { useParams } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { ShowInvoicesApi } from '../../../redux/invoices/invoiceApiCalls'
 import { DefaultInvoicesInterface, InvoicesInterface, ShowInvoicesContext } from './types'
 import SelectInvoice from './SelectInvoice'
 import CreateInvoice from './CreateInvoice'
 import DeleteInvoice from './DeleteInvoice'
+import { useReactToPrint } from 'react-to-print'
 
 const ShowInvoices:React.FC = () => {
   const [selectedInvoice, setSelectedInvoice] = useState<InvoicesInterface>(DefaultInvoicesInterface)
@@ -19,6 +20,7 @@ const ShowInvoices:React.FC = () => {
   const [typeInvoice, setTypeInvoice] = useState<string>("global")
   const [totalAssurance, setTotalAssurance] = useState<number>(0)
   const [totalPatient, setTotalPatient] = useState<number>(0)
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
   const handleShowDelete = () => {
     setShowDeleteInvoice(!showDeleteInvoice)
@@ -26,13 +28,27 @@ const ShowInvoices:React.FC = () => {
   
   const { patientId } = useParams()
   const dispatch: any = useDispatch();
+  
+  const location = useLocation()
+  
+  useEffect(() => {
+    location.pathname.split("/")[5] === "invoices"  && setSelectedPatient(patientId)
+  }, [patientId, location])
+
 
   useEffect(() => {
     const fetchInvoice = async () => {
-      dispatch(ShowInvoicesApi(patientId));
+      await dispatch(ShowInvoicesApi());
     };
     fetchInvoice();
-  }, [dispatch, patientId]);
+  }, [dispatch]);
+
+  const invoiceRef = useRef(null)
+
+  const printInvoice = useReactToPrint({
+    content: () => invoiceRef.current,
+    documentTitle: "Facture",
+  })
 
   return (
     <ShowInvoicesContext.Provider value={{
@@ -42,7 +58,9 @@ const ShowInvoices:React.FC = () => {
       showSuccessMsg, setShowSuccessMsg,
       typeInvoice, setTypeInvoice,
       totalAssurance, setTotalAssurance,
-      totalPatient, setTotalPatient
+      totalPatient, setTotalPatient,
+      selectedPatient, setSelectedPatient,
+      invoiceRef
     }}>
     {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
     <div className='grid grid-cols-6 mt-4'>
@@ -56,7 +74,7 @@ const ShowInvoices:React.FC = () => {
           <FaPrint className='text-main' style={{
             fontSize: "28px"
           }} 
-          onClick={() => window.print()}
+          onClick={printInvoice}
           />
           <MdRemoveCircle 
             className='text-red'

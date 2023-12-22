@@ -6,14 +6,14 @@ import {
 } from "./paymentLabSlice";
 import { get, post, put, remove } from "../../../requestMethods";
 
-export const ShowPaymentLabApi = (labId: string, filter: string = "") => async (dispatch: Dispatch<any>) => {
+export const ShowPaymentLabApi = (labId: string = "") => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusPaymentLabStart())
     let response
-    if(filter) {
-      response = await get(`laboratory/${labId}/payments${filter}`)
+    if(labId) {
+      response = await get(`laboratory/payments?labId=${labId}`)
     } else {
-      response = await get(`laboratory/${labId}/payments`)
+      response = await get(`laboratory/payments`)
     }
     const resData = response.data.success
     if(resData) {
@@ -37,7 +37,7 @@ export const AddPaymentLabApi =
   (labId: string, data: {}) => async (dispatch: Dispatch<any>) => {
     try {
       dispatch(statusPaymentLabStart());
-      let response = await post(`laboratory/${labId}/payments`, data);
+      let response = await post(`laboratory/payments?labId=${labId}`, data);
       const resData = response.data.success;
       if (resData) {
         dispatch(statusPaymentLabSuccess(resData));
@@ -62,7 +62,7 @@ export const EditPaymentLabApi =
     try {
       dispatch(statusPaymentLabStart());
       let response = await put(
-        `laboratory/${labId}/payments/${PaymentId}`,
+        `laboratory/payments/${PaymentId}?labId=${labId}`,
         data
       );
       const resData = response.data.success;
@@ -87,7 +87,7 @@ export const DeletePaymentLabApi =
   (labId: string, PaymentId: string) => async (dispatch: Dispatch<any>) => {
     try {
       dispatch(statusPaymentLabStart());
-      let response = await remove(`laboratory/${labId}/payments/${PaymentId}`);
+      let response = await remove(`laboratory/payments/${PaymentId}?labId=${labId}`);
       const resData = response.data.success;
       if (resData) {
         dispatch(statusPaymentLabSuccess(resData));

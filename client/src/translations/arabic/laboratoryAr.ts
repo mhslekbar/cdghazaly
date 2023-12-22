@@ -19,6 +19,7 @@ export const laboratoryAr = {
   "le traitement deja existe": "العلاج موجود بالفعل",
   "Donner le traitement": "إعطاء العلاج",
   "Donner le prix": "أعط السعر",
+  "Paiements Labo" : "دفعات المختبر", 
 
 
 

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ShowPaymentsApi } from '../../../redux/payments/paymentApiCalls'
-import { useParams } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import AddPayment from './controls/AddPayment'
 import { DefaultPaymentInterface, EnumTypeModalPayment, PaymentInterface, ShowPaymentsContext } from './types'
 import SuccessMsg from '../../../Messages/SuccessMsg'
 import EditPayment from './controls/EditPayment'
 import DeletePayment from './controls/DeletePayment'
 import Consultations from './Consultations'
-
 
 const ShowConsultations:React.FC = () => {
   const dispatch: any = useDispatch()
@@ -18,13 +17,22 @@ const ShowConsultations:React.FC = () => {
   const [showEditPayment, setShowEditPayment] = useState(false);
   const [showDeletePayment, setShowDeletePayment] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<PaymentInterface>(DefaultPaymentInterface);
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
+
+  const location = useLocation()
+
+  useEffect(() => {
+    location.pathname.split("/")[5] === "consultations"  && setSelectedPatient(patientId)
+  }, [patientId, location])
 
   useEffect(() => {
     const fetchPayments = async () => {
-      await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
+      await dispatch(ShowPaymentsApi())
+      // await dispatch(ShowPaymentsApi(`?patient=${selectedPatient}`))
+      // `?patient=${patientId}`
     }
     fetchPayments()
-  }, [dispatch, patientId])
+  }, [dispatch])
 
   return (
     <ShowPaymentsContext.Provider value={{
@@ -33,6 +41,7 @@ const ShowConsultations:React.FC = () => {
       selectedPayment, setSelectedPayment,
       showDeletePayment, setShowDeletePayment,
       ModalType, setModalType,
+      selectedPatient, setSelectedPatient
     }}>
       {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
       <AddPayment />

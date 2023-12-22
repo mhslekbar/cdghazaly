@@ -115,9 +115,11 @@ const DataLabPayment: React.FC = () => {
                         )
                       })}
                   </tbody>
-                  <tr className="border-b">
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{totalPayment}</td>
-                  </tr>
+                  <tfoot>
+                    <tr className="border-b">
+                      <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{totalPayment}</td>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>

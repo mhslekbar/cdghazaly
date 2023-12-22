@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import InvoicesAssurance from "./InvoicesAssurance";
 import { ShowPatientsAssuranceContext } from "./types";
 import { DefaultInvoicesAssuranceInterface } from "../types";
@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { DefaultUserInterface, UserInterface } from "../../users/types";
 import { useParams } from "react-router";
+import PrintModal from "./PrintModal";
 
 const ShowPatientsAssurance: React.FC = () => {
   const [selectedInvoice, setSelectedInvoice] = useState(
@@ -21,6 +22,9 @@ const ShowPatientsAssurance: React.FC = () => {
   const [showDeleteInvoice, setShowDeleteInvoice] = useState(false);
   const [showPayInvoice, setShowPayInvoice] = useState(false);
   const [factureGlobal, setFactureGlobal] = useState(false);
+  const [showPrintModal, setShowPrintModal] = useState(false);
+  const [invoiceType, setInvoiceType] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
   const { users } = useSelector((state: State) => state.users)
 
@@ -41,6 +45,8 @@ const ShowPatientsAssurance: React.FC = () => {
     fetchAss();
   }, [dispatch]);
 
+  const patientAssRef = useRef(null)
+
   return (
     <ShowPatientsAssuranceContext.Provider
       value={{
@@ -49,7 +55,11 @@ const ShowPatientsAssurance: React.FC = () => {
         showDeleteInvoice,
         setShowDeleteInvoice,
         showPayInvoice, setShowPayInvoice,
-        factureGlobal, setFactureGlobal
+        factureGlobal, setFactureGlobal,
+        showPrintModal, setShowPrintModal,
+        selectedPatient, setSelectedPatient,
+        invoiceType, setInvoiceType,
+        patientAssRef
       }}
     >
       <div className="mt-2">
@@ -71,6 +81,9 @@ const ShowPatientsAssurance: React.FC = () => {
             toggle={() => setShowPayInvoice(!showPayInvoice)}
           />
         )}
+
+        {showPrintModal && <PrintModal modal={showPrintModal} toggle={() => setShowPrintModal(!showPrintModal)} />}
+
       </div>
       
     </ShowPatientsAssuranceContext.Provider>

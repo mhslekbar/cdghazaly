@@ -13,6 +13,7 @@ import { MdAttachMoney, MdRemoveCircleOutline } from "react-icons/md";
 import { FaPrint } from "react-icons/fa";
 import { PermissionType } from "../../roles/types";
 import { useTranslation } from "react-i18next";
+import { useReactToPrint } from "react-to-print";
 
 const InvoicesAssurance: React.FC = () => {
   const { AssId, doctorId } = useParams();
@@ -27,6 +28,7 @@ const InvoicesAssurance: React.FC = () => {
     setShowDeleteInvoice, 
     factureGlobal, setFactureGlobal,
     setShowPayInvoice,
+    patientAssRef
   } = useContext(ShowPatientsAssuranceContext);
 
   useEffect(() => {
@@ -64,6 +66,12 @@ const InvoicesAssurance: React.FC = () => {
 
   const { t } = useTranslation()
 
+  const printInvoice = useReactToPrint({
+    content: () => patientAssRef.current,
+    documentTitle: "Facture",
+  })
+
+
   return (
     <div className="mt-2">
       <div className="flex justify-start gap-2">
@@ -83,7 +91,7 @@ const InvoicesAssurance: React.FC = () => {
           value={factureGlobal}
           setValue={setFactureGlobal}
         />}        
-        <FaPrint className="text-blue mt-2" style={{ fontSize: "22px" }} onClick={() => window.print()}/>
+        <FaPrint className="text-blue mt-2" style={{ fontSize: "22px" }} onClick={printInvoice}/>
       </div>
       <section className="flex flex-row gap-2">
         {invoices.length > 0 &&
