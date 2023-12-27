@@ -29,7 +29,7 @@ const TdCheckedAppoint:React.FC<TdCheckedAppointInterface> = ({ day, findDate, t
     <td className={`${dateIsEqualToCurrentDate(day.order + 1, desiredDate)
           ? "bg-main"
           : ""
-      } bg-yellow-light whitespace-nowrap py-4 border-r font-medium relative`}
+      } bg-yellow-light whitespace-nowrap py-4 border-r font-medium relative border border-gray-950`}
       key={day.order}      
     >
       <MdRemoveCircleOutline

@@ -34,6 +34,7 @@ const SoinsPayments: React.FC = () => {
   return (
     <>
       {payments
+      .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
       .filter(
         (payment: PaymentInterface) =>
           payment.type === EnumTypePayment.SOINS
@@ -55,6 +56,7 @@ const SoinsPayments: React.FC = () => {
                     </thead>
                     <tbody>
                       {payments
+                        .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
                         .filter(
                           (payment: PaymentInterface) =>
                             payment.type === EnumTypePayment.SOINS

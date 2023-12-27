@@ -21,7 +21,7 @@ const ShowPayments:React.FC = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       await dispatch(ShowPaymentsApi())
-      // await dispatch(ShowPaymentsApi(`?patient=${patientId}`))
+      // await dispatch(ShowPaymentsApi(`?patient=${selectedPatient}`))
     }
     fetchPayments()
   }, [dispatch])

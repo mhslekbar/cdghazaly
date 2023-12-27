@@ -22,7 +22,7 @@ const TdNewAppoint:React.FC<TdNewAppointInterface> = ({ day, tdTime, index, part
     <td className={`${dateIsEqualToCurrentDate(day.order + 1, desiredDate)
           ? "bg-main"
           : "bg-white"
-        } whitespace-nowrap py-4 border-r font-medium relative`}
+        } whitespace-nowrap py-4 border-r font-medium relative border border-gray-950`}
         key={day.order}
         onClick={() => {
           setShowAddModal(true);

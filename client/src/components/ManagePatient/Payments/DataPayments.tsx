@@ -18,8 +18,8 @@ import { DevisInterface, LineDevisType } from "../Devis/types";
 import { formatDate } from "../../../functions/functions";
 import HeaderInvoice from "../HeaderInvoice";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
-import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 
 interface props {
   typeData: string
@@ -44,6 +44,8 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
         )
     );
   }, [payments]);
+
+  const { patientId } = useParams()
 
   useEffect(() => {
     let sumDevis: number = 0;
@@ -85,7 +87,6 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
     setSelectedPayment(payment);
   };
 
-  const { patientId } = useParams()
   const { patients } = useSelector((state: State) => state.patients)
 
   const { t } = useTranslation()
@@ -93,6 +94,7 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
   return (
     <>
       {payments
+      .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
       .filter(
         (payment: PaymentInterface) =>
           payment.type === EnumTypePayment.PAYMENT 
@@ -120,6 +122,7 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
                     </thead>
                     <tbody>
                       {payments
+                        .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
                         .filter(
                           (payment: PaymentInterface) =>
                             payment.type === EnumTypePayment.PAYMENT 

@@ -20,7 +20,7 @@ const ThTable:React.FC<ThTableInterface> = ({ day }) => {
   const { t } = useTranslation()
 
   return (
-    <th className={`px-6 py-4 border-r ${dateIsEqualToCurrentDate(day.order + 1, desiredDate) ? "bg-main text-white":"" }`} key={day.order}>
+    <th className={`px-6 py-4 border border-gray-950 ${dateIsEqualToCurrentDate(day.order + 1, desiredDate) ? "bg-main text-white":"" }`} key={day.order}>
     {t(day.name)}
     <span className={`${dateIsEqualToCurrentDate(day.order + 1, desiredDate) ? "text-white":"" } block`} >
       {formatDate(getDateOfSpecificDay(day.order + 1, desiredDate))}

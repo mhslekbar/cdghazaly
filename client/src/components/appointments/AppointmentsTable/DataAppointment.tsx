@@ -19,8 +19,10 @@ const DataAppointment: React.FC<DataAppointmentInterface> = ({ setAppoint, partO
           const Start = setAppoint(partOfTime).start;
           const time = setAppoint(partOfTime).time;
           return (
-            <tr className="text-center border-b" key={index}>
-              {Days.slice().sort((a: DayInfo, b: DayInfo) => a.order - b.order).map(
+            <tr className="text-center border border-gray-950" key={index}>
+              {Days.slice()
+              .sort((a: DayInfo, b: DayInfo) => a.order - b.order)
+              .map(
                 (day: DayInfo) => {
                   return <React.Fragment key={day.order}>
                     <TdTable Start={Start} time={time} index={index} day={day} partOfTime={partOfTime} />

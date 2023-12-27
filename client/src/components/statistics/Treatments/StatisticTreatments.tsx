@@ -51,6 +51,8 @@ const StatisticTreatments:React.FC = () => {
 
   const { t } = useTranslation()
 
+  // console.log("groupedData: ", groupedData)
+
   return (
     <div className="flex flex-col border mt-3">
     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -66,7 +68,9 @@ const StatisticTreatments:React.FC = () => {
             </thead>
             <tbody>
               {Object.entries(groupedData)
-              .sort(([treatmentA], [treatmentB]) => treatmentA.localeCompare(treatmentB))
+              .sort((element1: any, element2: any) => {
+                return element2[1]?.reduce((acc: any, line: LineInvoiceInterface) => acc + line.teeth.nums.length, 0) - element1[1]?.reduce((acc: any, line: LineInvoiceInterface) => acc + line.teeth.nums.length, 0)
+              })
               .map(([treatment, lines], index) => (
                 <tr className="border border-gray-950" key={index}>
                   <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
@@ -90,3 +94,21 @@ const StatisticTreatments:React.FC = () => {
 }
 
 export default StatisticTreatments
+
+// {Object.entries(groupedData)
+              
+//   .sort(([treatmentA], [treatmentB]) => treatmentA.localeCompare(treatmentB))
+//   // .sort(([treatmentA], [treatmentB]) => treatmentA.localeCompare(treatmentB))
+//   .map(([treatment, lines], index) => (
+//     <tr className="border border-gray-950" key={index}>
+//       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+//         {treatment}
+//       </td>
+//       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium text-center">
+//         {(lines as LineInvoiceInterface[]).reduce((acc, line: LineInvoiceInterface) => acc + line.teeth.nums.length, 0)}
+//       </td>
+//       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium text-center">
+//         {((lines as LineInvoiceInterface[]).reduce((acc, line: LineInvoiceInterface) => acc + line.teeth.nums.length, 0) * 100 / SumTotalNbrs)?.toFixed(2) + "%"}
+//       </td>
+//     </tr>
+//   ))}

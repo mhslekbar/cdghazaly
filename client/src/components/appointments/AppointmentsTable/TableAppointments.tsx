@@ -36,11 +36,11 @@ const AppointmentsTable: React.FC = () => {
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
           <div className="overflow-hidden">
-            <table className="min-w-full text-left text-sm font-light">
+            <table className="min-w-full text-left text-sm font-light border border-gray-950">
               <GetDaysOfWork />
               <tbody>
                 <DataAppointment partOfTime={"matin"} setAppoint={setAppoint}/>
-                <tr className="bg-blue-400 text-center w-full">
+                <tr className="bg-blue-400 text-center w-full border border-gray-950">
                   <td colSpan={Days.length} className="p-6 text-2xl font-bold text-white">{t("Pause")}</td>
                 </tr>
                 <DataAppointment partOfTime={"soir"} setAppoint={setAppoint}/>
