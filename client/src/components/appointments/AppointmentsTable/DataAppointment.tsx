@@ -4,12 +4,12 @@ import { AppointmentTableContext } from "./types";
 import { DayInfo } from "../ConfigAppointment/DayOfWork/types";
 import TdTable from "./Table/TdTable";
 
-interface DataAppointmentInterface {
+interface props {
   setAppoint: (partOfTime: string) => SetAppointmentInterface;
   partOfTime: string
 }
 
-const DataAppointment: React.FC<DataAppointmentInterface> = ({ setAppoint, partOfTime }) => {
+const DataAppointment: React.FC<props> = ({ setAppoint, partOfTime }) => {
   const { Days } = useContext(AppointmentTableContext);
 
   return (
@@ -20,7 +20,8 @@ const DataAppointment: React.FC<DataAppointmentInterface> = ({ setAppoint, partO
           const time = setAppoint(partOfTime).time;
           return (
             <tr className="text-center border border-gray-950" key={index}>
-              {Days.slice()
+              {Days
+              .slice()
               .sort((a: DayInfo, b: DayInfo) => a.order - b.order)
               .map(
                 (day: DayInfo) => {

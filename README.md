@@ -1,4 +1,4 @@
-# Dentist-Software
+cle# Dentist-Software
 Dentist Software
 
 # Connecting to the VPS
@@ -387,7 +387,6 @@ restart the server
 ##### START to do this for best one
 
 rm -rf /var/www/cabinetibtissama/* && mkdir /var/www/cabinetibtissama/client && cp -r build/* /var/www/cabinetibtissama/client
-
 
 rm -rf /var/www/cabinetibtissama/*
 mkdir /var/www/cabinetibtissama/client

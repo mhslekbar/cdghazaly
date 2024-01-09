@@ -4,7 +4,6 @@ import { ShowAppointmentContext } from './types';
 import { useParams } from 'react-router';
 import Select from 'react-select'
 import { useDispatch } from 'react-redux';
-import { ShowPatientsApi } from '../../redux/patients/patientApiCalls';
 import { useSelector } from 'react-redux';
 import { State } from '../../redux/store';
 import { PatientInterface } from '../patients/types';
@@ -57,19 +56,17 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
     setListPatient(patients.map((data: PatientInterface) => ({value: data._id, label: data.name})))
   }, [patients])
 
-  useEffect(() => {
-    const fetchPatient = async () => {
-      await dispatch(ShowPatientsApi())
-    }
-    fetchPatient()
-  }, [dispatch])
+  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
+  const { setAppointment } = useSelector((state: State) => state.setAppointment)
 
   const handleSubmit = async (e: FormEvent) => {
+    const limit = setAppointment.reduce((acc: number, currVal: any) => acc + currVal.countSeance, 0) * daysOfWork.dayOfWork.length
+
     e.preventDefault()
     setLoading(true)
     Object.assign(selectedTd, { patient: patient?.value, patientLab: selectedPatientLab})
     try {
-      const response = await dispatch(AddAppointmentApi(doctorId, selectedTd))
+      const response = await dispatch(AddAppointmentApi(doctorId, selectedTd, `?limit=${limit}`))
       if(response === true) {
         toggle()
         setShowSuccessMsg(true)

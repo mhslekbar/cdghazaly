@@ -31,9 +31,12 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
   const [totalDevis, setTotalDevis] = useState(0);
   const [totalPayments, setTotalPayments] = useState(0);
 
+  const { patientId } = useParams()
+
   useEffect(() => {
     setTotalPayments(
       payments
+        .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
         .filter(
           (payment: PaymentInterface) =>
             payment.type === EnumTypePayment.PAYMENT
@@ -43,9 +46,7 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
           0
         )
     );
-  }, [payments]);
-
-  const { patientId } = useParams()
+  }, [payments, patientId]);
 
   useEffect(() => {
     let sumDevis: number = 0;

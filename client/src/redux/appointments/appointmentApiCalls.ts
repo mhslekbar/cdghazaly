@@ -30,10 +30,15 @@ export const ShowAppointmentApi = (doctorId: string = "", filter: string = "") =
   }
 }
 
-export const AddAppointmentApi = (doctorId: string = "", data: {}) => async (dispatch: Dispatch<any>) => {
+export const AddAppointmentApi = (doctorId: string = "", data: {}, limit: string) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusAppointmentStart())
-    let response = await post(`appointment/${doctorId}`, data)
+    let response
+    if(limit) {
+      response = await post(`appointment/${doctorId}${limit}`, data)  
+    } else {
+      response = await post(`appointment/${doctorId}`, data)
+    }
     const resData = response.data.success
     if(resData) {
       dispatch(statusAppointmentSuccess(resData))
@@ -74,10 +79,15 @@ export const EditAppointmentApi = (doctorId: string = "", appointmentId: string,
   }
 }
 
-export const DeleteAppointmentApi = (doctorId: string = "",appointmentId: string) => async (dispatch: Dispatch<any>) => {
+export const DeleteAppointmentApi = (doctorId: string = "", appointmentId: string, limit: string) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusAppointmentStart())
-    let response = await remove(`appointment/${doctorId}/${appointmentId}`)
+    let response
+    if(limit) {
+      response = await remove(`appointment/${doctorId}/${appointmentId}${limit}`)
+    } else {
+      response = await remove(`appointment/${doctorId}/${appointmentId}`)
+    }
     const resData = response.data.success
     if(resData) {
       dispatch(statusAppointmentSuccess(resData))

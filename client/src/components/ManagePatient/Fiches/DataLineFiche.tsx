@@ -72,49 +72,36 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
         <InputFiche type="hidden" Line={Line} kind="lineFicheId" />
       </td>
       <td className="whitespace-nowrap border-r border-black bg-white font-medium w-6 relative print:static">
-        {firstEmptyDateIndex > myIndex &&  (
+        {firstEmptyDateIndex > myIndex ?  (
           <>
-            {/* disabled={Line.appointment ? true : false} */}
             <InputFiche disabled={Line.appointment || Line.finish === 1 ? true : false} type="date" Line={Line} kind="date" />
-            {/* {Line.finish === 1 && !Line.appointment &&  <MdRemoveCircle
-              className="absolute top-3 right-2 text-red hover:text-main print:hidden"
-              style={{ fontSize: "22px" }}
-              onClick={() => {
-                setShowDeleteLineFiche(!showDeleteLineFiche)
-                setSelectedLineFiche(Line);
-              }}
-            />} */}
-            {/* {Line.appointment && <MdRemoveCircle
-              className="absolute top-3 right-2 text-red hover:text-main print:hidden"
-              style={{ fontSize: "22px" }}
-              onClick={() => {
-                setShowDeleteLineFiche(!showDeleteLineFiche)
-                setSelectedLineFiche(Line);
-              }}
-            />} */}
             {Line.appointment && Line.finish === 0 && <CiCircleRemove onClick={() => {
               setShowDeleteAppointmentModal(!showDeleteAppointmentModal)
               setSelectedLineFiche(Line)
             }} className='absolute top-3 right-2 text-red print:hidden' style={{ fontSize: "22px" }} /> }
           </>
-        )
-        }
-        {/* && !Line.appointment */}
-        {(firstEmptyDateIndex === myIndex ) && (<>
-          {dateModal ? 
-            <>
-              <BiChevronDown onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 text-white' style={{ fontSize: "22px" }} />
-              <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full print:hidden ' onClick={() => setShowAppointmentModal(true)}>{t("RDV")}</button>
-            </>
-            : 
-            <>
-              <BiChevronUp onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 bg-blue z-10' style={{ borderRadius: "50%", fontSize: "22px" }} />
-              {/* disabled={Line.appointment ? true : false} */}
-              <InputFiche type="date" Line={Line} kind="date" />
-            </>
+        ): 
+          <>
+          {(firstEmptyDateIndex === myIndex ) ? (<>
+            {dateModal ? 
+              <>
+                <BiChevronDown onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 text-white' style={{ fontSize: "22px" }} />
+                <button type='button' className='bg-blue-400 text-white px-4 py-2 rounded border w-full print:hidden ' onClick={() => setShowAppointmentModal(true)}>{t("RDV")}</button>
+              </>
+              : 
+              <>
+                <BiChevronUp onClick={() => setDateModal(!dateModal)} className='absolute top-0 right-0 bg-blue z-10' style={{ borderRadius: "50%", fontSize: "22px" }} />
+                {/* disabled={Line.appointment ? true : false} */}
+                <InputFiche type="date" Line={Line} kind="date" />
+              </>
+            }
+          </>) :
+            Line.dateAppointment &&
+            <InputFiche disabled={Line.appointment || Line.finish === 1 ? true : false} type="date" Line={Line} kind="date" />
           }
-        </>)
+          </>
         }
+        
       </td>
       <td className="whitespace-nowrap border-r border-black bg-white font-medium relative print:static">
         <InputFiche
@@ -123,7 +110,8 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
           Line={Line}
           kind="acte"
         />
-        {((firstEmptyDateIndex === myIndex && Line.dateAppointment) || (firstEmptyDateIndex > myIndex && !Line.acte)) ? (
+        {/* {((firstEmptyDateIndex === myIndex && Line.dateAppointment) || (firstEmptyDateIndex > myIndex && !Line.acte)) ? ( */}
+        {((firstEmptyDateIndex === myIndex && Line.dateAppointment) || ((firstEmptyDateIndex > myIndex && !Line.acte) || (!Line.acte && Line.dateAppointment))) ? (
           <FaEye
             className="hover:text-main print:hidden"
             style={{

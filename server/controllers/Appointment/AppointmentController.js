@@ -7,10 +7,16 @@ const twilio = require('twilio');
 const getAppointments = async (request, response) => {
   try { 
     const { doctor } = request.params
+    let { limit } = request.query
+    if(!limit) {
+      limit = 100
+    }
     const appointment = await AppointmentModel
     .find({ doctor })
     .populate("doctor")
     .populate("patient")
+    .sort({ createdAt: -1 })
+    .limit(limit)
     response.status(200).json({ success: appointment })
   } catch(error) {
     response.status(500).json({ error: error.message })

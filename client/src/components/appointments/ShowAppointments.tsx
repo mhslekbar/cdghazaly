@@ -12,6 +12,8 @@ import ToggleTableAppointment from "./ToggleTableAppointment";
 import { ShowSetAppointApi } from "../../redux/setAppoint/setAppointApiCalls";
 import { ShowDayOfWorkApi } from "../../redux/dayOfWork/dayOfWorkApiCalls";
 import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
+import { useSelector } from "react-redux";
+import { State } from "../../redux/store";
 
 const ShowAppointments: React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
@@ -24,12 +26,8 @@ const ShowAppointments: React.FC = () => {
   const dispatch: any = useDispatch()
   const { doctorId } = useParams()
 
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      await dispatch(ShowAppointmentApi(doctorId))
-    }
-    fetchAppointments()
-  }, [dispatch, doctorId])
+  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
+  const { setAppointment } = useSelector((state: State) => state.setAppointment)
 
   useEffect(() => {
     const fetchSetAppointment = async () => {
@@ -51,6 +49,14 @@ const ShowAppointments: React.FC = () => {
     };
     fetchPatient();
   }, [dispatch]);
+
+  useEffect(() => {
+    const limit = setAppointment.reduce((acc: number, currVal: any) => acc + currVal.countSeance, 0) * daysOfWork.dayOfWork.length
+    const fetchAppointments = async () => {
+      await dispatch(ShowAppointmentApi(doctorId, `?limit=${limit}`))
+    }
+    fetchAppointments()
+  }, [dispatch, doctorId, daysOfWork, setAppointment])
 
 
   return (

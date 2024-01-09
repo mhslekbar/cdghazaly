@@ -9,6 +9,8 @@ import { AppointmentInterface } from './AppointmentsTable/types';
 import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
 import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
 import { useTranslation } from 'react-i18next';
+import { State } from '../../redux/store';
+import { useSelector } from 'react-redux';
 
 interface DeleteAppointmentInterface {
   modal: boolean,
@@ -25,11 +27,17 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
   const dispatch: any = useDispatch()
   const [loading, setLoading] = useState(false)
 
+  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
+  const { setAppointment } = useSelector((state: State) => state.setAppointment)
+
+
   const handleSubmit = async (e: FormEvent) => {
+    const limit = setAppointment.reduce((acc: number, currVal: any) => acc + currVal.countSeance, 0) * daysOfWork.dayOfWork.length
+
     e.preventDefault()
     setLoading(true)
     try {
-      const response = await dispatch(DeleteAppointmentApi(doctorId, AppointmentData._id))
+      const response = await dispatch(DeleteAppointmentApi(doctorId, AppointmentData._id, `?limit=${limit}`))
       if(response === true) {
         toggle()
         setShowSuccessMsg(true)

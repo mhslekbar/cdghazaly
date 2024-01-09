@@ -15,9 +15,12 @@ const SoinsPayments: React.FC = () => {
   const { payments } = useSelector((state: State) => state.payments);
   const [totalPayments, setTotalPayments] = useState(0);
 
+  const { patientId } = useParams()
+
   useEffect(() => {
     setTotalPayments(
       payments
+        .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
         .filter(
           (payment: PaymentInterface) => payment.type === EnumTypePayment.SOINS
         )
@@ -26,10 +29,9 @@ const SoinsPayments: React.FC = () => {
           0
         )
     );
-  }, [payments]);
+  }, [payments, patientId]);
 
   const { patients } = useSelector((state: State) => state.patients)
-  const { patientId } = useParams()
 
   return (
     <>
