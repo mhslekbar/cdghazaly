@@ -1,5 +1,4 @@
 import React from "react";
-import { formattedDate } from "../functions/functions";
 
 interface InputElementInterface {
   type?: string,
@@ -12,6 +11,19 @@ interface InputElementInterface {
 }
 
 export const InputElement:React.FC<InputElementInterface> = ({ type = "text", name, id, value, setValue, placeholder, divClass = "" }) => {
+  const handleInputChange = (e: any) => {
+    const inputValue = e.target.value;
+    if(type === "date") {
+      if(inputValue) {
+        const newDate = new Date(inputValue);
+        setValue(newDate.toISOString().split('T')[0]);
+      }
+    } else {
+      setValue(e.target.value)
+    }
+
+  };
+
   return (
     <div className={`mb-2 ${divClass}`}>
       {name && 
@@ -28,9 +40,10 @@ export const InputElement:React.FC<InputElementInterface> = ({ type = "text", na
         placeholder={placeholder || name}
         value={value}
         autoComplete="off"
-        onChange={(e) => {
-          type === "date" ? setValue(formattedDate(e.target.value)) : setValue(e.target.value)
-        }}
+        onChange={handleInputChange}
+        // onChange={(e) => {
+        //   type === "date" ? setValue(formattedDate(e.target.value)) : setValue(e.target.value)
+        // }}
       />
     </div>
   );

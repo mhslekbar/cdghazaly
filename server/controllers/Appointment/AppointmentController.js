@@ -15,7 +15,7 @@ const getAppointments = async (request, response) => {
     .find({ doctor })
     .populate("doctor")
     .populate("patient")
-    .sort({ createdAt: -1 })
+    .sort({ date: -1 })
     .limit(limit)
     response.status(200).json({ success: appointment })
   } catch(error) {

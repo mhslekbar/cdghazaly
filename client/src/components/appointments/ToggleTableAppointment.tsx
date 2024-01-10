@@ -3,15 +3,16 @@ import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 import { ShowAppointmentContext } from './types'
 
 const ToggleTableAppointment:React.FC = () => {
-  const { setFilterByDate, filterByDate } = useContext(ShowAppointmentContext)
+  let { setFilterByDate, filterByDate } = useContext(ShowAppointmentContext)
   
   const updateDate = (type: string) => {
+    filterByDate = new Date(filterByDate)
     switch(type) {
       case "decrease": 
-        setFilterByDate(new Date(filterByDate.setDate(filterByDate.getDate() - 7)))
+        setFilterByDate(new Date(filterByDate.setDate(filterByDate?.getDate() - 7)))
       break
       case "increase": 
-        setFilterByDate(new Date(filterByDate.setDate(filterByDate.getDate() + 7)))
+        setFilterByDate(new Date(filterByDate.setDate(filterByDate?.getDate() + 7)))
       break
     }
   }
