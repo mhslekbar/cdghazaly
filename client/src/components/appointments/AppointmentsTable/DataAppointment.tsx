@@ -1,8 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SetAppointmentInterface } from "../ConfigAppointment/setAppointments/types";
 import { AppointmentTableContext } from "./types";
 import { DayInfo } from "../ConfigAppointment/DayOfWork/types";
 import TdTable from "./Table/TdTable";
+import { State } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
 interface props {
   setAppoint: (partOfTime: string) => SetAppointmentInterface;
@@ -11,6 +13,13 @@ interface props {
 
 const DataAppointment: React.FC<props> = ({ setAppoint, partOfTime }) => {
   const { Days } = useContext(AppointmentTableContext);
+  const { appointments } = useSelector((state: State) => state.appointments);
+  
+  const [daysAndAppointment, setDaysAndAppointment] = useState<DayInfo[]>([])
+
+  useEffect(() => {
+    setDaysAndAppointment(Days.map((day: DayInfo) => ({...day, appointments})))
+  }, [Days, appointments])
 
   return (
     <>
@@ -20,13 +29,19 @@ const DataAppointment: React.FC<props> = ({ setAppoint, partOfTime }) => {
           const time = setAppoint(partOfTime).time;
           return (
             <tr className="text-center border border-gray-950" key={index}>
-              {Days
+              {daysAndAppointment
               .slice()
               .sort((a: DayInfo, b: DayInfo) => a.order - b.order)
               .map(
                 (day: DayInfo) => {
                   return <React.Fragment key={day.order}>
-                    <TdTable Start={Start} time={time} index={index} day={day} partOfTime={partOfTime} />
+                    <TdTable 
+                      appointments={day.appointments} 
+                      Start={Start} 
+                      time={time} 
+                      index={index}
+                      day={day}
+                      partOfTime={partOfTime} />
                   </React.Fragment>
                 }
               )}

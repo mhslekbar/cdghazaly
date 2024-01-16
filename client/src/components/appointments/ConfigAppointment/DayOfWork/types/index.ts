@@ -4,11 +4,13 @@ export interface DayInfo {
   _id?: string,
   name: string;
   order: number;
+  appointments?: any[],
 }
 export const DefaultDayInfo: DayInfo = {
   _id: "",
   name: "",
-  order: -1
+  order: -1,
+  appointments: [],
 }
 export interface DayOfWorkInterface {
   _id: string,

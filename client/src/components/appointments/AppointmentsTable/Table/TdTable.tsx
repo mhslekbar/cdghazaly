@@ -1,25 +1,22 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { State } from "../../../../redux/store";
 import { useParams } from "react-router";
 import { AddPlayTime, MultiplyTime,  getDateOfSpecificDay } from "../../functions";
-import { AppointmentInterface } from "../types";
 import { formatDate } from "../../../../functions/functions";
 import { DayInfo } from "../../ConfigAppointment/DayOfWork/types";
 import TdCheckedAppoint from "./TdCheckedAppoint";
 import TdNewAppoint from "./TdNewAppoint";
 import { ShowAppointmentContext } from "../../types";
 
-interface TdTableInterface {
+interface props {
   Start: string;
   time: string;
   index: number;
   day: DayInfo;
   partOfTime: string;
+  appointments?: any[],
 }
 
-const TdTable: React.FC<TdTableInterface> = ({ Start, time, index, day, partOfTime }) => {
-  const { appointments } = useSelector((state: State) => state.appointments);
+const TdTable: React.FC<props> = ({ Start, time, index, day, partOfTime, appointments }) => {
   const { doctorId } = useParams();
 
   const { filterByDate } = useContext(ShowAppointmentContext)
@@ -32,20 +29,22 @@ const TdTable: React.FC<TdTableInterface> = ({ Start, time, index, day, partOfTi
   const tdTime = useMemo(() => AddPlayTime(Start, MultiplyTime(time, index)), [Start, time, index]);
 
   const cellContent = useMemo(() => {
-    const findDate = appointments.find(
-      (appoint: AppointmentInterface) =>
-        appoint.doctor._id === doctorId &&
-        formatDate(appoint.date.toString()) ===
-          formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) &&
-        appoint.partOfTime === partOfTime &&
-        appoint.numSeance === index + 1
-    );
-
-    if (findDate && findDate._id) {
-      return <TdCheckedAppoint day={day} findDate={findDate} tdTime={tdTime} />
-    } else {
-      return <TdNewAppoint day={day} tdTime={tdTime} index={index} partOfTime={partOfTime} />
+    if(appointments) {
+      const findDate = appointments.find(
+        (appoint: any) =>
+          appoint.doctor._id === doctorId &&
+          formatDate(appoint.date.toString()) ===
+            formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) &&
+          appoint.partOfTime === partOfTime &&
+          appoint.numSeance === index + 1
+      );
+      if (findDate && findDate._id) {
+        return <TdCheckedAppoint day={day} findDate={findDate} tdTime={tdTime} />
+      } else {
+        return <TdNewAppoint day={day} tdTime={tdTime} index={index} partOfTime={partOfTime} />
+      }
     }
+
   }, [appointments, doctorId, day, desiredDate, partOfTime, index, tdTime]);
 
   return <>{cellContent}</>;
