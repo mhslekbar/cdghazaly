@@ -59,47 +59,6 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
           {permissions.find(
             (permission: PermissionType) =>
               permission.name === "AFFICHER_GLOBAL" &&
-              permission.collectionName === "COMPTES_LABORATOIRE"
-          ) && <ButtonLab
-            name={t("Comptes")}
-            path={`/laboratory/${laboratory._id}/accounts`}
-          />}
-
-          {permissions.find(
-            (permission: PermissionType) =>
-              permission.name === "AFFICHER" &&
-              permission.collectionName === "TRAITEMENTS_LABORATOIRES"
-          ) && <ButtonLab
-            name={t("Traitements")}
-            path={`/laboratory/${laboratory._id}/treatments`}
-          />}
-          
-          {permissions.find(
-            (permission: PermissionType) =>
-              permission.name === "AFFICHER_GLOBAL" &&
-              permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
-          ) ?
-          <DropdownLab
-            openDropdown={openDropdown}
-            name={t("Consommations")}
-            pathDropDown="consumptions"
-            linkList={doctors}
-            selectedDropDown={selectedDropDown}
-            toggleDropDown={toggleDropDown}
-          /> : 
-          permissions.find(
-            (permission: PermissionType) =>
-              permission.name === "AFFICHER" &&
-              permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
-          ) &&
-          <ButtonLab
-            name={t("Consommations")}
-            path={`/laboratory/${laboratory._id}/consumptions/${UserData()._id}`}
-          />}
-
-          {permissions.find(
-            (permission: PermissionType) =>
-              permission.name === "AFFICHER_GLOBAL" &&
               permission.collectionName === "PATIENTS_LABORATOIRE"
           ) ?
           <DropdownLab
@@ -142,6 +101,48 @@ const ManageLab: React.FC<ManageLabInterface> = ({ laboratory }) => {
             name={t("Paiements")}
             path={`/laboratory/${laboratory._id}/payments/${UserData()._id}`}
           />}
+
+          {permissions.find(
+            (permission: PermissionType) =>
+              permission.name === "AFFICHER_GLOBAL" &&
+              permission.collectionName === "COMPTES_LABORATOIRE"
+          ) && <ButtonLab
+            name={t("Comptes")}
+            path={`/laboratory/${laboratory._id}/accounts`}
+          />}
+          
+          {permissions.find(
+            (permission: PermissionType) =>
+              permission.name === "AFFICHER_GLOBAL" &&
+              permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
+          ) ?
+          <DropdownLab
+            openDropdown={openDropdown}
+            name={t("Consommations")}
+            pathDropDown="consumptions"
+            linkList={doctors}
+            selectedDropDown={selectedDropDown}
+            toggleDropDown={toggleDropDown}
+          /> : 
+          permissions.find(
+            (permission: PermissionType) =>
+              permission.name === "AFFICHER" &&
+              permission.collectionName === "CONSOMMATIONS_LABORATOIRE"
+          ) &&
+          <ButtonLab
+            name={t("Consommations")}
+            path={`/laboratory/${laboratory._id}/consumptions/${UserData()._id}`}
+          />}
+
+          {permissions.find(
+            (permission: PermissionType) =>
+              permission.name === "AFFICHER" &&
+              permission.collectionName === "TRAITEMENTS_LABORATOIRES"
+          ) && <ButtonLab
+            name={t("Traitements")}
+            path={`/laboratory/${laboratory._id}/treatments`}
+          />}
+
 
         </>
         }

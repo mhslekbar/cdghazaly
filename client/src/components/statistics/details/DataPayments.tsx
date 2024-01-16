@@ -42,6 +42,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                 <th className="px-6 py-4 border-r border-gray-950">{t("Consultation")}</th>
                 <th className="px-6 py-4 border-r border-gray-950">{paymentFilter === "payment" ? t("Versement") : paymentFilter === "soins" ?  t("soins") : ""}</th>
                 <th className="px-6 py-4 border-r border-gray-950">{t("Mode de paiement")}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("Ajouter par")}</th>
                 <th className="px-6 py-4 border-r border-gray-950">{t("Date")}</th>
               </tr>
             </thead>
@@ -61,6 +62,9 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                 ?.map((payment: PaymentInterface, index) => {
                   sumCons += payment.type === EnumTypePayment.CONSULTATION ? payment.amount : 0
                   sumPayment += payment.type === filteredPayment ? payment.amount : 0
+                  if(payment.amount === 0) {
+                    return "";
+                  }
                   return (
                     <tr className="border-b border-gray-950" key={index}>
                       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
@@ -81,6 +85,9 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                         {payment.method?.name || "cash"}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                        {payment.user?.username}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
                         {formatDate(payment.createdAt)}
                       </td>
                     </tr>
@@ -93,7 +100,8 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
               {/* <ConsoLab /> */}
               <PaymentLab />
               <RemainAmount />
-              {location.pathname.split("/")[3] === "payments" && ((day.toString() === "jour" && month.toString() !== "mois") || day === 0) &&
+              {location.pathname.split("/")[3] === "payments" && 
+              ((day.toString() === "jour" && month.toString() !== "mois") || day === 0) &&
                 <>
                   <PercentageDoctor />
                   <PercentageCabinet />
