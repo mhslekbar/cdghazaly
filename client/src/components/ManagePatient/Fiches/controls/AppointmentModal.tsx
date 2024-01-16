@@ -34,11 +34,30 @@ const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, s
   const { doctorId } = useParams()
 
   useEffect(() => {
+    const startDate = new Date(filterByDate);
+    const firstDayOfWeek = startDate.getDate() - startDate.getDay();
+    const startDateOfWeek = new Date(startDate);
+    startDateOfWeek.setDate(firstDayOfWeek);
+
+    const endDate = new Date(filterByDate);
+    const lastDayOfWeek = endDate.getDate() + (6 - endDate.getDay());
+    const endDateOfWeek = new Date(endDate);
+    endDateOfWeek.setDate(lastDayOfWeek);
+
     const fetchAppointments = async () => {
-      await dispatch(ShowAppointmentApi(doctorId))
+      await dispatch(ShowAppointmentApi(doctorId, 
+        `?startDate=${startDateOfWeek.toISOString().slice(0, 10)}&endDate=${endDateOfWeek.toISOString().slice(0, 10)}`
+        ))
     }
     fetchAppointments()
-  }, [dispatch, doctorId])
+  }, [dispatch, doctorId, filterByDate])
+
+  // useEffect(() => {
+  //   const fetchAppointments = async () => {
+  //     await dispatch(ShowAppointmentApi(doctorId))
+  //   }
+  //   fetchAppointments()
+  // }, [dispatch, doctorId])
 
   useEffect(() => {
     const fetchSetAppointment = async () => {

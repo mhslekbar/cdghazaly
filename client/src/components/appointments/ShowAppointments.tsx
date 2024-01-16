@@ -12,8 +12,6 @@ import ToggleTableAppointment from "./ToggleTableAppointment";
 import { ShowSetAppointApi } from "../../redux/setAppoint/setAppointApiCalls";
 import { ShowDayOfWorkApi } from "../../redux/dayOfWork/dayOfWorkApiCalls";
 import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
-import { useSelector } from "react-redux";
-import { State } from "../../redux/store";
 
 const ShowAppointments: React.FC = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
@@ -25,9 +23,6 @@ const ShowAppointments: React.FC = () => {
 
   const dispatch: any = useDispatch()
   const { doctorId } = useParams()
-
-  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
-  const { setAppointment } = useSelector((state: State) => state.setAppointment)
 
   useEffect(() => {
     const fetchSetAppointment = async () => {
@@ -67,7 +62,7 @@ const ShowAppointments: React.FC = () => {
         ))
     }
     fetchAppointments()
-  }, [dispatch, doctorId, daysOfWork, setAppointment, filterByDate])
+  }, [dispatch, doctorId, filterByDate])
 
 
   return (
