@@ -61,10 +61,9 @@ const ShowAppointments: React.FC = () => {
     const endDateOfWeek = new Date(endDate);
     endDateOfWeek.setDate(lastDayOfWeek);
 
-    const limit = setAppointment.reduce((acc: number, currVal: any) => acc + currVal.countSeance, 0) * daysOfWork.dayOfWork.length
     const fetchAppointments = async () => {
       await dispatch(ShowAppointmentApi(doctorId, 
-        `?limit=${limit}&startDate=${startDateOfWeek.toISOString().slice(0, 10)}&endDate=${endDateOfWeek.toISOString().slice(0, 10)}`
+        `?startDate=${startDateOfWeek.toISOString().slice(0, 10)}&endDate=${endDateOfWeek.toISOString().slice(0, 10)}`
         ))
     }
     fetchAppointments()

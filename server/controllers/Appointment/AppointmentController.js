@@ -7,10 +7,8 @@ const twilio = require('twilio');
 const getAppointments = async (request, response) => {
   try { 
     const { doctor } = request.params
-    let { limit, startDate, endDate } = request.query
-    if(!limit) {
-      limit = 100
-    }
+    let {  startDate, endDate } = request.query
+    
     startDate = new Date(`${startDate}T00:00:00.000Z`);
     endDate = new Date(`${endDate}T23:59:59.999Z`);
     
@@ -22,7 +20,6 @@ const getAppointments = async (request, response) => {
     .populate("doctor")
     .populate("patient")
     .sort({ date: -1 })
-    .limit(limit)
 
     response.status(200).json({ success: appointment })
   } catch(error) {

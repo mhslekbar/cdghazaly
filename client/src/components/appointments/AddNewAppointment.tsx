@@ -23,7 +23,7 @@ interface AddNewAppointmentInterface {
 const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle, selectedPatientLab }) => {
   const { patients } = useSelector((state: State) => state.patients)
   const { doctorId, patientId, labId } = useParams()
-  const { selectedTd, setShowSuccessMsg } = useContext(ShowAppointmentContext)
+  const { selectedTd, setShowSuccessMsg, filterByDate } = useContext(ShowAppointmentContext)
   
   const [dateAppointment, setDateAppointment] = useState<any>("")
 
@@ -56,17 +56,24 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
     setListPatient(patients.map((data: PatientInterface) => ({value: data._id, label: data.name})))
   }, [patients])
 
-  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
-  const { setAppointment } = useSelector((state: State) => state.setAppointment)
-
   const handleSubmit = async (e: FormEvent) => {
-    const limit = setAppointment.reduce((acc: number, currVal: any) => acc + currVal.countSeance, 0) * daysOfWork.dayOfWork.length
+    const startDate = new Date(filterByDate);
+    const firstDayOfWeek = startDate.getDate() - startDate.getDay();
+    const startDateOfWeek = new Date(startDate);
+    startDateOfWeek.setDate(firstDayOfWeek);
+
+    const endDate = new Date(filterByDate);
+    const lastDayOfWeek = endDate.getDate() + (6 - endDate.getDay());
+    const endDateOfWeek = new Date(endDate);
+    endDateOfWeek.setDate(lastDayOfWeek);
 
     e.preventDefault()
     setLoading(true)
     Object.assign(selectedTd, { patient: patient?.value, patientLab: selectedPatientLab})
     try {
-      const response = await dispatch(AddAppointmentApi(doctorId, selectedTd, `?limit=${limit}`))
+      const response = await dispatch(AddAppointmentApi(doctorId, selectedTd, 
+        `?startDate=${startDateOfWeek.toISOString().slice(0, 10)}&endDate=${endDateOfWeek.toISOString().slice(0, 10)}`
+      ))
       if(response === true) {
         toggle()
         setShowSuccessMsg(true)

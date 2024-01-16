@@ -9,8 +9,6 @@ import { AppointmentInterface } from './AppointmentsTable/types';
 import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
 import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
 import { useTranslation } from 'react-i18next';
-import { State } from '../../redux/store';
-import { useSelector } from 'react-redux';
 
 interface DeleteAppointmentInterface {
   modal: boolean,
@@ -20,24 +18,31 @@ interface DeleteAppointmentInterface {
 
 const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle, AppointmentData}) => {
   const { doctorId, patientId } = useParams()
-  const { setShowSuccessMsg } = useContext(ShowAppointmentContext)
+  const { setShowSuccessMsg, filterByDate } = useContext(ShowAppointmentContext)
 
   const [errors, setErrors] = useState<string[]>([]);
 
   const dispatch: any = useDispatch()
   const [loading, setLoading] = useState(false)
 
-  const { daysOfWork } = useSelector((state: State) => state.daysOfWork)
-  const { setAppointment } = useSelector((state: State) => state.setAppointment)
-
-
   const handleSubmit = async (e: FormEvent) => {
-    const limit = setAppointment.reduce((acc: number, currVal: any) => acc + currVal.countSeance, 0) * daysOfWork.dayOfWork.length
+    const startDate = new Date(filterByDate);
+    const firstDayOfWeek = startDate.getDate() - startDate.getDay();
+    const startDateOfWeek = new Date(startDate);
+    startDateOfWeek.setDate(firstDayOfWeek);
+
+    const endDate = new Date(filterByDate);
+    const lastDayOfWeek = endDate.getDate() + (6 - endDate.getDay());
+    const endDateOfWeek = new Date(endDate);
+    endDateOfWeek.setDate(lastDayOfWeek);
+
 
     e.preventDefault()
     setLoading(true)
     try {
-      const response = await dispatch(DeleteAppointmentApi(doctorId, AppointmentData._id, `?limit=${limit}`))
+      const response = await dispatch(DeleteAppointmentApi(doctorId, AppointmentData._id, 
+        `?startDate=${startDateOfWeek.toISOString().slice(0, 10)}&endDate=${endDateOfWeek.toISOString().slice(0, 10)}`
+      ))
       if(response === true) {
         toggle()
         setShowSuccessMsg(true)
