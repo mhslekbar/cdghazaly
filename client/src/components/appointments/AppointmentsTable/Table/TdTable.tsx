@@ -34,7 +34,7 @@ const TdTable: React.FC<props> = ({ Start, time, index, day, partOfTime, appoint
         (appoint: any) =>
           appoint.doctor._id === doctorId &&
           formatDate(appoint.date.toString()) ===
-            formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) &&
+          formatDate(getDateOfSpecificDay(day.order + 1, desiredDate)) &&
           appoint.partOfTime === partOfTime &&
           appoint.numSeance === index + 1
       );

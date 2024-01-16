@@ -41,7 +41,7 @@ const ShowAppointments: React.FC = () => {
       await dispatch(ShowDayOfWorkApi(doctorId))
     }
     fetchDays()
-  }, [dispatch, doctorId])
+  }, [dispatch, doctorId, ])
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -51,12 +51,24 @@ const ShowAppointments: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    const startDate = new Date(filterByDate);
+    const firstDayOfWeek = startDate.getDate() - startDate.getDay();
+    const startDateOfWeek = new Date(startDate);
+    startDateOfWeek.setDate(firstDayOfWeek);
+
+    const endDate = new Date(filterByDate);
+    const lastDayOfWeek = endDate.getDate() + (6 - endDate.getDay());
+    const endDateOfWeek = new Date(endDate);
+    endDateOfWeek.setDate(lastDayOfWeek);
+
     const limit = setAppointment.reduce((acc: number, currVal: any) => acc + currVal.countSeance, 0) * daysOfWork.dayOfWork.length
     const fetchAppointments = async () => {
-      await dispatch(ShowAppointmentApi(doctorId, `?limit=${limit}`))
+      await dispatch(ShowAppointmentApi(doctorId, 
+        `?limit=${limit}&startDate=${startDateOfWeek.toISOString().slice(0, 10)}&endDate=${endDateOfWeek.toISOString().slice(0, 10)}`
+        ))
     }
     fetchAppointments()
-  }, [dispatch, doctorId, daysOfWork, setAppointment])
+  }, [dispatch, doctorId, daysOfWork, setAppointment, filterByDate])
 
 
   return (
