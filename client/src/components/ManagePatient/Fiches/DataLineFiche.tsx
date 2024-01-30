@@ -127,7 +127,8 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
           />
         ) :
         Line?.lineInvoice?.treatment.name &&
-        firstEmptyDateIndex > myIndex && <>
+        // firstEmptyDateIndex > myIndex && 
+        <>
           <FaEdit
             className="text-blue hover:text-main print:hidden"
             style={{
