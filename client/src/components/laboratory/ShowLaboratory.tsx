@@ -7,7 +7,6 @@ import {
   laboratoryInterface,
 } from "./types";
 import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
 import { ShowLaboratoryApi } from "../../redux/laboratory/laboratoryApiCalls";
 import DataLaboratory from "./DataLaboratory";
 import EditLaboratory from "./EditLaboratory";
@@ -17,6 +16,7 @@ import { DefaultUserInterface, UserInterface } from "../users/types";
 import { FaChevronCircleLeft, FaPlus } from "react-icons/fa";
 import { UserData } from "../../requestMethods";
 import { useNavigate, useParams } from "react-router";
+import { ShowPatientsApi } from "../../redux/patients/patientApiCalls";
 
 export const ShowLaboratoryContext = createContext(
   DefaultShowLaboratoryInterface
@@ -30,34 +30,42 @@ const ShowLaboratory: React.FC = () => {
   const [selectedLaboratory, setSelectedLaboratory] =
     useState<laboratoryInterface>(DefaultLaboratoryInterface);
 
-  const [selectedActionLab, setSelectedActionLab] = useState("")
-  const [selectedDoctorLab, setSelectedDoctorLab] = useState<UserInterface>(DefaultUserInterface)
+  const [selectedActionLab, setSelectedActionLab] = useState("");
+  const [selectedDoctorLab, setSelectedDoctorLab] =
+    useState<UserInterface>(DefaultUserInterface);
 
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
   useEffect(() => {
-    const fetchLab = async () => {
+    const fetchApi = async () => {
       try {
-        const boundActions = bindActionCreators({ ShowLaboratoryApi }, dispatch);
-        await boundActions.ShowLaboratoryApi();
+        await dispatch(ShowLaboratoryApi());
+        await dispatch(ShowPatientsApi());
       } catch {}
-    }
-    fetchLab()
+    };
+    fetchApi();
   }, [dispatch]);
 
-  const navigate = useNavigate()
-  const { labId } = useParams()
+  const navigate = useNavigate();
+  const { labId } = useParams();
 
   return (
     <ShowLaboratoryContext.Provider
       value={{
-        showSuccessMsg, setShowSuccessMsg,
-        showAddModal, setShowAddModal,
-        showEditModal, setShowEditModal,
-        showDeleteModal, setShowDeleteModal,
-        selectedLaboratory, setSelectedLaboratory,
-        selectedActionLab,  setSelectedActionLab,
-        selectedDoctorLab,  setSelectedDoctorLab
+        showSuccessMsg,
+        setShowSuccessMsg,
+        showAddModal,
+        setShowAddModal,
+        showEditModal,
+        setShowEditModal,
+        showDeleteModal,
+        setShowDeleteModal,
+        selectedLaboratory,
+        setSelectedLaboratory,
+        selectedActionLab,
+        setSelectedActionLab,
+        selectedDoctorLab,
+        setSelectedDoctorLab,
       }}
     >
       {showSuccessMsg && (
@@ -68,31 +76,47 @@ const ShowLaboratory: React.FC = () => {
       )}
       <div className="flex justify-between gap-2">
         <div>
-          {labId ? 
-            <FaChevronCircleLeft className="text-main" style={{ fontSize: "30px" }} onClick={() => {
-              setSelectedLaboratory(DefaultLaboratoryInterface)
-              navigate("/laboratory")
-            }}
+          {labId ? (
+            <FaChevronCircleLeft
+              className="text-main"
+              style={{ fontSize: "30px" }}
+              onClick={() => {
+                setSelectedLaboratory(DefaultLaboratoryInterface);
+                navigate("/laboratory");
+              }}
             />
-          :
-          <div className="flex justify-start gap-2">
-            <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
-            <button className="bg-main p-2 rounded border" onClick={() => setShowAddModal(!showAddModal)}>
-              <FaPlus />
-            </button>
-          </div>
-        }
+          ) : (
+            <div className="flex justify-start gap-2">
+              <FaChevronCircleLeft
+                style={{ fontSize: "30px" }}
+                className="text-main"
+                onClick={() => navigate("/")}
+              />
+              <button
+                className="bg-main p-2 rounded border"
+                onClick={() => setShowAddModal(!showAddModal)}
+              >
+                <FaPlus />
+              </button>
+            </div>
+          )}
         </div>
-        {UserData().doctor.cabinet && labId &&(
+        {UserData().doctor.cabinet && labId && (
           <p className="bg-main py-2 px-4 rounded border">
-            solde: {selectedLaboratory?.accounts?.find(acc => acc.doctor._id === UserData()._id)?.balance.toString()} 
+            solde:{" "}
+            {selectedLaboratory?.accounts
+              ?.find((acc) => acc.doctor._id === UserData()._id)
+              ?.balance.toString()}
           </p>
         )}
       </div>
 
-      {showAddModal && 
-        <AddLaboratory modal={showAddModal} toggle={() => setShowAddModal(!showAddModal)} />
-      }
+      {showAddModal && (
+        <AddLaboratory
+          modal={showAddModal}
+          toggle={() => setShowAddModal(!showAddModal)}
+        />
+      )}
 
       {showEditModal && selectedLaboratory._id && (
         <EditLaboratory
@@ -109,9 +133,7 @@ const ShowLaboratory: React.FC = () => {
         />
       )}
       {!labId && <DataLaboratory />}
-      {labId && (
-        <ManageLab laboratory={selectedLaboratory} />
-      )}
+      {labId && <ManageLab laboratory={selectedLaboratory} />}
     </ShowLaboratoryContext.Provider>
   );
 };

@@ -77,6 +77,7 @@ const Consultations: React.FC = () => {
                         <th className="py-1 border-r border-gray-950">{t("Date")}</th>
                         <th className="py-1 border-r border-gray-950">{t("Montant")}</th>
                         <th className="py-1 border-r border-gray-950">{t("Mode de paiement")}</th>
+                        <th className="py-1 border-r border-gray-950">{t("Fait par")}</th>
                         <th className="py-1 print:hidden border-r border-gray-950">{t("Actions")}</th>
                       </tr>
                     </thead>
@@ -92,6 +93,9 @@ const Consultations: React.FC = () => {
                             </td>
                             <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
                               {payment.method?.name || "CASH"}
+                            </td>
+                            <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
+                              {payment.user?.username}
                             </td>
                             <td className="bg-white h-full print:hidden border-r border-gray-950">
                               <div className="flex justify-center">

@@ -128,9 +128,11 @@ const createPayment = async (request, response) => {
             }
           }
           const latestFiche = await FicheModel.findOne({ patient }).sort({ createdAt: -1 })
-          let numFiche = latestFiche?.numInvoice ?? 0
-          numFiche++
-          await FicheModel.create({ doctor, patient, numFiche, LineFiche })
+          if(!latestFiche?.numFiche) {
+            let numFiche = latestFiche?.numFiche ?? 0
+            numFiche++
+            await FicheModel.create({ doctor, patient, numFiche, LineFiche })
+          }
           // END Create Fiche
         } // finish check RegNo
 

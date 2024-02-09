@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShowLaboratoryContext } from "../ShowLaboratory";
-import { useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { LabConsumptionInterface } from "./types";
 import { useDispatch } from "react-redux";
 import { ShowConsumptionLabApi } from "../../../redux/laboratory/consumptions/consumptionLabApiCalls";
@@ -8,34 +8,46 @@ import { useSelector } from "react-redux";
 import { State } from "../../../redux/store";
 import { useTranslation } from "react-i18next";
 
-const ShowLabConsumptions:React.FC = () => {
+const ShowLabConsumptions: React.FC = () => {
   const { selectedDoctorLab } = useContext(ShowLaboratoryContext);
-  const { consumptionLab } = useSelector((state: State) => state.consumptionLab)
+  const { consumptionLab } = useSelector(
+    (state: State) => state.consumptionLab
+  );
 
   const { labId, doctorId } = useParams();
   const dispatch: any = useDispatch();
 
   useEffect(() => {
     const fetchLabs = async () => {
-       await dispatch(ShowConsumptionLabApi({labId}))
+      await dispatch(ShowConsumptionLabApi({ labId }));
     };
     fetchLabs();
   }, [dispatch, labId]);
 
-  const [totalConsumption, setTotalConsumption] = useState<number>(0)
+  const [totalConsumption, setTotalConsumption] = useState<number>(0);
 
   useEffect(() => {
     setTotalConsumption(
       consumptionLab
-      ?.filter(
-        (consumption: LabConsumptionInterface) => consumption.doctor?._id === doctorId
-      )
-      ?.sort((a: LabConsumptionInterface, b: LabConsumptionInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-      ?.reduce((acc, currVal: LabConsumptionInterface) => (currVal.price * currVal.teeth.nums.length) + acc, 0)
+        ?.filter(
+          (consumption: LabConsumptionInterface) =>
+            consumption.doctor?._id === doctorId
+        )
+        ?.sort(
+          (a: LabConsumptionInterface, b: LabConsumptionInterface) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        ?.reduce(
+          (acc, currVal: LabConsumptionInterface) =>
+            currVal.price * currVal.teeth.nums.length + acc,
+          0
+        )
+    );
+  }, [consumptionLab, doctorId]);
+  const { t } = useTranslation();
 
-    )   
-  }, [consumptionLab, doctorId])
-  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   return (
     <div>
@@ -59,21 +71,46 @@ const ShowLabConsumptions:React.FC = () => {
                 <tbody>
                   {consumptionLab
                     ?.filter(
-                      (consumption: LabConsumptionInterface) => consumption.doctor?._id === doctorId
+                      (consumption: LabConsumptionInterface) =>
+                        consumption.doctor?._id === doctorId
                     )
-                    ?.sort((a: LabConsumptionInterface, b: LabConsumptionInterface) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    ?.sort(
+                      (
+                        a: LabConsumptionInterface,
+                        b: LabConsumptionInterface
+                      ) =>
+                        new Date(b.createdAt).getTime() -
+                        new Date(a.createdAt).getTime()
+                    )
                     ?.map((consumption: LabConsumptionInterface, index) => {
                       // setTotalConsumption((prevAmount) => prevAmount + (consumption.price * consumption.teeth.nums.length))
                       return (
                         <tr className="border-b" key={index}>
-                          <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                          <td
+                            className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium hover:bg-slate-100"
+                            onClick={() => {
+                              localStorage.setItem(
+                                "patientMgtPrevLink",
+                                location.pathname
+                              );
+                              navigate(
+                                `/patient/${doctorId}/${consumption.patient?._id}/Manage/devis`
+                              );
+                            }}
+                          >
                             {consumption.patient.name}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                             {consumption.treatment.name}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                            {consumption.teeth.nums.map((num: string, ind: number) => num + (ind < consumption.teeth.nums.length - 1 ? ", " : ""))}                    
+                            {consumption.teeth.nums.map(
+                              (num: string, ind: number) =>
+                                num +
+                                (ind < consumption.teeth.nums.length - 1
+                                  ? ", "
+                                  : "")
+                            )}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
                             {consumption.price}
@@ -82,13 +119,17 @@ const ShowLabConsumptions:React.FC = () => {
                             {consumption.price * consumption.teeth.nums.length}
                           </td>
                         </tr>
-                      )
+                      );
                     })}
                 </tbody>
                 <tr className="border-b">
                   <td colSpan={3}></td>
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{t("Total")}</td>
-                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">{totalConsumption}</td>
+                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                    {t("Total")}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                    {totalConsumption}
+                  </td>
                 </tr>
               </table>
             </div>

@@ -3,7 +3,7 @@ const { getDays, createDay, editDay, deleteDay } = require("../controllers/Appoi
 
 const { getSettingAppoint, createSettingAppoint, updateSettingAppoint, deleteSettingAppoint } = require("../controllers/Appointment/SetAppointmentController") 
 
-const { getAppointments, createAppointment, deleteAppointment, sendMessage } = require("../controllers/Appointment/AppointmentController")
+const { getAppointments, createAppointment, deleteAppointment } = require("../controllers/Appointment/AppointmentController")
 const { authorizedPermission } = require("../middlewares/authorizedPermission");
 
 router.get("/:doctor", authorizedPermission(["AFFICHER", "AFFICHER_GLOBAL"], "RDV"), getAppointments)
