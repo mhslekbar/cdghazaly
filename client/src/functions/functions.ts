@@ -132,6 +132,22 @@ export const formattedDate = (dateString: string) => {
   return result
 };
 
+export const formatHourAndMinute = (dateString: string) => {
+  // Parse the date string into a Date object
+  const date = new Date(dateString);
+
+  // Extract hours and minutes
+  let hours: any = date.getUTCHours();
+  let minutes: any = date.getUTCMinutes();
+
+  // Convert hours and minutes to strings and pad with leading zeros if necessary
+  hours = hours.toString().padStart(2, '0');
+  minutes = minutes.toString().padStart(2, '0');
+
+  // Return the formatted string
+  return `${hours}:${minutes}`;
+};
+
 export const removeComma = (num: number) => {
   return Number(num) - num === 0 ? Number(num) : num.toFixed(2)
 }

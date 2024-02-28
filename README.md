@@ -294,11 +294,11 @@ location / {
 4 - Add the following server config
 ```
 server {
- listen 80;
- server_name cdghazaly.com www.cdghazaly.com;
+ listen 94;
+ server_name c-humanite.com www.c-humanite.com;
 
   location / {
-    root /var/www/cdghazaly/client;
+    root /var/www/chumanite/client;
     index  index.html index.htm;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
@@ -317,10 +317,10 @@ server {
 }
 
 server {
-  listen 8890;
-  server_name api.cdghazaly.com;
+  listen 94;
+  server_name api.c-humanite.com;
   location /api {
-    proxy_pass http://154.56.57.194:8890;
+    proxy_pass http://154.56.57.194:8894;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection 'upgrade';

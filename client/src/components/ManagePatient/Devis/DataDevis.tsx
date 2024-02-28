@@ -6,6 +6,7 @@ import { State } from "../../../redux/store";
 import { useParams } from "react-router";
 import { DefaultDevisInterface, DevisInterface, LineDevisType, ShowDevisInterfaceContext } from "./types";
 import HeaderInvoice from "../HeaderInvoice";
+import FooterInvoice from "../FooterInvoice";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import { useTranslation } from "react-i18next";
 
@@ -31,6 +32,7 @@ const DataDevis: React.FC = () => {
   }, [devis, setSelectedDevis, selectedDevis])
 
   const [totalDevis, setTotalDevis] = useState(0)
+
   useEffect(() => {
     setTotalDevis(selectedDevis
       ?.LineDevis
@@ -45,76 +47,79 @@ const DataDevis: React.FC = () => {
       <div className="flex flex-col col-start-2 col-span-4 print:w-full">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-hidden invoice">
+          <div className="overflow-hidden invoice flex flex-col" style={{ minHeight: '100vh' }}>
             <HeaderInvoice type={`Devis N-${selectedDevis.numDevis}`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
-            <table className="min-w-full text-sm font-light text-center">
-              <thead className="border font-medium bg-white text-black border-gray-950">
-                <tr>
-                  <th className="px-3 py-2 border-r border-gray-950">{t("Traitement")}</th>
-                  <th className="px-3 py-2 border-r border-gray-950">{t("Dents")}</th>
-                  <th className="px-3 py-2 border-r border-gray-950">{t("Surface")}</th>
-                  <th className="px-3 py-2 border-r border-gray-950">{t("NBS")}</th>
-                  <th className="px-3 py-2 border-r border-gray-950">{t("Prix.U")}</th>
-                  <th className="px-3 py-2 border-r border-gray-950">{t("Total")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedDevis?.LineDevis?.map((lnDevis: LineDevisType, index) => (
-                  <tr className="border-b border-l border-gray-950" key={index}>
-                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white text-start font-medium border-gray-950">
-                      {lnDevis.treatment?.name}
-                    </td>
-                    <td className="px-3 py-2 border-r bg-white font-medium border-gray-950 whitespace-normal w-36"> {/* style={{ maxWidth: "150px",  whiteSpace: "normal" }}  */}
-                      {lnDevis.teeth.nums.map((num: string, index) => num + (index < lnDevis.teeth.nums.length - 1 ? ", " : ""))}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
-                      {lnDevis.teeth.surface}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
-                      {lnDevis.teeth.nums.length}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
-                      {lnDevis.price}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
-                      {lnDevis.price * lnDevis.teeth.nums.length}
-                    </td>
+            <section className="content-devis" style={{ flex: 1 }}>
+              <table className="min-w-full text-sm font-light text-center">
+                <thead className="border font-medium bg-white text-black border-gray-950">
+                  <tr>
+                    <th className="px-3 py-2 border-r border-gray-950">{t("Traitement")}</th>
+                    <th className="px-3 py-2 border-r border-gray-950">{t("Dents")}</th>
+                    <th className="px-3 py-2 border-r border-gray-950">{t("Surface")}</th>
+                    <th className="px-3 py-2 border-r border-gray-950">{t("NBS")}</th>
+                    <th className="px-3 py-2 border-r border-gray-950">{t("Prix.U")}</th>
+                    <th className="px-3 py-2 border-r border-gray-950">{t("Total")}</th>
                   </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr className="text-end">
-                  <td colSpan={4}></td>
-                  <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Total")}: </td>
-                  <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
-                    {totalDevis}
-                  </td>
-                </tr>
-                {selectedDevis.reduce > 0 && 
-                <>
+                </thead>
+                <tbody>
+                  {selectedDevis?.LineDevis?.map((lnDevis: LineDevisType, index) => (
+                    <tr className="border-b border-l border-gray-950" key={index}>
+                      <td className="whitespace-nowrap px-3 py-2 border-r bg-white text-start font-medium border-gray-950">
+                        {lnDevis.treatment?.name}
+                      </td>
+                      <td className="px-3 py-2 border-r bg-white font-medium border-gray-950 whitespace-normal w-36"> {/* style={{ maxWidth: "150px",  whiteSpace: "normal" }}  */}
+                        {lnDevis.teeth.nums.map((num: string, index) => num + (index < lnDevis.teeth.nums.length - 1 ? ", " : ""))}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
+                        {lnDevis.teeth.surface}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
+                        {lnDevis.teeth.nums.length}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
+                        {lnDevis.price}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
+                        {lnDevis.price * lnDevis.teeth.nums.length}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
                   <tr className="text-end">
                     <td colSpan={4}></td>
-                    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Reduction")}: </td>
-                    <td className="whitespace-nowrap px-3 py-2 bg-white font-bold border border-gray-950">
-                      {selectedDevis.reduce}%
-                    </td>
-                  </tr>
-                  <tr className="text-end">
-                    <td colSpan={4}></td>
-                    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Reste")}: </td>
+                    <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Total")}: </td>
                     <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
-                      {totalDevis - (totalDevis * (selectedDevis.reduce / 100))}
+                      {totalDevis}
                     </td>
-                  </tr>                
-                </>
-                }
-              </tfoot>
-            </table>
+                  </tr>
+                  {selectedDevis.reduce > 0 && 
+                  <>
+                    <tr className="text-end">
+                      <td colSpan={4}></td>
+                      <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Reduction")}: </td>
+                      <td className="whitespace-nowrap px-3 py-2 bg-white font-bold border border-gray-950">
+                        {selectedDevis.reduce}%
+                      </td>
+                    </tr>
+                    <tr className="text-end">
+                      <td colSpan={4}></td>
+                      <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Reste")}: </td>
+                      <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
+                        {totalDevis - (totalDevis * (selectedDevis.reduce / 100))}
+                      </td>
+                    </tr>                
+                  </>
+                  }
+                </tfoot>
+              </table>
+            </section>
+            <FooterInvoice />
           </div>
         </div>
       </div>
     </div>
-      }
+    }
     </>
 
   );

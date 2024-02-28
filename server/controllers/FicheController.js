@@ -79,29 +79,34 @@ const createFiche = async (request, response) => {
   }
 };
 
+// Object.assign(sortedArray[index], {
+//   _id: LineFiche._id[index],
+//   dateAppointment: LineFiche.dateAppointment[index],
+//   acte: LineFiche.acte[index],
+//   amount: LineFiche.amount[index],
+// })
+
+
 const updateFiche = async (request, response) => {
   try {
     const { id } = request.params;
     const { LineFiche } = request.body;
 
     const FicheInfo = await FicheModel.findOne({ _id: id });
+ 
+    LineFiche._id.forEach((id, index) => {
+      const itemIndex = FicheInfo.LineFiche.findIndex(item => item._id.toString() === id);
+      if (itemIndex !== -1) {
+        FicheInfo.LineFiche[itemIndex].dateAppointment = LineFiche.dateAppointment[index];
+        FicheInfo.LineFiche[itemIndex].acte = LineFiche.acte[index];
+        FicheInfo.LineFiche[itemIndex].amount = LineFiche.amount[index];
+      }
+    });
 
-    // i want to sort FicheInfo.LineFiche
-    // because the result come from the front-end is sorted by dateAppointment
-    const sortedArray = FicheInfo.LineFiche.sort((a, b) => (a.dateAppointment?.getTime() - b.dateAppointment?.getTime()))
-    for(let index in LineFiche._id) {
-      Object.assign(sortedArray[index], {
-        _id: LineFiche._id[index],
-        dateAppointment: LineFiche.dateAppointment[index],
-        acte: LineFiche.acte[index],
-        amount: LineFiche.amount[index],
-      })
-    }
-
+    // Save the updated document
     await FicheInfo.save();
     await getFiches(request, response);
   } catch (err) {
-    console.log("err: ", err)
     response.status(500).json({ err: err.message });
   }
 };

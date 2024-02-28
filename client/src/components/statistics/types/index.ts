@@ -4,8 +4,8 @@ import { DefaultUserInterface, UserInterface } from "../../users/types"
 export interface ShowStatisticInterface {
   selectedStats: string,
   setSelectedStats: (selectedStats: string) => void,
-  day: number,
-  setDay: (day: number) => void,
+  day: any,
+  setDay: (day: any) => void,
   month: number,
   setMonth: (month: number) => void,
   year: number,
@@ -37,7 +37,7 @@ export interface ShowStatisticInterface {
 export const DefaultShowStatisticInterface: ShowStatisticInterface = {
   selectedStats: "",
   setSelectedStats: () => {},
-  day: 0,
+  day: "",
   setDay: () => {},
   month: 0,
   setMonth: () => {},

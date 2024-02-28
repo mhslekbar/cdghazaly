@@ -11,13 +11,13 @@ import { useParams } from 'react-router';
 import { ShowPatientsApi } from '../../../../redux/patients/patientApiCalls';
 import ShowErrorMsg from '../../../../HtmlComponents/ShowErrorMsg';
 
-interface EditPaymentInterface {
+interface props {
   modal: boolean,
   toggle: () => void,
   paymentData: PaymentInterface
 }
 
-const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData }) => {
+const EditPayment:React.FC<props> = ({ modal, toggle, paymentData }) => {
   const { setShowSuccessMsg } = useContext(ShowPaymentsContext)
   
   const [amount, setAmount] = useState(paymentData.amount)
@@ -25,7 +25,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
   const [type, setType] = useState(paymentData.type)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodInterface>(paymentData?.method || DefaultPaymentMethodInterface)
   const [supported, setSupported] = useState(paymentData?.supported ?? null)
-  const [createdAt, setCreatedAt] = useState(formattedDate(paymentData.createdAt))
+  const [paymentDate, setPaymentDate] = useState(formattedDate(paymentData.paymentDate))
 
   const dispatch: any = useDispatch()
   const { patientId } = useParams()
@@ -43,7 +43,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
       type,
       method: paymentMethod,
       supported,
-      createdAt
+      paymentDate
     }
     e.preventDefault()
     try {
@@ -52,7 +52,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
         toggle()
         setAmount(0)
         setSupported("")
-        setCreatedAt(formattedDate(new Date().toString()))
+        setPaymentDate(formattedDate(new Date().toString()))
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         await dispatch(ShowPatientsApi())
@@ -71,7 +71,7 @@ const EditPayment:React.FC<EditPaymentInterface> = ({ modal, toggle, paymentData
       type, setType,
       paymentMethod, setPaymentMethod,
       supported, setSupported,
-      createdAt, setCreatedAt
+      paymentDate, setPaymentDate
     }}>
       {modal && (
         <>

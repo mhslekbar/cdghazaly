@@ -20,7 +20,7 @@ const InputsPayment = () => {
       doctor, setDoctor,
       paymentMethod, setPaymentMethod,
       supported, setSupported,
-      createdAt, setCreatedAt
+      paymentDate, setPaymentDate
    } = useContext(DataPaymentsContext)
    
    const { ModalType } = useContext(ShowPaymentsContext)
@@ -126,7 +126,7 @@ const InputsPayment = () => {
       />
       }
       <SelectElement name="Doctor" valueType="object" id="doctor" value={doctor} setValue={setDoctor} options={ArrayOfDoctors.map((option: any) => ({...option, name: option.username}))} />
-      <InputElement type="date" name="Date" value={createdAt} setValue={setCreatedAt} />
+      <InputElement type="date" name="Date de paiement" value={paymentDate} setValue={setPaymentDate} />
     </React.Fragment>
   )
 }

@@ -83,14 +83,14 @@ const DataFiches: React.FC = () => {
               <div className="overflow-hidden invoice">
                 <table className="min-w-full text-left text-sm font-light">
                   <thead className="border border-[#95a5a6] font-medium bg-white text-center">
-                    <tr>
-                      <th className="px-6 py-4 border-r border-[#95a5a6]">
+                    <tr className="">
+                      <th className="px-6 py-4 border-r border-[#000]">
                         {t("Date")}
                       </th>
-                      <th className="px-6 py-4 border-r border-[#95a5a6]">
+                      <th className="px-6 py-4 border-r border-[#000]">
                         {t("Actes")}
                       </th>
-                      <th className="px-6 py-4 border-r border-[#95a5a6]">
+                      <th className="px-6 py-4 border-r border-[#000]">
                         {t("Montant")}
                       </th>
                       <th className="px-6 py-4 print:hidden">{t("Facture")}</th>

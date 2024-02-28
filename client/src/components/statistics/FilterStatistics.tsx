@@ -40,12 +40,12 @@ const FilterStatistics: React.FC = () => {
         <div className="xs:grid xs:grid-cols-5 md:flex md:justify-start gap-2 mt-3">
           <BiChevronDownCircle className="text-main xs:mb-1 md:mb-0" style={{ fontSize: "22px" }} onClick={() => setShowSwitchDate(!showSwitchDate)} />
           <span className="my-4 px-1 pt-1 bg-main rounded mr-2" onClick={() => {
-            setDay(new Date().getDate())
+            setDay(new Date().getDate().toString())
             setMonth(new Date().getMonth() + 1)
             setYears(new Date().getFullYear())
           }}>{t("Aujourd'hui")}</span>
           <span className="my-4 px-1 pt-1 bg-main rounded" onClick={() => {
-            setDay(0)
+            setDay('jour')
             setMonth(new Date().getMonth() + 1)
             setYears(new Date().getFullYear())
           }}>{t("Ce mois")}</span>

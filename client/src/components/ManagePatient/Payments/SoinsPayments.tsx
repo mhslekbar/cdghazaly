@@ -10,6 +10,7 @@ import { formatDate } from "../../../functions/functions";
 import HeaderInvoice from "../HeaderInvoice";
 import { useParams } from "react-router";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
+import FooterInvoice from "../FooterInvoice";
 
 const SoinsPayments: React.FC = () => {
   const { payments } = useSelector((state: State) => state.payments);
@@ -47,40 +48,43 @@ const SoinsPayments: React.FC = () => {
           <div className="col-span-6 border">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-bloc sm:px-6 lg:px-8">
-                <div className="overflow-hidden print:w-full invoice">
+                <div className="overflow-hidden print:w-full invoice flex flex-col" style={{ minHeight: '100vh' }}>
                   <HeaderInvoice type={`soins`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
-                  <table className="min-w-full text-sm font-light text-center">
-                    <thead className="border border-gray-950 font-medium bg-white text-black">
-                      <tr>
-                        <th className="py-1 border-r border-gray-950">Date</th>
-                        <th className="py-1 border-r border-gray-950">Montant</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {payments
-                        .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
-                        .filter(
-                          (payment: PaymentInterface) =>
-                            payment.type === EnumTypePayment.SOINS
-                        )
-                        .map((payment: PaymentInterface, index) => (
-                          <tr className="border-b border-l border-gray-950" key={index}>
-                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                              {formatDate(payment.createdAt)}
-                            </td>
-                            <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                              {payment.amount}
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                    <tfoot>
-                      <tr className="font-bold">
-                        <td></td>
-                        <td className="text-center bg-white border border-gray-950">{totalPayments}</td>
-                      </tr>
-                    </tfoot>
-                  </table>
+                  <section className="content-invoice" style={{ flex: 1 }}>                  
+                    <table className="min-w-full text-sm font-light text-center">
+                      <thead className="border border-gray-950 font-medium bg-white text-black">
+                        <tr>
+                          <th className="py-1 border-r border-gray-950">Date</th>
+                          <th className="py-1 border-r border-gray-950">Montant</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {payments
+                          .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
+                          .filter(
+                            (payment: PaymentInterface) =>
+                              payment.type === EnumTypePayment.SOINS
+                          )
+                          .map((payment: PaymentInterface, index) => (
+                            <tr className="border-b border-l border-gray-950" key={index}>
+                              <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
+                                {formatDate(payment.paymentDate)}
+                              </td>
+                              <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
+                                {payment.amount}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                      <tfoot>
+                        <tr className="font-bold">
+                          <td></td>
+                          <td className="text-center bg-white border border-gray-950">{totalPayments}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </section>
+                  <FooterInvoice />
                 </div>
               </div>
             </div>

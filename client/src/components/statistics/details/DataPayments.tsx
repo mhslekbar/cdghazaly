@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { EnumTypePayment, PaymentInterface } from '../../ManagePatient/Payments/types'
 import { useLocation, useParams } from 'react-router'
-import { RegNo, filterSpecificDate, formatDate } from '../../../functions/functions'
+import { RegNo, filterSpecificDate, formatDate, formatHourAndMinute } from '../../../functions/functions'
 import { useSelector } from 'react-redux'
 import { State } from '../../../redux/store'
 import { ShowStatisticContext } from '../types'
@@ -15,11 +15,11 @@ import ConsumptionStats from './ConsumptionsStats'
 import TotalRemainStats from './TotalRemainStats'
 import { useTranslation } from 'react-i18next'
 
-interface DataPaymentInterface {
+interface props {
   paymentFilter: string
 }
 
-const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
+const DataPayments:React.FC<props> = ({ paymentFilter }) => {
   const { payments } = useSelector((state: State) => state.payments);
   const { doctorId } = useParams()
   let sumCons = 0
@@ -30,7 +30,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
   const filteredPayment = paymentFilter === "payment" ? EnumTypePayment.PAYMENT : EnumTypePayment.SOINS
   const { t } = useTranslation()
   return (
-    <div className="col-span-2 flex flex-col border">
+    <div className="col-span-3 flex flex-col border">
     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
         <div className="overflow-hidden">
@@ -44,6 +44,7 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                 <th className="px-6 py-4 border-r border-gray-950">{t("Mode de paiement")}</th>
                 <th className="px-6 py-4 border-r border-gray-950">{t("Ajouter par")}</th>
                 <th className="px-6 py-4 border-r border-gray-950">{t("Date")}</th>
+                <th className="px-6 py-4 border-r border-gray-950">{t("Date D'ajout")}</th>
               </tr>
             </thead>
             <tbody className='border border-gray-950'>
@@ -88,7 +89,10 @@ const DataPayments:React.FC<DataPaymentInterface> = ({ paymentFilter }) => {
                         {payment.user?.username}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
-                        {formatDate(payment.createdAt)}
+                        {formatDate(payment.paymentDate) + " " + formatHourAndMinute(payment.paymentDate)}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                        {formatDate(payment.createdAt) + " " + formatHourAndMinute(payment.createdAt)}
                       </td>
                     </tr>
                   );

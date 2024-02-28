@@ -107,11 +107,10 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
           }
           </>
         }
-        
       </td>
       <td className="whitespace-nowrap border-r border-black bg-white font-medium relative print:static">
         <InputFiche
-          className="disabled:bg-white pr-9"
+          className="disabled:bg-white pr-9 w-full"
           disabled={Line.finish === 1 && true}
           Line={Line}
           kind="acte"

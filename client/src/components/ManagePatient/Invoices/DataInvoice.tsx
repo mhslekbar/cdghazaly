@@ -11,6 +11,7 @@ import FilterTypeInvoice from "./FilterTypeInvoice";
 import { DefaultPatientInterface, PatientInterface } from "../../patients/types";
 import TotalFacture from "./TotalFacture";
 import HeaderInvoice from "../HeaderInvoice";
+import FooterInvoice from "../FooterInvoice";
 import { useTranslation } from "react-i18next";
 
 const DataInvoice: React.FC = () => {
@@ -44,8 +45,9 @@ const DataInvoice: React.FC = () => {
         <div className="flex flex-col col-start-2 col-span-4 print:w-full">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="overflow-hidden invoice" ref={invoiceRef}>
+              <div className="overflow-hidden invoice flex flex-col" ref={invoiceRef} style={{ minHeight: '100vh' }}>
                 <HeaderInvoice type={`Facture N-${selectedInvoice.numInvoice}`} PatientInfo={patientInfo}/>            
+              <section className="content-invoice" style={{ flex: 1 }}>
                 <table className="min-w-full text-sm font-light text-center">
                   <thead className="border font-medium bg-white text-black border-gray-950">
                     <tr>
@@ -109,6 +111,8 @@ const DataInvoice: React.FC = () => {
                     <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Total" paymentType="total" />
                   </tfoot>
                 </table>
+                </section>
+                <FooterInvoice />
               </div>
             </div>
           </div>

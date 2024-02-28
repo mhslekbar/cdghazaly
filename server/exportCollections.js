@@ -6,7 +6,7 @@ const dbName = "dentist"
 const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 // Output directory for backups
-const backupDir = `C:/Users/INFOTELEC/Desktop/mongodb_backup/${dbName}`;
+const backupDir = `C:/Users/INFOTELEC/Desktop/mongodb_backup/${dbName}`; // file to store data
 // const backupDir = "C:\\Users\\INFOTELEC\\Desktop\\mongodb_backup";
 
 // Connect to MongoDB using Mongoose

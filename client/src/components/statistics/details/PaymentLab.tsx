@@ -27,7 +27,7 @@ const PaymentLab: React.FC = () => {
   useEffect(() => {
     setSumPaymentLab(
       filterSpecificDate(
-        paymentLab, day, month, showSwitchDate, startDate, endDate, selectedDate
+        paymentLab, Number(day), month, showSwitchDate, startDate, endDate, selectedDate
       )
       .filter(
         (payment: PaymentLabType) =>

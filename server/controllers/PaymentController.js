@@ -38,6 +38,7 @@ const getPayments = async (request, response) => {
         method: payment.method, 
         amount: payment.amount, 
         type: payment.type, 
+        paymentDate: payment.paymentDate, 
         createdAt: payment.createdAt, 
         updateAt: payment.updatedAt, 
         invoiceAssur: invoiceLine,
@@ -54,7 +55,7 @@ const getPayments = async (request, response) => {
 const createPayment = async (request, response) => {
   try {
     // versement
-    let { user, doctor, patient, amount, type, method, supported, createdAt } = request.body
+    let { user, doctor, patient, amount, type, method, supported, paymentDate } = request.body
     let patientInfo   = await PatientModel.findOne({ _id: patient })
     
     const formErrors = []
@@ -97,7 +98,12 @@ const createPayment = async (request, response) => {
         method = null
       }
 
-      await PaymentModel.create({ user, doctor, type, patient, amount, method, supported, createdAt, invoiceAssur })      
+      paymentDate = new Date(paymentDate)
+      paymentDate.setHours(new Date().getHours())
+      paymentDate.setMinutes(new Date().getMinutes())
+      paymentDate.setSeconds(new Date().getSeconds())
+
+      await PaymentModel.create({ user, doctor, type, patient, amount, method, supported, paymentDate, invoiceAssur })      
       
       if(type === "payment") {
         
@@ -124,7 +130,7 @@ const createPayment = async (request, response) => {
           for(let i=1; i<=15; i++) {
             LineFiche.push({ })
             if(i === 1) {
-              LineFiche[0].dateAppointment = createdAt
+              LineFiche[0].dateAppointment = paymentDate
             }
           }
           const latestFiche = await FicheModel.findOne({ patient }).sort({ createdAt: -1 })
@@ -158,7 +164,7 @@ const updatePayment = async (request, response) => {
   try {
     // versement
     const { id } = request.params
-    let { user, doctor, patient, amount, type, method, supported, createdAt } = request.body
+    let { user, doctor, patient, amount, type, method, supported, paymentDate } = request.body
     const formErrors = []
     const paymentInfo = await PaymentModel.findOne({_id: id})
     if(amount.length === 0 || amount === 0) {
@@ -203,12 +209,12 @@ const updatePayment = async (request, response) => {
         await patientInfo.save()
       }
       
-      createdAt = new Date(createdAt)
-      createdAt.setHours(new Date().getHours())
-      createdAt.setMinutes(new Date().getMinutes())
-      createdAt.setSeconds(new Date().getSeconds())
+      paymentDate = new Date(paymentDate)
+      paymentDate.setHours(new Date().getHours())
+      paymentDate.setMinutes(new Date().getMinutes())
+      paymentDate.setSeconds(new Date().getSeconds())
 
-      await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported, createdAt })
+      await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported, paymentDate })
       request.query.patient = patient
       await getPayments(request, response)
     } else {

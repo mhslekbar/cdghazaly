@@ -18,7 +18,7 @@ const AddPayment:React.FC = () => {
   const [type, setType] = useState("")
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodInterface>(DefaultPaymentMethodInterface)
   const [supported, setSupported] = useState("")
-  const [createdAt, setCreatedAt] = useState(formattedDate(new Date().toString()))
+  const [paymentDate, setPaymentDate] = useState(formattedDate(new Date().toString()))
 
   const { setShowSuccessMsg, setModalType } = useContext(ShowPaymentsContext)
 
@@ -44,9 +44,8 @@ const AddPayment:React.FC = () => {
       type,
       method: paymentMethod,
       supported,
-      createdAt
+      paymentDate
     }
-    console.log("createdAt: ", createdAt)
     e.preventDefault()
     try {
       const response = await dispatch(AddPaymentsApi(data)) 
@@ -54,7 +53,7 @@ const AddPayment:React.FC = () => {
         toggle()
         setAmount(0)
         setSupported("")
-        setCreatedAt(formattedDate(new Date().toString()))
+        setPaymentDate(formattedDate(new Date().toString()))
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         await dispatch(ShowPatientsApi())
@@ -73,7 +72,7 @@ const AddPayment:React.FC = () => {
       type, setType,
       paymentMethod, setPaymentMethod,
       supported, setSupported,
-      createdAt, setCreatedAt
+      paymentDate, setPaymentDate
     }}>
         <button className="p-2 rounded bg-main text-white mt-2" onClick={toggle}>
           <FaPlus />

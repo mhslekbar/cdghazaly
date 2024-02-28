@@ -9,6 +9,7 @@ const paymentSchema = new mongoose.Schema({
   method: { type: mongoose.Types.ObjectId, ref: "paymentMode" },
   supported: { type: String },
   invoiceAssur: { type: mongoose.Types.ObjectId, ref: "assurance.invoices" },
+  paymentDate: { type: Date, default: Date.now },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 })

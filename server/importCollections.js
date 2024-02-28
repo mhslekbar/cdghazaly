@@ -3,7 +3,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const dbName = "dentist"
+const dbName = "chumanite"
 
 // MongoDB connection string
 const mongoURI = `mongodb://127.0.0.1/${dbName}`;

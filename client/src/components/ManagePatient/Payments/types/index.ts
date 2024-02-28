@@ -35,8 +35,8 @@ export interface DataPaymentsInterface {
   setPaymentMethod: (paymentMethod: PaymentMethodInterface) => void,
   supported: string,
   setSupported: (supported: string) => void,
-  createdAt: string,
-  setCreatedAt: (createdAt: "") => void,
+  paymentDate: string,
+  setPaymentDate: (createdAt: "") => void,
 }
 
 export const DefaultDataPaymentsInterface: DataPaymentsInterface = {
@@ -50,8 +50,8 @@ export const DefaultDataPaymentsInterface: DataPaymentsInterface = {
   setPaymentMethod: () => {},
   supported: "",
   setSupported: () => {},
-  createdAt: formattedDate(new Date().toString()),
-  setCreatedAt: () => {},
+  paymentDate: formattedDate(new Date().toString()),
+  setPaymentDate: () => {},
 }
 
 export const DataPaymentsContext = createContext(DefaultDataPaymentsInterface)
@@ -68,6 +68,7 @@ export interface PaymentInterface {
   supported: string,
   invoiceAssur: InvoicesAssuranceInterface,
   createdAt: string,
+  paymentDate: string,
 }
 
 export const  DefaultPaymentInterface:PaymentInterface = {
@@ -80,7 +81,8 @@ export const  DefaultPaymentInterface:PaymentInterface = {
   method: DefaultPaymentMethodInterface,
   supported: "",
   invoiceAssur: DefaultInvoicesAssuranceInterface,
-  createdAt: ""
+  createdAt: "",
+  paymentDate: ""
 }
 
 export enum EnumTypeModalPayment {
