@@ -152,6 +152,8 @@ ln -s /etc/nginx/sites-available/cdghazaly /etc/nginx/sites-enabled/cdghazaly
 
 ln -s /etc/nginx/sites-available/cabinetibtissama /etc/nginx/sites-enabled/cabinetibtissama
 
+ln -s /etc/nginx/sites-available/chumanite /etc/nginx/sites-enabled/chumanite
+
 ```
 
 ##### Write your fist message
@@ -347,6 +349,9 @@ certbot --nginx -d cdghazaly.com -d www.cdghazaly.com
 
 
 certbot --nginx -d api.cabinetibtissama.com -d www.cabinetibtissama.com
+
+certbot --nginx -d api.c-humanite.com -d www.c-humanite.com -d c-humanite.com
+
 ```
 
 Let’s Encrypt’s certificates are only valid for ninety days. To set a timer to validate automatically:
@@ -362,7 +367,7 @@ systemctl status certbot.timer
 
 
 
-
+mkdir /var/www/chumanite
 
 
 
@@ -387,6 +392,7 @@ restart the server
 ##### START to do this for best one
 
 rm -rf /var/www/cabinetibtissama/* && mkdir /var/www/cabinetibtissama/client && cp -r build/* /var/www/cabinetibtissama/client
+rm -rf /var/www/chumanite/* && mkdir /var/www/chumanite/client && cp -r build/* /var/www/chumanite/client
 
 rm -rf /var/www/cabinetibtissama/*
 mkdir /var/www/cabinetibtissama/client

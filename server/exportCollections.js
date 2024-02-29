@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { execSync } = require('child_process');
 
-const dbName = "dentist"
+const dbName = "chumanite"
 // MongoDB connection string
 const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 

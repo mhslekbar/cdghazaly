@@ -73,6 +73,28 @@ export const EditPaymentsApi = (paymentId: string, data: {}) => async (dispatch:
   }
 }
 
+export const ApprovePaymentsApi = (doctorId: string = "", data: any) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPaymentStart())
+    let response = await put(`payment/approve/${doctorId}`, data)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPaymentSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPaymentFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPaymentFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
 export const DeletePaymentsApi = (paymentId: string) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusPaymentStart())

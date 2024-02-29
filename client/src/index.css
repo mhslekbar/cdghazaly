@@ -23,6 +23,10 @@
       background-color: #FFF;
     }
   }
+  .bg-payment-not-approved {
+    background-color: #c2bfbf !important;
+    color: #000;
+  }
   .btn-main {
     background-color: var(--mainColor) !important;
     color: #FFF;

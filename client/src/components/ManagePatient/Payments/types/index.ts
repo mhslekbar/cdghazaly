@@ -69,6 +69,7 @@ export interface PaymentInterface {
   invoiceAssur: InvoicesAssuranceInterface,
   createdAt: string,
   paymentDate: string,
+  approved: boolean
 }
 
 export const  DefaultPaymentInterface:PaymentInterface = {
@@ -82,7 +83,8 @@ export const  DefaultPaymentInterface:PaymentInterface = {
   supported: "",
   invoiceAssur: DefaultInvoicesAssuranceInterface,
   createdAt: "",
-  paymentDate: ""
+  paymentDate: "",
+  approved: false
 }
 
 export enum EnumTypeModalPayment {

@@ -35,6 +35,10 @@ const EditPayment:React.FC<props> = ({ modal, toggle, paymentData }) => {
 
   const handleSubmit = async (e: any) => {
     setLoading(true)
+    // if the user who will add this payment is a doctor 
+    // i want to approve this payment directly
+    const approved = UserData()?.doctor?.cabinet ? true : false
+
     const data = {
       user: UserData()._id,
       doctor: doctor._id,
@@ -43,7 +47,8 @@ const EditPayment:React.FC<props> = ({ modal, toggle, paymentData }) => {
       type,
       method: paymentMethod,
       supported,
-      paymentDate
+      paymentDate,
+      approved,
     }
     e.preventDefault()
     try {

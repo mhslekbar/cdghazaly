@@ -24,6 +24,7 @@ import listConsumableReducer from "./listConsumable/listConsumableSlice";
 import purchaseOrderReducer from "./purchaseOrder/purchaseOrderSlice";
 import daysOfWorkReducer from "./dayOfWork/dayOfWorkSlice";
 import supplierReducer from "./suppliers/supplierSlice";
+import prescriptionReducer from "./prescriptions/prescriptionSlice";
 
 import {
   persistStore,
@@ -69,7 +70,8 @@ const rootReducer = combineReducers({
   ListConsumable: listConsumableReducer,
   purchaseOrder: purchaseOrderReducer,
   daysOfWork: daysOfWorkReducer,
-  suppliers: supplierReducer
+  suppliers: supplierReducer,
+  prescriptions: prescriptionReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

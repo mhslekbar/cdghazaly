@@ -1,6 +1,5 @@
 const ConsumableListModel = require("../models/ConsumableListModel");
 
-
 const getConsumableList = async (request, response) => {
   try {
     const consumableList = await ConsumableListModel.find().sort({ createdAt: -1 })

@@ -28,9 +28,14 @@ const DataPayments:React.FC<props> = ({ paymentFilter }) => {
   const location = useLocation()
 
   const filteredPayment = paymentFilter === "payment" ? EnumTypePayment.PAYMENT : EnumTypePayment.SOINS
-  const { t } = useTranslation()
+  const { t } = useTranslation();
+
+  const TrBgColor = (payment: any) => {
+    return paymentFilter === "payment" && !payment.approved ? "bg-payment-not-approved" : ""
+  }
+
   return (
-    <div className="col-span-3 flex flex-col border">
+    <div className="flex flex-col border">
     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full sm:px-6 lg:px-8 invoice">
         <div className="overflow-hidden">
@@ -66,32 +71,33 @@ const DataPayments:React.FC<props> = ({ paymentFilter }) => {
                   if(payment.amount === 0) {
                     return "";
                   }
+
                   return (
-                    <tr className="border-b border-gray-950" key={index}>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                    <tr className={`border-b border-gray-950 `} key={index}>
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {payment.patient?.RegNo
                           ? RegNo(payment.patient?.RegNo)
                           : "0000"}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {payment.patient?.name}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {payment.type === EnumTypePayment.CONSULTATION && payment.amount}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {payment.type === filteredPayment && payment.amount}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {payment.method?.name || "cash"}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {payment.user?.username}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {formatDate(payment.paymentDate) + " " + formatHourAndMinute(payment.paymentDate)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {formatDate(payment.createdAt) + " " + formatHourAndMinute(payment.createdAt)}
                       </td>
                     </tr>

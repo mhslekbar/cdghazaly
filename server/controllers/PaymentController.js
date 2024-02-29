@@ -42,7 +42,8 @@ const getPayments = async (request, response) => {
         createdAt: payment.createdAt, 
         updateAt: payment.updatedAt, 
         invoiceAssur: invoiceLine,
-        supported: payment.supported
+        supported: payment.supported,
+        approved: payment.approved
       }
     }))
       
@@ -55,7 +56,7 @@ const getPayments = async (request, response) => {
 const createPayment = async (request, response) => {
   try {
     // versement
-    let { user, doctor, patient, amount, type, method, supported, paymentDate } = request.body
+    let { user, doctor, patient, amount, type, method, supported, paymentDate, approved } = request.body
     let patientInfo   = await PatientModel.findOne({ _id: patient })
     
     const formErrors = []
@@ -103,7 +104,7 @@ const createPayment = async (request, response) => {
       paymentDate.setMinutes(new Date().getMinutes())
       paymentDate.setSeconds(new Date().getSeconds())
 
-      await PaymentModel.create({ user, doctor, type, patient, amount, method, supported, paymentDate, invoiceAssur })      
+      await PaymentModel.create({ user, doctor, type, patient, amount, method, supported, paymentDate, invoiceAssur, approved })      
       
       if(type === "payment") {
         
@@ -164,7 +165,7 @@ const updatePayment = async (request, response) => {
   try {
     // versement
     const { id } = request.params
-    let { user, doctor, patient, amount, type, method, supported, paymentDate } = request.body
+    let { user, doctor, patient, amount, type, method, supported, paymentDate, approved } = request.body
     const formErrors = []
     const paymentInfo = await PaymentModel.findOne({_id: id})
     if(amount.length === 0 || amount === 0) {
@@ -214,7 +215,7 @@ const updatePayment = async (request, response) => {
       paymentDate.setMinutes(new Date().getMinutes())
       paymentDate.setSeconds(new Date().getSeconds())
 
-      await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported, paymentDate })
+      await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported, paymentDate, approved })
       request.query.patient = patient
       await getPayments(request, response)
     } else {
@@ -224,7 +225,6 @@ const updatePayment = async (request, response) => {
     response.status(500).json({ err: err.message })
   }
 }
-
 
 const deletePayment = async (request, response) => {
   try {
@@ -249,4 +249,19 @@ const deletePayment = async (request, response) => {
   }
 }
 
-module.exports = { getPayments, createPayment, updatePayment, deletePayment }
+const approvePayments = async (request, response) => {
+  try {
+    const { doctorId } = request.params
+    const filteredApproveData  = request.body
+
+    filteredApproveData.map(async (element) => {
+      await PaymentModel.updateMany({ _id: element._id, doctor: doctorId }, { approved: true } , { new: true })
+    })
+    
+    await getPayments(request, response)
+  } catch(err) {
+    response.status(500).json({ err: err.message })
+  }
+}
+
+module.exports = { getPayments, createPayment, updatePayment, deletePayment, approvePayments }

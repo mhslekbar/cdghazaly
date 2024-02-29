@@ -32,6 +32,9 @@ export interface ShowStatisticInterface {
   percentCabinet: number,
   setPercentCabinet: (percentCabinet: number) => void,
   partOfDay: string, setPartOfDay: (partOfDay: string) => void,
+
+  showApprovePayments: boolean, setShowApprovePayments: (showApprovePayments: boolean) => void,
+  showSuccessMsg: boolean, setShowSuccessMsg: (showSuccessMsg: boolean) => void,
 }
 
 export const DefaultShowStatisticInterface: ShowStatisticInterface = {
@@ -65,6 +68,9 @@ export const DefaultShowStatisticInterface: ShowStatisticInterface = {
   percentCabinet: 0,
   setPercentCabinet: () => {},
   partOfDay: "", setPartOfDay: () => {},
+
+  showApprovePayments: false, setShowApprovePayments: () => {},
+  showSuccessMsg: false, setShowSuccessMsg: () => {},
 }
 
 export const ShowStatisticContext = createContext(DefaultShowStatisticInterface)

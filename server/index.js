@@ -31,7 +31,8 @@ const setCacheControl = require("./middlewares/setCacheControl")
 const verifyToken = require("./middlewares/verifyToken")
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use("/api/auth",        setCacheControl, require("./routes/auth"))
 app.use("/api/user",        verifyToken, setCacheControl, require("./routes/user"))
@@ -52,6 +53,7 @@ app.use("/api/purchaseOrder",  verifyToken, setCacheControl, require("./routes/p
 app.use("/api/consumption",    verifyToken, setCacheControl, require("./routes/consumption"))
 app.use("/api/appointment",    verifyToken, setCacheControl, require("./routes/appointment"))
 app.use("/api/supplier",       verifyToken, setCacheControl, require("./routes/supplier"))
+app.use("/api/prescription",       verifyToken, setCacheControl, require("./routes/prescription"))
 
 app.listen(port, () => {
   console.log(`dentist software is running on port: ${port}`)

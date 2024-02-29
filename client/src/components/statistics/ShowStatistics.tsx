@@ -5,11 +5,14 @@ import { useNavigate, useParams } from 'react-router'
 import { get } from '../../requestMethods'
 import { DefaultUserInterface, UserInterface } from '../users/types'
 import { FaChevronCircleLeft } from 'react-icons/fa'
+import SuccessMsg from '../../Messages/SuccessMsg'
 
 const ShowStatistics:React.FC = () => {
   const [selectedStats, setSelectedStats] = useState<string>("")
   const [showSwitchDate, setShowSwitchDate] = useState(false)
-  
+  const [showApprovePayments, setShowApprovePayments] = useState(false)
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false)
+
   const [sumTotalAmount, setSumTotalAmount] = useState<number>(0)
   const [sumConsoLab, setSumConsoLab] = useState<number>(0)
   const [sumPaymentLab, setSumPaymentLab] = useState<number>(0)
@@ -69,9 +72,13 @@ const ShowStatistics:React.FC = () => {
       sumConsumptions, setSumConsumptions,
       percentCabinet, setPercentCabinet,
       partOfDay, setPartOfDay,
+
+      showApprovePayments, setShowApprovePayments,
+      showSuccessMsg, setShowSuccessMsg
     }}>
       <FaChevronCircleLeft style={{ fontSize: "30px" }} className="text-main" onClick={() => navigate("/")}/>
       <TypeStatistics />
+      <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />
     </ShowStatisticContext.Provider>
   )
 }

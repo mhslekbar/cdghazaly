@@ -21,6 +21,8 @@ const dataLinks: dataLinksType[] = [
   { path: "soins", title: "Soins" },
   { path: "consultations", title: "Consultations" },
   { path: "fiches", title: "Fiches" },
+  { path: "prescription", title: "Ordonnances" },
+  
 ]
 
 const LinksPatient:React.FC = () => {
@@ -42,10 +44,10 @@ const LinksPatient:React.FC = () => {
     setActivePatient(patients.find((patient: PatientInterface) => patient._id === patientId) || DefaultPatientInterface)
   }, [patients, patientId])
 
-  const [numOfGrid, setNumOfGrid] = useState("lg:grid-cols-7")
+  const [numOfGrid, setNumOfGrid] = useState("lg:grid-cols-8")
 
   useEffect(() => {
-    setNumOfGrid(activePatient.assurance?.society ? "lg:grid-cols-8" : "lg:grid-cols-7")
+    setNumOfGrid(activePatient.assurance?.society ? "lg:grid-cols-9" : "lg:grid-cols-8")
   }, [activePatient])
   
   const { t } = useTranslation()

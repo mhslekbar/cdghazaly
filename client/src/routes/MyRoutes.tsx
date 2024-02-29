@@ -39,6 +39,7 @@ import ShowSupplier from '../components/consumables/suppliers/ShowSuppliers';
 import AboutSupplier from '../components/consumables/suppliers/abouts/AboutSupplier';
 import StatisticTreatments from '../components/statistics/Treatments/StatisticTreatments';
 import PaymentModes from '../pages/PaymentModes';
+import ShowPrescription from '../components/prescriptions/ShowPrescriptions';
 
 const MyRoutes:React.FC = () => {
   return (
@@ -71,6 +72,7 @@ const MyRoutes:React.FC = () => {
           <Route path="soins" element={<SoinsPayments />} />
           <Route path="consultations" element={<ShowConsultations />} />
           <Route path="fiches" element={<ShowFiches />} />
+          <Route path="prescription" element={<ShowPrescription />} />
         </Route>
 
         <Route path="/appointments/:doctorId" element={<Appointments />} />

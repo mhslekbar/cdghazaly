@@ -3,7 +3,7 @@ import DataPayments from "./DataPayments";
 
 const Accounting: React.FC = () => {
   return (
-    <section className="grid grid-cols-3 mt-5">
+    <section className="mt-5">
       <DataPayments paymentFilter="soins"/>
     </section>
   );
