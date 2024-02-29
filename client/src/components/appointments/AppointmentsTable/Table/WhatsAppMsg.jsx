@@ -28,6 +28,10 @@ const WhatsAppMsg = ({ phone, time, date }) => {
         setCabinetAr("عيادة الغزالي لطب وتجميل الأسنان")
         setCabinetFr("Cabinet dentaire El Ghazaly")
       break;
+      case "chumanite": 
+      setCabinetAr("مصحة الإنسانية")
+      setCabinetFr("Clinique Humanite")
+    break;
     }
   }, [])
   
