@@ -391,8 +391,9 @@ restart the server
 ```
 ##### START to do this for best one
 
-rm -rf /var/www/cabinetibtissama/* && mkdir /var/www/cabinetibtissama/client && cp -r build/* /var/www/cabinetibtissama/client
-rm -rf /var/www/chumanite/* && mkdir /var/www/chumanite/client && cp -r build/* /var/www/chumanite/client
+  rm -rf /var/www/cdghazaly/* && mkdir /var/www/cdghazaly/client && cp -r build/* /var/www/cdghazaly/client
+  rm -rf /var/www/chumanite/* && mkdir /var/www/chumanite/client && cp -r build/* /var/www/chumanite/client
+  rm -rf /var/www/cabinetibtissama/* && mkdir /var/www/cabinetibtissama/client && cp -r build/* /var/www/cabinetibtissama/client
 
 rm -rf /var/www/cabinetibtissama/*
 mkdir /var/www/cabinetibtissama/client

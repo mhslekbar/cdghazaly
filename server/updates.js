@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { execSync } = require('child_process');
 const PaymentModel = require('./models/PaymentModel');
 
-const dbName = "chumanite"
+const dbName = "dentist"
 // MongoDB connection string
 // const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 const mongoURI = `mongodb://127.0.0.1/${dbName}`;
