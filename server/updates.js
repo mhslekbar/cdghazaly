@@ -4,8 +4,8 @@ const PaymentModel = require('./models/PaymentModel');
 
 const dbName = "dentist"
 // MongoDB connection string
-// const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbName}?retryWrites=true&w=majority`;
-const mongoURI = `mongodb://127.0.0.1/${dbName}`;
+const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+// const mongoURI = `mongodb://127.0.0.1/${dbName}`;
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });

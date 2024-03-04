@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import AddNewPrescription from './AddNewPrescription'
 import EditPrescription from './EditPrescriptions'
 import DeletePrescription from './DeletePrescriptions'
 import DataPrescription from './DataPrescriptions'
 import { DefaultPrescriptionInterface, PrescriptionInterface, ShowPrescriptionContext } from './types'
 import { ShowPrescriptionApi } from '../../redux/prescriptions/prescriptionApiCalls'
+import { useParams } from 'react-router'
 
 
 const ShowPrescription:React.FC = () => {
@@ -16,12 +16,14 @@ const ShowPrescription:React.FC = () => {
   const [showDeletePrescription, setShowDeletePrescription] = useState(false)
   const dispatch: any = useDispatch()
 
+  const { patientId } = useParams()
+
   useEffect(() => {
     const fetchPrescription = async () => {
-      await dispatch(ShowPrescriptionApi())
+      await dispatch(ShowPrescriptionApi(`/?patient=${patientId}`))
     }
     fetchPrescription()
-  }, [dispatch])
+  }, [dispatch, patientId])
 
   return (
     <ShowPrescriptionContext.Provider value={{

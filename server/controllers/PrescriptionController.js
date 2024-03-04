@@ -2,7 +2,10 @@ const PrescriptionModel = require("../models/PrescriptionModel");
 
 const getPrescription = async (request, response) => {
   try {
-    const prescription = await PrescriptionModel.find().sort({ createdAt: -1 })
+    const { patient } = request.query
+    const prescription = await PrescriptionModel
+      .find({ patient })
+      .sort({ createdAt: -1 })
     response.status(200).json({ success: prescription })
   } catch(err) {
     response.status(500).json({ err: err.message })
@@ -20,6 +23,7 @@ const createPrescription = async (request, response) => {
 
     if(formErrors.length === 0) {
       await PrescriptionModel.create({ patient, content })
+      request.params.patient = patient
       await getPrescription(request, response)  
     } else {
       response.status(300).json({ formErrors })
@@ -43,6 +47,7 @@ const updatePrescription = async (request, response) => {
 
     if(formErrors.length === 0) {
       await PrescriptionModel.updateOne({_id: id}, {patient, content}, {new: true})
+      request.params.patient = patient
       await getPrescription(request, response)  
     } else {
       response.status(300).json({ formErrors })
@@ -58,11 +63,14 @@ const deletePrescription = async (request, response) => {
   try {
     const { id } = request.params
 
+    const prescription = await PrescriptionModel.findOne({ _id: id })
+
     const formErrors = []
     // start check if there's a treatment selled from this lab 
     // end check if there's a treatment selled from this lab 
     if(formErrors.length === 0) {
       await PrescriptionModel.deleteOne({_id: id})
+      request.params.patient = prescription.patient
       await getPrescription(request, response)
     } else {
       response.status(300).json({ formErrors })

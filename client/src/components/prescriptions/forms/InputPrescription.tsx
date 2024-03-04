@@ -43,7 +43,7 @@ const InputPrescription = () => {
           <TextAreaElement textAreaClass='h-44 print:hidden' name={t("Contenu")} placeholder={t("Donner une note si vous voulez")} value={content} setValue={setContent} />
           <p className='whitespace-pre-wrap hidden print:block'>{content}</p>
         </div>
-        <FooterInvoice />
+        <FooterInvoice colSpan={3} />
       </section>
     </div>
   )

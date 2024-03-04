@@ -47,9 +47,8 @@ const DataDevis: React.FC = () => {
       <div className="flex flex-col col-start-2 col-span-4 print:w-full">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-hidden invoice flex flex-col" style={{ minHeight: '100vh' }}>
+          <div className="overflow-hidden invoice">
             <HeaderInvoice type={`Devis N-${selectedDevis.numDevis}`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
-            <section className="content-devis" style={{ flex: 1 }}>
               <table className="min-w-full text-sm font-light text-center">
                 <thead className="border font-medium bg-white text-black border-gray-950">
                   <tr>
@@ -111,10 +110,9 @@ const DataDevis: React.FC = () => {
                     </tr>                
                   </>
                   }
+                  <FooterInvoice colSpan={6}/>
                 </tfoot>
               </table>
-            </section>
-            <FooterInvoice />
           </div>
         </div>
       </div>

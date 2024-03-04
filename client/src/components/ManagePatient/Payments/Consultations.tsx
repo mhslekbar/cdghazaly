@@ -70,9 +70,8 @@ const Consultations: React.FC = () => {
           <div className="col-span-6 border">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-bloc sm:px-6 lg:px-8">
-                <div className="overflow-hidden print:w-full invoice flex flex-col" style={{ minHeight: '100vh' }}>
+                <div className="overflow-hidden print:w-full invoice">
                   <HeaderInvoice type={`consultation`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === selectedPatient) ?? DefaultPatientInterface}/>            
-                  <section className="content-invoice" style={{ flex: 1 }}>
                     <table className="min-w-full text-sm font-light text-center">
                       <thead className="border border-gray-950 font-medium bg-white text-black">
                         <tr>
@@ -127,10 +126,9 @@ const Consultations: React.FC = () => {
                           </td>
                           <td className="border print:border-gray-950">{totalPayments}</td>
                         </tr>
+                        <FooterInvoice colSpan={4} />
                       </tfoot>
                     </table>
-                  </section>
-                  <FooterInvoice />
                 </div>
               </div>
             </div>

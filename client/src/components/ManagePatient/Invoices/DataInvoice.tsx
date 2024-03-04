@@ -45,9 +45,8 @@ const DataInvoice: React.FC = () => {
         <div className="flex flex-col col-start-2 col-span-4 print:w-full">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="overflow-hidden invoice flex flex-col" ref={invoiceRef} style={{ minHeight: '100vh' }}>
+              <div className="overflow-hidden invoice" ref={invoiceRef}>
                 <HeaderInvoice type={`Facture N-${selectedInvoice.numInvoice}`} PatientInfo={patientInfo}/>            
-              <section className="content-invoice" style={{ flex: 1 }}>
                 <table className="min-w-full text-sm font-light text-center">
                   <thead className="border font-medium bg-white text-black border-gray-950">
                     <tr>
@@ -109,10 +108,9 @@ const DataInvoice: React.FC = () => {
                       <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé Par le patient" paymentType="patient" />
                     </>}
                     <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Total" paymentType="total" />
+                    <FooterInvoice colSpan={6} />
                   </tfoot>
                 </table>
-                </section>
-                <FooterInvoice />
               </div>
             </div>
           </div>

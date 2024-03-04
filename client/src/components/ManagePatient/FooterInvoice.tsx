@@ -1,12 +1,18 @@
 import React from 'react'
 import { companyName } from '../../requestMethods'
 
-const FooterInvoice:React.FC = () => {
+interface props {
+  colSpan?: number
+}
+
+const FooterInvoice:React.FC<props> = ({ colSpan }) => {
   
   return (
-    <>
-      {companyName === "chumanite" && <img className="hidden print:block" src="/assets/chumanite/footer.jpg" alt="footer" />}
-    </>
+    <tr>
+      <td colSpan={colSpan}>
+        {companyName === "chumanite" && <img className="hidden print:block" src="/assets/chumanite/footer.jpg" alt="footer" />}
+      </td>
+    </tr>
   )
 }
 
