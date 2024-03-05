@@ -82,9 +82,9 @@ const DataPatients: React.FC = () => {
         patients
           .filter((patient: PatientInterface) => {
             const regNo = patient.RegNo?.toString().toLowerCase() ?? "";
-            const name = patient.name.toLowerCase() ?? "";
-            const phone = patient.contact.phone.toString() ?? "";
-            const whatsApp = patient.contact.whatsApp.toString() ?? "";
+            const name = patient.name?.toLowerCase() ?? "";
+            const phone = patient.contact.phone?.toString() ?? "";
+            const whatsApp = patient.contact?.whatsApp.toString() ?? "";
             switch(filterPatient.type) {
               case "RegNo":
                 return regNo.startsWith(filterPatient.value.toLowerCase())
