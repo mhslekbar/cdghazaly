@@ -69,7 +69,7 @@ const Consultations: React.FC = () => {
           <div className="col-span-3"></div>
           <div className="col-span-6 border">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-bloc sm:px-6 lg:px-8">
+              <div className="inline-block sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
                   <HeaderInvoice type={`consultation`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === selectedPatient) ?? DefaultPatientInterface}/>            
                     <table className="min-w-full text-sm font-light text-center">

@@ -135,9 +135,9 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
       .map((payment: PaymentInterface, index) => (
         <div className="grid grid-cols-12">
           <div className="col-span-3"></div>
-          <div className="col-span-6 border">
+          <div className="col-span-6 flex flex-col border">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-bloc sm:px-6 lg:px-8">
+              <div className="inline-block sm:px-6 lg:px-8">
                 <div className={`overflow-hidden print:w-full invoice`} ref={index === invoiceIndex ? invoiceRef : null}>
                   <HeaderInvoice type={`versement`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
                   <table className="min-w-full text-sm font-light text-center">
@@ -202,9 +202,9 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
     {typeInvoice === "En entier" && 
         <div className="grid grid-cols-12">
           <div className="col-span-3"></div>
-          <div className="col-span-6 border">
+          <div className="col-span-6 flex flex-col border">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-bloc sm:px-6 lg:px-8">
+              <div className="inline-block sm:px-6 lg:px-8">
                 <div className="overflow-hidden print:w-full invoice">
                   <HeaderInvoice type={`versement`} PatientInfo={patients.find((patient: PatientInterface) => patient._id === patientId) ?? DefaultPatientInterface}/>            
                   <table className="min-w-full text-sm font-light text-center">
