@@ -7,6 +7,7 @@ const getSettingAppoint = async (request, response) => {
     const setting = await SetAppointmentModel
     .find({ doctor })
     .populate("doctor")
+    .sort({ createdAt: 1 })
     response.status(200).json({ success: setting })
   } catch(error) {
     response.status(500).json({ error: error.message })

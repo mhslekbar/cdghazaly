@@ -43,6 +43,7 @@ export const MultiplyTime = (time: string, multiplier: number): string => {
   return ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
 };
 
+
 export let AddPlayTime = (time1: any, time2: any) => {
   let times = [time1, time2];
   let minutes = 0;
@@ -54,12 +55,32 @@ export let AddPlayTime = (time1: any, time2: any) => {
     minutes += parseInt(minute);
   });
 
-  let hours = Math.floor(minutes / 60);
-  minutes -= hours * 60;
+  let totalMinutes = minutes % (24 * 60); // Wrap around if minutes exceed a day
+  let hours = Math.floor(totalMinutes / 60);
+  minutes = totalMinutes % 60; // Remaining minutes after converting to hours
 
   // Return the formatted time
   return ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
 };
+
+
+// export let AddPlayTime = (time1: any, time2: any) => {
+//   let times = [time1, time2];
+//   let minutes = 0;
+
+//   // Loop through all the times
+//   times.forEach(function (time) {
+//     let [hour, minute] = time.split(":");
+//     minutes += parseInt(hour) * 60;
+//     minutes += parseInt(minute);
+//   });
+
+//   let hours = Math.floor(minutes / 60);
+//   minutes -= hours * 60;
+
+//   // Return the formatted time
+//   return ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
+// };
 
 
 

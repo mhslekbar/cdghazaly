@@ -27,7 +27,7 @@ const PaymentLab: React.FC = () => {
   useEffect(() => {
     setSumPaymentLab(
       filterSpecificDate(
-        paymentLab, Number(day), month, showSwitchDate, startDate, endDate, selectedDate
+        paymentLab, day, month, showSwitchDate, startDate, endDate, selectedDate
       )
       .filter(
         (payment: PaymentLabType) =>
@@ -38,6 +38,8 @@ const PaymentLab: React.FC = () => {
       )
     }, [day, month, selectedDate, showSwitchDate, startDate, endDate, setSumPaymentLab, sumPaymentLab, doctorId, paymentLab])
   const { t } = useTranslation()
+
+
   return (
     <tr>
       <td colSpan={2}></td>
