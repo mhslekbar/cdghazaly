@@ -65,50 +65,52 @@ const createSettingAppoint = async (request, response) => {
 
 const updateSettingAppoint = async (request, response) => {
   try {
-    const { doctor, id } = request.params
-    const { start, end, partOfTime, countSeance } = request.body
+    const { doctor, id } = request.params;
+    const { start, end, partOfTime, countSeance } = request.body;
     
-    const formErrors = []
-
-    const checkSetAppoint = await SetAppointmentModel.findOne({ _id: { $ne: id }, partOfTime })
+    const formErrors = [];
+    const checkSetAppoint = await SetAppointmentModel.findOne({ _id: { $ne: id }, partOfTime });
 
     if(partOfTime.length === 0) {
-      formErrors.push(`Choisir un temps partiel`)
+      formErrors.push(`Choisir un temps partiel`);
     }
     if(start.length === 0 && partOfTime.length > 1) {
-      formErrors.push(`Donner la date du debut du :${partOfTime}`)
+      formErrors.push(`Donner la date du debut du :${partOfTime}`);
     }
     if(end.length === 0 && partOfTime.length > 1) {
-      formErrors.push(`Donner la date du descente du :${partOfTime}`)
+      formErrors.push(`Donner la date du descente du :${partOfTime}`);
     }
 
     if(formErrors.length === 0) {
-      const startTime = new Date()
-      const hourStart = start.split(":")[0]
-      const minuteStart = start.split(":")[1]
-      startTime.setHours(hourStart)
-      startTime.setMinutes(minuteStart)
+      const startTime = new Date();
+      let hourStart = parseInt(start.split(":")[0]);
+      const minuteStart = parseInt(start.split(":")[1]);
+      startTime.setHours(hourStart);
+      startTime.setMinutes(minuteStart);
       
-      const endTime = new Date()
-      const hourEnd = end.split(":")[0]
-      const minuteEnd = end.split(":")[1]
-      endTime.setHours(hourEnd)
-      endTime.setMinutes(minuteEnd)
-      
-      const hourDiff = Math.round((strToTime(endTime) - strToTime(startTime)) / 3600, 1);
+      const endTime = new Date();
+      let hourEnd = parseInt(end.split(":")[0]);
+      const minuteEnd = parseInt(end.split(":")[1]);
+      if(hourStart > hourEnd) {
+          hourEnd += 24; // Adjust for the next day
+      }      
+      endTime.setHours(hourEnd);
+      endTime.setMinutes(minuteEnd);
+
+      const hourDiff = Math.round((strToTime(endTime) - strToTime(startTime)) / 3600);
       const hDf = hourDiff / countSeance;
-      const time = convertToHoursMins(hDf * 60)      
+      const time = convertToHoursMins(hDf * 60);      
 
-      await SetAppointmentModel.updateOne({ _id: id }, { doctor, start, end, partOfTime, time, countSeance }, { new: true })
-      await getSettingAppoint(request, response)
-
+      await SetAppointmentModel.updateOne({ _id: id }, { doctor, start, end, partOfTime, time, countSeance }, { new: true });
+      await getSettingAppoint(request, response);
     } else {
-      response.status(300).json({ formErrors })
+      response.status(400).json({ formErrors });
     }
   } catch(error) {
-    response.status(500).json({ error: error.message })
+    response.status(500).json({ error: error.message });
   }
-}
+};
+
 
 const deleteSettingAppoint = async (request, response) => {
   try {
@@ -121,3 +123,67 @@ const deleteSettingAppoint = async (request, response) => {
 }
 
 module.exports = { getSettingAppoint, createSettingAppoint, updateSettingAppoint, deleteSettingAppoint }
+
+
+
+
+// const updateSettingAppoint = async (request, response) => {
+//   try {
+//     const { doctor, id } = request.params
+//     const { start, end, partOfTime, countSeance } = request.body
+    
+//     const formErrors = []
+
+//     const checkSetAppoint = await SetAppointmentModel.findOne({ _id: { $ne: id }, partOfTime })
+
+//     if(partOfTime.length === 0) {
+//       formErrors.push(`Choisir un temps partiel`)
+//     }
+//     if(start.length === 0 && partOfTime.length > 1) {
+//       formErrors.push(`Donner la date du debut du :${partOfTime}`)
+//     }
+//     if(end.length === 0 && partOfTime.length > 1) {
+//       formErrors.push(`Donner la date du descente du :${partOfTime}`)
+//     }
+
+//     if(formErrors.length === 0) {
+//       const startTime = new Date()
+//       const hourStart = start.split(":")[0]
+//       const minuteStart = start.split(":")[1]
+//       startTime.setHours(hourStart)
+//       startTime.setMinutes(minuteStart)
+      
+//       const endTime = new Date()
+//       let hourEnd = end.split(":")[0]
+//       const minuteEnd = end.split(":")[1]
+//       endTime.setHours(hourEnd)
+//       endTime.setMinutes(minuteEnd)
+//       const hourDiff = Math.round((strToTime(endTime) - strToTime(startTime)) / 3600, 1);
+//       const hDf = hourDiff / countSeance;
+//       const time = convertToHoursMins(hDf * 60)      
+
+//       console.log("hourStart: ", hourStart);
+//       console.log("hourEnd: ", hourEnd);
+      
+//       // Check if the starting hour is greater than the ending hour
+//       if(hourStart > hourEnd) {
+//           // Add 24 to hourEnd to handle the next day scenario
+//           hourEnd += 24;
+//       }
+      
+//       console.log("Adjusted hourEnd: ", hourEnd);
+//       console.log("result: ", hourEnd - hourStart);
+
+
+//       await SetAppointmentModel.updateOne({ _id: id }, { doctor, start, end, partOfTime, time, countSeance }, { new: true })
+//       await getSettingAppoint(request, response)
+
+//     } else {
+//       response.status(300).json({ formErrors })
+//     }
+//   } catch(error) {
+//     // console.log("error: ", error)
+//     response.status(500).json({ error: error.message })
+//   }
+// }
+
