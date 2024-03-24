@@ -89,7 +89,7 @@ const DataPayments:React.FC<props> = ({ paymentFilter }) => {
                         {payment.type === filteredPayment && payment.amount}
                       </td>
                       <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
-                        {payment.method?.name || "cash"}
+                        {payment.invoiceAssur?._id ? "Assurance" : payment.method?.name || "cash"}
                       </td>
                       <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
                         {payment.user?.username}

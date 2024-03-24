@@ -165,10 +165,10 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
                           {formatHourAndMinute(payment.paymentDate)}
                         </td>
                         <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                          {payment.amount}
+                          {payment.amount + " MRU"}
                         </td>
                         <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                          {payment.method?.name || "CASH"}
+                          {payment.invoiceAssur?._id ? t("Assurance") : payment.method?.name || "CASH"}
                         </td>
                         <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium  print:hidden">
                           {payment.user?.username}
@@ -251,10 +251,10 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
                           {formatHourAndMinute(payment.paymentDate)}
                         </td>
                         <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                          {payment.amount}
+                          {payment.amount + " MRU"}
                         </td>
                         <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                          {payment.method?.name || "CASH"}
+                          {payment.invoiceAssur?._id ? t("Assurance") : payment.method?.name || "CASH"}
                         </td>
                         <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium  print:hidden">
                           {payment.user?.username}

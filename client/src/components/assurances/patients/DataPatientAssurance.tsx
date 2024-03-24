@@ -89,10 +89,10 @@ const DataPatientAssurance: React.FC = () => {
                       {payment.type === EnumTypePayment.PAYMENT ? "versement" : payment.type === EnumTypePayment.CONSULTATION && "cons"}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
-                      {payment.amount}
+                      {payment.amount + " MRU"}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
-                      {(payment.amount * Number(payment.patient?.assurance?.percentCovered) / 100)}
+                      {(payment.amount * Number(payment.patient?.assurance?.percentCovered) / 100)  + " MRU"}
                     </td>
                     {factureGlobal && 
                       <td className="whitespace-nowrap px-4 py-2 border-r bg-white border-gray-950 font-medium">
@@ -119,7 +119,7 @@ const DataPatientAssurance: React.FC = () => {
                         && (factureGlobal || payment.doctor._id === doctorId)
                       )
                       ?.reduce((acc: number, currVal: PaymentInterface) => acc + Number(currVal.amount), 0)
-                    }
+                    } {" MRU"}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 border-r border-b bg-white border-gray-950 font-bold">
                     {payments
@@ -131,7 +131,7 @@ const DataPatientAssurance: React.FC = () => {
                       ?.reduce((acc: number, currVal: PaymentInterface) => 
                         acc + (Number(currVal.amount) * Number(currVal.patient?.assurance?.percentCovered) / 100)
                       , 0)
-                    }
+                    }{" MRU"}
                   </td>
                   {
                     factureGlobal && 

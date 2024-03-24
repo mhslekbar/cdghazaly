@@ -93,7 +93,7 @@ const Consultations: React.FC = () => {
                                 {payment.amount}
                               </td>
                               <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
-                                {payment.method?.name || "CASH"}
+                                {payment.invoiceAssur?._id ? t("Assurance") : payment.method?.name || "CASH"}
                               </td>
                               <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
                                 {payment.user?.username}

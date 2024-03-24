@@ -70,7 +70,7 @@ const SoinsPayments: React.FC = () => {
                                 {formatDate(payment.paymentDate)}
                               </td>
                               <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
-                                {payment.amount}
+                                {payment.amount + " MRU"}
                               </td>
                             </tr>
                           ))}
