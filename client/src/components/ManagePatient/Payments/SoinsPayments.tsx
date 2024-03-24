@@ -53,8 +53,8 @@ const SoinsPayments: React.FC = () => {
                     <table className="min-w-full text-sm font-light text-center">
                       <thead className="border border-gray-950 font-medium bg-white text-black">
                         <tr>
-                          <th className="py-1 border-r border-gray-950">Date</th>
-                          <th className="py-1 border-r border-gray-950">Montant</th>
+                          <th className="px-4 py-2 border-r border-gray-950">Date</th>
+                          <th className="px-4 py-2 border-r border-gray-950">Montant</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -66,10 +66,10 @@ const SoinsPayments: React.FC = () => {
                           )
                           .map((payment: PaymentInterface, index) => (
                             <tr className="border-b border-l border-gray-950" key={index}>
-                              <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
+                              <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
                                 {formatDate(payment.paymentDate)}
                               </td>
-                              <td className="whitespace-nowrap py-1 border-r border-gray-950 bg-white font-medium">
+                              <td className="whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium">
                                 {payment.amount + " MRU"}
                               </td>
                             </tr>
@@ -78,7 +78,7 @@ const SoinsPayments: React.FC = () => {
                       <tfoot>
                         <tr className="font-bold">
                           <td></td>
-                          <td className="text-center bg-white border border-gray-950">{totalPayments}</td>
+                          <td className="text-center bg-white px-4 py-2 border border-gray-950">{totalPayments + " MRU"}</td>
                         </tr>
                         <FooterInvoice colSpan={2} />
                       </tfoot>

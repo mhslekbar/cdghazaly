@@ -124,7 +124,7 @@ const Consultations: React.FC = () => {
                           <td className="text-end px-2 border print:border-gray-950">
                             {t("Total")}:
                           </td>
-                          <td className="border print:border-gray-950">{totalPayments}</td>
+                          <td className="border print:border-gray-950">{totalPayments + " MRU"}</td>
                         </tr>
                         <FooterInvoice colSpan={4} />
                       </tfoot>
