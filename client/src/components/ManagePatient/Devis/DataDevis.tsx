@@ -76,10 +76,10 @@ const DataDevis: React.FC = () => {
                         {lnDevis.teeth.nums.length}
                       </td>
                       <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
-                        {lnDevis.price}
+                        {lnDevis.price + " MRU"}
                       </td>
                       <td className="whitespace-nowrap px-3 py-2 border-r bg-white font-medium border-gray-950">
-                        {lnDevis.price * lnDevis.teeth.nums.length}
+                        {(lnDevis.price * lnDevis.teeth.nums.length) + " MRU"}
                       </td>
                     </tr>
                   ))}
@@ -89,7 +89,7 @@ const DataDevis: React.FC = () => {
                     <td colSpan={4}></td>
                     <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Total")}: </td>
                     <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
-                      {totalDevis}
+                      {totalDevis + " MRU"}
                     </td>
                   </tr>
                   {selectedDevis.reduce > 0 && 
@@ -105,7 +105,7 @@ const DataDevis: React.FC = () => {
                       <td colSpan={4}></td>
                       <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">{t("Reste")}: </td>
                       <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
-                        {totalDevis - (totalDevis * (selectedDevis.reduce / 100))}
+                        {(totalDevis - (totalDevis * (selectedDevis.reduce / 100))) + " MRU"}
                       </td>
                     </tr>                
                   </>

@@ -93,10 +93,10 @@ const DataInvoice: React.FC = () => {
                             {lnInvoice.teeth.nums.length}
                           </td>
                           <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
-                            {price}
+                            {price + " MRU"}
                           </td>
                           <td className="whitespace-nowrap px-3 py-2 border-r border-gray-950 bg-white font-medium">
-                            {totalPrice}
+                            {totalPrice + " MRU"}
                           </td>
                         </tr>
                       )

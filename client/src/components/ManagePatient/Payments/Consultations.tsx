@@ -90,7 +90,7 @@ const Consultations: React.FC = () => {
                                 {formatDate(payment.createdAt)}
                               </td>
                               <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
-                                {payment.amount}
+                                {payment.amount + " MRU"}
                               </td>
                               <td className="whitespace-nowrap py-1 border-r border-b border-gray-950 bg-white font-medium">
                                 {payment.invoiceAssur?._id ? t("Assurance") : payment.method?.name || "CASH"}
