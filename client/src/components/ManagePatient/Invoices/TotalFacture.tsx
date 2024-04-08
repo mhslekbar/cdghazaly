@@ -13,8 +13,9 @@ interface TotalFactureInterface {
 
 const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInvoice, message, paymentType, patientInfo }) => {
   const { totalAssurance, setTotalAssurance, totalPatient, setTotalPatient } = useContext(ShowInvoicesContext)
-  const [totalAssuranceNoPercent, setTotalAssuranceNoPercent] = useState(0)
-  
+
+  const [totalAssuranceNoPercent, setTotalAssuranceNoPercent] = useState(0) // Assurance before reduce the percentage covered
+
   useEffect(() => {
     setTotalAssuranceNoPercent(
       selectedInvoice?.LineInvoice
@@ -29,6 +30,9 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
         },0
       )
     )
+  }, [selectedInvoice])
+
+  useEffect(() => {
     setTotalAssurance(
       selectedInvoice?.LineInvoice
       ?.filter(
@@ -42,6 +46,9 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
         },0
       )
     )
+  }, [paymentType, selectedInvoice, patientInfo, setTotalAssurance, setTotalPatient, typeInvoice])
+
+  useEffect(() => {
     setTotalPatient(
       selectedInvoice?.LineInvoice
       ?.filter(
@@ -51,12 +58,11 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
       )
       ?.reduce(
         (acc: any, currVal: LineInvoiceInterface) => {
-          return currVal.price * currVal.teeth.nums.length + acc
+          return acc + (currVal.price * currVal.teeth.nums.length)
         },0
       )
     )
-    
-  }, [paymentType, selectedInvoice, patientInfo, setTotalAssurance, setTotalPatient, typeInvoice])
+  }, [selectedInvoice, setTotalPatient])
 
   const { t } = useTranslation()
 
@@ -68,7 +74,7 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
       </td>
       <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
         {paymentType === "assurance" && (totalAssurance + " MRU")}
-        {paymentType === "patient" && (Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance) + " MRU")} {/*  + Number(totalAssuranceNoPercent - totalAssurance) */}
+        {paymentType === "patient" && (Number(totalPatient) + " MRU")} {/*  + Number(totalAssuranceNoPercent - totalAssurance) */}
         {paymentType === "total" ?
           typeInvoice === "assuré" ?
             (totalAssurance + " MRU")
@@ -86,6 +92,24 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
 export default TotalFacture
 
 
+/**
+
+{ <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
+{paymentType === "assurance" && (totalAssurance + " MRU")}
+{paymentType === "patient" && (Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance) + " MRU")} 
+
+{paymentType === "total" ?
+  typeInvoice === "assuré" ?
+    (totalAssurance + " MRU")
+  : 
+    typeInvoice === "cabinet" ? 
+      (Number(totalPatient) + " MRU")  // + Number(totalAssuranceNoPercent - totalAssurance)
+    : (Number(totalAssurance) + Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance) + " MRU")
+  : ""
+}
+</td> }
+
+*/
 
 // {selectedInvoice?.LineInvoice
 //   ?.filter(

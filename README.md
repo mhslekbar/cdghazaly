@@ -401,3 +401,7 @@ cp -r build/* /var/www/cabinetibtissama/client
 
 ##### END to do this for best one
 ```
+
+
+<!-- SHA256:0kFU5KEIjAGjdk4dUvJokm1QbAwX1qZ0HX2ZA7ly0Ko -->
+<!-- SHA256:tUH4CgQGTGVVHVrmr63DS6Q1fevJrfNqm++E3+sMhc8 -->
