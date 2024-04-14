@@ -1,12 +1,23 @@
 import { createContext } from "react"
 import { AssuranceInterface, DefaultAssuranceInterface } from "../../types"
 
+export interface careTypeInterface {
+  type: string,
+  name: string
+}
+export const defaultcareTypeInterface = {
+  type: "soins",
+  name: "Soins"
+}
+
 
 export interface DataTreatmentInterface {
   treatment: string, 
   setTreatment: (treatment: string) => void
   price: string,
-  setPrice: (price: string) => void
+  setPrice: (price: string) => void,
+  treatmentType: careTypeInterface,
+  setTreatmentType: (treatmentType: careTypeInterface) => void,
 }
 
 export const defaultDataTreatmentInterface:DataTreatmentInterface = {
@@ -14,6 +25,8 @@ export const defaultDataTreatmentInterface:DataTreatmentInterface = {
   setTreatment: () => {},
   price: "",
   setPrice: () => {},
+  treatmentType: defaultcareTypeInterface,
+  setTreatmentType: () => {},
 }
 
 export const DataTreatmentContext = createContext(defaultDataTreatmentInterface)

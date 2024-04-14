@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { DataTreatmentContext, TreatmentType } from "./types";
+import { careTypeInterface, DataTreatmentContext, TreatmentType } from "./types";
 import InputsTreatment from "./forms/InputsTreatment";
 import { Timeout } from "../../../functions/functions";
 import { bindActionCreators } from "redux";
@@ -23,6 +23,10 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
 }) => {
   const [treatment, setTreatment] = useState(treatmentData.name);
   const [price, setPrice] = useState(treatmentData.price);
+  const [treatmentType, setTreatmentType] = useState<careTypeInterface>({
+    name: "",
+    type: treatmentData.type,
+  });
 
   const { setShowSuccessMsg } = useContext(ShowTreatmentContext);
 
@@ -40,7 +44,7 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
       const response = await boundActions.EditTreatmentApi(treatmentData._id, {
         name: treatment,
         price,
-        type: "soins",
+        type: treatmentType.type,
         assurance: AssId,
       });
       if (typeof response === "boolean") {
@@ -60,10 +64,9 @@ const EditTreatment: React.FC<EditTreatmentInterface> = ({
   return (
     <DataTreatmentContext.Provider
       value={{
-        treatment,
-        setTreatment,
-        price,
-        setPrice,
+        treatment, setTreatment,
+        treatmentType, setTreatmentType,
+        price, setPrice,
       }}
     >
       {modal && (

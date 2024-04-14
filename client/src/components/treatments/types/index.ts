@@ -10,6 +10,16 @@ export const defaultcareTypeInterface = {
   name: "Soins"
 }
 
+export const ArrayTypeCare = [
+  {type: "soins",   name:  "Soins"},
+  {type: "prothese", name: "Prothese"},
+  {type: "gencive",  name: "Soins gencive"},
+  {type: "implant", name: "Implant"},
+  {type: "pediatre", name: "Soins pediatre"},
+  {type: "bouche",   name: "Soins de bouche"},
+  {type: "conservative", name: "Conservateur"},
+]
+
 export interface DataTreatmentInterface {
   treatment: string, 
   setTreatment: (treatment: string) => void

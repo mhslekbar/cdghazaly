@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { DataTreatmentContext } from "../types";
+import { ArrayTypeCare, DataTreatmentContext } from "../types";
 import { useTranslation } from "react-i18next";
 
 const InputsTreatment = () => {
@@ -9,15 +9,7 @@ const InputsTreatment = () => {
     treatmentType,
     setTreatmentType
   } = useContext(DataTreatmentContext)
-  
-  const ArrayTypeCare: {}[] = [
-    {val: "soins",   name: "Soins"},
-    {val: "prothese", name: "Prothese"},
-    {val: "gencive",  name: "Soins gencive"},
-    {val: "pediatre", name: "Soins pediatre"},
-    {val: "bouche",   name: "Soins de bouche"},
-    {val: "conservative", name: "Soins conservateur"},
-  ]
+    
   const { t } = useTranslation()
   return (
     <React.Fragment>
@@ -50,7 +42,7 @@ const InputsTreatment = () => {
           }}
         >
           {ArrayTypeCare.map((care: any) => (
-            <option key={care.val} value={care.val} data-name={care.name} >{t(care.name)}</option>
+            <option key={care.type} value={care.type} data-name={care.name} >{t(care.name)}</option>
           ))}
         </select>
       </div>

@@ -7,6 +7,7 @@ import { TreatmentType } from "./types";
 import { State } from "../../../redux/store";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import { ArrayTypeCare } from "../../treatments/types";
 
 const TreatmentTable:React.FC = () => {
   const { treatments } = useSelector((state: State) => state.treatments);
@@ -34,6 +35,7 @@ const TreatmentTable:React.FC = () => {
               <thead className="border-b font-medium bg-main text-white text-center">
                 <tr>
                   <th className="px-6 py-3 border-r">{t("Nom")}</th>
+                  <th className="px-6 py-3 border-r">{t("Type")}</th>
                   <th className="px-6 py-3 border-r">{t("Prix")}</th>
                   <th className="px-6 py-3 border-r">{t("Actions")}</th>
                 </tr>
@@ -43,30 +45,36 @@ const TreatmentTable:React.FC = () => {
                   .slice()
                   .filter((treat: TreatmentType) => treat.assurance?._id === AssId)
                   .sort((a: TreatmentType, b: TreatmentType) => a.name.localeCompare(b.name))
-                  .map((treatment: TreatmentType, index) => (
-                  <tr className="border-b" key={index}>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {treatment.name}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
-                      {treatment.price}
-                    </td>
-                    <td className="bg-white h-full">
-                      <div className="flex justify-center">
-                        <FaEdit className="text-blue" style={{
-                          fontSize: "22px"
-                        }} 
-                        onClick={() => toggleEditTreat(treatment)}
-                        />
-                        <MdRemoveCircle className="text-red" style={{
-                          fontSize: "22px"
-                        }}
-                        onClick={() => toggleDeleteTreat(treatment)}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                  .map((treatment: TreatmentType, index) => {
+                    return (
+                      <tr className="border-b" key={index}>
+                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                          {treatment.name}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                          {ArrayTypeCare.find((treat: any) => treat.type === treatment.type)?.name}
+                          {/* { treatment.type} */}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 border-r bg-white font-medium">
+                          {treatment.price}
+                        </td>
+                        <td className="bg-white h-full">
+                          <div className="flex justify-center">
+                            <FaEdit className="text-blue" style={{
+                              fontSize: "22px"
+                            }} 
+                            onClick={() => toggleEditTreat(treatment)}
+                            />
+                            <MdRemoveCircle className="text-red" style={{
+                              fontSize: "22px"
+                            }}
+                            onClick={() => toggleDeleteTreat(treatment)}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
               </tbody>
             </table>
           </div>

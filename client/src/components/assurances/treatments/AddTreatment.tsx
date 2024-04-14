@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { DataTreatmentContext } from './types';
+import { careTypeInterface, DataTreatmentContext, defaultcareTypeInterface } from './types';
 import InputsTreatment from './forms/InputsTreatment';
 import { useDispatch } from 'react-redux';
 import { AddTreatmentApi } from '../../../redux/treatments/treatmentApiCalls';
@@ -13,7 +13,9 @@ import ShowErrorMsg from '../../../HtmlComponents/ShowErrorMsg';
 
 const AddTreatment:React.FC = () => {
   const [treatment, setTreatment] = useState("")
+  const [treatmentType, setTreatmentType] = useState<careTypeInterface>(defaultcareTypeInterface)
   const [price, setPrice] = useState("")
+
   const [modal, setModal] = useState(false)
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -34,7 +36,7 @@ const AddTreatment:React.FC = () => {
     setLoading(true)
     try {
       const boundActions = bindActionCreators({ AddTreatmentApi }, dispatch)
-      const response = await boundActions.AddTreatmentApi({ name: treatment, price, type: "soins", assurance: AssId })
+      const response = await boundActions.AddTreatmentApi({ name: treatment, price, type: treatmentType.type, assurance: AssId })
       if(typeof response === "boolean") {
         setTreatment("")
         setPrice("")
@@ -52,6 +54,7 @@ const AddTreatment:React.FC = () => {
   return (
     <DataTreatmentContext.Provider value={{
       treatment, setTreatment,
+      treatmentType, setTreatmentType,
       price, setPrice
     }}>
       <button className="p-2 rounded bg-main text-white mt-2" onClick={toggle}>
