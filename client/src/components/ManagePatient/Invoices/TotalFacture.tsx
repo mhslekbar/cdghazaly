@@ -74,7 +74,9 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
       </td>
       <td className="whitespace-nowrap px-3 py-2 bg-white font-medium border border-gray-950">
         {paymentType === "assurance" && (totalAssurance + " MRU")}
-        {paymentType === "patient" && (Number(totalPatient) + " MRU")} {/*  + Number(totalAssuranceNoPercent - totalAssurance) */}
+        {paymentType === "patient" && (Number(totalPatient) + Number(totalAssuranceNoPercent - totalAssurance) + " MRU")} 
+
+        {/* {paymentType === "patient" && (Number(totalPatient) + " MRU")}  + Number(totalAssuranceNoPercent - totalAssurance) */}
         {paymentType === "total" ?
           typeInvoice === "assuré" ?
             (totalAssurance + " MRU")
