@@ -122,7 +122,7 @@ const updatePatient = async (request, response) => {
     const patientInfo = await PatientModel.findOne({ _id: id });
     const paymentInfo = await PaymentModel.findOne({ patient: id, type: "consultations" });
     
-    let cons_price = paymentInfo.amount;
+    let cons_price = paymentInfo?.amount ?? 0;
     const formErrors = [];
     if (doctor.length === 0) {
       doctor = patientInfo.doctor;
@@ -183,10 +183,12 @@ const updatePatient = async (request, response) => {
         { new: true }
       );
       // Start Edit payment
-      paymentInfo.amount = cons_price;
-      paymentInfo.method = method;
-      paymentInfo.supported = supported;
-      paymentInfo.save();
+      if(paymentInfo) {
+        paymentInfo.amount = cons_price;
+        paymentInfo.method = method;
+        paymentInfo.supported = supported;
+        paymentInfo.save();
+      }
       // END Edit payment
       await getPatients(request, response);
     } else {
