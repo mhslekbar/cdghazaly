@@ -10,7 +10,8 @@ const getAppointments = async (request, response) => {
     
     startDate = new Date(`${startDate}T00:00:00.000Z`);
     endDate = new Date(`${endDate}T23:59:59.999Z`);
-    
+    endDate = new Date(endDate.setDate(endDate.getDate() + 1))
+
     const appointment = await AppointmentModel
     .find({ doctor, date: {
       $gte: startDate,
@@ -103,9 +104,11 @@ const createAppointment = async (request, response) => {
       await getAppointments(request, response)
 
     } else {
+      console.log("formErrors: ", formErrors)
       response.status(300).json({ formErrors });
     }
   } catch (error) {
+    console.log("error: ", error)
     response.status(500).json({ error: error.message });
   }
 };

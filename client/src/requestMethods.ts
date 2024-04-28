@@ -1,10 +1,10 @@
 import axios from "axios";
 
-// const port = "8894" // chumanite
-const port = "8890" // cdghazaly 
+const port = "8894" // chumanite
+// const port = "8890" // cdghazaly 
 // const port = "8892" // cabinet ibtissama
-export const companyName: any = "cdghazaly"
-// export const companyName: any = "chumanite"
+// export const companyName: any = "cdghazaly"
+export const companyName: any = "chumanite"
 // export const companyName: any = "cabinetibtissama"
 
 // const BASE_URL = `https://api.cdghazaly.com/api/`
