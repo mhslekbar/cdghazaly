@@ -21,7 +21,7 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
       selectedInvoice?.LineInvoice
       ?.filter(
         (lnInvoice: LineInvoiceInterface) => {
-          return lnInvoice.treatment.assurance;
+          return lnInvoice.treatment?.assurance;
         }
       )
       ?.reduce(
@@ -37,7 +37,7 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
       selectedInvoice?.LineInvoice
       ?.filter(
         (lnInvoice: LineInvoiceInterface) => {
-          return lnInvoice.treatment.assurance;
+          return lnInvoice.treatment?.assurance;
         }
       )
       ?.reduce(
@@ -53,7 +53,7 @@ const TotalFacture:React.FC<TotalFactureInterface> = ({ selectedInvoice, typeInv
       selectedInvoice?.LineInvoice
       ?.filter(
         (lnInvoice: LineInvoiceInterface) => {
-          return !lnInvoice.treatment.assurance;
+          return !lnInvoice.treatment?.assurance;
         }
       )
       ?.reduce(
