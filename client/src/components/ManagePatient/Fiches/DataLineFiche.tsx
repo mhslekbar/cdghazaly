@@ -44,7 +44,7 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
     setTypeTeethBoard(EnumTypeTeethBoard.EDIT_TEETH_FICHE)
 
     setSelectedLineDevis(line.lineInvoice?.devis?.LineDevis?.find((lineDv: LineDevisType) => 
-      lineDv.treatment.toString() === line.lineInvoice?.treatment?._id) 
+      lineDv.treatment?.toString() === line.lineInvoice?.treatment?._id) 
       ?? DefaultLineDevisType)
     setShowTeethBoard(!showTeethBoard)
     // teethBoard
@@ -131,7 +131,7 @@ const DataLineFiche: React.FC<props> = ({ Line, toggle, myIndex }) => {
             }}
           />
         ) :
-        Line?.lineInvoice?.treatment.name &&
+        Line?.lineInvoice?.treatment?.name &&
         // firstEmptyDateIndex > myIndex && 
         <>
           <FaEdit
