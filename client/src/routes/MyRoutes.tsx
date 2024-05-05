@@ -40,6 +40,7 @@ import AboutSupplier from '../components/consumables/suppliers/abouts/AboutSuppl
 import StatisticTreatments from '../components/statistics/Treatments/StatisticTreatments';
 import PaymentModes from '../pages/PaymentModes';
 import ShowPrescription from '../components/prescriptions/ShowPrescriptions';
+import Implants from '../pages/Implants';
 
 const MyRoutes:React.FC = () => {
   return (
@@ -91,6 +92,7 @@ const MyRoutes:React.FC = () => {
           <Route path="suppliers/:supplierId" element={<AboutSupplier />}/>          
         </Route>
 
+        <Route path="/implants" element={<Implants />}/>
         <Route path="/paymentMode" element={<PaymentModes />}/>
         <Route path="/permissions" element={<Permissions />}/>
         

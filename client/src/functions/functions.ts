@@ -132,6 +132,21 @@ export const formattedDate = (dateString: string) => {
   return result
 };
 
+
+export function formatLongDate(date: any) {
+  let d = new Date(date),
+      day = '' + d.getDate(),
+      month = '' + (d.getMonth() + 1), // Months are zero indexed
+      year = d.getFullYear();
+
+  if (day.length < 2) 
+      day = '0' + day;
+  if (month.length < 2) 
+      month = '0' + month;
+
+  return [day, month, year].join('/'); // Adjusts year to last two digits
+}
+
 export const formatHourAndMinute = (dateString: string) => {
   // Parse the date string into a Date object
   const date = new Date(dateString);

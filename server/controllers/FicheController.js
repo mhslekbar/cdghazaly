@@ -4,6 +4,7 @@ const PatientModel = require("../models/PatientModel");
 const InvoiceModel = require("../models/InvoiceModel");
 const TreatmentModel = require("../models/TreatmentModel");
 const LaboratoryModel = require("../models/LaboratoryModel");
+const ImplantTreatModel = require("../models/ImplantTreatModel");
 
 const getFiches = async (request, response) => {
   try {
@@ -174,7 +175,7 @@ const updateLineFiche = async (request, response) => {
       const labTreatInfo = laboratoryInfo.treatments.find((treat) =>
         treat.treatment.equals(treatment)
       );
-      const priceOfLab = labTreatInfo.price;
+      let priceOfLab = labTreatInfo.price;
       const amountLab = Number(priceOfLab) * Number(teeth.nums.length);
 
       // START Update balance of lab
@@ -239,8 +240,18 @@ const updateLineFiche = async (request, response) => {
       });
     }
 
+    let implantId =  null;
+
     if (treatment) {
       invoiceInfo.LineInvoice.push({ doctor, treatment, devis, price, teeth, createdAt: dateAppointment, updateAt: dateAppointment, });
+
+      // Start Implant Treat
+      if(treatmentInfo.type === 'implant') {
+        const newImplantTreat = await ImplantTreatModel.create({ doctor, patient, treatment, price, teeth, isSetAppointment: false  }) 
+        implantId = newImplantTreat._id
+      }
+      // END Implant Treat
+ 
     } else {
       invoiceInfo.LineInvoice.push({ doctor, devis, acte, price, teeth, createdAt: dateAppointment, updateAt: dateAppointment, });
     }
@@ -261,6 +272,7 @@ const updateLineFiche = async (request, response) => {
       amount,
       payment: newPayment,
       lineInvoice: newLineInvoice,
+      implantId,
       consumptionLab,
       finish: 1,
     });
@@ -292,6 +304,7 @@ const deleteLineFiche = async (request, response) => {
       amount: undefined,
       payment: undefined,
       lineInvoice: undefined,
+      implantId: undefined,
       consumptionLab: undefined,
       appointment: ficheInfo?.LineFiche[indexLineFiche]?.appointment,
       finish: 0,
@@ -401,6 +414,13 @@ var clearDataPrevLineFiche = async (patient, ficheId, lineFicheId) => {
     await laboratory.save();
   }
   // END Patient Labo
+
+  // Start delete Implant Treat
+  const implantId = ficheInfo.LineFiche[indexLineFiche]?.implantId
+  await ImplantTreatModel.deleteOne({ _id: implantId })
+  // ENd delete Implant Treat
+
+
   // END to delete previous info from line Fiche
 };
 

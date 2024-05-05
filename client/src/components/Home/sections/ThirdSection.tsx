@@ -99,6 +99,17 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
       {permissions.find(
         (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
+          permission.collectionName === "IMPLANTS"
+      ) && (
+        <div className={className} onClick={() => navigate("/implants")}>
+          <img className="mb-3 w-20 h-20 rounded" src='/assets/images/implants.jpg' alt="implant" />
+          {t("Implants")}
+        </div>
+      )}
+
+      {permissions.find(
+        (permission: PermissionType) =>
+          permission.name === "AFFICHER" &&
           permission.collectionName === "TRAITEMENTS"
       ) && (
         <div className={className} onClick={() => navigate("/treatment")}>

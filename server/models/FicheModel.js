@@ -12,6 +12,7 @@ const ficheSchema = new mongoose.Schema({
     payment: { type: mongoose.Types.ObjectId, ref: "payment" },
     consumptionLab: { type: mongoose.Types.ObjectId, ref: "laboratory.consumptions" },
     lineInvoice: { type: mongoose.Types.ObjectId, ref: "invoice.LineInvoice" },
+    implantId: { type: mongoose.Types.ObjectId, ref: "implant_treat" },
     appointment: { type: mongoose.Types.ObjectId, ref: "appointment" },
     createdAt: { type: Date, default: Date.now},
     updatedAt: { type: Date, default: Date.now},

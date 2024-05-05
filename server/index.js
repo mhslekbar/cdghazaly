@@ -54,6 +54,7 @@ app.use("/api/consumption",    verifyToken, setCacheControl, require("./routes/c
 app.use("/api/appointment",    verifyToken, setCacheControl, require("./routes/appointment"))
 app.use("/api/supplier",       verifyToken, setCacheControl, require("./routes/supplier"))
 app.use("/api/prescription",       verifyToken, setCacheControl, require("./routes/prescription"))
+app.use("/api/implant",       verifyToken, setCacheControl, require("./routes/implant"))
 
 app.listen(port, () => {
   console.log(`dentist software is running on port: ${port}`)
