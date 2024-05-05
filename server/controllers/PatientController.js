@@ -4,6 +4,7 @@ const AssuranceModel = require("../models/AssuranceModel");
 const SettingModel = require("../models/SettingModel");
 const FicheModel = require("../models/FicheModel");
 const InvoiceModel = require("../models/InvoiceModel");
+const ImplantTreat = require("../models/ImplantTreatModel");
 const DevisModel = require("../models/DevisModel");
 const AppointmentModel = require("../models/AppointmentModel");
 const LaboratoryModel = require("../models/LaboratoryModel");
@@ -207,6 +208,7 @@ const deletePatient = async (request, response) => {
     await FicheModel.deleteMany({ patient: id });
     await DevisModel.deleteMany({ patient: id });
     await InvoiceModel.deleteMany({ patient: id });
+    await ImplantTreat.deleteMany({ patient: id });
     await AppointmentModel.deleteMany({ patient: id });
     
     // START find laboratory With Consumptions
