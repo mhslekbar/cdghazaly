@@ -68,6 +68,7 @@ export interface ShowInvoicesInterface  {
   setTotalPatient: (totalPatient: number) => void,
   selectedPatient: any, setSelectedPatient: (selectedPatient: string) => void,
   invoiceRef: any,
+  toggleInvoiceDetails: string, setToggleInvoiceDetails: (toggleInvoiceDetails: string) => void,
 }
 
 export const DefaultShowInvoicesInterface:ShowInvoicesInterface = {
@@ -86,7 +87,8 @@ export const DefaultShowInvoicesInterface:ShowInvoicesInterface = {
   totalPatient: 0,
   setTotalPatient: () => {},
   selectedPatient: null, setSelectedPatient: () => {},
-  invoiceRef: null
+  invoiceRef: null,
+  toggleInvoiceDetails: '', setToggleInvoiceDetails: () => {},
 }
 
 export const ShowInvoicesContext = createContext(DefaultShowInvoicesInterface)

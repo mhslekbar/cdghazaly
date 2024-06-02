@@ -21,6 +21,7 @@ const ShowInvoices:React.FC = () => {
   const [totalAssurance, setTotalAssurance] = useState<number>(0)
   const [totalPatient, setTotalPatient] = useState<number>(0)
   const [selectedPatient, setSelectedPatient] = useState<any>(null);
+  const [toggleInvoiceDetails, setToggleInvoiceDetails] = useState('hide');
 
   const handleShowDelete = () => {
     setShowDeleteInvoice(!showDeleteInvoice)
@@ -60,7 +61,8 @@ const ShowInvoices:React.FC = () => {
       totalAssurance, setTotalAssurance,
       totalPatient, setTotalPatient,
       selectedPatient, setSelectedPatient,
-      invoiceRef
+      invoiceRef,
+      toggleInvoiceDetails, setToggleInvoiceDetails
     }}>
     {showSuccessMsg && <SuccessMsg modal={showSuccessMsg} toggle={() => setShowSuccessMsg(!showSuccessMsg)} />}
     <div className='grid grid-cols-6 mt-4'>

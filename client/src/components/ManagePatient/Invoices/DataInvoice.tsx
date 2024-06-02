@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 const DataInvoice: React.FC = () => {
   const { invoices } = useSelector((state: State) => state.invoices);
 
-  const { selectedInvoice, setSelectedInvoice, typeInvoice, selectedPatient, invoiceRef } =
+  const { selectedInvoice, setSelectedInvoice, typeInvoice, selectedPatient, invoiceRef, toggleInvoiceDetails } =
     useContext(ShowInvoicesContext);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const DataInvoice: React.FC = () => {
                     })}
                   </tbody>
                   <tfoot>
-                    {patientInfo.assurance?.professionalId && typeInvoice === "global" && <>
+                    {patientInfo.assurance?.professionalId && typeInvoice === "global" && (toggleInvoiceDetails === "show") && <>
                       <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé par l'Assurance" paymentType="assurance" />
                       <TotalFacture patientInfo={patientInfo} selectedInvoice={selectedInvoice} typeInvoice={typeInvoice} message="Payé Par le patient" paymentType="patient" />
                     </>}

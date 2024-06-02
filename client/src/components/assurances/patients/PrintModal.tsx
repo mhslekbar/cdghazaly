@@ -25,6 +25,8 @@ const PrintModal: React.FC<props> = ({ modal, toggle }) => {
   const [totalAssurance, setTotalAssurance] = useState<number>(0)
   const [totalPatient, setTotalPatient] = useState<number>(0)
   const { selectedPatient: selectedPatientAssurance, invoiceType } = useContext(ShowPatientsAssuranceContext)
+  const [toggleInvoiceDetails, setToggleInvoiceDetails] = useState('hide');
+
 
   const dispatch: any = useDispatch();
 
@@ -71,7 +73,8 @@ const PrintModal: React.FC<props> = ({ modal, toggle }) => {
                       totalAssurance, setTotalAssurance,
                       totalPatient, setTotalPatient,
                       selectedPatient, setSelectedPatient,
-                      invoiceRef
+                      invoiceRef,
+                      toggleInvoiceDetails, setToggleInvoiceDetails
                     }}>
                       <div className='grid grid-cols-6 mt-4'>    
                         <div className='flex justify-between'>
