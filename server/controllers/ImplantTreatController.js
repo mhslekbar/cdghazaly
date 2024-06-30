@@ -2,8 +2,9 @@ const ImplantTreatModel = require("../models/ImplantTreatModel")
 
 const getImplants = async (request, response) => {
   try {
+    const { doctor } = request.query
     implants = await ImplantTreatModel
-    .find()
+    .find({ doctor })
       .populate("doctor")
       .populate("patient")
       .populate("treatment")
@@ -15,4 +16,13 @@ const getImplants = async (request, response) => {
   }
 }
 
-module.exports = { getImplants}
+const finishImplant = async (request, response) => {
+  try {
+    const { id } = request.params
+    await ImplantTreatModel.updateOne({ _id: id }, { isSetAppointment: true })
+    await getImplants(request, response)
+  } catch (err) {
+    response.status(500).json({ err:err.message })
+  }
+}
+module.exports = { getImplants, finishImplant}

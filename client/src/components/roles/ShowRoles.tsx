@@ -64,7 +64,7 @@ const ShowRoles:React.FC = () => {
           <div key={index} className='col-span-1'>
             <section className='bg-white border rounded px-4 py-2 flex justify-between shadow'>
               <ButtonControls role={role} />
-              <p className='flex justify-start flex-grow'>{role.name}</p>
+              <p className='flex justify-start flex-grow' onClick={() => toggleShowRole(role)}>{role.name}</p>
               <FaEye className='text-main' style={{
                   fontSize: "22px",
                 }}

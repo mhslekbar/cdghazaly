@@ -11,6 +11,7 @@ const ImplantTreatSchema = new mongoose.Schema({
   },
   appointment: { type: mongoose.Types.ObjectId, ref: "appointment" },
   isSetAppointment: { type: Boolean, default: false },
+  finish: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 })

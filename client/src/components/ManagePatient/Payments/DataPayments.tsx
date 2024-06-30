@@ -34,12 +34,37 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
   const [totalDevis, setTotalDevis] = useState(0);
   const [totalPayments, setTotalPayments] = useState(0);
 
+  const [totalDevisAss, setTotalDevisAss] = useState(0)
+  const [totalPaymentsAss, setTotalPaymentsAss] = useState(0)
+  // typeData
+
+  const { patients } = useSelector((state: State) => state.patients)
+
   const { patientId } = useParams()
+  const [patientData, setPatientData] = useState<PatientInterface>(DefaultPatientInterface)
+
+  useEffect(() => {
+    setPatientData(patients.find((patient: PatientInterface) => patient._id === patientId) || DefaultPatientInterface)
+  }, [patients, patientId])
 
   useEffect(() => {
     setTotalPayments(
       payments
         .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
+        .filter((payment: PaymentInterface) => !payment.supported)
+        .filter(
+          (payment: PaymentInterface) =>
+            payment.type === EnumTypePayment.PAYMENT
+        )
+        .reduce(
+          (acc: number, currVal: PaymentInterface) => acc + currVal.amount,
+          0
+        )
+    );
+    setTotalPaymentsAss(
+      payments
+        .filter((payment: PaymentInterface) => payment.patient?._id === patientId)
+        .filter((payment: PaymentInterface) => payment.supported)
         .filter(
           (payment: PaymentInterface) =>
             payment.type === EnumTypePayment.PAYMENT
@@ -55,21 +80,55 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
     let sumDevis: number = 0;
     devis.map((dev: DevisInterface) => {
       sumDevis +=
-        (dev.LineDevis.reduce(
+        (dev.LineDevis
+          .filter((ln: LineDevisType) => !ln?.treatment?.assurance)
+          .reduce(
           (acc: number, currVal: LineDevisType) =>
             Number(acc) + Number(currVal.price * currVal.teeth.nums.length),
           0
         )) 
         - 
-        (dev.LineDevis.reduce(
+        (dev.LineDevis
+          .filter((ln: LineDevisType) => !ln?.treatment?.assurance)
+          .reduce(
+          (acc: number, currVal: LineDevisType) =>
+            Number(acc) + Number(currVal.price * currVal.teeth.nums.length),
+          0
+        ) * (dev?.reduce / 100));
+      return sumDevis;
+    });
+
+    let sumDevisAss: number = 0;
+    devis.map((dev: DevisInterface) => {
+      sumDevisAss +=
+        (dev.LineDevis
+          .filter((ln: LineDevisType) => ln?.treatment?.assurance?.name)
+          .reduce(
+          (acc: number, currVal: LineDevisType) =>
+            Number(acc) + Number(currVal.price * currVal.teeth.nums.length),
+          0
+        )) 
+        - 
+        (dev.LineDevis
+          .filter((ln: LineDevisType) => ln?.treatment?.assurance?.name)
+          .reduce(
           (acc: number, currVal: LineDevisType) =>
             Number(acc) + Number(currVal.price * currVal.teeth.nums.length),
           0
         ) * (dev.reduce / 100));
-      return sumDevis;
+      return sumDevisAss;
     });
-    setTotalDevis(sumDevis);
-  }, [devis]);
+    setTotalDevisAss(sumDevisAss);
+
+    // reste du devis couvre par le patient
+    let coveredPatient = 0
+    if(patientData.assurance) {
+      coveredPatient = sumDevisAss - (sumDevisAss * Number(patientData.assurance.percentCovered) / 100)
+    }
+
+    setTotalDevis(sumDevis + coveredPatient);
+
+  }, [devis, patientData]);
 
   const {
     showEditPayment,
@@ -90,8 +149,6 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
     setShowDeletePayment(!showDeletePayment);
     setSelectedPayment(payment);
   };
-
-  const { patients } = useSelector((state: State) => state.patients)
 
   const { t } = useTranslation()
 
@@ -284,7 +341,7 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
                       <tr className="font-bold">
                         <td></td>
                         <td className="text-end px-2">{t("Reste du devis")}:</td>
-                        <td>{totalDevis - totalPayments}</td>
+                        <td>{typeData === "paymentAss" ? totalDevisAss - totalPaymentsAss : totalDevis - totalPayments}</td>
                       </tr>
                       <FooterInvoice colSpan={4} />
                     </tfoot>

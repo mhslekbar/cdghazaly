@@ -1,4 +1,6 @@
 const TreatmentModel = require("../models/TreatmentModel")
+const InvoiceModel = require("../models/InvoiceModel")
+const DevisModel = require("../models/DevisModel")
 
 const getTreatments = async (req, res) => {
   try {
@@ -107,6 +109,15 @@ const deleteTreatment = async (req, res) => {
     const { id } = req.params
     const formErrors = []
     // start check treatment in devis or invoice
+    const checkTreatmentInInvoice = await DevisModel.findOne({ _id: id })
+    const checkTreatmentInDevis = await InvoiceModel.findOne({ _id: id })
+    
+    if(checkTreatmentInInvoice) {
+      formErrors.push("Le traitement existe dans une facture")
+    } else if(checkTreatmentInDevis) {
+      formErrors.push("Le traitement existe dans un devis")
+    }
+
     // end check treatment in devis or invoice
     if(formErrors.length === 0) {
       await TreatmentModel.findByIdAndDelete(id)

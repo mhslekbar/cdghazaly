@@ -44,7 +44,7 @@ const DataPatientAssurance: React.FC = () => {
             <table className="min-w-full text-sm font-light text-center">
               <thead className="border font-medium bg-main text-white border-gray-950">
                 <tr>
-                  <th className="px-4 py-4 border-r border-gray-950">{t("DOSS.NO")}</th>
+                  <th className="px-4 py-4 border-r border-gray-950">{t("Matricule")}</th>
                   <th className="px-4 py-4 border-r border-gray-950">{t("Nom")}</th>
                   <th className="px-4 py-4 border-r border-gray-950">{t("Prise en charge")}</th>
                   <th className="px-4 py-4 border-r border-gray-950">{t("Type")}</th>

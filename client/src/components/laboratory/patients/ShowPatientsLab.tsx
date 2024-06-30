@@ -27,6 +27,7 @@ const ShowPatientsLab:React.FC = () => {
       {showAppointmentModal && 
         <AppointmentModal selectedPatientLab={selectedPatientLab} modal={showAppointmentModal} toggle={() => setShowAppointmentModal(!showAppointmentModal)} />
       }
+      
     </ShowPatientLabContext.Provider>
   )
 }

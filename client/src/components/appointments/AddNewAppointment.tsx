@@ -13,14 +13,17 @@ import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
 import { PatientLab } from '../laboratory/patients/types';
 import { ShowPatientLabApi } from '../../redux/laboratory/patients/patientLabApiCalls';
 import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
+import { ImplantInterface } from '../implants/types';
+import { ShowImplantsApi } from '../../redux/implants/implantApiCalls';
 
 interface AddNewAppointmentInterface {
   selectedPatientLab?: PatientLab,
+  implantData?: ImplantInterface,
   modal: boolean,
   toggle: () => void,
 }
 
-const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle, selectedPatientLab }) => {
+const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle, selectedPatientLab, implantData }) => {
   const { patients } = useSelector((state: State) => state.patients)
   const { doctorId, patientId, labId } = useParams()
   const { selectedTd, setShowSuccessMsg, filterByDate } = useContext(ShowAppointmentContext)
@@ -69,7 +72,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
 
     e.preventDefault()
     setLoading(true)
-    Object.assign(selectedTd, { patient: patient?.value, patientLab: selectedPatientLab})
+    Object.assign(selectedTd, { patient: patient?.value, patientLab: selectedPatientLab, implantId: implantData?._id })
     try {
       const response = await dispatch(AddAppointmentApi(doctorId, selectedTd, 
         `?startDate=${startDateOfWeek.toISOString().slice(0, 10)}&endDate=${endDateOfWeek.toISOString().slice(0, 10)}`
@@ -80,6 +83,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
         setPatient({})
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         patientId && await dispatch(ShowFicheApi(patientId))
+        implantData && await dispatch(ShowImplantsApi(`?doctor=${doctorId}`))
         selectedPatientLab?._id && labId && await dispatch(ShowPatientLabApi(labId || ""))
       } else {
         setErrors(response)
@@ -92,6 +96,11 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
   useEffect(() => {
     patientId && setPatient({value: patientId})
   }, [patientId])
+
+  useEffect(() => {
+    implantData && setPatient({value: implantData.patient?._id})
+  }, [implantData])
+
 
   useEffect(() => {
     const patient = selectedPatientLab?.consumptionLab?.patient
@@ -116,7 +125,7 @@ const AddNewAppointment:React.FC<AddNewAppointmentInterface> = ({ modal, toggle,
                     onSubmit={handleSubmit}
                   >
                     <ShowErrorMsg errors={errors} setErrors={setErrors}/>
-                    {!patientId && 
+                    {!patientId && !implantData &&
                       !selectedPatientLab?.consumptionLab?.patient?._id && 
                       <Select 
                         styles={customStyles}

@@ -19,7 +19,7 @@ interface ThirdSectionInterface {
   listDoctors: any[]
 }
 
-const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown, setOpenDropdown, selectedDropDown, setSelectedDropDown, listDoctors }) => {
+const ThirdSection: React.FC<ThirdSectionInterface> = ({ className, openDropdown, setOpenDropdown, selectedDropDown, setSelectedDropDown, listDoctors }) => {
   const { permissions } = useSelector((state: State) => state.permissions);
   const navigate = useNavigate()
 
@@ -34,11 +34,11 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           permission.name === "AFFICHER" &&
           permission.collectionName === "ASSURANCES"
       ) && (
-        <div className={className} onClick={() => navigate("/assurance")}>
-          <MdOutlineAssuredWorkload className="mb-3 text-4xl" />
-          {t("Assurances")}
-        </div>
-      )}
+          <div className={className} onClick={() => navigate("/assurance")}>
+            <MdOutlineAssuredWorkload className="mb-3 text-4xl" />
+            {t("Assurances")}
+          </div>
+        )}
       {/* END One */}
 
       {/* Start Two */}
@@ -48,29 +48,29 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           permission.name === "AFFICHER" &&
           permission.collectionName === "LABORATOIRES"
       ) && (
-        <div className={className} onClick={() => navigate("/laboratory")}>
-          <FaTooth className="mb-3 text-4xl" />
-          {t("Laboratoires")}
-        </div>
-      )}
+          <div className={className} onClick={() => navigate("/laboratory")}>
+            <FaTooth className="mb-3 text-4xl" />
+            {t("Laboratoires")}
+          </div>
+        )}
       {/* End Two */}
-      
+
       {permissions.find(
         (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "UTILISATEURS"
       ) && (
-        <div className={className} onClick={() => navigate("/user")}>
-          <FaUsers className="mb-3 text-4xl" />
-          {t("Utilisateurs")}
-        </div>
-      )}
+          <div className={className} onClick={() => navigate("/user")}>
+            <FaUsers className="mb-3 text-4xl" />
+            {t("Utilisateurs")}
+          </div>
+        )}
       {((
         permissions.find(
           (permission: PermissionType) =>
             permission.name === "AFFICHER_GLOBAL" &&
             permission.collectionName === "CONSOMMABLES"
-        )) ? 
+        )) ?
         <DropdownDoctor
           linkList={listDoctors}
           openDropdown={openDropdown}
@@ -84,7 +84,7 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
           icon={<BsCart4 className="mb-3 text-4xl" />}
           FromHomePage={{ className }}
           nestedLink="consumptions"
-        /> : 
+        /> :
         permissions.find(
           (permission: PermissionType) =>
             permission.name === "AFFICHER" &&
@@ -96,48 +96,76 @@ const ThirdSection:React.FC<ThirdSectionInterface> = ({ className, openDropdown,
         </div>
       )}
 
-      {permissions.find(
+      {
+        permissions.find(
+          (permission: PermissionType) =>
+            permission.name === "AFFICHER" &&
+            permission.collectionName === "IMPLANTS"
+        ) && (
+          !userData.doctor?.cabinet ? <DropdownDoctor
+            linkList={listDoctors}
+            openDropdown={openDropdown}
+            selectedDropDown={selectedDropDown}
+            name={t("Implants")}
+            toggleDropDown={() => {
+              setOpenDropdown(!openDropdown);
+              setSelectedDropDown("Implants");
+            }}
+            pathDropDown="/implants"
+            icon={<img className="mb-3 w-20 h-20 rounded" src='/assets/images/implants.png' alt="implant" />}
+            FromHomePage={{ className }}
+          /> :
+            <div className={className} onClick={() => navigate(`/implants/${UserData()?._id}`)}>
+              <img className="mb-3 w-20 h-20 rounded" src='/assets/images/implants.png' alt="implant" />
+              {t("Implants")}
+            </div>
+        )
+      }
+
+
+      {/* {permissions.find(
         (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "IMPLANTS"
       ) && (
+
         <div className={className} onClick={() => navigate("/implants")}>
           <img className="mb-3 w-20 h-20 rounded" src='/assets/images/implants.png' alt="implant" />
           {t("Implants")}
         </div>
-      )}
+      )} */}
 
       {permissions.find(
         (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "TRAITEMENTS"
       ) && (
-        <div className={className} onClick={() => navigate("/treatment")}>
-          <FaBriefcaseMedical className="mb-3 text-4xl" />
-          {t("Traitements")}
-        </div>
-      )}
-      
+          <div className={className} onClick={() => navigate("/treatment")}>
+            <FaBriefcaseMedical className="mb-3 text-4xl" />
+            {t("Traitements")}
+          </div>
+        )}
+
       {permissions.find(
         (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "ROLES"
       ) && (
-        <div className={className} onClick={() => navigate("role")}>
-          <FaUsersCog className="mb-3 text-4xl" /> {t("Roles")}
-        </div>
-      )}
-      
+          <div className={className} onClick={() => navigate("role")}>
+            <FaUsersCog className="mb-3 text-4xl" /> {t("Roles")}
+          </div>
+        )}
+
       {permissions.find(
         (permission: PermissionType) =>
           permission.name === "AFFICHER" &&
           permission.collectionName === "MODE_PAIEMENT"
       ) && (
-        <div className={className} onClick={() => navigate("paymentMode")}>
-          <MdPayments className="mb-3 text-4xl" /> {t("Mode de paiements")}
-        </div>
-      )}
-
+          <div className={className} onClick={() => navigate("paymentMode")}>
+            <MdPayments className="mb-3 text-4xl" /> {t("Mode de paiements")}
+          </div>
+        )}
+      {/*   */}
       {userData.dev && <div className={className} onClick={() => navigate("/permissions")}>
         <FaShieldAlt className="mb-3 text-4xl" />
         {t("Permissions")}

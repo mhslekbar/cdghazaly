@@ -1,6 +1,6 @@
 import { Dispatch } from "react"
 import { statusImplantStart, statusImplantSuccess, statusImplantFailure } from "./implantSlice"
-import { get, post, remove } from "../../requestMethods"
+import { get, post, put, remove } from "../../requestMethods"
 
 export const ShowImplantsApi = (filter: string = "") => async (dispatch: Dispatch<any>) => {
   try {
@@ -28,6 +28,31 @@ export const ShowImplantsApi = (filter: string = "") => async (dispatch: Dispatc
     }
   }
 }
+
+
+export const FinishImplantApi = (implantId: string) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusImplantStart())
+    let response = await put(`implant/${implantId}`, {})
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusImplantSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    console.log("err", error)
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusImplantFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusImplantFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
 
 export const CreateImplantApi = (patientId: string = "") => async (dispatch: Dispatch<any>) => {
   try {
@@ -72,6 +97,7 @@ export const DeleteImplantApi = (patientId: string = "", implantId: string) => a
     }
   }
 }
+
 
 export const ClearImplantApi = () => async (dispatch: Dispatch<any>) => {
   try {

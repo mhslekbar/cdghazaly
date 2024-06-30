@@ -104,6 +104,11 @@ const createPayment = async (request, response) => {
       paymentDate.setMinutes(new Date().getMinutes())
       paymentDate.setSeconds(new Date().getSeconds())
 
+      if(supported) {
+        const percentCovered = patientInfo.assurance?.percentCovered
+        amount = (amount * percentCovered) / 100
+      }
+      
       await PaymentModel.create({ user, doctor, type, patient, amount, method, supported, paymentDate, invoiceAssur, approved })      
       
       if(type === "payment") {
@@ -214,6 +219,11 @@ const updatePayment = async (request, response) => {
       paymentDate.setHours(new Date().getHours())
       paymentDate.setMinutes(new Date().getMinutes())
       paymentDate.setSeconds(new Date().getSeconds())
+
+      if(supported) {
+        const percentCovered = patientInfo.assurance?.percentCovered
+        amount = (amount * percentCovered) / 100
+      }
 
       await PaymentModel.updateOne({_id: id}, { user, doctor, type, patient, amount, method, supported, paymentDate, approved })
       request.query.patient = patient

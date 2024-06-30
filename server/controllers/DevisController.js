@@ -8,7 +8,13 @@ const getDevis = async (request, response) => {
       .find({ patient })
       .populate("patient")
       .populate("user")
-      .populate("LineDevis.treatment")
+      // .populate("LineDevis.treatment")
+      .populate({
+        path: "LineDevis.treatment",
+        populate: {
+          path: "assurance"
+        }
+      })
       .populate("LineDevis.doctor")
       .sort({ createdAt: -1 })
     response.status(200).json({ success: devis })

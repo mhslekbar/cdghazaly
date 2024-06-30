@@ -1,7 +1,7 @@
 import React, { FormEvent, useContext, useState } from 'react';
 import ButtonsForm from '../../HtmlComponents/ButtonsForm';
 import { ShowAppointmentContext } from './types';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { DeleteAppointmentApi } from '../../redux/appointments/appointmentApiCalls';
 import { Timeout } from '../../functions/functions';
@@ -9,6 +9,7 @@ import { AppointmentInterface } from './AppointmentsTable/types';
 import ShowErrorMsg from '../../HtmlComponents/ShowErrorMsg';
 import { ShowFicheApi } from '../../redux/fiches/ficheApiCalls';
 import { useTranslation } from 'react-i18next';
+import { ShowImplantsApi } from '../../redux/implants/implantApiCalls';
 
 interface DeleteAppointmentInterface {
   modal: boolean,
@@ -24,6 +25,8 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
 
   const dispatch: any = useDispatch()
   const [loading, setLoading] = useState(false)
+
+  const location = useLocation()
 
   const handleSubmit = async (e: FormEvent) => {
     const startDate = new Date(filterByDate);
@@ -48,7 +51,7 @@ const DeleteAppointment:React.FC<DeleteAppointmentInterface> = ({ modal, toggle,
         setShowSuccessMsg(true)
         setTimeout(() => setShowSuccessMsg(false), Timeout)
         patientId && await dispatch(ShowFicheApi(patientId));
-
+        location.pathname.split("/")[1] === "implants" && await dispatch(ShowImplantsApi(`?doctor=${doctorId}`))
       } else {
         setErrors(response)
       }

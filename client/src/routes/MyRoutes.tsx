@@ -92,7 +92,7 @@ const MyRoutes:React.FC = () => {
           <Route path="suppliers/:supplierId" element={<AboutSupplier />}/>          
         </Route>
 
-        <Route path="/implants" element={<Implants />}/>
+        <Route path="/implants/:doctorId" element={<Implants />}/>
         <Route path="/paymentMode" element={<PaymentModes />}/>
         <Route path="/permissions" element={<Permissions />}/>
         

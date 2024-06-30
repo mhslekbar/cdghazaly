@@ -1,5 +1,6 @@
 const AppointmentModel = require("../../models/AppointmentModel");
 const FicheModel = require("../../models/FicheModel");
+const ImplantTreatModel = require("../../models/ImplantTreatModel");
 const LaboratoryModel = require("../../models/LaboratoryModel");
 const { createNewFiche } = require("../FicheController");
 
@@ -30,7 +31,7 @@ const getAppointments = async (request, response) => {
 const createAppointment = async (request, response) => {
   try {
     const { doctor } = request.params;
-    const { patient, date, time, numSeance, partOfTime, patientLab } = request.body;
+    const { patient, date, time, numSeance, partOfTime, patientLab, implantId } = request.body;
     
     const formErrors = [];
 
@@ -55,6 +56,9 @@ const createAppointment = async (request, response) => {
 
     if (formErrors.length === 0) {
       const appoint = await AppointmentModel.create({ doctor, patient, date, time, numSeance, partOfTime })
+      if(implantId) {
+        await ImplantTreatModel.updateOne({ _id: implantId }, { appointment: appoint._id, isSetAppointment: true }, { new: true })
+      }
       const fichePatient = await FicheModel.findOne({ patient }).sort({
         createdAt: -1
       });
@@ -104,7 +108,6 @@ const createAppointment = async (request, response) => {
       await getAppointments(request, response)
 
     } else {
-      console.log("formErrors: ", formErrors)
       response.status(300).json({ formErrors });
     }
   } catch (error) {
@@ -133,7 +136,8 @@ const deleteAppointment = async (request, response) => {
       })
       await FicheInfo.save()
     }
-    await AppointmentModel.deleteOne({ _id: id})
+    await ImplantTreatModel.updateOne({ appointment: id }, { isSetAppointment: false, appointment: null }, { new: true })
+    await AppointmentModel.deleteOne({ _id: id })
     await getAppointments(request, response)
 
   } catch (error) {

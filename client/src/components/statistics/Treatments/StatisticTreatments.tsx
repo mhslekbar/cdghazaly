@@ -6,8 +6,12 @@ import { State } from '../../../redux/store'
 import { InvoicesInterface, LineInvoiceInterface } from '../../ManagePatient/Invoices/types'
 import { useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { SelectElement } from '../../../HtmlComponents/SelectElement'
+import { Years } from '../types'
 
 const StatisticTreatments:React.FC = () => {
+  const [year, setYears] = useState(new Date().getFullYear())
+
   const dispatch: any = useDispatch()
   const { invoices } = useSelector((state: State) => state.invoices)
 
@@ -28,17 +32,19 @@ const StatisticTreatments:React.FC = () => {
       .filter((invoice: InvoicesInterface) => invoice.LineInvoice
       .find((ln: LineInvoiceInterface) => ln.doctor._id === doctorId))
       .forEach((invoice) => {
-      invoice.LineInvoice.forEach((line: LineInvoiceInterface) => {
+      invoice.LineInvoice
+        ?.filter((line: LineInvoiceInterface) => new Date(line.createdAt).getFullYear() === Number(year))
+        .forEach((line: LineInvoiceInterface) => {
         const { treatment } = line;
-        if (treatment.name in updatedGroupedData) {
-          updatedGroupedData[treatment.name].push(line);
+        if (treatment?.name in updatedGroupedData) {
+          updatedGroupedData[treatment?.name].push(line);
         } else {
-          updatedGroupedData[treatment.name] = [line];
+          updatedGroupedData[treatment?.name] = [line];
         }
       });
     });
     setGroupedData(updatedGroupedData);
-  }, [invoices, doctorId]);
+  }, [invoices, doctorId, year]);
 
   // Rest of your component code
   const [SumTotalNbrs, setSumTotalNbrs] = useState<number>(0)
@@ -52,8 +58,11 @@ const StatisticTreatments:React.FC = () => {
   const { t } = useTranslation()
 
   // console.log("groupedData: ", groupedData)
-
   return (
+    <>
+    <div className='w-fit'>
+      <SelectElement valueType="string" value={year} setValue={setYears} options={Years} />
+    </div>
     <div className="flex flex-col border mt-3">
     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full sm:px-6 lg:px-8">
@@ -90,6 +99,7 @@ const StatisticTreatments:React.FC = () => {
       </div>
     </div>
   </div>
+  </>
   )
 }
 

@@ -13,14 +13,16 @@ import AppointmentsTable from '../../../appointments/AppointmentsTable/TableAppo
 import { PatientLab } from '../../../laboratory/patients/types';
 import { ShowFichesContext } from '../types';
 import { ShowDayOfWorkApi } from '../../../../redux/dayOfWork/dayOfWorkApiCalls';
+import { ImplantInterface } from '../../../implants/types';
 
 interface AppointmentModalInterface {
   selectedPatientLab?: PatientLab,
   modal: boolean,
   toggle: () => void,
+  implantData?: ImplantInterface
 }
 
-const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, selectedPatientLab }) => {
+const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, selectedPatientLab, implantData }) => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -108,6 +110,7 @@ const AppointmentModal:React.FC<AppointmentModalInterface> = ({ modal, toggle, s
                 <ToggleTableAppointment />
                 {showAddModal && selectedTd &&
                   <AddNewAppointment
+                    implantData={implantData}
                     selectedPatientLab={selectedPatientLab}
                     modal={showAddModal}
                     toggle={() => setShowAddModal(!showAddModal)}

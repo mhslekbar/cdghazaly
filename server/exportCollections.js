@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const { execSync } = require('child_process');
 
-const dbName = "chumanite"
+const dbName = "dentist"
 // MongoDB connection string
+// This is the url of online database
 const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 // Output directory for backups

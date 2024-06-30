@@ -7,7 +7,6 @@ import { useParams } from 'react-router';
 import { ShowAssurancesContext } from '../types';
 import { Timeout } from '../../../functions/functions';
 
-
 const AddInvoiceAssurance:React.FC = () => {  
   const [modal, setModal] = useState(false)
   const toggle = () => {

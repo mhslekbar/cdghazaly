@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { EnumTypePayment, PaymentInterface } from '../../ManagePatient/Payments/types'
-import { useLocation, useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { RegNo, filterSpecificDate, formatDate, formatHourAndMinute } from '../../../functions/functions'
 import { useSelector } from 'react-redux'
 import { State } from '../../../redux/store'
@@ -33,6 +33,8 @@ const DataPayments:React.FC<props> = ({ paymentFilter }) => {
   const TrBgColor = (payment: any) => {
     return paymentFilter === "payment" && !payment.approved ? "bg-payment-not-approved" : ""
   }
+
+  const navigate = useNavigate()
 
   return (
     <div className="flex flex-col border">
@@ -79,7 +81,12 @@ const DataPayments:React.FC<props> = ({ paymentFilter }) => {
                           ? RegNo(payment.patient?.RegNo)
                           : "0000"}
                       </td>
-                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
+                      <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}
+                        onClick={() => {
+                          localStorage.setItem("patientMgtPrevLink", location.pathname)
+                          navigate(`/patient/${doctorId}/${payment.patient._id}/Manage/devis`)
+                        }}
+                      >
                         {payment.patient?.name}
                       </td>
                       <td className={`whitespace-nowrap px-4 py-2 border-r border-gray-950 bg-white font-medium ${TrBgColor(payment)}`}>
