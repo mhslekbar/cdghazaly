@@ -4,11 +4,16 @@ import { State } from "../../redux/store";
 import { ImplantInterface, ShowImplantContext } from "./types";
 import { formatDate, RegNo } from "../../functions/functions";
 import { FaCheck } from "react-icons/fa";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 const DataImplants: React.FC = () => {
   const { implants } = useSelector((state: State) => state.implants);
   const { setShowAppointmentModal, setImplantData, setShowFinishImplant, typeFilterImplant } = useContext(ShowImplantContext)
-  
+
+  const { doctorId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <div className="flex flex-col border mt-4">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -36,7 +41,18 @@ const DataImplants: React.FC = () => {
                     <td className="whitespace-nowrap px-2 py-2 border-r border-gray-700 bg-white font-medium">
                       {RegNo(implant.patient?.RegNo)}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border-r border-gray-700 bg-white font-medium">
+                    <td className="whitespace-nowrap px-2 py-2 border-r border-gray-700 bg-white font-medium hover:bg-gray-200"
+                      onClick={() => {
+                        localStorage.setItem(
+                          "patientMgtPrevLink",
+                          location.pathname
+                        );
+                        navigate(
+                          `/patient/${doctorId}/${implant.patient?._id}/Manage/devis`
+                        );
+                      }}
+                    
+                    >
                       {implant.patient?.name}
                     </td>
                     <td className="whitespace-nowrap px-2 py-2 border-r border-gray-700 bg-white font-medium">
@@ -69,7 +85,7 @@ const DataImplants: React.FC = () => {
                               className="text-main"
                               style={{ fontSize: "22px" }}
                               onClick={() => {
-                                setImplantData(implant);;
+                                setImplantData(implant);
                                 setShowFinishImplant(true);
                               }}
                             />

@@ -35,8 +35,6 @@ export const setHourTimeOfDay = (date: string, startDate: Date, endDate: Date, p
     endDate.setMinutes(59);
     endDate.setSeconds(59);
   }
-  console.log("startDate: ", startDate)
-  console.log("endDate: ", endDate)
   // return startDate;
   return selectedDate >= new Date(startDate) && selectedDate <= new Date(endDate);
 
@@ -93,7 +91,7 @@ export const filterSpecificDate = (MyArray: any[], day: number, month: number, s
         
         const endDate = new Date(selectedDate);
         endDate.setDate(31);
-        endDate.setMonth(11);
+        endDate.setMonth(12);
         // I did this to prevent any errors with time
         endDate.setHours(23);
         endDate.setMinutes(59);
