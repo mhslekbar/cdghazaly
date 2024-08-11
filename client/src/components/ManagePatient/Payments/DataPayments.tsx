@@ -118,7 +118,6 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
         ) * (dev.reduce / 100));
       return sumDevisAss;
     });
-    setTotalDevisAss(sumDevisAss);
 
     // reste du devis couvre par le patient
     let coveredPatient = 0
@@ -127,6 +126,8 @@ const DataPayments: React.FC<props> = ({ typeData }) => {
     }
 
     setTotalDevis(sumDevis + coveredPatient);
+
+    setTotalDevisAss(sumDevisAss - coveredPatient);
 
   }, [devis, patientData]);
 
