@@ -14,6 +14,7 @@ import patientReducer from "./patients/patientSlice";
 import paymentModeReducer from "./paymentMode/paymentModeSlice";
 import devisReducer from "./devis/devisSlice";
 import paymentReducer from "./payments/paymentSlice";
+// import patientPaymentReducer from "./payments/paymentSlice";
 import ficheReducer from "./fiches/ficheSlice";
 import invoiceReducer from "./invoices/invoiceSlice";
 import consumptionLabReducer from "./laboratory/consumptions/consumptionLabSlice";

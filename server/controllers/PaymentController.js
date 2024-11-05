@@ -46,7 +46,7 @@ const getPayments = async (request, response) => {
         approved: payment.approved
       }
     }))
-      
+
     response.status(200).json({ success: payments })
   } catch(err) {
     response.status(500).json({ err: err.message })

@@ -29,6 +29,29 @@ export const ShowPaymentsApi = (filter: string = "") => async (dispatch: Dispatc
   }
 }
 
+export const ShowPatientPaymentApi = (patient: any) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatch(statusPaymentStart())
+    let response
+    response = await get(`payment?patient=${patient}`)
+    const resData = response.data.success
+    if(resData) {
+      dispatch(statusPaymentSuccess(resData))
+      return true
+    }
+  } catch (error: any) {
+    const errData = error.response.data
+    if(errData && error.response.status === 300) {
+      const formErrors = errData.formErrors ? errData.formErrors : [errData]
+      dispatch(statusPaymentFailure(formErrors))
+      return formErrors
+    } else {
+      dispatch(statusPaymentFailure([errData.err]))
+      return [errData.err]
+    }
+  }
+}
+
 export const AddPaymentsApi = (data: {}) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch(statusPaymentStart())

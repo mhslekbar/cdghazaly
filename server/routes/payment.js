@@ -3,6 +3,7 @@ const { getPayments, createPayment, updatePayment, deletePayment, approvePayment
 const { authorizedPermission } = require("../middlewares/authorizedPermission");
 
 router.get("/", authorizedPermission(["AFFICHER"], "PAIEMENTS_PATIENTS"), getPayments)
+router.get("/patient", authorizedPermission(["AFFICHER"], "PAIEMENTS_PATIENTS"), getPayments)
 router.post("/", authorizedPermission(["AJOUTER"], "PAIEMENTS_PATIENTS"), createPayment)
 router.put("/:id", authorizedPermission(["MODIFIER"], "PAIEMENTS_PATIENTS"), updatePayment)
 router.delete("/:id", authorizedPermission(["SUPPRIMER"], "PAIEMENTS_PATIENTS"), deletePayment)

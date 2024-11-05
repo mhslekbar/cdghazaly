@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import DataPayments from './DataPayments'
 import { useDispatch } from 'react-redux'
-import { ShowPaymentsApi } from '../../../redux/payments/paymentApiCalls'
-import { useLocation } from 'react-router'
+import { ShowPatientPaymentApi } from '../../../redux/payments/paymentApiCalls'
+import { useLocation, useParams } from 'react-router'
 import AddPayment from './controls/AddPayment'
 import { DefaultPaymentInterface, EnumTypeModalPayment, PaymentInterface, ShowPaymentsContext } from './types'
 import SuccessMsg from '../../../Messages/SuccessMsg'
@@ -18,13 +18,16 @@ const ShowPayments:React.FC = () => {
   const [selectedPayment, setSelectedPayment] = useState<PaymentInterface>(DefaultPaymentInterface);
   const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
+  const { patientId } = useParams();
+
   useEffect(() => {
     const fetchPayments = async () => {
-      await dispatch(ShowPaymentsApi())
+      // await dispatch(ShowPaymentsApi())
+      await dispatch(ShowPatientPaymentApi(patientId))
       // await dispatch(ShowPaymentsApi(`?patient=${selectedPatient}`))
     }
     fetchPayments()
-  }, [dispatch])
+  }, [dispatch, patientId])
 
   const location = useLocation()
 
