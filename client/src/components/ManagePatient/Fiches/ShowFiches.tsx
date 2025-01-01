@@ -76,7 +76,7 @@ const ShowFiches: React.FC = () => {
       acte: Actes,
       amount: Amounts
     }
-    const response = await dispatch(EditFicheApi(patientId, selectedFiche._id, { LineFiche: LineFicheData }))
+    const response = await dispatch(EditFicheApi(patientId, selectedFiche?._id, { LineFiche: LineFicheData }))
     if(response === true) {
       setShowSuccessMsg(true)
       setTimeout(() => setShowSuccessMsg(false), Timeout)

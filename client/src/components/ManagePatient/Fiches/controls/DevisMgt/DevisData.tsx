@@ -48,7 +48,7 @@ const DevisData = () => {
       {DevisData.sort(
         (a: DevisInterface, b: DevisInterface) => a.numDevis - b.numDevis
       ).map((dv: DevisInterface) => (
-        <React.Fragment key={dv._id}>
+        <React.Fragment key={dv?._id}>
           {dv.LineDevis.length > 0 && (
             <>
               <h3 className="text-xl font-bold text-center p-1 my-1 bg-main">

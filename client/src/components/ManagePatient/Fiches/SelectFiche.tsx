@@ -14,7 +14,7 @@ const SelectFiche: React.FC = () => {
 
   useEffect(() => {
     const SFiche =
-      fiches.find((fiche: FicheInterface) => fiche._id === selectedFiche?._id) ||
+      fiches.find((fiche: FicheInterface) => fiche?._id === selectedFiche?._id) ||
       DefaultFicheInterface;
     setSelectedFiche(SFiche.numFiche ? SFiche : fiches[0]);
     // eslint-disable-next-line
@@ -27,9 +27,9 @@ const SelectFiche: React.FC = () => {
       {fiches.map((fiche: FicheInterface) => (
         <button
           className={`${
-            selectedFiche?._id === fiche._id ? "border-b-4 border-main" : ""
+            selectedFiche?._id === fiche?._id ? "border-b-4 border-main" : ""
           } bg-white rounded shadow py-2 px-4 mr-2`}
-          key={fiche._id}
+          key={fiche?._id}
           onClick={() => {
             setSelectedFiche(fiche)
           }}
