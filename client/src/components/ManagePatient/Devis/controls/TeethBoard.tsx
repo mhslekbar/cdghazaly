@@ -61,7 +61,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
 
   useEffect(() => {
     const doctorData = UserData().doctor.cabinet
-    setDoctor(doctorData ? UserData() : ArrayDoctor.find(doctor => doctor._id === doctorId))
+    setDoctor(doctorData ? UserData() : ArrayDoctor.find(doctor => doctor?._id === doctorId))
    }, [doctorId, setDoctor, ArrayDoctor])
 
   const { selectedLineFiche, selectedFiche } = useContext(ShowFichesContext);
@@ -80,7 +80,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
 
   useEffect(() => {
     if(TypeTeethBoard === EnumTypeTeethBoard.APPEND_TEETH_FICHE) {
-      const filteredLaboratories = laboratory.filter((labo) => labo.treatments?.some((treat: any) => treat.treatment._id === selectedTreat._id));
+      const filteredLaboratories = laboratory.filter((labo) => labo.treatments?.some((treat: any) => treat.treatment?._id === selectedTreat._id));
       setFilteredLabo(filteredLaboratories.length > 0 ? filteredLaboratories : [DefaultLaboratoryInterface])
     }
   }, [laboratory, TypeTeethBoard, selectedTreat])
@@ -120,7 +120,7 @@ const TeethBoard:React.FC<TeethBoardInterface> = ({ modal, toggle }) => {
         }
       }
 
-      const findIndex = LineDevis.findIndex((ln: LineDevisType) => ln.doctor._id === doctor._id && ln.treatment._id === selectedTreat._id)
+      const findIndex = LineDevis.findIndex((ln: LineDevisType) => ln.doctor?._id === doctor._id && ln.treatment?._id === selectedTreat?._id)
 
       if(TypeTeethBoard === EnumTypeTeethBoard.ADD_NEW_TEETH) {
         if(findIndex === -1) {
