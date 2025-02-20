@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const { execSync } = require('child_process');
 
-const dbName = "dentist"
+const dbNameExport = "dentist" // nom de la b.d que je veux exporter
+const dbNameStore = "cdeloumma" //  nom du dossier que je veux enregistrer les donnes dans.
 // MongoDB connection string
 // This is the url of online database
-const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+const mongoURI = `mongodb+srv://sniper:1212@cluster0.p4xc21i.mongodb.net/${dbNameExport}?retryWrites=true&w=majority`;
 
 // Output directory for backups
-const backupDir = `C:/Users/INFOTELEC/Desktop/mongodb_backup/${dbName}`; // file to store data
+const backupDir = `C:/Users/INFOTELEC/Desktop/mongodb_backup/${dbNameStore}`; // file to store data
 // const backupDir = "C:\\Users\\INFOTELEC\\Desktop\\mongodb_backup";
 
 // Connect to MongoDB using Mongoose

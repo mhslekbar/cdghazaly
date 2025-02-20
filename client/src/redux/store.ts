@@ -45,6 +45,7 @@ const persistConfig = {
   key: companyName,
   version: 1,
   storage,
+  whitelist: ["login", "roles", "permissions", "users"], // حفظ بيانات تسجيل الدخول والصلاحيات فقط
 };
 
 const rootReducer = combineReducers({ 

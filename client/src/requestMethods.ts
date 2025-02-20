@@ -1,16 +1,19 @@
 import axios from "axios";
 
-// const port = "8894" // chumanite
-const port = "8890" // cdghazaly 
+// const port = "8890" // cdghazaly 
 // const port = "8892" // cabinet ibtissama
+// const port = "8894" // chumanite
+const port = "8896" // cdeloumma 
 
-export const companyName: any = "cdghazaly"
+// export const companyName: any = "cdghazaly"
 // export const companyName: any = "chumanite"
 // export const companyName: any = "cabinetibtissama"
+export const companyName: any = "cdeloumma"
 
 // const BASE_URL = `https://api.cdghazaly.com/api/`
-// const BASE_URL = `https://api.c-humanite.com/api/`
 // const BASE_URL = `https://api.cabinetibtissama.com/api/`
+// const BASE_URL = `https://api.c-humanite.com/api/`
+// const BASE_URL = `https://api.cdeloumma.com/api/`
 const BASE_URL = `http://localhost:${port}/api/`
 
 

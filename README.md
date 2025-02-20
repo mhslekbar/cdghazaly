@@ -191,7 +191,7 @@ nano /etc/nginx/sites-available/cdghazaly
 ```
 ```
 location /api {
-  proxy_pass http://154.56.57.194:8080;
+  proxy_pass http://46.202.132.36:8080;
   proxy_http_version 1.1;
   proxy_set_header Upgrade $http_upgrade;
   proxy_set_header Connection 'upgrade';
@@ -322,7 +322,7 @@ server {
   listen 94;
   server_name api.c-humanite.com;
   location /api {
-    proxy_pass http://154.56.57.194:8894;
+    proxy_pass http://46.202.132.36:8894;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection 'upgrade';
