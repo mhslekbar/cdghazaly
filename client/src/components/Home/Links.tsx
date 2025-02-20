@@ -42,7 +42,6 @@ const Links: React.FC = () => {
 
   useEffect(() => {
     const fetchPermission = async () => {
-      console.log("UserData(): ", UserData())
       await dispatch(ShowPermissionApi(`?userId=${UserData()?._id}`));
     };
     // !localStorage.getItem("timeOut") && 

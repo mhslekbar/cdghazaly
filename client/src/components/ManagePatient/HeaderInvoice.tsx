@@ -15,6 +15,7 @@ const HeaderInvoice:React.FC<props> = ({ PatientInfo, type }) => {
   return (
     <section>
       {companyName === "chumanite" && <img className="hidden print:block" src="/assets/chumanite/header.jpg" alt="header" />}
+      {companyName === "cdeloumma" && <img className="hidden print:block" src="/assets/cdeloumma/header.jpg" alt="header" />}
       <div className='py-4 bg-white hidden print:block'>
         <h1 className='text-2xl font-bold'>{type}</h1>
         <p>{t("Doss.No")}: {RegNo(PatientInfo.RegNo)}</p>

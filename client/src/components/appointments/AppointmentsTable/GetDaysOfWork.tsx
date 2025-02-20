@@ -11,7 +11,7 @@ const GetDaysOfWork: React.FC = () => {
   return (
     // bg-white text-main
     <thead>
-      <tr className="border border-gray-950 font-medium bg-blue-400 text-white text-center">
+      <tr className="border border-gray-950 font-medium bg-blue text-white text-center">
         {daysOfWork
         ?.dayOfWork
         ?.slice()

@@ -25,6 +25,11 @@ const App:React.FC = () => {
         document.documentElement.style.setProperty("--mainColor", "#e74c3c")
         document.documentElement.style.setProperty("--redColor", "#00b894")
       break;
+      case "cdeloumma": 
+        document.documentElement.style.setProperty("--mainColor", "#0984e3")
+        document.documentElement.style.setProperty("--blueColor", "#00b894")
+        
+      break;
       default: 
         document.documentElement.style.setProperty("--mainColor", "#00b894")
       break;
